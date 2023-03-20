@@ -1,0 +1,25 @@
+.tableStyle1 {
+  table-layout: 'fixed';
+  padding-top: '0px';
+  padding-left: '10px';
+  padding-right: '10px';
+  padding-bottom: '10px';
+  font-size: '12px';
+  background: 'white';
+  border: '2px';
+  border: 'solid';
+  border-color: '#ccccb3';
+}
+
+.tableStyle2 {
+  table-layout: 'fixed';
+  padding-top: '0px';
+  padding-left: '10px';
+  padding-right: '10px';
+  padding-bottom: '10px';
+  font-size: '12px';
+  background: 'lightblue';
+  border: '2px';
+  border: 'solid';
+  border-color: '#7997a1';
+}

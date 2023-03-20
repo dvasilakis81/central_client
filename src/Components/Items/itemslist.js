@@ -1,0 +1,47 @@
+import React from 'react';
+import ItemList from './itemlist';
+import { useSelector } from 'react-redux';
+
+function ItemsList(props) {
+
+	let itemDetails = useSelector(state => {
+		if (props.kind === 'menuitems') {
+			var itemDetails = null;
+			if (props.itemtype === 0)
+				itemDetails = state.menu_reducer.menuItemDetails;
+			else
+				itemDetails = state.menu_reducer.serviceItemDetails;
+
+			return itemDetails;
+		}
+		else if (props.kind === 'pageitems')
+			return state.page_reducer.pageItemDetails;
+		else if (props.kind === 'mediaitems')
+			return state.media_reducer.mediaItemDetails;
+		else
+			return null;
+	});
+
+	let template = null;
+	if (props.data) {
+		template = props.data.map((item, i) => (
+			<ItemList
+				key={item.Id}
+				item={item}
+				itemtype={props.itemtype}
+				defaultSelectedItem={props.defaultSelectedItem}
+				kindss={props.kind}
+				selectedItem={itemDetails} />
+		));
+
+		//template = <div>sfd</div>
+		return template;
+
+		// this.getItems()
+		// <Scrollbars style={{ display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden' }}>
+		// </Scrollbars>
+	} else {
+		<>Δεν βρέθηκαν.</>
+	}
+}
+export default ItemsList;
