@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { getHostUrl, getLoginUrl } from '../../Helper/helpermethods';
 import store from '../Store/store';
-import { useDispatch } from 'react-redux';
 
 const URL = getHostUrl();
 
@@ -45,6 +44,10 @@ export function getPageInfo(data) {
   const request = axios.post('http://localhost:3000/getPageInfo', data).then(response => response.data);
   return { type: 'GET_PAGEINFO', payload: request };
 }
+export function getPageTabInfo(data) {
+  const request = axios.post('http://localhost:3000/getPageInfo', data).then(response => response.data);
+  return { type: 'GET_PAGETABINFO', payload: request };
+}
 
 export function addNewMenuItem(data) {
   const request = axios.post('http://localhost:3000/addMenuItem', data).then(response => response.data)
@@ -71,6 +74,11 @@ export function addPageItem(data) {
   return { type: 'ADD_PAGEITEM', payload: request };
 }
 
+export function getPageItem(data) {
+  const request = axios.post('http://localhost:3000/getPageItem', data).then(response => response.data)
+  return { type: 'GET_PAGEITEM', payload: request };
+}
+
 export function editPageItem(dispatch, data) {
   //const dispatch = useDispatch();
   return new Promise((resolve, reject) => {
@@ -88,8 +96,4 @@ export function editPageItem(dispatch, data) {
 }
 
 export function getPages(tokenData, offset, limit) {
-}
-
-export function setSelectedTab(selectedTab){
-  store.dispatch({ type: 'SET_SELECTED_TAB_ADMIN', payload: selectedTab })
 }

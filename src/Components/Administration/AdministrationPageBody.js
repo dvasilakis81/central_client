@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import PageItems from '../../Components/Administration/Page/pageitems';
 import MenuItems from '../../Components/Administration/Menu/menuitems';
 import MediaItems from '../../Components/Administration/Media/mediaitems';
+import store from '../../Redux/Store/store';
+
 import { setSelectedTab } from '../../Redux/Actions/index';
 
 const styles = {
@@ -70,7 +72,8 @@ export default function AdministrationPage(props) {
     setHoveredKey(-1);
   };
   const handleTabChange = (event, newValue) => {
-    dispatch(setSelectedTab(newValue));
+    store.dispatch({ type: 'SET_SELECTED_TAB_ADMIN', payload: newValue })
+    //dispatch(setSelectedTab(newValue));
   };
 
   return (

@@ -75,11 +75,20 @@ export default function PageItemNew(props) {
   let itemDetails2 = useSelector((state) => state.page_reducer.pageItemDetails);
   var selectedTabs = [];
   let pageItemDetails;
+  const [pageTitle, setPageTitle] = useState(pageItemDetails?.Title || '');
+  const [pageUrl, setPageUrl] = useState(pageItemDetails?.Url || '');
+  const [pageBody, setPageBody] = useState(pageItemDetails?.Body || '');
 
   useEffect(() => {
 
     if (location.state && location.state.isNew === 2) {
+
       pageItemDetails = itemDetails2;
+
+      setPageId(pageItemDetails?.Id || '');
+      setPageTitle(pageItemDetails?.Title || '');
+      setPageUrl(pageItemDetails?.Url || '');
+      setPageBody(pageItemDetails?.Body || '');
 
       if (pageItemsList && pageItemDetails && pageItemDetails.tabsInfo) {
         for (var p = 0; p < pageItemsList.length; p++) {
@@ -102,9 +111,6 @@ export default function PageItemNew(props) {
   const [openMessage, setOpenMessage] = useState(false);
 
   const [pageId, setPageId] = useState(pageItemDetails?.Id || '');
-  const [pageTitle, setPageTitle] = useState(pageItemDetails?.Title || '');
-  const [pageUrl, setPageUrl] = useState(pageItemDetails?.Url || '');
-  const [pageBody, setPageBody] = useState(pageItemDetails?.Body || '');
   const [tabs, setTabs] = useState(selectedTabs || []);
   let pageItemsRejected = useSelector((state) => state.page_reducer.pageItemsRejected);
   let newPageAdded = useSelector((state) => state.page_reducer.newPageAdded);
@@ -117,7 +123,9 @@ export default function PageItemNew(props) {
     data.Body = pageBody;
     data.Url = pageUrl;
     data.Tabs = [];
-    tabs.map((item) => { data.Tabs.push(item); })
+    tabs.map((item) => {
+      data.Tabs.push(item);
+    })
 
     if (location && location.state && location.state.isNew === 2) {
       editPageItem(dispatch, data).then(res => {
