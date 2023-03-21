@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import parse from 'html-react-parser';
 import store from '../../Redux/Store/store';
@@ -55,29 +55,30 @@ function getTabs(pageItemDetails, handleMouseEnter, handleMouseLeave, hoveredKey
 
   if (pageItemDetails.tabsInfo && pageItemDetails.tabsInfo.length > 0)
     return pageItemDetails.tabsInfo.map((item, index) => {
-      console.log('item.tabtitle:' + item.tabtitle);
       return <div
         id={item.pageid}
         style={selectedTab === index ? styles.selectedTab : (hoveredKey === index ? styles.hoveredTab : styles.tab)}
-        onClick={(e) => { handleTabChange(e, index, item) }}
-        >
+        onClick={(e) => { handleTabChange(e, index, item) }}>
         {item.tabtitle}
       </div>
-      // return <div
-      //   id={item.pageid}
-      //   style={selectedTab === index ? styles.selectedTab : (hoveredKey === index ? styles.hoveredTab : styles.tab)}
-      //   onClick={(e) => { handleTabChange(e, index, item) }}
-      //   onMouseEnter={(e) => handleMouseEnter(e, index)}
-      //   onMouseLeave={(e) => handleMouseLeave(e)}>
-      //   {item.tabtitle}
-      // </div>
     })
   else
-    return <div style={{background: 'red'}}>alabornezika</div>
+    return <div style={{ background: 'red' }}>alabornezika</div>
 }
 
 export default function PageTabs(props) {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (props.pageinfo && props.pageinfo.tabsInfo && props.pageinfo.tabsInfo.length > 0) {
+      console.log('PAGE TABS: use effect');
+      var payload = { tab: 0, item: props.pageinfo.tabsInfo[0] }
+      store.dispatch({ type: 'SET_SELECTED_PAGE_TAB', payload: payload });
+      var data = {};
+      data.pagename = props.pageinfo.tabsInfo[0].taburl;
+      dispatch(getPageTabInfo(data));
+    }
+  }, [props.pageinfo]);
 
   let selectedTab = useSelector((state) => state.page_reducer.selectedPageTab) || 0;
   let pageTabInfo = useSelector((state) => state.page_reducer.pageTabInfo);
@@ -85,16 +86,16 @@ export default function PageTabs(props) {
   const [hoveredKey, setHoveredKey] = useState(-1);
   const handleMouseEnter = (e, d) => { setHoveredKey(d); };
   const handleMouseLeave = (e) => { setHoveredKey(-1); };
-  
+
   if (props.pageinfo && props.pageinfo.tabsInfo && props.pageinfo.tabsInfo.length > 0) {
     return (
-      <div style={{ display: 'flex', flex: 1, flexFlow: 'column', overflowY: 'hidden', flexWrap: 'wrap'}}>        
-        <div style={{ display: 'flex', flexDirection: 'row', height: 'auto', overflowY: 'hidden', overflowX: 'hidden'}}>
+      <div style={{ display: 'flex', flex: 1, flexFlow: 'column', overflowY: 'hidden', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', height: 'auto', overflowY: 'hidden', overflowX: 'hidden' }}>
           {getTabs(props.pageinfo, handleMouseEnter, handleMouseLeave, hoveredKey, selectedTab, dispatch)}
         </div>
         <div>
           {pageTabInfo ? parse(pageTabInfo.Body) : <>ΔΕΝ ΒΡΕΘΗΚΕ</>}
-        </div>        
+        </div>
       </div >
     )
   } else
