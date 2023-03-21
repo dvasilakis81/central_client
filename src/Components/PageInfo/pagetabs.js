@@ -98,6 +98,8 @@ export default function PageTabs(props) {
         </div>
       </div >
     )
-  } else
-    return <>The tabs not rendered</>
+  } else{
+    console.log('The tabs not rendered');
+    return <></>
+  }
 }

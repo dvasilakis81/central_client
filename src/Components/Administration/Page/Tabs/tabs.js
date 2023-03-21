@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import parse from 'html-react-parser';
 import store from '../../../../Redux/Store/store';
@@ -70,10 +70,19 @@ function getTabs(pageItemDetails, handleMouseEnter, handleMouseLeave, hoveredKey
 
 export default function PageTabs(props) {
   const dispatch = useDispatch();
-
   let selectedTab = useSelector((state) => state.page_reducer.selectedPageTab) || 0;
   let pageItemDetails = useSelector((state) => state.page_reducer.pageItemDetails);  
   let pageInfo = useSelector((state) => state.page_reducer.pageInfo);
+  
+  useEffect(() => {
+    if (pageItemDetails && pageItemDetails.tabsInfo && pageItemDetails.tabsInfo.length > 0) {      
+      var payload = { tab: 0, item: pageItemDetails.tabsInfo[0] }
+      store.dispatch({ type: 'SET_SELECTED_PAGE_TAB', payload: payload });
+      var data = {};
+      data.pagename = pageItemDetails.tabsInfo[0].taburl;
+      dispatch(getPageInfo(data));
+    }
+  }, [pageItemDetails]);  
 
   const [hoveredKey, setHoveredKey] = useState(-1);
   const handleMouseEnter = (e, d) => { setHoveredKey(d); };
