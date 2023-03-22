@@ -91,7 +91,7 @@ export default function PageItemNew(props) {
       setPageTitle(pageItemDetails?.Title || '');
       setPageUrl(pageItemDetails?.Url || '');
       setPageBodyInitial(pageItemDetails?.Body || '');
-      //setPageBody(pageItemDetails?.Body || '');
+      setPageBody(pageItemDetails?.Body || '');
 
       if (pageItemsList && pageItemDetails && pageItemDetails.tabsInfo) {
         for (var p = 0; p < pageItemsList.length; p++) {
@@ -166,16 +166,6 @@ export default function PageItemNew(props) {
   };
   const handleChangePageUrl = (e) => {
     setPageUrl(e.target.value);
-  };
-  const handleChangePageBody = (newValue) => {
-    // if (newValue) {
-    //   console.log(newValue.target.getContent());
-    //   setPageBody(newValue.target.getContent());
-    // }
-
-    if (newValue) {
-      setPageBody(newValue);
-    }
   };
 
   if (newPageAdded === true) {
