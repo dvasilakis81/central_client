@@ -93,12 +93,12 @@ export default function PageTabs(props) {
         <div style={{ display: 'flex', flexDirection: 'row', height: 'auto', overflowY: 'hidden', overflowX: 'hidden' }}>
           {getTabs(props.pageinfo, handleMouseEnter, handleMouseLeave, hoveredKey, selectedTab, dispatch)}
         </div>
-        <div>
-          {pageTabInfo ? parse(pageTabInfo.Body) : <>ΔΕΝ ΒΡΕΘΗΚΕ</>}
+        <div style={{ background: 'transparent', padding: '20px' }}>
+          {pageTabInfo ? parse(pageTabInfo.Body || '') : <>ΔΕΝ ΒΡΕΘΗΚΕ</>}
         </div>
-      </div >
+      </div>
     )
-  } else{
+  } else {
     console.log('The tabs not rendered');
     return <></>
   }

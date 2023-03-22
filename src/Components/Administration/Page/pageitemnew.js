@@ -69,6 +69,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 export default function PageItemNew(props) {
 
   const dispatch = useDispatch();
+  const editorRef = useRef(null);
   let navigate = useNavigate();
   let location = useLocation();
   let pageItemsList = useSelector((state) => state.page_reducer.pageItemsList);
@@ -77,6 +78,7 @@ export default function PageItemNew(props) {
   let pageItemDetails;
   const [pageTitle, setPageTitle] = useState(pageItemDetails?.Title || '');
   const [pageUrl, setPageUrl] = useState(pageItemDetails?.Url || '');
+  const [pageBodyInitial, setPageBodyInitial] = useState(pageItemDetails?.Body || '');
   const [pageBody, setPageBody] = useState(pageItemDetails?.Body || '');
 
   useEffect(() => {
@@ -88,12 +90,12 @@ export default function PageItemNew(props) {
       setPageId(pageItemDetails?.Id || '');
       setPageTitle(pageItemDetails?.Title || '');
       setPageUrl(pageItemDetails?.Url || '');
-      setPageBody(pageItemDetails?.Body || '');
+      setPageBodyInitial(pageItemDetails?.Body || '');
+      //setPageBody(pageItemDetails?.Body || '');
 
       if (pageItemsList && pageItemDetails && pageItemDetails.tabsInfo) {
         for (var p = 0; p < pageItemsList.length; p++) {
-          for (var t = 0; t < pageItemDetails.tabsInfo.length; t++) {
-            console.log('useEffect: pageItemsList[p].Id pageItemDetails.tabsInfo[t].tabid' + pageItemsList[p].Id + ' ' + pageItemDetails.tabsInfo[t].tabid);
+          for (var t = 0; t < pageItemDetails.tabsInfo.length; t++) {            
             if (pageItemsList[p].Id === pageItemDetails.tabsInfo[t].tabid) {
               selectedTabs.push(pageItemsList[p]);
               break;
@@ -166,9 +168,13 @@ export default function PageItemNew(props) {
     setPageUrl(e.target.value);
   };
   const handleChangePageBody = (newValue) => {
+    // if (newValue) {
+    //   console.log(newValue.target.getContent());
+    //   setPageBody(newValue.target.getContent());
+    // }
+
     if (newValue) {
-      console.log(newValue.target.getContent());
-      setPageBody(newValue.target.getContent());
+      setPageBody(newValue);
     }
   };
 
@@ -246,18 +252,19 @@ export default function PageItemNew(props) {
                   </div>
                   <div style={{ padding: '10px', height: '700px', minHeight: '500px' }}>
                     <Editor
+                      init={{
+                        plugins: "lists link image code table media links",
+                        height: '700px',
+                        toolbar: "undo redo | bold italic | alignleft aligncenter alignright | numlist bullist | link | image | media | table | code"
+                      }}
                       style={{ height: '100%' }}
                       apiKey='4aiolvhkus0kb3ozfykh468mo6cg294662inoca6bbp83wuv'
-                      initialValue={pageBody}
-                      init={{
-                        plugins: "link image code table media",
-                        height: '700px',
-                        toolbar:
-                          "undo redo | bold italic | alignleft aligncenter alignright | code"
-                      }}
-                      onChange={handleChangePageBody}
+                      initialValue={pageBodyInitial}
+                      value={pageBody}
+                      onEditorChange={(newValue, editor) => setPageBody(newValue)}
                     />
 
+                    {/* onEditorChange={handleChangePageBody} */}
                     {/* <SunEditor
                       setContents={pageBody}
                       onChange={handleChangePageBody}
