@@ -7,12 +7,12 @@ const styles = {
   tableStyle1: {
     tableLayout: 'fixed',    
     fontSize: '22px',
-    cursor: 'unset',
     fontWeight: 'bold',
     color: 'white',
     background: 'darkblue',
     marginLeft: '5px',
-    textAlign: 'center'
+    textAlign: 'center',
+    cursor: 'unset'
   },
   tableStyle2: {
     tableLayout: 'fixed',

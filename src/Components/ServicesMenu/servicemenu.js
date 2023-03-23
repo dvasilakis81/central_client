@@ -4,12 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { getMenuItems, searchMenuItems } from '../../Redux/Actions/index';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { green } from "@material-ui/core/colors";
 import { TextField, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
-// import Cancel from '@material-ui/icons';
-import { ThemeProvider, InputAdornment, createTheme, IconButton } from '@mui/material';
+import { InputAdornment, IconButton } from '@mui/material';
 
 const useStyles = makeStyles({
   root: {
@@ -35,12 +33,6 @@ const useStyles = makeStyles({
     }
   }
 });
-
-// const theme = createTheme({
-//   palette: {
-//     primary: 'green'
-//   }
-// });
 
 function ignoreTonous(searchValue) {
   var ret = '';
@@ -104,7 +96,7 @@ function ServicesMenu() {
     dispatch(getMenuItems());
   }, []);
 
-  
+
   function renderAnnouncements(itemsList) {
     return itemsList && itemsList.map(d => (
       d.Hidden === 0 && d.Announce === 1 && (d.Name.includes(searchValue) || ignoreTonous(d.Name).includes(searchValue)) ?
@@ -146,20 +138,20 @@ function ServicesMenu() {
     //   itemsList = searchList;
     return (itemsList && itemsList.map(d => (
       d.Hidden === 0 && d.ServiceItem === 1 && (d.Name.toLowerCase().includes(searchValue.toLowerCase()) || ignoreTonous(d.Name.toLowerCase()).includes(searchValue.toLowerCase()))) ?
-        <div
-          className="menuItem"
-          onMouseEnter={(e) => handleMouseEnter(e, d)}
-          onMouseLeave={handleMouseLeave}
-          onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf') )}}
-          style={{ background: getBackgroundColor(d) }}>
-          {d.ImageService ? <div style={{ flex: 0.3 }}>
-            <img src={"http://localhost:3000/" + d.ImageService} />
-          </div> : <></>}
-          <div style={{ flex: 0.7 }}>
-            {d.Name}
-          </div>
-        </div> :
-        <></>))
+      <div
+        className="menuItem"
+        onMouseEnter={(e) => handleMouseEnter(e, d)}
+        onMouseLeave={handleMouseLeave}
+        onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf')) }}
+        style={{ background: getBackgroundColor(d) }}>
+        {d.ImageService ? <div style={{ flex: 0.3 }}>
+          <img src={"http://localhost:3000/" + d.ImageService} />
+        </div> : <></>}
+        <div style={{ flex: 0.7 }}>
+          {d.Name}
+        </div>
+      </div> :
+      <></>))
   }
 
   //const TextFieldWrapper = styled(TextField)`fieldset {border-radius: 50px;'}`;  
@@ -180,13 +172,13 @@ function ServicesMenu() {
           inputProps={{ className: classes.root }}
           InputProps={{
             startAdornment: (<InputAdornment position="start" borderColor='red'>
-                <SearchIcon />
-              </InputAdornment>),
+              <SearchIcon />
+            </InputAdornment>),
             endAdornment: (<InputAdornment position="end" borderColor='red'>
-                <IconButton sx={{ visibility: searchValue ? "visible" : "hidden" }} onClick={handleChangeSearchValue}>
-                  <CancelIcon style={{ width: '30px' }} />
-                </IconButton>
-              </InputAdornment>)
+              <IconButton sx={{ visibility: searchValue ? "visible" : "hidden" }} onClick={handleChangeSearchValue}>
+                <CancelIcon style={{ width: '30px' }} />
+              </IconButton>
+            </InputAdornment>)
           }}
         />
         {/* </ThemeProvider> */}

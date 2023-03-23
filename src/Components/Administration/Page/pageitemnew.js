@@ -95,7 +95,7 @@ export default function PageItemNew(props) {
 
       if (pageItemsList && pageItemDetails && pageItemDetails.tabsInfo) {
         for (var p = 0; p < pageItemsList.length; p++) {
-          for (var t = 0; t < pageItemDetails.tabsInfo.length; t++) {            
+          for (var t = 0; t < pageItemDetails.tabsInfo.length; t++) {
             if (pageItemsList[p].Id === pageItemDetails.tabsInfo[t].tabid) {
               selectedTabs.push(pageItemsList[p]);
               break;
@@ -161,13 +161,6 @@ export default function PageItemNew(props) {
     // })
   };
 
-  const handleChangePageTitle = (e) => {
-    setPageTitle(e.target.value);
-  };
-  const handleChangePageUrl = (e) => {
-    setPageUrl(e.target.value);
-  };
-
   if (newPageAdded === true) {
     dispatch(dispatch({ type: 'SET_ADDED_NEWPAGE', payload: false }));
     navigate(-1);
@@ -205,14 +198,19 @@ export default function PageItemNew(props) {
                       required={true}
                       id={pageTitle}
                       value={pageTitle}
-                      onChange={handleChangePageTitle}
+                      onChange={(e) => {
+                        setPageTitle(e.target.value);
+                      }}
                       variant="outlined"
                       inputLabelProps={{ background: "white", shrink: true }}
                       InputLabelProps={{ shrink: true }} />
                   </div>
                   <div style={{ padding: '10px' }}>
                     <TextField label="URL Σελίδας" fullWidth multiline={false} required={true} id={pageUrl} value={pageUrl}
-                      onChange={handleChangePageUrl} variant="outlined" InputLabelProps={{ shrink: true }}
+                      onChange={(e) => {
+                        setPageUrl(e.target.value);
+                      }}
+                      variant="outlined" InputLabelProps={{ shrink: true }}
                     />
                   </div>
                   <div style={{ padding: '10px' }}>
@@ -221,7 +219,7 @@ export default function PageItemNew(props) {
                         <Autocomplete
                           multiple
                           id="tags-outlined"
-                          options={pageItemsList}
+                          options={pageItemsList || []}
                           getOptionLabel={item => item.Title}
                           onChange={(event, value) => setTabs(value)}
                           filterSelectedOptions
@@ -241,11 +239,17 @@ export default function PageItemNew(props) {
                     </div>
                   </div>
                   <div style={{ padding: '10px', height: '700px', minHeight: '500px' }}>
+                    {/* toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | 
+                    alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment', 
+                    plugins: 'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen pageembed charmap tinycomments mentions quickbars linkchecker emoticons advtable export',
+                    */}
                     <Editor
                       init={{
-                        plugins: "lists link image code table media links",
+                        plugins: "lists link image code table media links indent fontsize",
+                        //plugins: 'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen pageembed charmap mentions quickbars linkchecker emoticons advtable export',
                         height: '700px',
-                        toolbar: "undo redo | bold italic | alignleft aligncenter alignright | numlist bullist | link | image | media | table | code"
+                        toolbar: "undo redo | bold italic underline | fontsize fontfamily | outdent indent | alignleft aligncenter alignright | numlist bullist | link | image | media | table | code",
+                        content_style: "body { font-size: 14pt; font-family: Arial; }"
                       }}
                       style={{ height: '100%' }}
                       apiKey='4aiolvhkus0kb3ozfykh468mo6cg294662inoca6bbp83wuv'

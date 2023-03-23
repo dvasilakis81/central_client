@@ -33,15 +33,17 @@ export default function PageInfo() {
       background: 'white',
       borderRadius: '40px',
       opacity: 0.9,
-      height: '90%',      
+      height: '90%',
       margin: 'auto'
     }}>
-      <div style={{ textAlign: 'center', fontSize: 34, color: '#094fa3', fontWeight: 'bolder' }}>{pageInfo && pageInfo.Title}</div>
-      <div style={{ display: 'flex', flex: 1, flexFlow: 'column', overflowX: 'hidden', overflowY: 'auto'}}>
+      <div className="pageTitle">
+        {pageInfo && pageInfo.Title}
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexFlow: 'column', overflowX: 'hidden', overflowY: 'auto' }}>
         <div >
           <PageTabs pageinfo={pageInfo} />
         </div>
-        <div style={{ marginTop: '50px', padding: '20px'  }}>
+        <div style={{ marginTop: '50px', padding: '20px' }}>
           {pageInfo ? parse(pageInfo?.Body) : 'Η Σελίδα δεν βρέθηκε'}
         </div>
       </div>
