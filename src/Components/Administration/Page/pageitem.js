@@ -28,7 +28,8 @@ const styles = {
     fontSize: '16px',    
     cursor: 'pointer',
     marginLeft: '5px',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: 600
   }
 };
 

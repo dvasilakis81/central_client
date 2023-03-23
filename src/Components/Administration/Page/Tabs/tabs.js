@@ -4,72 +4,7 @@ import parse from 'html-react-parser';
 import store from '../../../../Redux/Store/store';
 import { getPageInfo } from '../../../../Redux/Actions/index';
 
-const styles = {
-  selectedTab: {
-    display: 'flex',
-    boxSizing: 'border-box',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'lightBlue',
-    textAlign: 'center',
-    borderBottom: '1px solid #1b7ced',
-    cursor: 'unset',
-    width: '300px',
-    fontWeight: 600
-  },
-  hoveredTab: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: '#05E9FF',
-    textAlign: 'center',
-    borderBottom: '1px solid #1b7ced',
-    cursor: 'pointer',
-    width: '300px',
-    fontWeight: 600
-  },
-  tab: {
-    display: 'flex',
-    boxSizing: 'border-box',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'white',
-    textAlign: 'center',
-    borderBottom: '1px solid black',
-    cursor: 'unset',
-    width: '300px',
-    fontWeight: 600
-  }
-};
 
-function getTabs(pageItemDetails, handleMouseEnter, handleMouseLeave, hoveredKey, selectedTab, dispatch) {
-
-  const handleTabChange = (event, newValue, item) => {
-    var payload = { tab: newValue, item: item }
-    store.dispatch({ type: 'SET_SELECTED_PAGE_TAB', payload: payload });
-    var data = {};
-    data.pagename = item.taburl;
-    dispatch(getPageInfo(data));
-  };
-
-  if (pageItemDetails.tabsInfo && pageItemDetails.tabsInfo.length > 0)
-    return pageItemDetails.tabsInfo.map((item, index) => {
-      return <div
-        id={item.pageid}
-        style={selectedTab === index ? styles.selectedTab : (hoveredKey === index ? styles.hoveredTab : styles.tab)}
-        onClick={(e) => { handleTabChange(e, index, item) }}
-        onMouseEnter={(e) => {
-          console.log('onMouseEnter')
-          handleMouseEnter(e, index)
-        }
-        }
-        onMouseLeave={(e) => handleMouseLeave(e)}>
-        {item.tabtitle}
-      </div>
-    })
-  else
-    return <></>
-}
 
 export default function PageTabs(props) {
   const dispatch = useDispatch();
@@ -88,21 +23,43 @@ export default function PageTabs(props) {
   }, [pageItemDetails]);
 
   const [hoveredKey, setHoveredKey] = useState(-1);
-  const handleMouseEnter = (e, d) => { setHoveredKey(d); };
-  const handleMouseLeave = (e) => { setHoveredKey(-1); };
-
+  const handleTabChange = (event, newValue, item) => {
+    var payload = { tab: newValue, item: item }
+    store.dispatch({ type: 'SET_SELECTED_PAGE_TAB', payload: payload });
+    var data = {};
+    data.pagename = item.taburl;
+    dispatch(getPageInfo(data));
+  };
 
   if (pageItemDetails && pageItemDetails.tabsInfo && pageItemDetails.tabsInfo.length > 0) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {/* <div> */}
-        <div style={{ display: 'flex', flexDirection: 'row', height: '70px', overflowY: 'hidden', overflowX: 'hidden' }}>
-          {getTabs(pageItemDetails, handleMouseEnter, handleMouseLeave, hoveredKey, selectedTab, dispatch)}
+        <div style={{ display: 'flex', flexDirection: 'row', height: '70px', overflowY: 'hidden', overflowX: 'hidden' }}
+          onMouseEnter={() => {
+            console.log('onMouseEnter: ');
+            //setHoveredKey(d);
+          }}>
+          {(pageItemDetails.tabsInfo && pageItemDetails.tabsInfo.length > 0) ?
+            pageItemDetails.tabsInfo.map((item, index) => {
+              return <div
+                id={item.pageid}
+                onMouseOver={(e) => {
+                  console.log('onMouseEnter: ');
+                  //setHoveredKey(d);
+                }}
+                className={selectedTab === index ? 'selectedTab' : (hoveredKey === index ? 'hoveredTab' : 'tab')}
+                onClick={(e) => { handleTabChange(e, index, item) }}
+                onMouseLeave={(e) => {
+                  console.log('onMouseLeave: ');
+                  setHoveredKey(-1);
+                }}>
+                {item.tabtitle}
+              </div>
+            }) : <></>}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', height: 'hidden', overflowY: 'hidden' }}>
           {pageInfo ? parse(pageInfo.Body) : <>ΔΕΝ ΒΡΕΘΗΚΕ</>}
         </div>
-        {/* {getPageBody(pageInfo)} */}
       </div >
     )
   } else

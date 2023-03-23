@@ -16,7 +16,7 @@ import { Box, List, ListItem, Grid, Paper, Typography, Button } from '@material-
 
 function Actions(props) {
   const navigate = useNavigate();
-  
+
   const [navigateToNew, setNavigateToNew] = useState(false);
   const [navigateToEdit, setNavigateToEdit] = useState(false);
   const [variant, setVariant] = useState('');
@@ -47,14 +47,12 @@ function Actions(props) {
   );
 
   if (navigateToNew === true) {
-    navigate(props.navigatepage, { state: { isNew: 1 }})
+    navigate(props.navigatepage, { state: { isNew: 1 } })
     // return <Navigate push to={props.navigatepage} />
   } if (navigateToEdit === true) {
-
     navigate(props.navigatepage, { state: { isNew: 2, itemtype: props.itemtype } });
     //return <Navigate push to={props.navigatepage} isEdit={true} />
-  }
-  else {
+  } else {
     return <Grid item>
       <Paper style={{ padding: '0px' }} square={true}>
         <Button
@@ -73,6 +71,15 @@ function Actions(props) {
           <AddIcon />
           ΕΠΕΞΕΡΓΑΣΙΑ
         </Button>
+        {props.fixbody ? <Button
+          size="small"
+          variant="contained"
+          style={{ margin: '5px', background: 'lightgrey' }}
+          onClick={handleEdit}>
+          <AddIcon />
+          ΔΙΟΡΘΩΣΗ DOMAIN
+        </Button> : <></>}
+
         {props.itemname ? <Dialog
           open={openDeleteDialog}
           onClose={handleClose}

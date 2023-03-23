@@ -49,6 +49,7 @@
   background: lightBlue;
   border-bottom: 2px solid #094fa3;
   width: 200px;
+  height: 70px;
   text-align: center;
   cursor: unset;
   font-weight: 600;
@@ -58,9 +59,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #05E9FF;
+  background-color: #05E9FF;
   border-bottom: 3px solid #1b7ced;
   width: 200px;
+  height: 70px;
   text-align: center;
   cursor: pointer;
   font-weight: 600;
@@ -69,8 +71,7 @@
 .tab {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: white;
+  justify-content: center;  
   width: 200px;
   height: 70px;
   text-align: center;
@@ -78,6 +79,7 @@
   cursor: unset;
   font-weight: 600;
   color: #094fa3;
+  background-color: transparent;
 }
 
 /* .menuItemGrid {
