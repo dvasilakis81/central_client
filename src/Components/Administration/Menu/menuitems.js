@@ -12,7 +12,7 @@ function MenuItems(props) {
     menuItemsList: state.menu_reducer.menuItemsList
   }));
   let itemDetails = useSelector((state) => {    
-    return props.itemtype === 0 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails;
+    return props.itemtype === 1 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails;
   });  
   return <div style={{ display: 'flex', flex: 1, flexFlow: 'column', flexWrap: 'wrap', width: '100%', height: '100%', overflowY: 'hidden' }}>
     <div style={{ display: 'flex', flex: 1, flexDirection: 'row', height: 'auto', overflowY: 'scroll', overflowX: 'hidden', backgroundColor: 'white' }}>
@@ -29,7 +29,7 @@ function MenuItems(props) {
       <div style={{ marginLeft: '10px', marginRight: '15px', display: 'flex', flexFlow: 'column', flexBasis: '100%', flex: '1', backgroundColor: 'white', overflowY: 'hidden' }}>
         <div style={{ display: 'flex', flexFlow: 'row', flex: '1', overflowY: 'hidden', overflowX: 'hidden' }}>
           <div style={{ display: 'flex', flexFlow: 'column', flex: '1', overflowY: 'hidden', overflowX: 'hidden', margin: '0px', padding: '0px' }}>
-            <Actions navigatepage={'/newmenuitem'} itemtype={props.itemtype} itemname={itemDetails && itemDetails.Name || ''} />
+            <Actions navigatepage={'/newmenuitem'} itemtype={props.itemtype} itemname={itemDetails && itemDetails.Name || ''} contenttype="menuitem"/>
             {(menuItemsList && menuItemsList.length > 0)
               ?
               <ItemDetail kind="menuitems" itemtype={props.itemtype} />

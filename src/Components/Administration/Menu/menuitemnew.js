@@ -9,8 +9,7 @@ import CancelAltIcon from '@material-ui/icons/Cancel';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { addNewMenuItem, editNewMenuItem } from '../../../Redux/Actions/index';
 import HomeWrapper from '../../Home/homewrapper';
-import SelectImage from './selecticon';
-import { Announcement } from '@mui/icons-material';
+import SelectImage from '../SelectImage/selectimage';
 
 const styles = {
   textfield: {
@@ -30,15 +29,14 @@ export default function MenuItemNew(props) {
 
   //let menuItemDetails2 = useSelector((state) => state.menu_reducer.menuItemDetails);
   let menuItemDetails2 = useSelector((state) => {
-    return location.state.itemtype === 0 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails;
+    return location.state.itemtype === 1 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails;
   });
   let menuItemDetails;
   if (location.state && location.state.isNew === 2)
     menuItemDetails = menuItemDetails2;
   let newMenuAdded = useSelector((state) => state.menu_reducer.newMenuAdded);
 
-  //const [open, setOpen] = useState(props.open);
-  const [count, setCount] = useState(0);
+  //const [open, setOpen] = useState(props.open);  
   const [id, setId] = useState(menuItemDetails && menuItemDetails.Id || '');
   const [name, setName] = useState(menuItemDetails && menuItemDetails.Name || '');
   const [url, setUrl] = useState(menuItemDetails && menuItemDetails.Url || '');
@@ -112,9 +110,6 @@ export default function MenuItemNew(props) {
   const handleChangeUrl = (e) => {
     setUrl(e.target.value);
   };
-  const handleChangeImageService = (e) => {
-    setImageService(e);
-  };
   const handleChangeImageMenu = (e) => {
     setImageMenu(e.target.value);
   };
@@ -184,10 +179,29 @@ export default function MenuItemNew(props) {
             />
           </div>
           <div style={{ padding: '10px' }}>
-            <SelectImage label="Εικονίδιο Υπηρεσίας" image={imageService} setImage={handleChangeImageService} customstyle={styles.textfield} imagetype={1} />
+            <SelectImage label="Εικονίδιο Υπηρεσίας"
+              image={imageService}
+              setImage={(e) => {
+                if (typeof e === 'object')
+                  setImageService(e.target.value);
+                else
+                  setImageService(e);
+              }}
+              customstyle={styles.textfield}
+              imagetype={1} />
           </div>
           <div style={{ padding: '10px' }}>
-            <SelectImage label="Εικονίδιο Μενού-fontawesome icon" image={imageMenu} setImage={handleChangeImageMenu} customstyle={styles.textfield} imagetype={2} />
+            <SelectImage
+              label="Εικονίδιο Μενού-fontawesome icon"
+              image={imageMenu}
+              setImage={(e) => {
+                if (typeof e === 'object')
+                  setImageMenu(e.target.value);
+                else
+                  setImageMenu(e);
+              }}
+              customstyle={styles.textfield}
+              imagetype={2} />
           </div>
           <div style={{ display: 'flex', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden' }}>
             <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>

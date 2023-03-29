@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -12,23 +12,41 @@ import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
-import { Box, List, ListItem, Grid, Paper, Typography, Button } from '@material-ui/core';
+import { Grid, Paper, Typography, Button } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
-function Actions(props) {
+//import { deleteAnnouncement, deletePageItem, deleteMenuItem, deleteServiceItem } from '../../../Redux/Actions/index';
+import { deleteItem } from '../../../Redux/Actions/index';
+
+export default function Actions(props) {
+  const announcementItemDetails = useSelector((state) => state.announcement_reducer.announcementItemDetails);
+  const mediaItemDetails = useSelector((state) => state.media_reducer.mediaItemDetails);
+  const menuItemDetails = useSelector((state) => state.menu_reducer.menuItemDetails);
+  const serviceItemDetails = useSelector((state) => state.menu_reducer.serviceItemDetails);
+  const pageItemDetails = useSelector((state) => state.page_reducer.mediaItemDetails);
+
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [navigateToNew, setNavigateToNew] = useState(false);
   const [navigateToEdit, setNavigateToEdit] = useState(false);
   const [variant, setVariant] = useState('');
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openPopover, setOpenPopover] = useState(false);
 
-  const handleClose = useCallback(
-    () => {
-      setOpenPopover(false);
-    },
-    [], // Tells React to memoize regardless of arguments.
-  );
+  function showDeleteMessage() {
+
+    if (props.contenttype === "mediaitem")
+      return "Θέλετε να διαγράψετε τo αρχείο «" + mediaItemDetails?.Name + "»;";
+    else if (props.contenttype === "pageitem")
+      return "Θέλετε να διαγράψετε την σελίδα «" + pageItemDetails?.Title + "»;";
+    else if (props.contenttype === "menuitem") {
+      if (props.itemtype === 1)
+        return "Θέλετε να διαγράψετε τo μενού «" + menuItemDetails?.Name + "»;";
+      else if (props.itemtype === 2)
+        return "Θέλετε να διαγράψετε την υπηρεσία «" + serviceItemDetails?.Name + "»;";
+    } else if (props.contenttype === "announcement")
+      return "Θέλετε να διαγράψετε την ανακοίνωση «" + announcementItemDetails?.Description + "»;";
+  }
 
   const handleOpen = useCallback(
     () => {
@@ -71,35 +89,64 @@ function Actions(props) {
           <AddIcon />
           ΕΠΕΞΕΡΓΑΣΙΑ
         </Button>
-        {props.fixbody ? <Button
+        <Button
           size="small"
           variant="contained"
           style={{ margin: '5px', background: 'lightgrey' }}
-          onClick={handleEdit}>
-          <AddIcon />
-          ΔΙΟΡΘΩΣΗ DOMAIN
-        </Button> : <></>}
-
-        {props.itemname ? <Dialog
+          onClick={() => { setOpenDeleteDialog(true); }}>
+          <DeleteIcon />
+          ΔΙΑΓΡΑΦΗ
+        </Button>
+        <Dialog
           open={openDeleteDialog}
-          onClose={handleClose}
+          onClose={() => {
+            setOpenPopover(false);
+            setOpenDeleteDialog(false);
+          }}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description">
-          <DialogTitle id="alert-dialog-title">{"Διαγραφή"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{"ΜΗΝΥΜΑ"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Θέλετε να διαγράψετε τo <b>«{props.itemname}»</b> και ο,τιδήποτε έχει σχέσει με αυτό;
+              {showDeleteMessage()}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary" autoFocus>
+            <Button onClick={() => {
+              var data = {}
+              if (props.contenttype === "announcement") {
+                data.kind = 4;
+                data.id = announcementItemDetails.Id;
+              } else if (props.contenttype === "menuitem") {
+                data.kind = 1;
+                if (props.itemtype === 1)
+                  data.id = menuItemDetails.Id;
+                else
+                  data.id = serviceItemDetails.Id;
+              } else if (props.contenttype === "pageitem") {
+                data.kind = 2;
+                data.id = pageItemDetails.Id;
+              } else if (props.contenttype === "mediaitem") {
+                data.kind = 3;
+                data.id = mediaItemDetails.Id;
+              }
+
+              dispatch(deleteItem(data));
+
+              setOpenPopover(false);
+              setOpenDeleteDialog(false);
+            }} color="primary" autoFocus>
+              Διαγραφή
+            </Button>
+            <Button onClick={() => {
+              setOpenPopover(false);
+              setOpenDeleteDialog(false);
+            }} color="primary" autoFocus>
               Ακύρωση
             </Button>
           </DialogActions>
-        </Dialog> : <></>}
+        </Dialog>
       </Paper>
-    </Grid>
+    </Grid >
   }
 }
-
-export default Actions

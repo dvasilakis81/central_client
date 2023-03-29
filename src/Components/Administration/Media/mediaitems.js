@@ -29,7 +29,7 @@ function MediaItems(props) {
       <div style={{ marginLeft: '10px', marginRight: '15px', display: 'flex', flexFlow: 'column', flexBasis: '100%', flex: '1', backgroundColor: 'white', overflowY: 'hidden' }}>
         <div style={{ display: 'flex', flexFlow: 'row', flex: '1', overflowY: 'hidden', overflowX: 'hidden' }}>
           <div style={{ display: 'flex', flexFlow: 'column', flex: '1', overflowY: 'hidden', overflowX: 'hidden', margin: '0px', padding: '0px' }}>
-            <Actions navigatepage={'/newmediaitem'} itemtype={props.itemtype} itemname={mediaItemDetails && mediaItemDetails.Name || ''} />
+            <Actions navigatepage={'/newmediaitem'} itemtype={props.itemtype} itemname={mediaItemDetails && mediaItemDetails.Name || ''} contenttype="mediaitem"/>
             {(mediaItemsList && mediaItemsList.length > 0)
               ?
               <ItemDetail kind="mediaitems" />

@@ -93,10 +93,7 @@ export function getConsultationsLimit(loadedContracts) {
 }
 
 export function getHostUrl() {
-	if (process.env.NODE_ENV === 'production')
-		return ''
-	else
-		return window.SERVER_URL
+	return window.SERVER_URL
 }
 
 export function getLoginUrl(url, isLdap, username, password) {
@@ -155,8 +152,8 @@ export function getStringInLower(input) {
 	return ret.trim();
 }
 
-export function addHostUrl(url){
-	return 'http://localhost:3000/' + url;
+export function addHostUrl(url) {
+	return getHostUrl() + url;
 }
 export function getDateFormat(dateValue) {
 	let ret = '';
@@ -167,7 +164,7 @@ export function getDateFormat(dateValue) {
 			var dt = new Date(dateValue);
 			if (dt.getHours() > 0) {
 				ret = Intl.DateTimeFormat('el-GR', {
-					year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric'
+					year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: 'h23'
 				}).format(new Date(dateValue))
 			} else {
 
@@ -194,18 +191,18 @@ export function getDatePeriod(start, end) {
 		var dtStart = new Date(start);
 		var dtEnd = new Date(end);
 		var month = Intl.DateTimeFormat('el-GR', { month: 'short' }).format(new Date(start))
-		var startMonthNumber =  ((parseInt(dtStart.getMonth()) + 1).length > 1 ? '0' : 0) + (parseInt(dtStart.getMonth()) + 1);
-		var endMonthNumber =  ((parseInt(dtEnd.getMonth()) + 1).length > 1 ? '0' : 0) + (parseInt(dtEnd.getMonth()) + 1);
+		var startMonthNumber = ((parseInt(dtStart.getMonth()) + 1).length > 1 ? '0' : 0) + (parseInt(dtStart.getMonth()) + 1);
+		var endMonthNumber = ((parseInt(dtEnd.getMonth()) + 1).length > 1 ? '0' : 0) + (parseInt(dtEnd.getMonth()) + 1);
 		if (dtStart.getFullYear() == dtEnd.getFullYear()) {
 			if (dtStart.getMonth() == dtEnd.getMonth())
-				return dtStart.getDate() + '-' + dtEnd.getDate() + ' ' + month+ ' ' + dtStart.getFullYear();
-		  else
-  			return dtStart.getDate() + '/' + startMonthNumber + ' - ' + dtEnd.getDate() + '/' + endMonthNumber + ' ' + dtStart.getFullYear();				
+				return dtStart.getDate() + '-' + dtEnd.getDate() + ' ' + month + ' ' + dtStart.getFullYear();
+			else
+				return dtStart.getDate() + '/' + startMonthNumber + ' - ' + dtEnd.getDate() + '/' + endMonthNumber + ' ' + dtStart.getFullYear();
 		}
-		else 
-			
+		else
+
 			return dtStart.getDate() + '/' + startMonthNumber + '/' + + dtStart.getFullYear() + ' - ' + dtEnd.getDate() + '/' + endMonthNumber + '/' + dtEnd.getFullYear();
-	}	
+	}
 }
 
 export function getNullString(value) {

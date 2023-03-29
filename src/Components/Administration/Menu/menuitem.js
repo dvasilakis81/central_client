@@ -36,7 +36,7 @@ function changeSelectedItem(dispatch, props, item) {
   if (props.isSearchMode === true)
     dispatch({ type: 'SEARCH_MODE_MENUITEM_DETAIL', payload: item });
   else {
-    if (props.itemtype === 0)
+    if (props.itemtype === 1)
       dispatch({ type: 'SET_MENUITEM_DETAIL', payload: item });
     else
       dispatch({ type: 'SET_SERVICEITEM_DETAIL', payload: item });
@@ -65,7 +65,7 @@ export default function MenuItem(props) {
       listItemStyle = styles.tableStyle2;
   }
 
-  if ((props.itemtype === 0 && item1.MenuItem === 1) || (props.itemtype === 1 && item1.ServiceItem === 1)) {
+  if ((props.itemtype === 1 && item1.MenuItem === 1) || (props.itemtype === 2 && item1.ServiceItem === 1)) {
     //console.log('selected: ' + item1.Id + listItemStyle.background);
     return <div id={item1.Id}
       onMouseEnter={(e) => handleMouseEnter(e, item1.Id)}

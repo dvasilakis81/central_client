@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PageItems from '../../Components/Administration/Page/pageitems';
 import MenuItems from '../../Components/Administration/Menu/menuitems';
 import MediaItems from '../../Components/Administration/Media/mediaitems';
+import AnnouncementItems from '../../Components/Administration/Announcements/announcementitems';
 import store from '../../Redux/Store/store';
 
 import { setSelectedTab } from '../../Redux/Actions/index';
@@ -49,19 +50,21 @@ const styles = {
 function getTabMenu(tab) {
 
   if (tab === 0)
-    return <MenuItems itemtype={0} />
-  else if (tab === 1)
     return <MenuItems itemtype={1} />
+  else if (tab === 1)
+    return <MenuItems itemtype={2} />
   else if (tab === 2)
     return <PageItems />
   else if (tab === 3)
     return <MediaItems />
+  else if (tab === 4)
+    return <AnnouncementItems />
 
   return <></>
 }
 
 export default function AdministrationPage(props) {
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   let selectedTab = useSelector((state) => state.parametricdata_reducer.selectedTabAdmin) || 0;
 
   const [hoveredKey, setHoveredKey] = useState(-1);
@@ -102,7 +105,13 @@ export default function AdministrationPage(props) {
           onClick={(e) => { handleTabChange(e, 3) }}
           onMouseEnter={(e) => handleMouseEnter(e, 3)}
           onMouseLeave={handleMouseLeave}>
-          MEDIA
+          ΑΡΧΕΙΑ
+        </div>
+        <div style={selectedTab === 4 ? styles.selectedTab : (hoveredKey === 4 ? styles.hoveredTab : styles.tab)}
+          onClick={(e) => { handleTabChange(e, 4) }}
+          onMouseEnter={(e) => handleMouseEnter(e, 4)}
+          onMouseLeave={handleMouseLeave}>
+          ΑΝΑΚΟΙΝΩΣΕΙΣ
         </div>
       </div>
       {getTabMenu(selectedTab || 0)}            

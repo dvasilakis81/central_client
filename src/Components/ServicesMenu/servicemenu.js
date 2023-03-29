@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { getMenuItems, searchMenuItems } from '../../Redux/Actions/index';
+import { getMenuItems } from '../../Redux/Actions/index';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { TextField, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { InputAdornment, IconButton } from '@mui/material';
+import { getHostUrl } from '../../Helper/helpermethods';
 
 const useStyles = makeStyles({
   root: {
@@ -107,7 +108,7 @@ function ServicesMenu() {
           onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : console.log('none'); }}
           style={{ background: hoveredKey === d ? '#2196F3' : '#9DD8EA' }}>
           <div style={{ flex: 0.3 }}>
-            <img src={"http://localhost:3000/" + d.ImageService} />
+            <img src={getHostUrl() + d.ImageService} />
           </div>
           <div style={{ flex: 0.7 }}>
             {d.Name}
@@ -145,7 +146,7 @@ function ServicesMenu() {
         onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf')) }}
         style={{ background: getBackgroundColor(d) }}>
         {d.ImageService ? <div style={{ flex: 0.3 }}>
-          <img src={"http://localhost:3000/" + d.ImageService} />
+          <img src={getHostUrl() + d.ImageService} />
         </div> : <></>}
         <div style={{ flex: 0.7 }}>
           {d.Name}

@@ -21,6 +21,12 @@ function getItem(key, index, pageItemDetails) {
   return ret;
 }
 
+function renderComments(pageItemDetails){
+  if (pageItemDetails && pageItemDetails.comments){
+    <span>{pageItemDetails.comments.length | ''}</span>
+  }
+}
+
 export default function PageItemDetails(props) {
   let pageItemDetails = useSelector((state) => state.page_reducer.pageItemDetails);
 
@@ -39,6 +45,7 @@ export default function PageItemDetails(props) {
           <div style={{ fontSize: 16, paddingLeft: 0, paddingTop: 10 }}>
             <div>{pageItemDetails['Body'] ? parse(pageItemDetails['Body']) : ""}</div>
           </div>
+          {renderComments()}
         </div>
       </div >
     )

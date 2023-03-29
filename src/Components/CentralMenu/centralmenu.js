@@ -52,8 +52,7 @@ function CentralMenu() {
       display: 'flex',
       flex: '1',
       fontSize: '16px',
-      fontStyle: 'bold|italic',
-      //color: '#094fa3',
+      fontStyle: 'bold|italic',      
       fontWeight: 'bolder',
       paddingTop: 3,
       paddingBottom: 3,
@@ -82,8 +81,7 @@ function CentralMenu() {
       cursor: 'pointer'
     }
   };
-
-  //backgroundImage: `url("/img/cityofathens1.jpg")`
+  
   return (
     <div style={styles.menuBody}>
       {menuItemsList && menuItemsList.map((d, index) => (
@@ -96,9 +94,7 @@ function CentralMenu() {
                 onMouseEnter={(e) => handleMouseEnter(e, d)}
                 onMouseLeave={handleMouseLeave}
                 onClick={() => { window.open(d.Url, '_blank', 'noreferrer'); }}
-                style={hoveredKey === d ? styles.hoveredMenuitem : styles.menuitem}>
-                {/* <FontAwesomeIcon className="fontawesomestyle" icon="fa fa-rss" style={{ flex: '0.05' }} /> */}
-                {/* <FontAwesomeIcon icon="fas fa-sitemap" /> */}
+                style={hoveredKey === d ? styles.hoveredMenuitem : styles.menuitem}>                
                 <i class={d.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i>
                 <span style={{ flex: '1', marginLeft: '15px' }}>
                   {d.Name}
@@ -112,15 +108,12 @@ function CentralMenu() {
                 onMouseEnter={(e) => handleMouseEnter(e, d)}
                 onMouseLeave={handleMouseLeave}
                 onClick={() => {
-                  if (d.PageUrl) {
-                    //console.log('d.PageUrl: ' + d.PageUrl);
+                  if (d.PageUrl)
                     navigate('/' + d.PageUrl);
-                  }
                   else
                     navigate('/');
                 }}
                 style={hoveredKey === d ? styles.hoveredMenuitem : styles.menuitem}>
-                {/* <FontAwesomeIcon className="fontawesomestyle" icon={faBullhorn} style={{ flex: '0.05' }} /> */}
                 <i class={d.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i>
                 <span style={{ flex: '1', marginLeft: '15px' }}>
                   {d.Name}

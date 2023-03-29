@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import { Checkbox } from '@material-ui/core';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { getServerErrorResponseMessage } from '../../../Helper/helpermethods';
+import { getHostUrl, getServerErrorResponseMessage } from '../../../Helper/helpermethods';
 import { addPageItem, editPageItem } from '../../../Redux/Actions/index';
 import HomeWrapper from '../../Home/homewrapper';
 import store from '../../../Redux/Store/store';
@@ -76,10 +76,13 @@ export default function PageItemNew(props) {
   let itemDetails2 = useSelector((state) => state.page_reducer.pageItemDetails);
   var selectedTabs = [];
   let pageItemDetails;
+
   const [pageTitle, setPageTitle] = useState(pageItemDetails?.Title || '');
   const [pageUrl, setPageUrl] = useState(pageItemDetails?.Url || '');
   const [pageBodyInitial, setPageBodyInitial] = useState(pageItemDetails?.Body || '');
   const [pageBody, setPageBody] = useState(pageItemDetails?.Body || '');
+  const [hasComments, setHasComments] = useState(pageItemDetails?.HasComments || '');
+  const [isConsultation, setIsConsultation] = useState(pageItemDetails?.IsConsultation || '');
 
   useEffect(() => {
 
@@ -92,11 +95,14 @@ export default function PageItemNew(props) {
       setPageUrl(pageItemDetails?.Url || '');
       setPageBodyInitial(pageItemDetails?.Body || '');
       setPageBody(pageItemDetails?.Body || '');
+      setHasComments(pageItemDetails?.HasComments || '');
+      setIsConsultation(pageItemDetails?.IsConsultation || '')
 
       if (pageItemsList && pageItemDetails && pageItemDetails.tabsInfo) {
-        for (var p = 0; p < pageItemsList.length; p++) {
-          for (var t = 0; t < pageItemDetails.tabsInfo.length; t++) {
-            if (pageItemsList[p].Id === pageItemDetails.tabsInfo[t].tabid) {
+        var tabsInfoOrdered = [...pageItemDetails.tabsInfo].sort((a, b) => a.taborder < b.taborder ? -1 : 1);
+        for (var t = 0; t < tabsInfoOrdered.length; t++) {
+          for (var p = 0; p < pageItemsList.length; p++) {
+            if (pageItemsList[p].Id === tabsInfoOrdered[t].tabid) {
               selectedTabs.push(pageItemsList[p]);
               break;
             }
@@ -111,7 +117,6 @@ export default function PageItemNew(props) {
   const [duration, setDuration] = useState(100);
   const [variant, setVariant] = useState('');
   const [openMessage, setOpenMessage] = useState(false);
-
   const [pageId, setPageId] = useState(pageItemDetails?.Id || '');
   const [tabs, setTabs] = useState(selectedTabs || []);
   let pageItemsRejected = useSelector((state) => state.page_reducer.pageItemsRejected);
@@ -124,6 +129,8 @@ export default function PageItemNew(props) {
     data.Title = pageTitle;
     data.Body = pageBody;
     data.Url = pageUrl;
+    data.HasComments = hasComments;
+    data.IsConsultation = isConsultation;
     data.Tabs = [];
     tabs.map((item) => {
       data.Tabs.push(item);
@@ -238,21 +245,32 @@ export default function PageItemNew(props) {
                       </div>
                     </div>
                   </div>
+                  <div style={{ padding: '10px' }}>
+                    <div style={{ display: 'flex', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden' }}>
+                      <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
+                        <Checkbox
+                          defaultChecked={false}
+                          color='primary'
+                          checked={hasComments}
+                          onChange={e => setHasComments(e.target.checked)}
+                          inputProps={{ 'aria-label': 'controlled' }} />
+                        <span>Επιτρέπονται Σχόλια</span>
+                      </div>                      
+                    </div>
+                  </div>
                   <div style={{ padding: '10px', height: '700px', minHeight: '500px' }}>
-                    {/* toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | 
-                    alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment', 
-                    plugins: 'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen pageembed charmap tinycomments mentions quickbars linkchecker emoticons advtable export',
-                    */}
                     <Editor
+                      tinymceScriptSrc={getHostUrl() + '/js/tinymce/tinymce.min.js'}
                       init={{
                         plugins: "lists link image code table media links indent fontsize",
                         //plugins: 'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen pageembed charmap mentions quickbars linkchecker emoticons advtable export',
                         height: '700px',
                         toolbar: "undo redo | bold italic underline | fontsize fontfamily | outdent indent | alignleft aligncenter alignright | numlist bullist | link | image | media | table | code",
-                        content_style: "body { font-size: 14pt; font-family: Arial; }"
+                        content_style: "body { font-size: 14pt; font-family: Arial; }",
+                        promotion: false
                       }}
                       style={{ height: '100%' }}
-                      apiKey='4aiolvhkus0kb3ozfykh468mo6cg294662inoca6bbp83wuv'
+                      //apiKey='4aiolvhkus0kb3ozfykh468mo6cg294662inoca6bbp83wuv'                      
                       initialValue={pageBodyInitial}
                       value={pageBody}
                       onEditorChange={(newValue, editor) => setPageBody(newValue)}

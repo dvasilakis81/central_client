@@ -7,7 +7,7 @@ function ItemsList(props) {
 	let itemDetails = useSelector(state => {
 		if (props.kind === 'menuitems') {
 			var itemDetails = null;
-			if (props.itemtype === 0)
+			if (props.itemtype === 1)
 				itemDetails = state.menu_reducer.menuItemDetails;
 			else
 				itemDetails = state.menu_reducer.serviceItemDetails;
@@ -18,6 +18,8 @@ function ItemsList(props) {
 			return state.page_reducer.pageItemDetails;
 		else if (props.kind === 'mediaitems')
 			return state.media_reducer.mediaItemDetails;
+		else if (props.kind === 'announcementitems')
+			return state.announcement_reducer.announcementItemDetails;
 		else
 			return null;
 	});
@@ -31,15 +33,11 @@ function ItemsList(props) {
 				itemtype={props.itemtype}
 				defaultSelectedItem={props.defaultSelectedItem}
 				kindss={props.kind}
-				selectedItem={itemDetails} />
+				selectedItem={itemDetails}
+			/>
 		));
 
-		//template = <div>sfd</div>
 		return template;
-
-		// this.getItems()
-		// <Scrollbars style={{ display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden' }}>
-		// </Scrollbars>
 	} else {
 		<>Δεν βρέθηκαν.</>
 	}

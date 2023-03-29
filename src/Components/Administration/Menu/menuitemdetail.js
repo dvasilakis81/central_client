@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 export default function MenuItemDetails(props) {
 
   let menuItemDetails = useSelector((state) => {
-    return props.itemtype === 0 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails;
+    return props.itemtype === 1 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails;
   });
   
   if (menuItemDetails) {

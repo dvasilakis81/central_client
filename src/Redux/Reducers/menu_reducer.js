@@ -142,7 +142,7 @@ export default function (state = {}, action, root) {
           editMenuItemPending: undefined,
           editMenuItemRejected: undefined,
           menuItemsList: updatedList,
-          menuItemDetails: action.payload[0]
+          menuItemDetails: action.payload ? action.payload[0] : undefined
         };
 
         break;
@@ -152,7 +152,6 @@ export default function (state = {}, action, root) {
           newMenuAdded: false,
         };
         break;
-
       case 'SEARCH_MENUITEMS':
         var searchValue = action.payload;
         const searchList = [];
@@ -172,7 +171,46 @@ export default function (state = {}, action, root) {
           searchMenuItemsList: searchList
         };
         break;
-      default: return state;
+      case 'DELETE_MENU_PENDING':
+
+        state = {
+          ...state,
+          openMessage: false,
+          deleteMenuItemPending: true,
+          deleteMenuItemRejected: undefined,          
+        };
+        break;
+      case 'DELETE_MENU_REJECTED':
+
+        state = {
+          ...state,       
+          deleteMenuItemPending: undefined,
+          deleteMenuItemRejected: true,
+          deletedMenuItemFulfilled: undefined
+        };
+        break;
+      case 'DELETE_MENU_FULFILLED':
+
+        if (action.payload) {
+          let items = state.menuItemsList.filter((item) => {
+            let found = false;
+            if (item.Id === action.payload.id)
+              found = true;
+
+            if (found === false)
+              return item;
+          });
+
+          state = {
+            ...state,
+            deleteMenuItemPending: undefined,
+            deleteMenuItemRejected: undefined,
+            menuItemList: items,
+            menuItemDetails: (items && items.length > 0 ? items[0] : null)
+          };
+        }
+
+        break;
     }
   }
   return state;
