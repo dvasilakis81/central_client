@@ -91,8 +91,8 @@ export default function MenuItemNew(props) {
 
     navigate(-1);
     // appendItem(data, dispatch).then(() => {
-    //   if (menuItemsRejected)
-    //     console.log('menuItemsRejected:' + menuItemsRejected);
+    //   if (requestRejected)
+    //     console.log('requestRejected:' + requestRejected);
     //   else
     //     navigate(-1);
     // })

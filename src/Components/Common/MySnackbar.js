@@ -54,20 +54,16 @@ function getIcon(variant) {
 }
 
 export default function MySnackbar(props) {
-  
-  const [duration,setDuration] = useState(3000);
-  const { screenDimensions } = useSelector(state => ({
-    screenDimensions: state.parametricdata_reducer.screenDimensions
-  }));
-  const { snackBarInfo } = useSelector(state => ({
-    snackBarInfo: state.parametricdata_reducer.snackBarInfo
-  }));
+
+  const [duration, setDuration] = useState(10000);
+  const { screenDimensions } = useSelector(state => ({ screenDimensions: state.parametricdata_reducer.screenDimensions }));
+  const { snackBarInfo } = useSelector(state => ({ snackBarInfo: state.parametricdata_reducer.snackBarInfo }));
 
   let width = 1400;
   let left = screenDimensions ? screenDimensions.width - (width + 50) : 0;
   let top = screenDimensions.height - (getHeaderHeight() + getFooterHeight() + 150)
   let style = { width: width + 'px', position: 'absolute', left: left, top: top }
-  
+
   //const Icon = variantIcon[variant];
   const bgColor = variantBgColor[snackBarInfo?.variant || ''];
   const fgColor = variantFgColor[snackBarInfo?.variant || ''];
@@ -76,8 +72,8 @@ export default function MySnackbar(props) {
     <Snackbar
       anchorOrigin={{ vertical: props.vertical, horizontal: props.horizontal }}
       open={snackBarInfo?.openMessage || ''}
-      autoHideDuration={duration}      
-      onClose={() => {        
+      autoHideDuration={duration}
+      onClose={() => {
         var snackbarInfo = {};
         snackbarInfo.openMessage = false;
         snackbarInfo.message = '';

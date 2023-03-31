@@ -23,7 +23,7 @@ export default function Actions(props) {
   const mediaItemDetails = useSelector((state) => state.media_reducer.mediaItemDetails);
   const menuItemDetails = useSelector((state) => state.menu_reducer.menuItemDetails);
   const serviceItemDetails = useSelector((state) => state.menu_reducer.serviceItemDetails);
-  const pageItemDetails = useSelector((state) => state.page_reducer.mediaItemDetails);
+  const pageItemDetails = useSelector((state) => state.page_reducer.pageItemDetails);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -132,7 +132,6 @@ export default function Actions(props) {
               }
 
               dispatch(deleteItem(data));
-
               setOpenPopover(false);
               setOpenDeleteDialog(false);
             }} color="primary" autoFocus>

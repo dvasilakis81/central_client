@@ -24,7 +24,7 @@ export default function PageTabs(props) {
           tabWithLawOrder = props.pageinfo.tabsInfo[i];
       }
 
-      fetchPageInfo(0, tabWithLawOrder);      
+      fetchPageInfo(0, tabWithLawOrder);
     }
   }, [props.pageinfo]);
 

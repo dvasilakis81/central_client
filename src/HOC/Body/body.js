@@ -3,16 +3,33 @@ import { useSelector } from 'react-redux';
 
 import { getHeaderHeight, getFooterHeight } from '../../Helper/helpermethods';
 import MySnackbar from '../../Components/Common/MySnackbar';
+import store from '../../Redux/Store/store';
 
 //import { withRouter } from '../../Components/withRouter';
 //import { isTokenExpired } from '../../Helper/helpermethods';
 
 export default function Body(props) {
-	const [redirectToLogin, setRedirectToLogin] = useState(false);
-	const { screenDimensions } = useSelector(state => ({
-		screenDimensions: state.parametricdata_reducer.screenDimensions
-	}));
 	let bodyHeight = '100%';
+	const [redirectToLogin, setRedirectToLogin] = useState(false);
+	const { screenDimensions } = useSelector(state => ({ screenDimensions: state.parametricdata_reducer.screenDimensions }));
+	const { requestRejected } = useSelector(state => ({ requestRejected: state.page_reducer.requestRejected }));
+	const { requestServerError } = useSelector(state => ({ requestServerError: state.page_reducer.requestServerError }));
+
+	useEffect(() => {
+		if (requestRejected && requestRejected.message) {
+			var snackbarInfo = {}
+			snackbarInfo.openMessage = true;
+			snackbarInfo.message = requestRejected?.message
+			snackbarInfo.variant = 'error';
+			store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+		} else if (requestServerError && requestServerError?.servererrormessage) {
+			var snackbarInfo = {}
+			snackbarInfo.openMessage = true;
+			snackbarInfo.message = requestServerError?.servererrormessage
+			snackbarInfo.variant = 'error';
+			store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+		}
+	}, [requestRejected, requestServerError])
 
 	useMemo(() => {
 		// if (props && props.isLoginPage === undefined) {
@@ -40,6 +57,6 @@ export default function Body(props) {
 
 	return (<div style={{ width: '100%', height: bodyHeight, overflowX: 'hidden', overflowY: 'hidden', background: '#f4f6f7' }}>
 		{props.children}
-		<MySnackbar vertical='bottom' horizontal='right' useScreenDimensions={true} />		
+		<MySnackbar vertical='bottom' horizontal='right' useScreenDimensions={true} />
 	</div >)
 }

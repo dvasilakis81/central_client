@@ -6,7 +6,7 @@ import MediaItems from '../../Components/Administration/Media/mediaitems';
 import AnnouncementItems from '../../Components/Administration/Announcements/announcementitems';
 import store from '../../Redux/Store/store';
 
-import { setSelectedTab } from '../../Redux/Actions/index';
+import { getPageItems } from '../../Redux/Actions/index';
 
 const styles = {
   selectedTab: {
@@ -66,7 +66,7 @@ function getTabMenu(tab) {
 export default function AdministrationPage(props) {
   //const dispatch = useDispatch();
   let selectedTab = useSelector((state) => state.parametricdata_reducer.selectedTabAdmin) || 0;
-
+  const dispatch = useDispatch();
   const [hoveredKey, setHoveredKey] = useState(-1);
   const handleMouseEnter = (e, d) => {
     setHoveredKey(d);
@@ -75,8 +75,9 @@ export default function AdministrationPage(props) {
     setHoveredKey(-1);
   };
   const handleTabChange = (event, newValue) => {
+    if (newValue === 2)
+      dispatch(getPageItems());
     store.dispatch({ type: 'SET_SELECTED_TAB_ADMIN', payload: newValue })
-    //dispatch(setSelectedTab(newValue));
   };
 
   return (
@@ -114,7 +115,7 @@ export default function AdministrationPage(props) {
           ΑΝΑΚΟΙΝΩΣΕΙΣ
         </div>
       </div>
-      {getTabMenu(selectedTab || 0)}            
+      {getTabMenu(selectedTab || 0)}
     </div>
   );
 

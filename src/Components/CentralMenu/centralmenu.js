@@ -30,18 +30,17 @@ function CentralMenu() {
       display: 'flex',
       flexDirection: 'column',
       alignContent: 'flex-start',
-      minWidth: '15%',
+      minWidth: '50%',
       height: '90%',
       alignContent: 'center',
       background: '#FCF9B5',
-      borderRadius: '30px',
+      borderRadius: '0px',
       opacity: 0.8,
       color: "#926f34",
-      color: 'black',
-      flexShrink: 'initial',
+      color: 'black',      
       padding: '10px',
       alignSelf: 'center',
-      width: '80%'
+      width: '90%'
     },
     menuitemParent: {
       display: 'flex',

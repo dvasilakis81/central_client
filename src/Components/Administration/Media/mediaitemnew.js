@@ -51,7 +51,7 @@ export default function MediaItemNew(props) {
 
   let navigate = useNavigate();
   let mediaItemDetails = useSelector((state) => state.media_reducer.mediaItemDetails);
-  let mediaItemsRejected = useSelector((state) => state.media_reducer.mediaItemsRejected);
+  let requestRejected = useSelector((state) => state.media_reducer.requestRejected);
   let newMediaAdded = useSelector((state) => state.media_reducer.newMediaAdded);
 
   const handleClick = () => {

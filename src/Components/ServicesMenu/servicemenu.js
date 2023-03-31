@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { getMenuItems } from '../../Redux/Actions/index';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { TextField, InputBase } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { InputAdornment, IconButton } from '@mui/material';
+import { InputAdornment, IconButton } from '@material-ui/core';
 import { getHostUrl } from '../../Helper/helpermethods';
 
 const useStyles = makeStyles({

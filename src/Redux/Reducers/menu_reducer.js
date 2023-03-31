@@ -1,38 +1,40 @@
 export default function (state = {}, action, root) {
-  // console.log('MENU action: ' + action);
+  
   if (action) {
     switch (action.type) {
-      case 'RESET_ACTION':
-        console.log('RESET_ACTION')
+      case 'RESET_ACTION':        
         state = {}
         break;
       case 'GET_MENUITEMS_PENDING':
         state = {
           ...state,
-          menuItemsPending: 'Get menu items pending',
-          menuItemsRejected: undefined
+          requestPending: 'Get menu items pending',
+          requestServerError: undefined,
+          requestRejected: undefined
         };
         break;
       case 'GET_MENUITEMS_FULFILLED':
-        if (action.payload.tokenIsValid !== undefined) {
+        var serverResponse = action.payload;
+        if (serverResponse && serverResponse.servererrormessage) {
           state = {
             ...state,
-            menuItemsPending: undefined,
-            menuItemsRejected: undefined,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: serverResponse,
+            pageItemsList: undefined
+          };
+        } else if (serverResponse.tokenIsValid !== undefined) {
+          state = {
+            ...state,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: undefined,
             menuItemsList: action.payload
           };
-        } else {
-          var serverData = action.payload;
-          if (serverData[0] == null) {
-            state = {
-              ...state,
-              menuItemsPending: undefined,
-              menuItemsRejected: undefined,
-              menuItemsList: null,
-              menuItemsDetails: null
-            };
-          } else {
-            var serverMenuItems = serverData;
+        } else {          
+          if (serverResponse && serverResponse.length > 0) {
+
+            var serverMenuItems = serverResponse;
             var menuItem;
             var serviceItem;
 
@@ -55,21 +57,75 @@ export default function (state = {}, action, root) {
 
             state = {
               ...state,
-              menuItemsPending: undefined,
-              menuItemsRejected: undefined,
+              requestPending: undefined,
+              requestRejected: undefined,
+              requestServerError: undefined,
               menuItemsList: serverMenuItems,
               menuItemDetails: selectedMenuItem,
               serviceItemDetails: selectedServiceItem
+            };           
+          } else {
+            state = {
+              ...state,
+              requestPending: undefined,
+              requestRejected: undefined,
+              requestServerError: undefined,
+              menuItemsList: [],
+              menuItemsDetails: undefined,
+              serviceItemDetails: undefined
             };
           }
+
+          // if (serverData[0] == null) {
+          //   state = {
+          //     ...state,
+          //     requestPending: undefined,
+          //     requestRejected: undefined,
+          //     requestServerError: undefined,
+          //     menuItemsList: null,
+          //     menuItemsDetails: null
+          //   };
+          // } else {
+          //   var serverMenuItems = serverData;
+          //   var menuItem;
+          //   var serviceItem;
+
+          //   for (var i = 0; i < serverMenuItems.length; i++) {
+          //     if (serverMenuItems[i].MenuItem === 1) {
+          //       menuItem = serverMenuItems[i];
+          //       break;
+          //     }
+          //   }
+
+          //   for (var i = 0; i < serverMenuItems.length; i++) {
+          //     if (serverMenuItems[i].ServiceItem === 1) {
+          //       serviceItem = serverMenuItems[i];
+          //       break;
+          //     }
+          //   }
+
+          //   var selectedMenuItem = state.menuItemDetails || (serverMenuItems ? menuItem : undefined);
+          //   var selectedServiceItem = state.serviceItemDetails || (serverMenuItems ? serviceItem : undefined);
+
+          //   state = {
+          //     ...state,
+          //     requestPending: undefined,
+          //     requestRejected: undefined,
+          //     requestServerError: undefined,
+          //     menuItemsList: serverMenuItems,
+          //     menuItemDetails: selectedMenuItem,
+          //     serviceItemDetails: selectedServiceItem
+          //   };
+          // }
         }
         break;
       case 'GET_MENUITEMS_REJECTED':
-        console.log('GET_MENUITEMS_REJECTED');
+        
         state = {
           ...state,
-          menuItemsPending: undefined,
-          menuItemsRejected: action.payload
+          requestPending: undefined,
+          requestServerError: undefined,
+          requestRejected: action.payload
         };
         break;
       case 'SET_MENUITEM_DETAIL':
@@ -110,29 +166,13 @@ export default function (state = {}, action, root) {
         };
         break;
       case 'EDIT_MENUITEM_FULFILLED':
-        // let updatedList = state.menuItemsList.map((item) => {
-
-        //   var updatedItem = action.payload[0];
-        //   // if (item.Id === updatedItem.Id) {
-        //   //   item.Url = updatedItem.Url
-        //   // }
-
-        //   var updatedItem = action.payload[0];
-        //   if (item.Id === updatedItem.Id) {
-        //     item = updatedItem;
-        //   }
-
-        //   return item;
-        // })
         const updatedList = [];
         if (state.menuItemsList) {
 
           var updatedItem = action.payload[0];
           state.menuItemsList.forEach((item, index) => {
-            if (item.Id === updatedItem.Id) {
-              updatedList.push(updatedItem);
-              console.log('updatedItem: ' + updatedItem);
-            }
+            if (item.Id === updatedItem.Id)
+              updatedList.push(updatedItem);            
             else
               updatedList.push(item);
           });
@@ -205,8 +245,8 @@ export default function (state = {}, action, root) {
             ...state,
             deleteMenuItemPending: undefined,
             deleteMenuItemRejected: undefined,
-            menuItemList: items,
-            menuItemDetails: (items && items.length > 0 ? items[0] : null)
+            menuItemsList: items,
+            menuItemsDetails: (items && items.length > 0 ? items[0] : null)
           };
         }
 

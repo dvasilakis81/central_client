@@ -10,7 +10,7 @@ export default function AdministrationPage(props) {
 
   useEffect(() => {
     dispatch(getMenuItems());
-    dispatch(getPageItems());
+    //dispatch(getPageItems());
     dispatch(getMediaItems());
     dispatch(getAnnouncements());
   }, []);

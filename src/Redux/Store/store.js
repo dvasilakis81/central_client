@@ -2,6 +2,7 @@ import { createStore } from 'redux';
 import { applyMiddleware } from 'redux';
 import reduxPromiseMiddleware from 'redux-promise-middleware'
 import RootReducer from '../Reducers/index'
+import thunkMiddleware from 'redux-thunk'
 
 function saveToLocalStorage(state) {
   try {
@@ -25,7 +26,7 @@ function loadFromLocalStorage() {
 
 const persistedState = loadFromLocalStorage()
 //const store = createStore(RootReducer, persistedState, applyMiddleware(reduxPromiseMiddleware));
-const store = createStore(RootReducer, applyMiddleware(reduxPromiseMiddleware));
+const store = createStore(RootReducer, applyMiddleware(reduxPromiseMiddleware, thunkMiddleware));
 
 //store.subscribe(() => saveToLocalStorage(store.getState()))
 
