@@ -6,7 +6,7 @@ import MediaItems from '../../Components/Administration/Media/mediaitems';
 import AnnouncementItems from '../../Components/Administration/Announcements/announcementitems';
 import store from '../../Redux/Store/store';
 
-import { getPageItems } from '../../Redux/Actions/index';
+import { getMenuItems, getPageItems, getMediaItems, getAnnouncements } from '../../Redux/Actions/index';
 
 const styles = {
   selectedTab: {
@@ -74,9 +74,20 @@ export default function AdministrationPage(props) {
   const handleMouseLeave = () => {
     setHoveredKey(-1);
   };
+  useEffect(() => {
+    dispatch(getMenuItems());
+  }, [])
+
   const handleTabChange = (event, newValue) => {
-    if (newValue === 2)
+    if (newValue === 0 || newValue === 1)
+      dispatch(getMenuItems());
+    else if (newValue === 2)
       dispatch(getPageItems());
+    else if (newValue === 3)
+      dispatch(getMediaItems());
+    else if (newValue === 4)
+      dispatch(getAnnouncements());
+
     store.dispatch({ type: 'SET_SELECTED_TAB_ADMIN', payload: newValue })
   };
 

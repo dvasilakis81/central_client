@@ -22,7 +22,6 @@ function getItem(key, index, pageItemDetails) {
   return ret;
 }
 
-
 function renderComments(pageItemDetails) {
   if (pageItemDetails && pageItemDetails.comments) {
     return pageItemDetails.comments.map((item, index) => {

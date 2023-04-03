@@ -30,10 +30,10 @@ function ItemsList(props) {
 			<ItemList
 				key={item.Id}
 				item={item}
-				itemtype={props.itemtype}
-				defaultSelectedItem={props.defaultSelectedItem}
+				itemtype={props.itemtype}				
 				kindss={props.kind}
 				selectedItem={itemDetails}
+				searchValue={props.searchValue}
 			/>
 		));
 

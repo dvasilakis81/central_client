@@ -9,6 +9,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { InputAdornment, IconButton } from '@material-ui/core';
 import { getHostUrl } from '../../Helper/helpermethods';
+import { includeStrings } from '../../Helper/helpermethods';
 
 const useStyles = makeStyles({
   root: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles({
       border: '2px solid blue'
     },
     "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderColor: "blue",
+      border: "1px solid blue",
     },
     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
       border: '4px solid blue'
@@ -35,44 +36,6 @@ const useStyles = makeStyles({
   }
 });
 
-function ignoreTonous(searchValue) {
-  var ret = '';
-  for (var i = 0; i < searchValue.length; i++) {
-    if (searchValue[i] === "ά")
-      ret += 'α';
-    else if (searchValue[i] === 'Ά')
-      ret += 'A';
-    else if (searchValue[i] === 'έ')
-      ret += 'ε';
-    else if (searchValue[i] === 'Έ')
-      ret += 'E';
-    else if (searchValue[i] === 'ή')
-      ret += 'η';
-    else if (searchValue[i] === 'Ή')
-      ret += 'Η';
-    else if (searchValue[i] === 'ί')
-      ret += 'ι';
-    else if (searchValue[i] === 'Ί')
-      ret += 'Ι';
-    else if (searchValue[i] === 'ό')
-      ret += 'ο';
-    else if (searchValue[i] === 'Ό')
-      ret += 'Ο';
-    else if (searchValue[i] === 'ύ')
-      ret += 'υ';
-    else if (searchValue[i] === 'Ύ')
-      ret += 'Υ';
-    else if (searchValue[i] === 'Ώ')
-      ret += 'Ω';
-    else if (searchValue[i] === 'ώ')
-      ret += 'ω';
-    else
-      ret += searchValue[i];
-  }
-
-  return ret.toLowerCase();
-}
-
 function ServicesMenu() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -80,42 +43,13 @@ function ServicesMenu() {
   const [searchValue, setSearchValue] = useState('');
   let navigate = useNavigate();
 
-  const handleChangeSearchValue = (e) => {
-    setSearchValue(e.target.value);
-  };
-  const handleMouseEnter = (e, d) => {
-    setHoveredKey(d);
-  };
-  const handleMouseLeave = () => {
-    setHoveredKey('');
-  };
-  const { menuItemsList } = useSelector(state => ({
-    menuItemsList: state.menu_reducer.menuItemsList
-  }));
+  const handleChangeSearchValue = (e) => { setSearchValue(e.target.value); };
+  const handleMouseEnter = (e, d) => { setHoveredKey(d); };
+  const handleMouseLeave = () => { setHoveredKey(''); };
+  const { menuItemsList } = useSelector(state => ({ menuItemsList: state.menu_reducer.menuItemsList }));
 
-  useEffect(() => {
-    dispatch(getMenuItems());
-  }, []);
+  useEffect(() => { dispatch(getMenuItems()); }, []);
 
-
-  function renderAnnouncements(itemsList) {
-    return itemsList && itemsList.map(d => (
-      d.Hidden === 0 && d.Announce === 1 && (d.Name.includes(searchValue) || ignoreTonous(d.Name).includes(searchValue)) ?
-        <div
-          className="menuItem announcement"
-          onMouseEnter={(e) => handleMouseEnter(e, d)}
-          onMouseLeave={handleMouseLeave}
-          onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : console.log('none'); }}
-          style={{ background: hoveredKey === d ? '#2196F3' : '#9DD8EA' }}>
-          <div style={{ flex: 0.3 }}>
-            <img src={getHostUrl() + d.ImageService} />
-          </div>
-          <div style={{ flex: 0.7 }}>
-            {d.Name}
-          </div>
-        </div> :
-        <></>))
-  }
   function getBackgroundColor(item) {
     var ret = '#9DD8EA';
 
@@ -138,7 +72,7 @@ function ServicesMenu() {
     // if (searchList && searchList.length > 0)
     //   itemsList = searchList;
     return (itemsList && itemsList.map(d => (
-      d.Hidden === 0 && d.ServiceItem === 1 && (d.Name.toLowerCase().includes(searchValue.toLowerCase()) || ignoreTonous(d.Name.toLowerCase()).includes(searchValue.toLowerCase()))) ?
+      d.Hidden === 0 && d.ServiceItem === 1 && includeStrings(d.Name, searchValue) === true ?
       <div
         className="menuItem"
         onMouseEnter={(e) => handleMouseEnter(e, d)}
@@ -152,7 +86,7 @@ function ServicesMenu() {
           {d.Name}
         </div>
       </div> :
-      <></>))
+      <></>)))
   }
 
   //const TextFieldWrapper = styled(TextField)`fieldset {border-radius: 50px;'}`;  
@@ -172,10 +106,10 @@ function ServicesMenu() {
           className={classes.root}
           inputProps={{ className: classes.root }}
           InputProps={{
-            startAdornment: (<InputAdornment position="start" borderColor='red'>
+            startAdornment: (<InputAdornment position="start">
               <SearchIcon />
             </InputAdornment>),
-            endAdornment: (<InputAdornment position="end" borderColor='red'>
+            endAdornment: (<InputAdornment position="end">
               <IconButton sx={{ visibility: searchValue ? "visible" : "hidden" }} onClick={handleChangeSearchValue}>
                 <CancelIcon style={{ width: '30px' }} />
               </IconButton>

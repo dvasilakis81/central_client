@@ -7,16 +7,10 @@ import { useNavigate } from "react-router-dom";
 export default function Announcements() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { announcementsList } = useSelector(state => ({
-    announcementsList: state.menu_reducer.announcementsList
-  }));
+  const { announcementsList } = useSelector(state => ({ announcementsList: state.announcement_reducer.announcementsList }));
   const [hoveredKey, setHoveredKey] = useState('');
-  const handleMouseEnter = (e, d) => {
-    setHoveredKey(d);
-  };
-  const handleMouseLeave = () => {
-    setHoveredKey('');
-  };
+  const handleMouseEnter = (e, d) => { setHoveredKey(d); };
+  const handleMouseLeave = () => { setHoveredKey(''); };
   useEffect(() => {
     dispatch(getAnnouncements());
   }, []);

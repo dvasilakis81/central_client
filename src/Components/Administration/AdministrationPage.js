@@ -6,14 +6,14 @@ import { useDispatch } from 'react-redux';
 import { getMenuItems, getPageItems, getMediaItems, getAnnouncements } from '../../Redux/Actions';
 
 export default function AdministrationPage(props) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getMenuItems());
-    //dispatch(getPageItems());
-    dispatch(getMediaItems());
-    dispatch(getAnnouncements());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getMenuItems());
+  //   //dispatch(getPageItems());
+  //   dispatch(getMediaItems());
+  //   dispatch(getAnnouncements());
+  // }, []);
 
   return (
     // display: flex;

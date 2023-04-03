@@ -26,7 +26,7 @@ function loadFromLocalStorage() {
 
 const persistedState = loadFromLocalStorage()
 //const store = createStore(RootReducer, persistedState, applyMiddleware(reduxPromiseMiddleware));
-const store = createStore(RootReducer, applyMiddleware(reduxPromiseMiddleware, thunkMiddleware));
+const store = createStore(RootReducer, applyMiddleware(reduxPromiseMiddleware));
 
 //store.subscribe(() => saveToLocalStorage(store.getState()))
 

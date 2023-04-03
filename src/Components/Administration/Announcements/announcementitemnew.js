@@ -5,15 +5,12 @@ import Button from '@material-ui/core/Button';
 import { Checkbox } from '@material-ui/core';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import CancelAltIcon from '@material-ui/icons/Cancel';
-//import Box from '@mui/material/Box';
-import { Box } from '@material-ui/core';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { addAnnouncement, editAnnouncement } from '../../../Redux/Actions/index';
 import HomeWrapper from '../../Home/homewrapper';
 import SelectImage from '../SelectImage/selectimage';
 import { Editor } from '@tinymce/tinymce-react';
 import { getHostUrl } from '../../../Helper/helpermethods';
-import { SketchPicker } from 'react-color';
 
 const styles = {
   textfield: {
@@ -35,8 +32,7 @@ const styles = {
 
 }
 export default function AnnouncementItemNew(props) {
-
-  const formRef = useRef();
+  
   const dispatch = useDispatch();
   let navigate = useNavigate();
   let location = useLocation();
@@ -45,7 +41,8 @@ export default function AnnouncementItemNew(props) {
   let announcementItemDetails;
   if (location.state && location.state.isNew === 2)
     announcementItemDetails = announcementItemDetails2;
-  let newAnnouncementAdded = useSelector((state) => state.announcement_reducer.newAnnouncementAdded);
+  let newItemAdded = useSelector((state) => state.announcement_reducer.newItemAdded);
+  let itemChanged = useSelector((state) => state.announcement_reducer.itemChanged);
 
   const [id, setId] = useState(announcementItemDetails && announcementItemDetails.Id || '');
   const [descriptionInitial, setDescriptionInitial] = useState(announcementItemDetails && announcementItemDetails.Description || '');
@@ -59,7 +56,7 @@ export default function AnnouncementItemNew(props) {
   const [hidden, setHidden] = useState(announcementItemDetails?.Hidden || false);
   const [orderNo, setOrderNo] = useState(announcementItemDetails?.OrderNo || 0);
 
-  if (newAnnouncementAdded === true) {
+  if (newItemAdded === true || itemChanged === true) {
     dispatch({ type: 'SET_ADDED_NEWANNOUNCEMENT', payload: false });
     navigate(-1);
   } else {
@@ -82,9 +79,7 @@ export default function AnnouncementItemNew(props) {
             if (location.state.isNew === 2)
               dispatch(editAnnouncement(data));
             else
-              dispatch(addAnnouncement(data));
-
-            navigate(-1);
+              dispatch(addAnnouncement(data));            
           }}>
             <div style={{ padding: '10px' }}>
               {/* <Editor

@@ -567,3 +567,64 @@ export function findLocalIp() {
 		}
 	});
 }
+
+export function filterValue(fields, searchValue) {
+
+  var ret = false;
+  if (searchValue) {
+    for (var i = 0; i < fields.length; i++) {
+      if (fields[i] && includeStrings(fields[i], searchValue) === true)
+        return true;
+    }
+  }
+  else
+    ret = true;
+
+
+  return ret;
+}
+
+
+export function includeStrings(str1, str2){
+	var ret = false;
+	if (ignoreTonousAndLowercase(str1).includes(ignoreTonousAndLowercase(str2)) === true)
+		ret = true;
+	return ret;
+}
+export function ignoreTonousAndLowercase(searchValue) {
+  var ret = '';
+  for (var i = 0; i < searchValue.length; i++) {
+    if (searchValue[i] === "ά")
+      ret += 'α';
+    else if (searchValue[i] === 'Ά')
+      ret += 'A';
+    else if (searchValue[i] === 'έ')
+      ret += 'ε';
+    else if (searchValue[i] === 'Έ')
+      ret += 'Ε';
+    else if (searchValue[i] === 'ή')
+      ret += 'η';
+    else if (searchValue[i] === 'Ή')
+      ret += 'Η';
+    else if (searchValue[i] === 'ί')
+      ret += 'ι';
+    else if (searchValue[i] === 'Ί')
+      ret += 'Ι';
+    else if (searchValue[i] === 'ό')
+      ret += 'ο';
+    else if (searchValue[i] === 'Ό')
+      ret += 'Ο';
+    else if (searchValue[i] === 'ύ')
+      ret += 'υ';
+    else if (searchValue[i] === 'Ύ')
+      ret += 'Υ';
+    else if (searchValue[i] === 'Ώ')
+      ret += 'Ω';
+    else if (searchValue[i] === 'ώ')
+      ret += 'ω';
+    else
+      ret += searchValue[i];
+  }
+
+  return ret.toLowerCase();
+}

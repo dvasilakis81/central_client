@@ -32,10 +32,10 @@ export default function (state = {}, action, root) {
             requestServerError: undefined,
             announcementsList: serverResponse
           };
-        } else {          
+        } else {
           if (serverResponse && serverResponse.length > 0) {
             var itemsList = serverResponse;
-            var itemDetails = itemsList ? itemsList[0] : undefined;            
+            var itemDetails = itemsList ? itemsList[0] : undefined;
             state = {
               ...state,
               announcementsPending: undefined,
@@ -73,90 +73,110 @@ export default function (state = {}, action, root) {
           ...state,
           requestRejected: undefined,
           requestServerError: undefined,
-          newAnnouncementAdded: false,
+          newItemAdded: false,
           requestPending: 'Add announcement items pending',
         };
         break;
       case 'ADD_ANNOUNCEMENT_REJECTED':
+
         state = {
           ...state,
 
-          newAnnouncementAdded: false,
+          newItemAdded: false,
           requestPending: undefined,
           requestRejected: action.payload,
           requestServerError: undefined
         };
         break;
       case 'ADD_ANNOUNCEMENT_FULFILLED':
+        var serverResponse = action.payload;
+        if (serverResponse && serverResponse.servererrormessage) {
+          state = {
+            ...state,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: serverResponse,
+            newItemAdded: false
+          };
+        } else {
+
+          state = {
+            ...state,
+            newItemAdded: true,
+            requestServerError: undefined,
+            requestPending: undefined,
+            requestRejected: undefined,
+            announcementsList: [...state.announcementsList, serverResponse],
+            announcementItemDetails: serverResponse
+          };
+        }
+
         state = {
           ...state,
-          newAnnouncementAdded: true,
-          addAnnouncementItemPending: undefined,
-          addAnnouncementItemRejected: undefined
+          newItemAdded: true,
+          requestPending: undefined,
+          requestRejected: undefined
         };
         break;
       case 'SET_ADDED_NEWANNOUNCEMENT':
         state = {
           ...state,
-          newAnnouncementAdded: action.payload
+          newItemAdded: action.payload,
+          itemChanged: action.payload
         };
         break;
       case 'EDIT_ANNOUNCEMENT_PENDING':
         state = {
           ...state,
-          editPage: false,
-          editAnnouncementItemPending: 'Add announcement items pending',
-          editAnnouncementItemRejected: undefined
+          itemChanged: false,
+          requestServerError: undefined,
+          requestPending: 'Add announcement items pending',
+          requestRejected: undefined
         };
         break;
       case 'EDIT_ANNOUNCEMENT_REJECTED':
         state = {
           ...state,
-          editPage: false,
+          itemChanged: false,
           requestPending: undefined,
+          requestServerError: undefined,
           requestRejected: action.payload
         };
         break;
       case 'EDIT_ANNOUNCEMENT_FULFILLED':
+        var serverResponse = action.payload;
+        if (serverResponse && serverResponse.errormessage) {
 
-        const updatedList = [];
-        if (state.announcementsList) {
+          state = {
+            ...state,
+            itemChanged: false,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: serverResponse.errormessage
+          };
+        } else {
+          const updatedList = [];
+          if (state.announcementsList) {
+            state.announcementsList.forEach((item, index) => {
+              if (item.Id === serverResponse.Id)
+                updatedList.push(serverResponse);
+              else
+                updatedList.push(item);
+            });
+          }
 
-          var updatedItem = action.payload[0];
-          state.announcementsList.forEach((item, index) => {
-            if (item.Id === updatedItem.Id)
-              updatedList.push(updatedItem);
-            else
-              updatedList.push(item);
-          });
+
+          var itemDetails = serverResponse || state.announcementItemDetails;
+          state = {
+            ...state,
+            itemChanged: true,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: undefined,
+            announcementsList: updatedList,
+            announcementItemDetails: itemDetails
+          };
         }
-
-        state = {
-          ...state,
-          editAnnouncementItemPending: undefined,
-          editAnnouncementItemRejected: undefined,
-          announcementsList: updatedList,
-          announcementItemDetails: action.payload ? action.payload[0] : undefined
-        };
-
-        // const updatedList = [];
-        // if (state.announcementsList) {
-        //   var updatedItem = action.payload[0];
-        //   state.announcementsList.forEach((item, index) => {
-        //     if (item.Id === updatedItem.Id)
-        //       updatedList.push(updatedItem);
-        //     else
-        //       updatedList.push(item);
-        //   });
-        // }
-
-        // state = {
-        //   ...state,
-        //   editMenuItemPending: undefined,
-        //   editMenuItemRejected: undefined,
-        //   announcementsList: updatedList,
-        //   announcementItemDetails: state.announcementItemDetails || (state.announcementsList ? state.announcementsList[0] : undefined)
-        // };
         break;
       case 'GET_ANNOUNCEMENTS_REJECTED':
         state = {
@@ -204,11 +224,7 @@ export default function (state = {}, action, root) {
         var serverResponse = action.payload;
         if (serverResponse) {
           let items = state.announcementsList.filter((item) => {
-            let found = false;
-            if (item.Id === serverResponse.id)
-              found = true;
-
-            if (found === false)
+            if (item.Id !== serverResponse.id)
               return item;
           });
 
@@ -218,7 +234,7 @@ export default function (state = {}, action, root) {
             requestRejected: undefined,
             requestServerError: undefined,
             announcementsList: items,
-            announcementItemDetails: (items && items.length > 0 ? items[0] : undefined)
+            announcementItemDetails: undefined
           };
         }
 

@@ -4,8 +4,6 @@ import parse from 'html-react-parser';
 import store from '../../../../Redux/Store/store';
 import { getPageInfo } from '../../../../Redux/Actions/index';
 
-
-
 export default function PageTabs(props) {
   const dispatch = useDispatch();
   let selectedTab = useSelector((state) => state.page_reducer.selectedPageTab) || 0;

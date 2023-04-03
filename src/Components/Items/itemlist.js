@@ -8,33 +8,18 @@ export default function ItemList(props) {
 	const itemToRender = props.item;
 	let selectedItem = null;
 	if (props.selectedItem)
-		selectedItem = props.selectedItem;
-	else
-		selectedItem = props.defaultSelectedItem;
+		selectedItem = props.selectedItem;	
 
 	if (props.kindss === "menuitems")
-		return <MenuItem item={itemToRender} selecteditem={selectedItem} itemtype={props.itemtype} kind="menuitems" />	
+		return <MenuItem item={itemToRender} selecteditem={selectedItem} itemtype={props.itemtype} kind="menuitems" searchValue={props.searchValue}/>	
 	else if (props.kindss === "mediaitems")
-		return <MediaItem item={itemToRender} selecteditem={selectedItem} />
+		return <MediaItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
 	else if (props.kindss === "pageitems")
-		return <PageItem item={itemToRender} selecteditem={selectedItem} />
+		return <PageItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
 	else if (props.kindss === "announcementitems")
-		return <AnnouncementItem item={itemToRender} selecteditem={selectedItem} />
+		return <AnnouncementItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
 	else {
 		return <></>;
-		// return <div id={itemToRender.Id}
-		// 	onClick={() => this.changeSelectedItem(this, itemToRender)}
-		// 	onMouseEnter={(e) => handleMouseEnter(e, itemToRender.Id)}
-		// 	onMouseLeave={handleMouseLeave}
-		// 	style={{ padding: '10px', background: hoveredKey === itemToRender.Id ? 'lightblue' : '#ffffffb3' }}>
-		// 	<Grid item style={{ flexGrow: '1' }}>
-		// 		<Paper square={true}>
-		// 			<Typography>
-		// 				<span style={{ marginLeft: '5px' }}>{this.getTitle(itemToRender.Title)}</span>
-		// 			</Typography>
-		// 		</Paper>
-		// 	</Grid>
-		// </ div >
 	}
 }
 

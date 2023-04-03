@@ -36,7 +36,8 @@ export default function PageItemNew(props) {
   const [pageId, setPageId] = useState(pageItemDetails?.Id || '');
   const [tabs, setTabs] = useState(selectedTabs || []);
   let requestRejected = useSelector((state) => state.page_reducer.requestRejected);
-  let newPageAdded = useSelector((state) => state.page_reducer.newPageAdded);
+  let newItemAdded = useSelector((state) => state.page_reducer.newItemAdded);
+  let itemChanged = useSelector((state) => state.page_reducer.itemChanged);
 
   useEffect(() => {
 
@@ -66,35 +67,10 @@ export default function PageItemNew(props) {
     }
   }, []);
 
-  const handleSaveClick = () => {
-
-    var data = {};
-    data.Id = pageId;
-    data.Title = pageTitle;
-    data.Body = pageBody;
-    data.Url = pageUrl;
-    data.HasComments = hasComments;
-    data.IsConsultation = isConsultation;
-    data.Tabs = [];
-    tabs.map((item) => {
-      data.Tabs.push(item);
-    })
-
-    if (location && location.state && location.state.isNew === 2) {
-      dispatch(editPageItem);
-      
-      //this.setState({ message: 'Ο λογαριασμός επεξεργάστηκε επιτυχώς!!!', openMessage: true, variant: 'success', submitButtonDisabled: false });
-    }
-    else{
-      dispatch(addPageItem(data));
-    }
-  };
-
-  if (newPageAdded === true) {
+  if (newItemAdded === true || itemChanged === true) {
     dispatch({ type: 'SET_ADDED_NEWPAGE', payload: false });
     navigate(-1);
-  }
-  else
+  } else
     return <div style={{ width: '100%', height: '100%', overflow: 'hidden', background: 'white' }}>
       <HomeWrapper>
         <div style={{ display: 'flex', flex: 1, flexFlow: 'column', flexWrap: 'wrap', width: '100%', height: '100%', overflowY: 'hidden', background: 'lightgrey' }}>
@@ -103,7 +79,24 @@ export default function PageItemNew(props) {
               variant="contained"
               color="primary"
               style={{ margin: '5px', textTransform: 'none', fontSize: '16px' }}
-              onClick={handleSaveClick}>
+              onClick={() => {
+
+                var data = {};
+                data.Id = pageId;
+                data.Title = pageTitle;
+                data.Body = pageBody;
+                data.Url = pageUrl;
+                data.HasComments = hasComments;
+                data.Tabs = [];
+                tabs.map((item) => {
+                  data.Tabs.push(item);
+                })
+
+                if (location && location.state && location.state.isNew === 2)
+                  dispatch(editPageItem(data));
+                else
+                  dispatch(addPageItem(data));
+              }}>
               <SaveAltIcon />
               Αποθήκευση
             </Button>

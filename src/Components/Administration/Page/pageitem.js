@@ -1,37 +1,9 @@
 import React, { useState } from 'react';
 import { Grid, Typography, Paper } from '@material-ui/core';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { filterValue } from '../../../Helper/helpermethods';
+import { getAdminItemStyle } from '../../Common/styles';
 //import styles from './styles.css';
-
-const styles = {
-  tableStyle1: {
-    tableLayout: 'fixed',    
-    fontSize: '22px',
-    fontWeight: 'bold',
-    color: 'white',
-    background: 'darkblue',
-    marginLeft: '5px',
-    textAlign: 'center',
-    cursor: 'unset'
-  },
-  tableStyle2: {
-    tableLayout: 'fixed',
-    fontSize: '16px',
-    background: 'lightblue',  
-    cursor: 'unset',
-    marginLeft: '5px',
-    textAlign: 'center'
-  },
-  itemHovered: {
-    tableLayout: 'fixed',    
-    background: 'lightblue',
-    fontSize: '16px',    
-    cursor: 'pointer',
-    marginLeft: '5px',
-    textAlign: 'center',
-    fontWeight: 600
-  }
-};
 
 function changeSelectedItem(dispatch, props, item) {
   if (props.isSearchMode === true)
@@ -43,32 +15,25 @@ function changeSelectedItem(dispatch, props, item) {
 export default function PageItem(props) {
   const dispatch = useDispatch();
   const [hoveredKey, setHoveredKey] = useState('');
-  const handleMouseEnter = (e, d) => {
-    setHoveredKey(d);
-  };
-  const handleMouseLeave = () => {
-    setHoveredKey('');
-  };
+  const handleMouseEnter = (e, d) => { setHoveredKey(d); };
+  const handleMouseLeave = () => { setHoveredKey(''); };
 
   const item = props.item;
   const selecteditem = props.selecteditem;
-  // background: hoveredKey === item.Id ? 'lightblue' : '#ffffffb3'
-  // style={{background: hoveredKey === item.Id ? styles.pageItemHovered : listItemStyle }}
-  let listItemStyle = (item.Id !== selecteditem.Id ? styles.tableStyle1 : styles.tableStyle2);
-  if (hoveredKey && hoveredKey !== selecteditem.Id)
-    listItemStyle = styles.itemHovered;
 
-  return <div id={item.Id}
-    onMouseEnter={(e) => handleMouseEnter(e, item.Id)}
-    onMouseLeave={handleMouseLeave}
-    onClick={() => { changeSelectedItem(dispatch, props, item); }}
-    style={{ padding: '5px'}}>
-    <Grid item style={{ flexGrow: '1', border: '1px solid black'}}>
-      <Paper square={true} style={listItemStyle}>
-        <Typography>
-          <div>{item.Title}</div>
-        </Typography>
-      </Paper>
-    </Grid>
-  </div>
+  var itemStyle = getAdminItemStyle(item, selecteditem, hoveredKey);
+
+  var fields = [];
+  fields.push(item.Title);
+  fields.push(item.Url);
+
+  if (filterValue(fields, props.searchValue || '') === true) {
+    return <div id={item.Id}
+      onMouseEnter={(e) => handleMouseEnter(e, item.Id)}
+      onMouseLeave={handleMouseLeave}
+      onClick={() => { changeSelectedItem(dispatch, props, item); }}
+      style={{ padding: '5px' }}>
+      <div className={itemStyle}>{item.Title}</div>
+    </div>
+  }
 }

@@ -34,7 +34,7 @@ export default function MenuItemNew(props) {
   let menuItemDetails;
   if (location.state && location.state.isNew === 2)
     menuItemDetails = menuItemDetails2;
-  let newMenuAdded = useSelector((state) => state.menu_reducer.newMenuAdded);
+  let newItemAdded = useSelector((state) => state.menu_reducer.newItemAdded);
 
   //const [open, setOpen] = useState(props.open);  
   const [id, setId] = useState(menuItemDetails && menuItemDetails.Id || '');
@@ -118,7 +118,7 @@ export default function MenuItemNew(props) {
   //   setMenuItem(e.target.value);
   // };
 
-  if (newMenuAdded === true) {
+  if (newItemAdded === true) {
     dispatch(dispatch({ type: 'SET_ADDED_NEWITEM', payload: false }));
     navigate(-1);
   } else {

@@ -38,9 +38,9 @@ export function addPageItem(data) {
   const request = axios.post(getHostUrl() + 'addPageItem', data).then(response => response.data)
   return { type: 'ADD_PAGEITEM', payload: request };
 }
-export async function editPageItem(dispatch, data) {
+export function editPageItem(data) {
   const request = axios.post(getHostUrl() + 'editPageItem', data).then(response => response.data)
-  dispatch({ type: "myaction", payload: request });
+  return { type: "EDIT_PAGEITEM", payload: request };
 }
 export function getPageItems() {
   const request = axios.get(getHostUrl() + 'getPageItems').then(response => response.data);

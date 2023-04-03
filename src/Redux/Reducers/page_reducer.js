@@ -76,7 +76,7 @@ export default function (state = {}, action, root) {
       case 'ADD_PAGEITEM_PENDING':
         state = {
           ...state,
-          newPageAdded: false,
+          newItemAdded: false,
           requestPending: 'Add page items pending',
           requestServerError: undefined,
           requestRejected: undefined
@@ -86,7 +86,7 @@ export default function (state = {}, action, root) {
         var serverResponse = action.payload;
         state = {
           ...state,
-          newPageAdded: false,
+          newItemAdded: false,
           requestPending: undefined,
           requestServerError: undefined,
           requestRejected: serverResponse
@@ -100,30 +100,31 @@ export default function (state = {}, action, root) {
             requestPending: undefined,
             requestRejected: undefined,
             requestServerError: serverResponse,
-            pageItemsList: undefined,
-            newPageAdded: false
+            newItemAdded: false
           };
         } else {
 
           state = {
             ...state,
-            newPageAdded: true,
+            newItemAdded: true,
             requestServerError: undefined,
             requestPending: undefined,
-            requestRejected: undefined
+            requestRejected: undefined,
+            pageItemsList: [...state.pageItemsList, serverResponse]
           };
         }
         break;
       case 'SET_ADDED_NEWPAGE':
         state = {
           ...state,
-          newPageAdded: false,
+          newItemAdded: false,
+          itemChanged: false
         };
         break;
       case 'EDIT_PAGEITEM_PENDING':
         state = {
           ...state,
-          editPage: false,
+          itemChanged: false,
           requestServerError: undefined,
           requestPending: 'Add page items pending',
           requestRejected: undefined
@@ -132,44 +133,43 @@ export default function (state = {}, action, root) {
       case 'EDIT_PAGEITEM_REJECTED':
         state = {
           ...state,
-          editPage: false,
+          itemChanged: false,
           requestPending: undefined,
+          requestServerError: undefined,
           requestRejected: action.payload
         };
         break;
       case 'EDIT_PAGEITEM_FULFILLED':
         var serverResponse = action.payload;
-        if (serverResponse && serverResponse.length > 0) {
-          var itemsList = serverResponse;
-          var itemDetails = itemsList ? itemsList[0] : undefined;
+        if (serverResponse && serverResponse.errormessage) {
 
           state = {
             ...state,
+            itemChanged: false,
             requestPending: undefined,
             requestRejected: undefined,
-            requestServerError: undefined,
-            pageItemsList: itemsList,
-            pageItemDetails: itemDetails
+            requestServerError: serverResponse.errormessage
           };
         } else {
           const updatedList = [];
-          if (state.pageItemsList) {
-            var updatedItem = serverResponse[0];
+          if (state.pageItemsList) {            
             state.pageItemsList.forEach((item, index) => {
-              if (item.Id === updatedItem.Id)
-                updatedList.push(updatedItem);
+              if (item.Id === serverResponse.Id)
+                updatedList.push(serverResponse);
               else
                 updatedList.push(item);
             });
           }
 
+          var pageItemDetails = serverResponse || (state.pageItemDetails || (updatedList ? updatedList[0] : undefined));
           state = {
             ...state,
+            itemChanged: true,
             requestPending: undefined,
             requestRejected: undefined,
             requestServerError: undefined,
             pageItemsList: updatedList,
-            pageItemDetails: state.pageItemDetails || (updatedList ? updatedList[0] : undefined)
+            pageItemDetails: pageItemDetails
           };
         }
         break;
@@ -189,7 +189,7 @@ export default function (state = {}, action, root) {
             ...state,
             requestPending: undefined,
             requestRejected: undefined,
-            requestServerError: serverResponse            
+            requestServerError: serverResponse
           };
         } else {
 
@@ -207,7 +207,7 @@ export default function (state = {}, action, root) {
           ...state,
           requestPending: 'Get page info pending',
           requestServerError: undefined,
-          requestRejected: undefined          
+          requestRejected: undefined
         };
         break;
       case 'GET_PAGETABINFO_REJECTED':
@@ -285,17 +285,13 @@ export default function (state = {}, action, root) {
             ...state,
             requestPending: undefined,
             requestRejected: undefined,
-            requestServerError: serverResponse            
+            requestServerError: serverResponse
           };
         } else {
 
           if (serverResponse) {
             let items = state.pageItemsList.filter((item) => {
-              let found = false;
-              if (item.Id === serverResponse.id)
-                found = true;
-
-              if (found === false)
+              if (item.Id !== serverResponse.id)
                 return item;
             });
 
@@ -305,7 +301,7 @@ export default function (state = {}, action, root) {
               requestRejected: undefined,
               requestServerError: undefined,
               pageItemsList: items,
-              pageItemsDetails: (items && items.length > 0 ? items[0] : null)
+              pageItemDetails: undefined
             };
           }
         }

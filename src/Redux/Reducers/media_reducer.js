@@ -41,8 +41,8 @@ export default function (state = {}, action, root) {
               requestPending: undefined,
               requestRejected: undefined,
               requestServerError: undefined,
-              itemsList: itemsList,
-              itemDetails: itemDetails
+              mediaItemsList: itemsList,
+              mediaItemDetails: itemDetails
             };
           } else {
 
