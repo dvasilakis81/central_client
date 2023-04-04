@@ -8,7 +8,7 @@ export default function MediaItemDetails(props) {
     return (
       <>
         <div style={{ display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', height: '100%' }}>
-          {
+          {            
             Object.keys(mediaItemDetails).map((key, index) => {
               return (
                 <div key={index} style={{ display: 'flex', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden' }}>

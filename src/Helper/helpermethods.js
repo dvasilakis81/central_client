@@ -1,6 +1,7 @@
 import { el } from 'date-fns/locale';
 import format from 'string-format'
 //var dateFormat = require('dateformat');
+import { Checkbox } from '@material-ui/core';
 
 export function isTokenExpired(tokenjwt) {
 	var ret = false;
@@ -570,61 +571,102 @@ export function findLocalIp() {
 
 export function filterValue(fields, searchValue) {
 
-  var ret = false;
-  if (searchValue) {
-    for (var i = 0; i < fields.length; i++) {
-      if (fields[i] && includeStrings(fields[i], searchValue) === true)
-        return true;
-    }
-  }
-  else
-    ret = true;
+	var ret = false;
+	if (searchValue) {
+		for (var i = 0; i < fields.length; i++) {
+			if (fields[i] && includeStrings(fields[i], searchValue) === true)
+				return true;
+		}
+	}
+	else
+		ret = true;
 
 
-  return ret;
+	return ret;
 }
 
 
-export function includeStrings(str1, str2){
+export function includeStrings(str1, str2) {
 	var ret = false;
 	if (ignoreTonousAndLowercase(str1).includes(ignoreTonousAndLowercase(str2)) === true)
 		ret = true;
 	return ret;
 }
 export function ignoreTonousAndLowercase(searchValue) {
-  var ret = '';
-  for (var i = 0; i < searchValue.length; i++) {
-    if (searchValue[i] === "ά")
-      ret += 'α';
-    else if (searchValue[i] === 'Ά')
-      ret += 'A';
-    else if (searchValue[i] === 'έ')
-      ret += 'ε';
-    else if (searchValue[i] === 'Έ')
-      ret += 'Ε';
-    else if (searchValue[i] === 'ή')
-      ret += 'η';
-    else if (searchValue[i] === 'Ή')
-      ret += 'Η';
-    else if (searchValue[i] === 'ί')
-      ret += 'ι';
-    else if (searchValue[i] === 'Ί')
-      ret += 'Ι';
-    else if (searchValue[i] === 'ό')
-      ret += 'ο';
-    else if (searchValue[i] === 'Ό')
-      ret += 'Ο';
-    else if (searchValue[i] === 'ύ')
-      ret += 'υ';
-    else if (searchValue[i] === 'Ύ')
-      ret += 'Υ';
-    else if (searchValue[i] === 'Ώ')
-      ret += 'Ω';
-    else if (searchValue[i] === 'ώ')
-      ret += 'ω';
-    else
-      ret += searchValue[i];
-  }
+	var ret = '';
+	for (var i = 0; i < searchValue.length; i++) {
+		if (searchValue[i] === "ά")
+			ret += 'α';
+		else if (searchValue[i] === 'Ά')
+			ret += 'A';
+		else if (searchValue[i] === 'έ')
+			ret += 'ε';
+		else if (searchValue[i] === 'Έ')
+			ret += 'Ε';
+		else if (searchValue[i] === 'ή')
+			ret += 'η';
+		else if (searchValue[i] === 'Ή')
+			ret += 'Η';
+		else if (searchValue[i] === 'ί')
+			ret += 'ι';
+		else if (searchValue[i] === 'Ί')
+			ret += 'Ι';
+		else if (searchValue[i] === 'ό')
+			ret += 'ο';
+		else if (searchValue[i] === 'Ό')
+			ret += 'Ο';
+		else if (searchValue[i] === 'ύ')
+			ret += 'υ';
+		else if (searchValue[i] === 'Ύ')
+			ret += 'Υ';
+		else if (searchValue[i] === 'Ώ')
+			ret += 'Ω';
+		else if (searchValue[i] === 'ώ')
+			ret += 'ω';
+		else
+			ret += searchValue[i];
+	}
 
-  return ret.toLowerCase();
+	return ret.toLowerCase();
+}
+
+function renderImage(value, isImage) {
+	if (isImage === true) {
+		if (value.includes("fa-") === true)
+			return <span style={{ marginLeft: '20px' }}><i class={value} /></span >
+		else
+			return <span><img src={getHostUrl() + value} /></span>
+	}
+
+	return <></>;
+}
+
+function renderValueOrCheckbox(value, isCheckbox, isUrl, isImage) {
+	if (isCheckbox === true)
+		return <span style={{ marginLeft: '15px' }}><Checkbox
+			contentEditable={false}
+			color='primary'
+			checked={value}
+			style={{ transform: "scale(2)" }}
+			inputProps={{ 'aria-label': 'controlled' }} /></span>
+	else
+		if (isUrl === true) {
+			if (value && (value.startsWith('http://') || value.startsWith('https://')))
+				return <a href={value} target='_blank'><span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{value}</span></a>
+			else
+				return <a href={getHostUrl() + value} target='_blank'><span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{getHostUrl() + value}</span></a>
+		}
+		else
+			return <span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{isImage === true ? getHostUrl() : ''}{value}</span>
+}
+
+export function renderDetail(label, value, isImage, isCheckbox, isUrl) {
+	if (value !== undefined && value !== null)
+		return <div style={{ fontSize: '2rem', fontWeight: "normal", width: '100%', lineHeight: '60px' }}>
+			<span style={{ display: 'inline-block', fontSize: '1.5rem', fontWeight: "bold", width: '20%', textAlign: 'right' }}>{label}: </span>
+			{renderImage(value, isImage)}
+			{renderValueOrCheckbox(value, isCheckbox, isUrl, isImage)}
+		</div>
+	else
+		return <></>
 }

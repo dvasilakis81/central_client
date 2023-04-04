@@ -66,6 +66,41 @@ function ServicesMenu() {
 
     return ret;
   }
+  function getImage(item) {
+    var ret = <></>;
+    var srcImage = getHostUrl() + item.ImageService;
+
+    if (item && item.ImageService) {
+      if (item.ImageService.includes("fa-") === true)
+        ret = <div style={{ flex: 0.3 }}><i class={item.ImageService} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i></div>
+      else
+        ret = <div style={{ flex: 0.3 }}><img src={srcImage} style={{ fontSize: '26px', fontWeight: 'bolder' }} /></div>
+    } else {
+      if (item && item.ImageMenu) {
+        var srcImage = getHostUrl() + item.ImageMenu;
+        if (item.ImageMenu.includes("fa-") === true)
+          ret = <div
+            style={{
+              flex: 0.3, background: '#fecf66', 
+              borderRadius: '50%', 
+              padding: '3px',
+              height: '50px',
+              minWidth: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              color: 'white'
+            }}
+          >
+            <i class={item.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i>
+          </div>
+        else
+          ret = <div style={{ flex: 0.3 }}><img src={srcImage} style={{ fontSize: '26px', fontWeight: 'bolder' }} /></div>
+      }
+    }
+
+    return ret;
+  }
   function getItems(searchValue) {
 
     var itemsList = menuItemsList;
@@ -73,28 +108,24 @@ function ServicesMenu() {
     //   itemsList = searchList;
     return (itemsList && itemsList.map(d => (
       d.Hidden === 0 && d.ServiceItem === 1 && includeStrings(d.Name, searchValue) === true ?
-      <div
-        className="menuItem"
-        onMouseEnter={(e) => handleMouseEnter(e, d)}
-        onMouseLeave={handleMouseLeave}
-        onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf')) }}
-        style={{ background: getBackgroundColor(d) }}>
-        {d.ImageService ? <div style={{ flex: 0.3 }}>
-          <img src={getHostUrl() + d.ImageService} />
-        </div> : <></>}
-        <div style={{ flex: 0.7 }}>
-          {d.Name}
-        </div>
-      </div> :
-      <></>)))
+        <div
+          className="service-menu-item"
+          onMouseEnter={(e) => handleMouseEnter(e, d)}
+          onMouseLeave={handleMouseLeave}
+          onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf')) }}
+          style={{ background: getBackgroundColor(d) }}>
+          {getImage(d)}
+          <div style={{ flex: 0.7 }}>{d.Name}</div>
+        </div> :
+        <></>)))
   }
 
   //const TextFieldWrapper = styled(TextField)`fieldset {border-radius: 50px;'}`;  
   return (
     //backgroundImage: `url("/img/cityofathens1.jpg")`
 
-    <div className="servicesMenuContainer">
-      <div className="servicesMenuSearchBar">
+    <div className="services-menu-container">
+      <div className="services-menu-searchbar">
         {/* <ThemeProvider theme={theme}> */}
         <TextField
           label="Αναζήτηση"
@@ -118,7 +149,7 @@ function ServicesMenu() {
         />
         {/* </ThemeProvider> */}
       </div>
-      <div className="servicesMenuItems">
+      <div className="services-menu-items">
         {getItems(searchValue || '')}
       </div>
     </div >

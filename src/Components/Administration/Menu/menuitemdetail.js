@@ -1,28 +1,26 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { renderDetail } from '../../../Helper/helpermethods';
 
 export default function MenuItemDetails(props) {
 
-  let menuItemDetails = useSelector((state) => {
-    return props.itemtype === 1 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails;
-  });
-  
+  let menuItemDetails = useSelector((state) => { return props.itemtype === 1 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails; });
   if (menuItemDetails) {
     return (
       <>
-        <div style={{ display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', height: '100%' }}>
+        <div style={{ display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'scroll', overflowX: 'hidden', height: '100%' }}>
           {
-            Object.keys(menuItemDetails).map((key, index) => {
-              return (
-                <div key={index} style={{ display: 'flex', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden' }}>
-                  <div style={{ fontSize: 24, padding: 10, fontWeight: 'bold', width: '10%', textAlign: 'left' }}>
-                    {key}
-                    <span style={{ fontSize: 24, padding: 10, fontWeight: 'bold', textAlign: 'right' }}></span>
-                  </div>
-                  <div style={{ fontSize: 24, paddingLeft: 0, paddingTop: 10 }}>{menuItemDetails[key]}</div>
-                </div>
-              );
-            })
+            <>
+              {renderDetail('Όνομα', menuItemDetails.Name)}
+              {renderDetail('Εξωτερικός σύνδεσμος', menuItemDetails.Url, false, false, true)}
+              {renderDetail('Εσωτερικός σύνδεσμος', menuItemDetails.PageUrl, false, false, true)}
+              {renderDetail('Εικονίδιο', menuItemDetails.ImageService || menuItemDetails.ImageMenu, true)}
+              {renderDetail('Σειρά', menuItemDetails.OrderNo)}              
+              {renderDetail('Μενού', menuItemDetails.MenuItem, false, true)}
+              {renderDetail('Υπηρεσία', menuItemDetails.ServiceItem, false, true)}
+              {renderDetail('Ανακοίνωση', menuItemDetails.Announce, false, true)}
+              {renderDetail('Κρυφό', menuItemDetails.Hidden, false, true)}
+            </>            
           }
         </div>
       </>

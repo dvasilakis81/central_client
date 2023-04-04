@@ -20,7 +20,7 @@ export default function Footer(props) {
     fontSize: 16,
     fontWeight: 'bolder'    
   }}>
-    <div style={{display: 'flex', flex: 0.3, justifyContent:'flex-start', textAlign: 'left'}}><span style={{marginLeft: '15px'}}>IP:</span><span style={{marginLeft: '15px', fontWeight: 'bolder'}}>{machineIp}</span></div>
+    <div style={{display: 'flex', flex: 0.3, justifyContent:'flex-start', textAlign: 'left'}}><span style={{marginLeft: '15px'}}>Συνδέεστε στο Central με την IP διεύθυνση:</span><span style={{marginLeft: '5px', fontWeight: 'bolder'}}>{machineIp}</span></div>
     <div style={{ flex: 1, justifyContent: 'end', textAlign: 'right'}}>©{new Date().getFullYear()} Central Athens</div>
   </div>
 }

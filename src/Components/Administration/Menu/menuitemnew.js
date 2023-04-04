@@ -26,8 +26,7 @@ export default function MenuItemNew(props) {
   const dispatch = useDispatch();
   let navigate = useNavigate();
   let location = useLocation();
-
-  //let menuItemDetails2 = useSelector((state) => state.menu_reducer.menuItemDetails);
+    
   let menuItemDetails2 = useSelector((state) => {
     return location.state.itemtype === 1 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails;
   });
@@ -36,7 +35,6 @@ export default function MenuItemNew(props) {
     menuItemDetails = menuItemDetails2;
   let newItemAdded = useSelector((state) => state.menu_reducer.newItemAdded);
 
-  //const [open, setOpen] = useState(props.open);  
   const [id, setId] = useState(menuItemDetails && menuItemDetails.Id || '');
   const [name, setName] = useState(menuItemDetails && menuItemDetails.Name || '');
   const [url, setUrl] = useState(menuItemDetails && menuItemDetails.Url || '');

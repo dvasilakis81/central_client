@@ -8,45 +8,6 @@ import store from '../../Redux/Store/store';
 
 import { getMenuItems, getPageItems, getMediaItems, getAnnouncements } from '../../Redux/Actions/index';
 
-const styles = {
-  selectedTab: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'lightBlue',
-    borderBottom: '2px solid #1b7ced',
-    width: '200px',
-    textAlign: 'center',
-    height: '40px',
-    paddingTop: '5px',
-    cursor: 'unset',
-    bottom: 0
-  },
-  hoveredTab: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: '#05E9FF',
-    borderBottom: '2px solid #1b7ced',
-    width: '200px',
-    textAlign: 'center',
-    height: '40px',
-    paddingTop: '5px',
-    cursor: 'pointer',
-    bottom: 0
-  },
-  tab: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'white',
-    width: '200px',
-    textAlign: 'center',
-    borderBottom: '1px solid black',
-    cursor: 'unset'
-  }
-};
-
 function getTabMenu(tab) {
 
   if (tab === 0)
@@ -95,31 +56,35 @@ export default function AdministrationPage(props) {
     <div style={{ display: 'flex', flexFlow: 'column', flexWrap: 'wrap', width: '100%', height: '100%', overflowY: 'hidden' }}>
       <div style={{ display: 'flex', flexDirection: 'row', height: 'auto', overflowY: 'hidden', overflowX: 'hidden' }}>
         <div
-          style={selectedTab === 0 ? styles.selectedTab : (hoveredKey === 0 ? styles.hoveredTab : styles.tab)}
+          className={selectedTab === 0 ? 'selected-tab' : (hoveredKey === 0 ? 'hovered-tab' : 'tab')}
           onClick={(e) => { handleTabChange(e, 0) }}
           onMouseEnter={(e) => handleMouseEnter(e, 0)}
           onMouseLeave={handleMouseLeave}>
           ΜΕΝΟΥ
         </div>
-        <div style={selectedTab === 1 ? styles.selectedTab : (hoveredKey === 1 ? styles.hoveredTab : styles.tab)}
+        <div 
+          className={selectedTab === 1 ? 'selected-tab' : (hoveredKey === 1 ? 'hovered-tab' : 'tab')}
           onClick={(e) => { handleTabChange(e, 1) }}
           onMouseEnter={(e) => handleMouseEnter(e, 1)}
           onMouseLeave={handleMouseLeave}>
           ΥΠΗΡΕΣΙΕΣ
         </div>
-        <div style={selectedTab === 2 ? styles.selectedTab : (hoveredKey === 2 ? styles.hoveredTab : styles.tab)}
+        <div 
+          className={selectedTab === 2 ? 'selected-tab' : (hoveredKey === 2 ? 'hovered-tab' : 'tab')}
           onClick={(e) => { handleTabChange(e, 2) }}
           onMouseEnter={(e) => handleMouseEnter(e, 2)}
           onMouseLeave={handleMouseLeave}>
           ΣΕΛΙΔΕΣ
         </div>
-        <div style={selectedTab === 3 ? styles.selectedTab : (hoveredKey === 3 ? styles.hoveredTab : styles.tab)}
+        <div 
+          className={selectedTab === 3 ? 'selected-tab' : (hoveredKey === 3 ? 'hovered-tab' : 'tab')}
           onClick={(e) => { handleTabChange(e, 3) }}
           onMouseEnter={(e) => handleMouseEnter(e, 3)}
           onMouseLeave={handleMouseLeave}>
           ΑΡΧΕΙΑ
         </div>
-        <div style={selectedTab === 4 ? styles.selectedTab : (hoveredKey === 4 ? styles.hoveredTab : styles.tab)}
+        <div 
+          className={selectedTab === 4 ? 'selected-tab' : (hoveredKey === 4 ? 'hovered-tab' : 'tab')}
           onClick={(e) => { handleTabChange(e, 4) }}
           onMouseEnter={(e) => handleMouseEnter(e, 4)}
           onMouseLeave={handleMouseLeave}>

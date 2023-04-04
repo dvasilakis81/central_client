@@ -2,6 +2,7 @@ import React from 'react'
 import './templates.css'
 import { getFooterHeight, getDateFormat, tokenExpiresAt } from '../../Helper/helpermethods';
 import Header from "../Header/header";
+
 const localIpAddress = require("local-ip-address")
 
 export function getFailedConnectionWithServer() {
@@ -25,3 +26,5 @@ export function showGenericMessage(errorMessage, isError, hasHeader) {
     </div>
   </div>)
 }
+
+

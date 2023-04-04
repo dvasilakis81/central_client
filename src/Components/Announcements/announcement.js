@@ -11,10 +11,8 @@ export default function Announcements() {
   const [hoveredKey, setHoveredKey] = useState('');
   const handleMouseEnter = (e, d) => { setHoveredKey(d); };
   const handleMouseLeave = () => { setHoveredKey(''); };
-  useEffect(() => {
-    dispatch(getAnnouncements());
-  }, []);
-
+  
+  useEffect(() => { dispatch(getAnnouncements()); }, []);
 
   return  <div style={{ display: 'flex', background: '#9FFF33', flexDirection: 'column', opacity: '0.8', margin: 'auto', marginTop:'10px', width: '700px' }}>
     {
@@ -31,7 +29,7 @@ export default function Announcements() {
                 if (d.Url)
                   window.open(d.Url, '_blank', 'noreferrer');
             }}
-            className={hoveredKey === d ? 'hovereditem' : 'announceitem'}>
+            className={hoveredKey === d ? 'menu-item-hovered' : 'announcement-item'}>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <div style={{ flex: '0.05', marginLeft: '15px' }}>
                 {index + 1}.
