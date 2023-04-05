@@ -75,35 +75,87 @@ export default function (state = {}, action, root) {
       case 'ADD_MEDIAITEM_PENDING':
         state = {
           ...state,
-          newMediaAdded: false,
-          addMediaItemPending: 'Add media items pending',
+          newItemAdded: false,
+          requestPending: 'Add media items pending',
           requestServerError: undefined,
-          addMediaItemRejected: undefined
+          requestRejected: undefined
         };
         break;
       case 'ADD_MEDIAITEM_FULFILLED':
-        state = {
-          ...state,
-          newMediaAdded: true,
-          addMediaItemPending: undefined,
-          requestServerError: undefined,
-          addMediaItemRejected: undefined
-        };
+        var serverResponse = action.payload;
+        if (serverResponse && serverResponse.servererrormessage) {
+          state = {
+            ...state,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: serverResponse,
+            newItemAdded: false
+          };
+        } else {
+
+          state = {
+            ...state,
+            newItemAdded: true,
+            requestServerError: undefined,
+            requestPending: undefined,
+            requestRejected: undefined,
+            mediaItemsList: [...state.mediaItemsList, serverResponse],
+            mediaItemDetails: serverResponse
+          };
+        }
         break;
       case 'SET_ADDED_NEWITEM':
         state = {
           ...state,
-          newMediaAdded: false,
+          newItemAdded: false,
         };
         break;
       case 'ADD_MEDIAITEM_REJECTED':
         state = {
           ...state,
-          newMediaAdded: false,
+          newItemAdded: false,
           requestPending: undefined,
           requestServerError: undefined,
           requestRejected: action.payload
         };
+        break;
+      case 'DELETE_MEDIA_PENDING':
+
+        state = {
+          ...state,
+          openMessage: false,
+          requestPending: true,
+          requestRejected: undefined,
+          requestServerError: undefined
+        };
+        break;
+      case 'DELETE_MEDIA_REJECTED':
+
+        state = {
+          ...state,
+          requestPending: undefined,
+          requestRejected: action.payload,
+          requestServerError: undefined
+        };
+        break;
+      case 'DELETE_MEDIA_FULFILLED':
+        var serverResponse = action.payload;
+        if (serverResponse) {
+          let items = state.mediaItemsList.filter((item) => {
+            if (item.Id !== serverResponse.id)
+              return item;
+          });
+
+          state = {
+            ...state,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: undefined,
+            mediaItemsList: items,
+            mediaItemDetails: undefined
+          };
+        }
+
         break;
       default: return state;
     }

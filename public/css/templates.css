@@ -136,7 +136,8 @@
 }
 
 .admin-item {
-  table-layout: fixed;
+  display: flex;
+  flex: 1;
   font-size: 1.5rem !important;
   cursor: unset;
   font-weight: normal;
@@ -145,11 +146,12 @@
   background-color: #0047AB !important;
   margin-left: 5px;
   padding: 10px;
-  text-align: center
+  text-align: left;
 }
 
 .admin-selected-item {
-  table-layout: fixed;
+  display: flex;
+  flex: 1;
   font-size: 1.5rem !important;
   font-family: 'Tinos', serif;
   font-weight: normal;
@@ -157,11 +159,12 @@
   cursor: unset;
   margin-left: 5px;
   padding: 10px;
-  text-align: center;
+  text-align: left;
 }
 
 .admin-hovered-item {
-  table-layout: fixed;
+  display: flex;
+  flex: 1;
   font-size: 1.5rem !important;
   font-family: 'Tinos', serif;
   font-weight: normal;
@@ -169,22 +172,21 @@
   cursor: pointer;
   margin-left: 5px;
   padding: 10px;
-  text-align: center;
+  text-align: left;
 }
 
 /* background: #FCF9B5; */
 .menu-body {
   display: flex;
   flex-direction: column;
-  align-content: flex-start;
-  min-width: 150px;
-  height: 90%;  
-  background: transparent;
+  min-width: 250px;  
+  width: 250px;
+  height: 90%;
   border-radius: 0px;
-  opacity: 0.8;
-  color: #926f34;
-  color: black;      
+  opacity: 0.8; 
   padding: 10px;
+  background: transparent;  
+  color: black;  
   align-self: center;  
   background: #FCF9B5;
 }

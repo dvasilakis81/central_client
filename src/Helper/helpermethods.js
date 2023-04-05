@@ -630,42 +630,94 @@ export function ignoreTonousAndLowercase(searchValue) {
 	return ret.toLowerCase();
 }
 
-function renderImage(value, isImage) {
-	if (isImage === true) {
-		if (value.includes("fa-") === true)
-			return <span style={{ marginLeft: '20px' }}><i class={value} /></span >
-		else
-			return <span><img src={getHostUrl() + value} /></span>
+export function renderImage(itemtype, item) {
+	var imageMenu = item.ImageMenu;
+	var imageService = item.ImageService;
+
+	if (itemtype === 2) {
+		if (imageMenu) {
+			if (imageMenu.includes("fa-") === true)
+				return <div className='service-image-circle'>
+					<span style={{ marginLeft: '10px' }}>
+						<i class={imageMenu} />
+					</span>
+				</div>
+			else
+				return <span><img src={getHostUrl() + imageMenu} /></span>
+		}
+
+		if (imageService) {
+			if (imageService.includes("fa-") === true)
+				return <div className='service-image-circle'><span style={{ marginLeft: '10px' }}>
+					<i class={imageService} />
+				</span></div>
+			else
+				return <img src={getHostUrl() + imageService} />
+		}
+	} else if (itemtype === 1) {
+		if (imageMenu) {
+			if (imageMenu.includes("fa-") === true)
+				return <span style={{ marginLeft: '10px' }}><i class={imageMenu} /></span>
+			else
+				return <span><img src={getHostUrl() + imageMenu} /></span>
+		}
+
+		if (imageService) {
+			if (imageService.includes("fa-") === true)
+				return <span style={{ marginLeft: '10px' }}><i class={imageService} /></span>
+			else
+				return <img src={getHostUrl() + imageService} />
+		}
 	}
 
 	return <></>;
 }
 
-function renderValueOrCheckbox(value, isCheckbox, isUrl, isImage) {
-	if (isCheckbox === true)
-		return <span style={{ marginLeft: '15px' }}><Checkbox
+function renderValueUrl(value) {
+
+	if (value && (value.startsWith('http://') || value.startsWith('https://')))
+		return <a href={value} target='_blank'><span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{value}</span></a>
+	else
+		return <a href={getHostUrl() + value} target='_blank'><span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{getHostUrl() + value}</span></a>
+}
+
+function renderValue(value) {
+	return <span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{value}</span>
+}
+
+export function renderCheckbox(value) {
+
+	return <span style={{ marginLeft: '15px' }}>
+		<Checkbox
 			contentEditable={false}
 			color='primary'
 			checked={value}
 			style={{ transform: "scale(2)" }}
-			inputProps={{ 'aria-label': 'controlled' }} /></span>
-	else
-		if (isUrl === true) {
-			if (value && (value.startsWith('http://') || value.startsWith('https://')))
-				return <a href={value} target='_blank'><span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{value}</span></a>
-			else
-				return <a href={getHostUrl() + value} target='_blank'><span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{getHostUrl() + value}</span></a>
-		}
-		else
-			return <span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{isImage === true ? getHostUrl() : ''}{value}</span>
+			inputProps={{ 'aria-label': 'controlled' }} />
+	</span>
 }
-
-export function renderDetail(label, value, isImage, isCheckbox, isUrl) {
+export function renderDate(value) {
+	return <span style={{ marginLeft: '5px' }}>{getDateFormatForActivities(value)}</span>;
+}
+export function renderColor(value) {
+	return <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
+		<span>{value}</span>
+		<div style={{ marginLeft: '5px', width: '50px', height: '50px', background: value }}></div>
+	</div>
+}
+// export function renderDetailImage(value) {
+// 	return <span style={{ marginLeft: '5px' }}>{renderImage(value)}</span>
+// }
+export function renderDetail(label, value, info) {
 	if (value !== undefined && value !== null)
-		return <div style={{ fontSize: '2rem', fontWeight: "normal", width: '100%', lineHeight: '60px' }}>
-			<span style={{ display: 'inline-block', fontSize: '1.5rem', fontWeight: "bold", width: '20%', textAlign: 'right' }}>{label}: </span>
-			{renderImage(value, isImage)}
-			{renderValueOrCheckbox(value, isCheckbox, isUrl, isImage)}
+		return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', fontSize: '1.5rem', fontWeight: "normal", width: '100%', paddingBottom: '20px' }}>
+			<div style={{ fontSize: '1.5rem', fontWeight: "bold", minWidth: '250px', maxWidth: '250px', textAlign: 'right', flexWrap: 'wrap' }}>{label}: </div>
+			{info && info.isDate === true ? renderDate(value) : <></>}
+			{info && info.isImage === true ? <span style={{ marginLeft: '5px' }}>{renderImage(value)}</span> : <></>}
+			{info && info.isCheckbox === true ? renderCheckbox(value) : <></>}
+			{info && info.isUrl === true ? renderValueUrl(value) : <></>}
+			{info && info.isText === true ? renderValue(value) : <></>}
+			{info && info.isColor === true ? renderColor(value) : <></>}
 		</div>
 	else
 		return <></>

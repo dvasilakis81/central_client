@@ -27,7 +27,9 @@ function Home2(props) {
             overflowX: 'hidden',
             overflowY: 'hidden'
           }}>
-            <CentralMenu />
+            <div style={{ maxwidth: '300px', minWidth: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <CentralMenu />
+            </div>
             {props.children}
           </div>
         </div>

@@ -79,20 +79,10 @@ function ServicesMenu() {
       if (item && item.ImageMenu) {
         var srcImage = getHostUrl() + item.ImageMenu;
         if (item.ImageMenu.includes("fa-") === true)
-          ret = <div
-            style={{
-              flex: 0.3, background: '#fecf66', 
-              borderRadius: '50%', 
-              padding: '3px',
-              height: '50px',
-              minWidth: '50px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              color: 'white'
-            }}
-          >
-            <i class={item.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i>
+          ret = <div style={{ flex: 0.3 }}>
+            <div className='service-image-circle'>
+              <i class={item.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i>
+            </div>
           </div>
         else
           ret = <div style={{ flex: 0.3 }}><img src={srcImage} style={{ fontSize: '26px', fontWeight: 'bolder' }} /></div>

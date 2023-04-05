@@ -43,17 +43,9 @@ export default function MediaItemNew(props) {
 
   const dispatch = useDispatch();
   const [fileData, setFileData] = useState('');
-  const [url, setUrl] = useState(props.Url || '');
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [isdeleted, setIsdeleted] = useState(props.isDeleted || false);
-  const [ishidden, setIshidden] = useState(props.isHidden || false);
-
-  let navigate = useNavigate();
-  let mediaItemDetails = useSelector((state) => state.media_reducer.mediaItemDetails);
-  let requestRejected = useSelector((state) => state.media_reducer.requestRejected);
-  let newMediaAdded = useSelector((state) => state.media_reducer.newMediaAdded);
-
+  let navigate = useNavigate();  
+  let newItemAdded = useSelector((state) => state.media_reducer.newItemAdded);
+  
   const handleClick = () => {
 
     const formData = new FormData();
@@ -62,11 +54,7 @@ export default function MediaItemNew(props) {
     dispatch(addNewMediaItem(formData));
   };
 
-  const handleChangeUrl = (e) => {
-    setUrl(e.target.value);
-  };
-
-  if (newMediaAdded === true) {
+  if (newItemAdded === true) {
     dispatch(dispatch({ type: 'SET_ADDED_NEWITEM', payload: false }));
     navigate(-1);
   }
@@ -86,97 +74,7 @@ export default function MediaItemNew(props) {
               setFileData(e.target.files[0]);
             }} />
         </div>
-        <Button style={{ fontSize: 20 }} variant="contained" color="primary" onClick={handleClick}>Upload</Button>
-        {/* <div className="form-group">
-            <button className="btn btn-primary" type="submit">Upload</button>
-          </div> */}
-
-
-        {/* <form style={{ padding: '10px', position: 'relative' }} autoComplete="off" onSubmit={handleSubmit}>
-          <div style={{ display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', height: '100%' }}>
-            <div style={{ display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', height: '100%' }}>
-              <div style={{ display: 'flex', flex: '1', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden', height: '100%' }}>
-                <div style={{ fontSize: 24, padding: 10, fontWeight: 'bold', minWidth: 100, textAlign: 'right' }}>
-                  Όνομα:
-                </div>
-                <div style={{ fontSize: 24, paddingLeft: 0, paddingTop: 10 }}>
-                  <TextField
-                    type="text"
-                    style={{ width: 500 }}
-                    value={name}
-                    isRequired={true}
-                    onChange={handleChangeName}
-                    inputProps={{ style: { textAlign: 'Left' } }}
-                  />
-                </div>
-              </div>
-              <div style={{ display: 'flex', flex: '1', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden', height: '100%' }}>
-                <div style={{ fontSize: 24, padding: 10, fontWeight: 'bold', minWidth: 100, textAlign: 'right' }}>
-                  Url:
-                </div>
-                <div style={{ fontSize: 24, paddingLeft: 0, paddingTop: 10 }}>
-                  <TextField
-                    type="text"
-                    style={{ width: 500 }}
-                    value={url}
-                    isRequired={true}
-                    required={true}
-                    onChange={handleChangeUrl}
-                    inputProps={{ style: { textAlign: 'Left' } }}
-                  />
-                </div>
-              </div>
-              <div style={{ display: 'flex', flex: '1', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden', height: '100%' }}>
-                <div style={{ fontSize: 24, padding: 10, fontWeight: 'bold', minWidth: 100, textAlign: 'right' }}>
-                  Image:
-                </div>
-                <div style={{ fontSize: 24, paddingLeft: 0, paddingTop: 10 }}>
-                  <TextField
-                    type="text"
-                    style={{ width: 500 }}
-                    stateValue={name}
-                    isRequired={true}
-                    onChange={setName}
-                    inputProps={{ style: { textAlign: 'Left' } }}
-                  />
-                </div>
-              </div>
-              <div style={{ display: 'flex', flex: '1', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden', height: '100%' }}>
-                <div style={{ fontSize: 24, padding: 10, fontWeight: 'bold', minWidth: 100, textAlign: 'right' }}>
-                  Hidden:
-                </div>
-                <div style={{ fontSize: 24, paddingLeft: 0, paddingTop: 10, textAlign: 'left' }}>
-                  <Checkbox
-                    checked={ishidden}
-                    onChange={e => setIshidden(e.target.checked)}
-                    inputProps={{ 'aria-label': 'controlled' }}
-                  />
-                </div>
-              </div>
-              <div style={{ display: 'flex', flex: '1', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden', height: '100%', textAlign: 'right' }}>
-                <div></div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{ margin: '5px', textTransform: 'none', fontSize: '16px' }}
-                  onClick={handleClick}>
-                  <SaveAltIcon />
-                  Αποθήκευση
-                </Button>
-                <Button
-                  variant="contained"
-                  style={{ margin: '5px', background: 'orangered', textTransform: 'none', fontSize: '16px' }}
-                  onClick={() => {
-                    navigate(-1);
-                    // alert('clicked');
-                  }}>
-                  <SaveAltIcon />
-                  Ακύρωση
-                </Button>
-              </div>
-            </div>
-          </div>
-        </form> */}
+        <Button style={{ fontSize: 20 }} variant="contained" color="primary" onClick={handleClick}>Upload</Button>  
       </div >
     </div >
 }

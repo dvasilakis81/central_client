@@ -26,7 +26,7 @@ export default function MenuItemNew(props) {
   const dispatch = useDispatch();
   let navigate = useNavigate();
   let location = useLocation();
-    
+
   let menuItemDetails2 = useSelector((state) => {
     return location.state.itemtype === 1 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails;
   });
@@ -87,21 +87,8 @@ export default function MenuItemNew(props) {
     else
       dispatch(addNewMenuItem(data));
 
-    navigate(-1);
-    // appendItem(data, dispatch).then(() => {
-    //   if (requestRejected)
-    //     console.log('requestRejected:' + requestRejected);
-    //   else
-    //     navigate(-1);
-    // })
+    navigate(-1);    
   };
-
-  // const appendItem = (data, dispatch) => new Promise((resolve, reject) => {
-  //   // do anything here
-  //   dispatch(addNewMenuItem(data));
-  //   resolve();
-  // });
-
   const handleChangeName = (e) => {
     setName(e.target.value);
   };
@@ -116,7 +103,7 @@ export default function MenuItemNew(props) {
   //   setMenuItem(e.target.value);
   // };
 
-  if (newItemAdded === true) {
+  if (newItemAdded === true ) {
     dispatch(dispatch({ type: 'SET_ADDED_NEWITEM', payload: false }));
     navigate(-1);
   } else {

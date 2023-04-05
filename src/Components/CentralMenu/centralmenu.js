@@ -14,7 +14,7 @@ function CentralMenu() {
   const { menuItemsList } = useSelector(state => ({ menuItemsList: state.menu_reducer.menuItemsList }));
 
   useEffect(() => { dispatch(getMenuItems()); }, []);
-  
+
   return (
     <div className='menu-body'>
       {menuItemsList && menuItemsList.map((d, index) => (
@@ -45,7 +45,7 @@ function CentralMenu() {
                     navigate('/' + d.PageUrl);
                   else
                     navigate('/');
-                }}                
+                }}
                 className={hoveredKey === d ? 'menu-item-hovered' : 'menu-item'}>
                 <i class={d.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i>
                 <span style={{ flex: '1', marginLeft: '15px' }}>
@@ -55,7 +55,7 @@ function CentralMenu() {
             </div>) : <></>
       ))
       }
-    </div >
+    </div>
   )
 }
 

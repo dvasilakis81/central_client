@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Grid, Typography, Paper } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { filterValue } from '../../../Helper/helpermethods';
+import { filterValue, renderImage, renderDetailImage } from '../../../Helper/helpermethods';
 import { getAdminItemStyle } from '../../Common/styles';
 
 function changeSelectedItem(dispatch, props, item) {
@@ -33,8 +32,11 @@ export default function MenuItem(props) {
       onMouseEnter={(e) => handleMouseEnter(e, item1.Id)}
       onMouseLeave={handleMouseLeave}
       onClick={() => { changeSelectedItem(dispatch, props, item1); }}
-      style={{ padding: '5px' }}>
-      <div className={itemStyle}>{item1.Name}</div>
-    </ div >
+      style={{ display: 'flex', padding: '5px' }}>
+      <div className={itemStyle} style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ flex: '0.1' }}>{renderImage(props.itemtype, item1)}</div>
+        <div style={{ marginLeft: '10px' }}>{item1.Name}</div>
+      </div>
+    </div>
   }
 }
