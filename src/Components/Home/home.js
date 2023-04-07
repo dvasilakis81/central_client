@@ -3,18 +3,19 @@ import React from 'react';
 
 import ServicesMenu from '../ServicesMenu/servicemenu';
 import HomewrapperWithCentralMenu from './homewrapperwithcentralmenu';
+import HomewrapperWithCentralMenu2 from './homewrapperwithcentralmenu2';
 import Announcements from '../Announcements/announcement';
 
 export default function Home() {
 
   return (
-    <HomewrapperWithCentralMenu>
+    <HomewrapperWithCentralMenu2>
       {/* <CentralMenu /> */}
       <div style={{ display: 'flex', flexDirection: 'column', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
         {/* <Announcements /> */}
         <ServicesMenu />
       </div>
-    </HomewrapperWithCentralMenu>
+    </HomewrapperWithCentralMenu2>
   );
 }
 

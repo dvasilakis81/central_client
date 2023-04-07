@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import Popover from '@material-ui/core/Popover';
 import TextField from '@material-ui/core/TextField';
 import { addHostUrl } from '../../../Helper/helpermethods';
@@ -11,18 +11,10 @@ export function SelectOption(props) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const open = Boolean(anchorEl);
-  const popoverid = open ? 'simple-popover' : undefined;
-  const selectIcon = (item) => {
-    console.log(item.Name);
-    props.setImage(item.Url);
-    //props.setUrl(item.Url);
-  };
-  const handleOpenSelectIcon = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseSelectIcon = () => {
-    setAnchorEl(null);
-  };
+  const popoverid = open === true ? 'simple-popover' : undefined;
+  const selectIcon = (item) => { props.setImage(item.Url); };
+  const handleOpenSelectIcon = (event) => { setAnchorEl(event.currentTarget); };
+  const handleCloseSelectIcon = () => { setAnchorEl(null); };
   // const [icons, setIcons] = useState([]);
   // useEffect(() => {
   //   axios.get("fontawesome.json").then((res) => {

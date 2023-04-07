@@ -18,6 +18,7 @@ function CentralMenu() {
   return (
     <div className='menu-body'>
       {menuItemsList && menuItemsList.map((d, index) => (
+         
         d.Hidden === 0 && d.MenuItem === 1 ?
           (d.Url ?
             <div key={index} className='menu-item-parent'>

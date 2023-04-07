@@ -510,7 +510,7 @@ export function getUnitsLex(div) {
 }
 
 export function getHeaderHeight() {
-	return 70;
+	return 50;
 }
 
 export function getFooterHeight() {
@@ -648,9 +648,11 @@ export function renderImage(itemtype, item) {
 
 		if (imageService) {
 			if (imageService.includes("fa-") === true)
-				return <div className='service-image-circle'><span style={{ marginLeft: '10px' }}>
-					<i class={imageService} />
-				</span></div>
+				return <div className='service-image-circle'>
+					<span style={{ marginLeft: '10px' }}>
+						<i class={imageService} />
+					</span>
+				</div>
 			else
 				return <img src={getHostUrl() + imageService} />
 		}
@@ -701,8 +703,8 @@ export function renderDate(value) {
 }
 export function renderColor(value) {
 	return <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
-		<span>{value}</span>
-		<div style={{ marginLeft: '5px', width: '50px', height: '50px', background: value }}></div>
+		<div style={{ marginLeft: '5px', width: '50px', height: '50px', background: value, border: '2px solid black' }}></div>
+		<div style={{ marginLeft: '25px' }}>{value}</div>
 	</div>
 }
 // export function renderDetailImage(value) {

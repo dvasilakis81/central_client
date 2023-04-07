@@ -71,12 +71,11 @@ export default function Actions(props) {
     navigate(props.navigatepage, { state: { isNew: 2, itemtype: props.itemtype } });
     //return <Navigate push to={props.navigatepage} isEdit={true} />
   } else {
-    return <Grid item>
-      <Paper style={{ padding: '0px' }} square={true}>
+    return <div style={{ display: 'flex', height: '50px', justifyContent: 'flex-end'}}>
         <Button
           size="small"
           variant="contained"
-          style={{ margin: '5px', background: 'lightgrey' }}
+          style={{ margin: '5px', background: 'lightgreen' }}
           onClick={handleOpen}>
           <AddIcon />
           ΠΡΟΣΘΗΚΗ
@@ -84,7 +83,7 @@ export default function Actions(props) {
         <Button
           size="small"
           variant="contained"
-          style={{ margin: '5px', background: 'lightgrey' }}
+          style={{ margin: '5px', background: '#2a9df4' }}
           onClick={handleEdit}>
           <AddIcon />
           ΕΠΕΞΕΡΓΑΣΙΑ
@@ -92,7 +91,7 @@ export default function Actions(props) {
         <Button
           size="small"
           variant="contained"
-          style={{ margin: '5px', background: 'lightgrey' }}
+          style={{ margin: '5px', background: 'red', color: 'white' }}
           onClick={() => { setOpenDeleteDialog(true); }}>
           <DeleteIcon />
           ΔΙΑΓΡΑΦΗ
@@ -145,7 +144,6 @@ export default function Actions(props) {
             </Button>
           </DialogActions>
         </Dialog>
-      </Paper>
-    </Grid >
+      </div>
   }
 }

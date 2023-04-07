@@ -4,7 +4,7 @@ import CentralMenu from '../CentralMenu/centralmenu';
 import Body from '../../HOC/Body/body';
 import Footer from '../Footer/footer';
 
-function Home2(props) {
+export default function HomewrapperWithCentralMenu(props) {
 
   return (
     <div>
@@ -38,5 +38,3 @@ function Home2(props) {
     </div>
   );
 }
-
-export default Home2

@@ -149,12 +149,13 @@ export default function (state = {}, action, root) {
           requestRejected: serverResponse
         };
         break;
+
       case 'EDIT_MENUITEM_PENDING':
         state = {
           ...state,
           itemChanged: false,
           requestServerError: undefined,
-          requestPending: 'Add menu items pending',
+          requestPending: 'Edit menu item pending',
           requestRejected: undefined
         };
         break;
@@ -169,35 +170,39 @@ export default function (state = {}, action, root) {
         break;
       case 'EDIT_MENUITEM_FULFILLED':
         var serverResponse = action.payload;
+        if (serverResponse && serverResponse.errormessage) {
 
-        const updatedList = [];
-        if (state.menuItemsList) {
+          state = {
+            ...state,
+            itemChanged: false,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: serverResponse.errormessage
+          };
+        } else {
+          const updatedList = [];
 
-          var updatedItem = serverResponse[0];
+          if (serverResponse.MenuItem === 1)
+            state.menuItemDetails = serverResponse;
+          else if (serverResponse.ServiceItem === 1)
+            state.serviceItemDetails = serverResponse;
+
           state.menuItemsList.forEach((item, index) => {
-            if (item.Id === updatedItem.Id)
-              updatedList.push(updatedItem);
+            if (item.Id === serverResponse.Id)
+              updatedList.push(serverResponse);
             else
               updatedList.push(item);
           });
+
+          state = {
+            ...state,
+            itemChanged: true,
+            requestServerError: undefined,
+            requestPending: undefined,
+            requestRejected: undefined,
+            menuItemsList: updatedList            
+          };
         }
-
-        var menuItemDetails = undefined;
-        var serviceItemDetails = undefined;
-        if (serverResponse.MenuItem === 1)
-          menuItemDetails = serverResponse;
-        else if (serverResponse.ServiceItem === 1)
-          serviceItemDetails = serverResponse;
-
-        state = {
-          ...state,
-          itemChanged: true,
-          requestPending: undefined,
-          requestRejected: undefined,
-          menuItemsList: updatedList,
-          menuItemDetails: menuItemDetails,
-          serviceItemDetails: serviceItemDetails
-        };
 
         break;
       case 'SET_ADDED_NEWITEM':

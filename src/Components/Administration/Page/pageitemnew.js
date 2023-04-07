@@ -8,10 +8,9 @@ import Button from '@material-ui/core/Button';
 import { Checkbox } from '@material-ui/core';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { getHostUrl, getServerErrorResponseMessage } from '../../../Helper/helpermethods';
+import { getHostUrl } from '../../../Helper/helpermethods';
 import { addPageItem, editPageItem } from '../../../Redux/Actions/index';
 import HomeWrapper from '../../Home/homewrapper';
-import store from '../../../Redux/Store/store';
 import { Editor } from '@tinymce/tinymce-react';
 import * as React from "react";
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -120,18 +119,17 @@ export default function PageItemNew(props) {
                       required={true}
                       id={pageTitle}
                       value={pageTitle}
-                      onChange={(e) => {
-                        setPageTitle(e.target.value);
-                      }}
+                      onChange={(e) => { setPageTitle(e.target.value); }}
                       variant="outlined"
                       inputLabelProps={{ background: "white", shrink: true }}
                       InputLabelProps={{ shrink: true }} />
                   </div>
                   <div style={{ padding: '10px' }}>
-                    <TextField label="URL Σελίδας" fullWidth multiline={false} required={true} id={pageUrl} value={pageUrl}
-                      onChange={(e) => {
-                        setPageUrl(e.target.value);
-                      }}
+                    <TextField
+                      label="URL Σελίδας"
+                      fullWidth 
+                      multiline={false} required={true} id={pageUrl} value={pageUrl}
+                      onChange={(e) => {  setPageUrl(e.target.value); }}
                       variant="outlined" InputLabelProps={{ shrink: true }}
                     />
                   </div>

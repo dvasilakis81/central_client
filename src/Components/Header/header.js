@@ -27,7 +27,7 @@ export default function Header(props) {
       height: headerHeight
     },
     headerTitle: {
-      fontSize: 36,
+      fontSize: 26,
       color: '#094fa3',
       textAlign: 'center',
       flexGrow: 1,
@@ -36,7 +36,7 @@ export default function Header(props) {
   }
 
   return <div style={styles.header2}>
-    <img src={thyraios} alt="Δήμος Αθηναίων" />
+    <img src={thyraios} alt="Δήμος Αθηναίων" width='50px' height='50px' />
     <div style={styles.headerTitle}>Κεντρική Σελίδα Δήμου Αθηναίων</div>
   </div>
 }

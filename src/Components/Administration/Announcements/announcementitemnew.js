@@ -29,8 +29,8 @@ const styles = {
     background: 'white',
     borderRadius: '20px'
   }
-
 }
+
 export default function AnnouncementItemNew(props) {
   
   const dispatch = useDispatch();

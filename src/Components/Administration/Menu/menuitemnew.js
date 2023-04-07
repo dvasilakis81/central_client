@@ -10,11 +10,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { addNewMenuItem, editNewMenuItem } from '../../../Redux/Actions/index';
 import HomeWrapper from '../../Home/homewrapper';
 import SelectImage from '../SelectImage/selectimage';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const styles = {
   textfield: {
-    fontSize: '22px',
-    fontWeight: 'bold',
+    fontSize: '16px',
+    fontWeight: 'normal',
     marginTop: '5px',
     width: 800,
     background: 'white',
@@ -26,6 +27,9 @@ export default function MenuItemNew(props) {
   const dispatch = useDispatch();
   let navigate = useNavigate();
   let location = useLocation();
+
+  let pageItemsList = useSelector((state) => state.page_reducer.pageItemsList);
+  let categoriesList = useSelector((state) => state.parametricdata_reducer.categoriesList);
 
   let menuItemDetails2 = useSelector((state) => {
     return location.state.itemtype === 1 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails;
@@ -47,10 +51,10 @@ export default function MenuItemNew(props) {
   const [announce, setAnnounce] = useState(menuItemDetails?.Announce || 0);
   const [menuItem, setMenuItem] = useState(menuItemDetails?.MenuItem || 0);
   const [serviceItem, setServiceItem] = useState(menuItemDetails?.ServiceItem || 0);
+  const [categories, setCategories] = useState(menuItemDetails?.Categories || '');
 
   //let height = useSelector(state => state.parametricdata_reducer.screenDimensions.height);
   //let width = useSelector(state => state.parametricdata_reducer.screenDimensions.width);
-
   // const getPopoverTop = useCallback(
   //   () => {
   //     var ret = (height / 2) - 250;
@@ -66,8 +70,6 @@ export default function MenuItemNew(props) {
 
   const handleClick = () => {
 
-    //setCount(count + 1);
-    //alert(name);
     var data = {};
     data.id = id;
     data.name = name;
@@ -87,7 +89,7 @@ export default function MenuItemNew(props) {
     else
       dispatch(addNewMenuItem(data));
 
-    navigate(-1);    
+    navigate(-1);
   };
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -99,17 +101,12 @@ export default function MenuItemNew(props) {
     setImageMenu(e.target.value);
   };
 
-  // const handleChangeMenuItem = (e) => {
-  //   setMenuItem(e.target.value);
-  // };
-
-  if (newItemAdded === true ) {
+  if (newItemAdded === true) {
     dispatch(dispatch({ type: 'SET_ADDED_NEWITEM', payload: false }));
     navigate(-1);
   } else {
     return <HomeWrapper>
       <div style={{ display: 'flex', flexFlow: 'column', flexWrap: 'wrap', overflowY: 'hidden', width: '100%', height: '100%', background: 'white', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover' }}>
-        {/* <div style={{ fontSize: 46, color: 'black', textAlign: 'center', flexGrow: 1, alignSelf: 'center', background:'red'  }}> */}
         <div style={{ display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', flexWrap: 'wrap', alignContent: 'center' }}>
           <div style={{ padding: '10px' }}>
             <TextField
@@ -130,23 +127,45 @@ export default function MenuItemNew(props) {
               variant='outlined'
               style={styles.textfield}
               value={url}
-              isRequired={true}
+              isRequired={false}
               required={true}
               onChange={handleChangeUrl}
               inputProps={{ style: styles.textfield }}
             />
           </div>
           <div style={{ padding: '10px' }}>
-            <TextField
-              type="text"
-              label="Εσωτερικό URL"
-              variant='outlined'
-              style={styles.textfield}
-              value={pageUrl}
-              isRequired={true}
-              required={true}
-              onChange={(e) => { setPageUrl(e.target.value) }}
-              inputProps={{ style: { textAlign: 'Left' } }}
+            <Autocomplete
+              options={pageItemsList || []}
+              getOptionLabel={item => (item.Url || '')}
+              onChange={(event, value) => setPageUrl(value)}
+              filterSelectedOptions
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  placeholder="Σελίδα"
+                />
+              )}
+            />
+          </div>
+          <div style={{ padding: '10px' }}>
+            <Autocomplete
+              options={categoriesList || []}
+              filterSelectedOptions
+              multiple
+              getOptionLabel={item => (item.Name || '')}
+              onChange={(event, value) => setCategories(value)}
+              defaultValue={categories || []}
+              ChipProps={{ color: 'red' }}
+              style={{ flex: '1', padding: '0px', flexWrap: 'wrap', maxWidth: '800px' }}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  placeholder="Κατηγορίες"
+                  fullWidth
+                />
+              )}
             />
           </div>
           <div style={{ padding: '10px' }}>

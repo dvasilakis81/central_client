@@ -6,7 +6,7 @@ import MediaItems from '../../Components/Administration/Media/mediaitems';
 import AnnouncementItems from '../../Components/Administration/Announcements/announcementitems';
 import store from '../../Redux/Store/store';
 
-import { getMenuItems, getPageItems, getMediaItems, getAnnouncements } from '../../Redux/Actions/index';
+import { getMenuItems, getPageItems, getMediaItems, getAnnouncements, getCategories } from '../../Redux/Actions/index';
 
 function getTabMenu(tab) {
 
@@ -25,18 +25,16 @@ function getTabMenu(tab) {
 }
 
 export default function AdministrationPage(props) {
-  //const dispatch = useDispatch();
+  
   let selectedTab = useSelector((state) => state.parametricdata_reducer.selectedTabAdmin) || 0;
   const dispatch = useDispatch();
   const [hoveredKey, setHoveredKey] = useState(-1);
-  const handleMouseEnter = (e, d) => {
-    setHoveredKey(d);
-  };
-  const handleMouseLeave = () => {
-    setHoveredKey(-1);
-  };
+  const handleMouseEnter = (e, d) => { setHoveredKey(d); };
+  const handleMouseLeave = () => { setHoveredKey(-1); };
   useEffect(() => {
     dispatch(getMenuItems());
+    dispatch(getPageItems()); 
+    dispatch(getCategories()); 
   }, [])
 
   const handleTabChange = (event, newValue) => {

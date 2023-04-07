@@ -1,7 +1,7 @@
 export default function (state = {}, action, root) {
-  
+
   if (action) {
-    switch (action.type) {      
+    switch (action.type) {
       case 'RESET_ACTION':
         state = {}
         break;
@@ -26,7 +26,69 @@ export default function (state = {}, action, root) {
           snackBarInfo: action.payload
         };
         break;
-      default:
+      case 'SET_SEARCH_VALUE':
+        state = {
+          ...state,
+          searchValue: action.payload
+        }
+      case 'GET_CATEGORIES_PENDING':
+        state = {
+          ...state,
+          requestPending: 'Get categories pending',
+          requestRejected: undefined,
+          requestServerError: undefined,
+          categoriesList: undefined
+        };
+        break;
+      case 'GET_CATEGORIES_REJECTED':
+        state = {
+          ...state,
+          requestPending: undefined,
+          requestRejected: action.payload,
+          requestServerError: undefined,
+          categoriesList: undefined
+        };
+        break;      
+      case 'GET_CATEGORIES_FULFILLED':
+        var serverResponse = action.payload;
+        if (serverResponse && serverResponse.servererrormessage) {
+          state = {
+            ...state,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: serverResponse,
+            categoriesList: undefined
+          };
+        } else if (serverResponse && serverResponse.tokenIsValid !== undefined) {
+          state = {
+            ...state,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: undefined,
+            categoriesList: action.payload
+          };
+        } else {
+          if (serverResponse && serverResponse.length > 0) {
+            var itemsList = serverResponse;         
+
+            state = {
+              ...state,
+              requestPending: undefined,
+              requestRejected: undefined,
+              requestServerError: undefined,
+              categoriesList: itemsList              
+            };
+          } else {
+            state = {
+              ...state,
+              requestPending: undefined,
+              requestRejected: undefined,
+              requestServerError: undefined,
+              categoriesList: []              
+            };
+          }
+        }
+        break; default:
         break;
     }
   }

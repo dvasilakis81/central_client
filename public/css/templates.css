@@ -1,10 +1,24 @@
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #0072A0;  
+}
+::-webkit-scrollbar-track {
+  background: lightsalmon;
+  /* color of the tracking area */
+}
+* {
+  scrollbar-color: #0072A0 lightsalmon;
+  scrollbar-width: thin;
+}
+
 .services-menu-searchbar {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 30px;
+  align-items: center;  
 }
 
 .services-menu-items {
@@ -76,8 +90,11 @@
   border-bottom: 1px solid black;
   cursor: unset;
   font-weight: 600;
-  color: #094fa3;
-  background-color: transparent;
+  color: white;
+  background-color: #094fa3;  
+  padding-left: 10px;
+  padding-right: 10px;
+  
 }
 
 .selected-tab {
@@ -90,6 +107,10 @@
   height: 70px;
   text-align: center;
   cursor: unset;
+  color: #094fa3;
+  background-color: white;  
+  padding-left: 10px;
+  padding-right: 10px;
   font-weight: 600;
   color: #1b7ced;
 }
@@ -107,6 +128,8 @@
   font-weight: 600;
   color: #1b7ced;
   padding-top: '5px';
+  padding-left: 10px;
+  padding-right: 10px;
   cursor: 'pointer';
   bottom: 0;
 }
@@ -121,7 +144,7 @@
   background: transparent;
   overflow-x: hidden;
   overflow-y: hidden;
-  padding: 10px;
+  padding-left: 15px;
 }
 
 .announcement-item {
@@ -175,20 +198,19 @@
   text-align: left;
 }
 
-/* background: #FCF9B5; */
 .menu-body {
   display: flex;
   flex-direction: column;
   min-width: 250px;  
   width: 250px;
-  height: 90%;
+  height: 80%;
   border-radius: 0px;
   opacity: 0.8; 
-  padding: 10px;
-  background: transparent;  
+  padding: 10px;  
   color: black;  
   align-self: center;  
   background: #FCF9B5;
+  overflow-y: auto;  
 }
 
 .menu-item {
@@ -233,6 +255,7 @@
   line-height: 18px;
   padding: 18px;
 }
+
 /* .servicesMenuItems::after{
   content: '';
   margin: auto;

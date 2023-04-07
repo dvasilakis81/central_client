@@ -71,7 +71,7 @@ export default function MySnackbar(props) {
   return (
     <Snackbar
       anchorOrigin={{ vertical: props.vertical, horizontal: props.horizontal }}
-      open={snackBarInfo?.openMessage || ''}
+      open={snackBarInfo?.openMessage || false}
       autoHideDuration={duration}
       onClose={() => {
         var snackbarInfo = {};

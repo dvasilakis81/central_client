@@ -3,52 +3,26 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { getMenuItems } from '../../Redux/Actions/index';
-import { makeStyles } from '@material-ui/core/styles';
-import { TextField } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import CancelIcon from '@material-ui/icons/Cancel';
-import { InputAdornment, IconButton } from '@material-ui/core';
+import { getCategories } from '../../Redux/Actions/index';
 import { getHostUrl } from '../../Helper/helpermethods';
 import { includeStrings } from '../../Helper/helpermethods';
 
-const useStyles = makeStyles({
-  root: {
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      border: '2px solid blue'
-    },
-    "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      border: "1px solid blue",
-    },
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      border: '4px solid blue'
-    },
-    "& .MuiInputBase-input": {
-      fontSize: '24px'
-    },
-    "& .MuiSvgIcon-root": {
-      width: '2rem',
-      height: '2rem'
-    },
-    "& .MuiFormLabel-root": {
-      fontSize: '18px',
-      fontWeight: 'bolder'
-    }
-  }
-});
-
-function ServicesMenu() {
-  const classes = useStyles();
+function ServicesMenu() {  
   const dispatch = useDispatch();
   const [hoveredKey, setHoveredKey] = useState('');
-  const [searchValue, setSearchValue] = useState('');
+  //const [searchValue, setSearchValue] = useState('');
   let navigate = useNavigate();
 
-  const handleChangeSearchValue = (e) => { setSearchValue(e.target.value); };
+  //const handleChangeSearchValue = (e) => { setSearchValue(e.target.value); };
   const handleMouseEnter = (e, d) => { setHoveredKey(d); };
   const handleMouseLeave = () => { setHoveredKey(''); };
   const { menuItemsList } = useSelector(state => ({ menuItemsList: state.menu_reducer.menuItemsList }));
+  const { searchValue } = useSelector(state => ({ searchValue: state.parametricdata_reducer.searchValue }));
 
-  useEffect(() => { dispatch(getMenuItems()); }, []);
+  useEffect(() => { 
+    dispatch(getMenuItems()); 
+    dispatch(getCategories()); 
+  }, []);
 
   function getBackgroundColor(item) {
     var ret = '#9DD8EA';
@@ -110,40 +84,12 @@ function ServicesMenu() {
         <></>)))
   }
 
-  //const TextFieldWrapper = styled(TextField)`fieldset {border-radius: 50px;'}`;  
-  return (
-    //backgroundImage: `url("/img/cityofathens1.jpg")`
-
-    <div className="services-menu-container">
-      <div className="services-menu-searchbar">
-        {/* <ThemeProvider theme={theme}> */}
-        <TextField
-          label="Αναζήτηση"
-          type="text"
-          variant="outlined"
-          value={searchValue || ''}
-          style={{ width: 700, background: 'none', fontWeight: 'bold', opacity: 0.7, fontSize: '43px' }}
-          onChange={handleChangeSearchValue}
-          className={classes.root}
-          inputProps={{ className: classes.root }}
-          InputProps={{
-            startAdornment: (<InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>),
-            endAdornment: (<InputAdornment position="end">
-              <IconButton sx={{ visibility: searchValue ? "visible" : "hidden" }} onClick={handleChangeSearchValue}>
-                <CancelIcon style={{ width: '30px' }} />
-              </IconButton>
-            </InputAdornment>)
-          }}
-        />
-        {/* </ThemeProvider> */}
-      </div>
+  
+  return (<div className="services-menu-container">      
       <div className="services-menu-items">
         {getItems(searchValue || '')}
       </div>
-    </div >
-  )
+    </div>)
 }
 
 export default ServicesMenu;
