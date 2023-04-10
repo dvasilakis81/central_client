@@ -707,9 +707,24 @@ export function renderColor(value) {
 		<div style={{ marginLeft: '25px' }}>{value}</div>
 	</div>
 }
-// export function renderDetailImage(value) {
-// 	return <span style={{ marginLeft: '5px' }}>{renderImage(value)}</span>
-// }
+export function renderList(list) {
+	if (list && list.length > 0) {
+		var value = list.map((item) => {
+			return <div style={{
+				background: 'lightgrey',
+				padding: '7px',
+				borderRadius: '10px',
+				margin: '10px',
+			}}>
+				{item && item.Name}
+			</div>;
+		})
+		return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
+			{value}
+		</div>
+	} else
+		return <></>
+}
 export function renderDetail(label, value, info) {
 	if (value !== undefined && value !== null)
 		return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', fontSize: '1.5rem', fontWeight: "normal", width: '100%', paddingBottom: '20px' }}>
@@ -720,6 +735,7 @@ export function renderDetail(label, value, info) {
 			{info && info.isUrl === true ? renderValueUrl(value) : <></>}
 			{info && info.isText === true ? renderValue(value) : <></>}
 			{info && info.isColor === true ? renderColor(value) : <></>}
+			{info && info.isList === true ? renderList(value) : <></>}
 		</div>
 	else
 		return <></>

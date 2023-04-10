@@ -52,22 +52,7 @@ export default function MenuItemNew(props) {
   const [announce, setAnnounce] = useState(menuItemDetails?.Announce || 0);
   const [menuItem, setMenuItem] = useState(menuItemDetails?.MenuItem || 0);
   const [serviceItem, setServiceItem] = useState(menuItemDetails?.ServiceItem || 0);
-  const [categories, setCategories] = useState(menuItemDetails?.Categories || '');
-
-  //let height = useSelector(state => state.parametricdata_reducer.screenDimensions.height);
-  //let width = useSelector(state => state.parametricdata_reducer.screenDimensions.width);
-  // const getPopoverTop = useCallback(
-  //   () => {
-  //     var ret = (height / 2) - 250;
-  //     return ret;
-  //   }, []
-  // );
-  // const getPopoverLeft = useCallback(
-  //   () => {
-  //     var ret = (width / 2) - 400;
-  //     return ret;
-  //   }, []
-  // );  
+  const [categories, setCategories] = useState(menuItemDetails?.categoriesInfo || '');
 
   const handleClick = () => {
 
@@ -84,7 +69,7 @@ export default function MenuItemNew(props) {
     data.serviceItem = serviceItem || 0;
     data.announce = announce || 0;
     data.orderNo = orderNo;
-
+    data.categories = categories;
     if (location.state.isNew === 2)
       dispatch(editNewMenuItem(data));
     else
