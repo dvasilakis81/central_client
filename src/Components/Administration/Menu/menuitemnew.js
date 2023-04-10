@@ -22,6 +22,7 @@ const styles = {
     borderRadius: '20px'
   }
 }
+
 export default function MenuItemNew(props) {
 
   const dispatch = useDispatch();

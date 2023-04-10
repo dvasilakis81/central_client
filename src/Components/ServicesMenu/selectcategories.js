@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState, useRef } from 'react';
 import { getHostUrl } from '../../Helper/helpermethods';
 import { useSelector, useDispatch } from 'react-redux';
-import { Checkbox } from '@material-ui/core';
 
 const styles = {
   menuenter: {
@@ -19,10 +18,30 @@ const styles = {
 
 export default function ServiceCategories(props) {
   const { categoriesList } = useSelector(state => ({ categoriesList: state.parametricdata_reducer.categoriesList }));
-  const [menuClicked, setMenuClicked] = useState(0);
-  const menustyle = menuClicked === 0 ? styles.menuenter : styles.menuleave;
-  const menucolor = menuClicked === 0 ? styles.menuleavecolor : styles.menuentercolor;
+  const [isMenuIconClicked, setIsMenuIconClicked] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menustyle = isMenuOpen === false ? styles.menuenter : styles.menuleave;
+  const menucolor = isMenuOpen === false ? styles.menuleavecolor : styles.menuentercolor;
   const menuRef = useRef();
+  const popupRef = useRef();
+
+  useEffect(() => {
+    const checkIfClickedOutside = e => {
+      e.preventDefault();
+      if (isMenuOpen === true && menuRef.current && menuRef.current.contains(e.target)){
+        //setIsMenuOpen(false);
+      }
+      else if (isMenuOpen === true && popupRef.current && !popupRef.current.contains(e.target)){
+        //setIsMenuIconClicked(false);
+        setIsMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", checkIfClickedOutside)
+    return () => {
+      document.removeEventListener("mousedown", checkIfClickedOutside)
+    }
+  }, [isMenuOpen])
 
   const [checked, setChecked] = useState([]);
   const handleCheck = (event) => {
@@ -39,30 +58,29 @@ export default function ServiceCategories(props) {
     var ret = false;
     for (var i = 0; i < checked.length; i++) {
       if (checked[i].toString() === item.Id.toString()) {
-          ret = true;
-          break;
+        ret = true;
+        break;
       }
     }
     return ret;
   }
 
-
   return (
     <>
-      <span
+      <div
         ref={menuRef}
         style={menustyle}
         onClick={(e) => {
-          if (menuClicked === 1)
-            setMenuClicked(0);
+          //setIsMenuIconClicked(true);
+          if (isMenuOpen === true)
+            setIsMenuOpen(false);
           else
-            setMenuClicked(1);
-        }
-        }>
+            setIsMenuOpen(true);
+        }}>
         <i class="fa fa-bars fa-3x" style={menucolor} />
-      </span>
-      {(menuClicked === 1) ?
-        <div style={{
+      </div>
+      {isMenuOpen === true ?
+        <div ref={popupRef} style={{
           position: 'fixed', width: '500px', height: '300px',
           top: menuRef.current ? menuRef.current.offsetTop + menuRef.current.offsetHeight + 10 : 0,
           left: menuRef.current ? menuRef.current.offsetLeft : 0
@@ -82,5 +100,4 @@ export default function ServiceCategories(props) {
           </div>
         </div> : <></>}
     </>)
-
 }
