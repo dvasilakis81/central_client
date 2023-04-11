@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Popover from '@material-ui/core/Popover';
 import TextField from '@material-ui/core/TextField';
-import { addHostUrl } from '../../../Helper/helpermethods';
+import { addHostUrl, checkIfFileIsImage } from '../../../Helper/helpermethods';
+import { useStyles } from '../../Administration/Styles/styles';
 
 export function SelectOption(props) {
   const { mediaItemsList } = useSelector(state => ({
@@ -25,7 +26,8 @@ export function SelectOption(props) {
   //   }).catch((err) => console.log(err));
   // }, []);
 
-  return <><div onClick={handleOpenSelectIcon}>ΕΠΙΛΟΓΗ</div>
+  return <div style={{background:'white'}}>
+    <div onClick={handleOpenSelectIcon} style={{ backgroundColor: 'white', color: 'blue', paddingTop: '5px' }}>ΕΠΙΛΟΓΗ</div>
     <Popover
       id={popoverid}
       open={open}
@@ -36,12 +38,14 @@ export function SelectOption(props) {
       <div style={{ width: '350px', maxHeight: '500px' }}>
         {
           props.imagetype === 1 ? mediaItemsList && mediaItemsList.map((item) => {
-            return (<div style={{ display: 'flex', flex: '1', flexDirection: 'row', alignItems: 'center', backgroundColor: '#f4f6f7' }} onClick={(e) => { selectIcon(item) }}>
-              <img src={addHostUrl(item.Url)} style={{ padding: '10px' }} width={50} height={50} />
-              <div key={item.Id} style={{ width: 'auto', background: 'none', display: 'flex', justifyContent: 'center', padding: '10px' }}>
-                {item.Name}
-              </div>
-            </div>)
+            if (checkIfFileIsImage(item.Name) === true) {
+              return (<div style={{ display: 'flex', flex: '1', flexDirection: 'row', alignItems: 'center', backgroundColor: '#f4f6f7' }} onClick={(e) => { selectIcon(item) }}>
+                <img src={addHostUrl(item.Url)} style={{ padding: '10px' }} width={50} height={50} />
+                <div key={item.Id} style={{ width: 'auto', background: 'none', display: 'flex', justifyContent: 'center', padding: '10px' }}>
+                  {item.Name}
+                </div>
+              </div>)
+            }
           }) :
             (<div style={{ display: 'flex', flex: '1', flexDirection: 'row', alignItems: 'center', backgroundColor: '#f4f6f7' }}>
               Επισκεφθείτε το <a href="https://fontawesome.com/v5/search?o=r&m=free" target="_blank">FontAwesome</a>
@@ -49,18 +53,20 @@ export function SelectOption(props) {
         }
       </div>
     </Popover>
-  </>
+  </div>
 }
 
 export default function SelectImage(props) {
-  //console.log('props.image: ' + JSON.stringify(props.image));
+  const classes = useStyles();
+  
   return <>
-    <div style={{ display: 'flex', flexDirection: 'row', paddingTop: 5, flex: '1' }}>
+    <div style={{ display: 'flex', flexDirection: 'row', flex: '1' }}>
       <TextField
         type="text"
         variant='outlined'
         label={props.label}
         value={props.image}
+        className={classes.root}
         isRequired={true}
         onChange={props.setImage}
         style={props.customstyle}

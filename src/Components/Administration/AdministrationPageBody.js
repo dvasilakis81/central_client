@@ -35,6 +35,7 @@ export default function AdministrationPage(props) {
     dispatch(getMenuItems());
     dispatch(getPageItems()); 
     dispatch(getCategories()); 
+    dispatch(getMediaItems());
   }, [])
 
   const handleTabChange = (event, newValue) => {

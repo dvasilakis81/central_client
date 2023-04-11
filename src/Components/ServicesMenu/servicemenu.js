@@ -9,11 +9,9 @@ import { includeStrings } from '../../Helper/helpermethods';
 
 function ServicesMenu() {  
   const dispatch = useDispatch();
-  const [hoveredKey, setHoveredKey] = useState('');
-  //const [searchValue, setSearchValue] = useState('');
+  const [hoveredKey, setHoveredKey] = useState('');  
   let navigate = useNavigate();
-
-  //const handleChangeSearchValue = (e) => { setSearchValue(e.target.value); };
+  
   const handleMouseEnter = (e, d) => { setHoveredKey(d); };
   const handleMouseLeave = () => { setHoveredKey(''); };
   const { menuItemsList } = useSelector(state => ({ menuItemsList: state.menu_reducer.menuItemsList }));
@@ -46,7 +44,7 @@ function ServicesMenu() {
 
     if (item && item.ImageService) {
       if (item.ImageService.includes("fa-") === true)
-        ret = <div style={{ flex: 0.3 }}><i class={item.ImageService} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i></div>
+        ret = <div style={{ flex: 0.3 }}><i className={item.ImageService} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i></div>
       else
         ret = <div style={{ flex: 0.3 }}><img src={srcImage} style={{ fontSize: '26px', fontWeight: 'bolder' }} /></div>
     } else {

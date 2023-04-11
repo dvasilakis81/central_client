@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic';
 import TextField from '@material-ui/core/TextField';
-
 import Button from '@material-ui/core/Button';
 import { Checkbox } from '@material-ui/core';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
@@ -14,8 +13,10 @@ import HomeWrapper from '../../Home/homewrapper';
 import { Editor } from '@tinymce/tinymce-react';
 import * as React from "react";
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useStyles } from '../../Administration/Styles/styles';
 
 export default function PageItemNew(props) {
+  const classes = useStyles();
 
   const dispatch = useDispatch();
   const editorRef = useRef(null);
@@ -31,7 +32,6 @@ export default function PageItemNew(props) {
   const [pageBodyInitial, setPageBodyInitial] = useState(pageItemDetails?.Body || '');
   const [pageBody, setPageBody] = useState(pageItemDetails?.Body || '');
   const [hasComments, setHasComments] = useState(pageItemDetails?.HasComments || '');
-  const [isConsultation, setIsConsultation] = useState(pageItemDetails?.IsConsultation || '');
   const [pageId, setPageId] = useState(pageItemDetails?.Id || '');
   const [tabs, setTabs] = useState(selectedTabs || []);
   let requestRejected = useSelector((state) => state.page_reducer.requestRejected);
@@ -50,7 +50,6 @@ export default function PageItemNew(props) {
       setPageBodyInitial(pageItemDetails?.Body || '');
       setPageBody(pageItemDetails?.Body || '');
       setHasComments(pageItemDetails?.HasComments || '');
-      setIsConsultation(pageItemDetails?.IsConsultation || '')
 
       if (pageItemsList && pageItemDetails && pageItemDetails.tabsInfo) {
         var tabsInfoOrdered = [...pageItemDetails.tabsInfo].sort((a, b) => a.taborder < b.taborder ? -1 : 1);
@@ -70,7 +69,7 @@ export default function PageItemNew(props) {
     dispatch({ type: 'SET_ADDED_NEWPAGE', payload: false });
     navigate(-1);
   } else
-    return <div style={{ width: '100%', height: '100%', overflow: 'hidden', background: 'white' }}>
+    return <div style={{ width: '100%', height: '100%', overflow: 'hidden', background: 'lightgrey' }}>
       <HomeWrapper>
         <div style={{ display: 'flex', flex: 1, flexFlow: 'column', flexWrap: 'wrap', width: '100%', height: '100%', overflowY: 'hidden', background: 'lightgrey' }}>
           <div style={{ display: 'flex', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden', height: 'auto', textAlign: 'right', marginTop: '30px' }}>
@@ -114,6 +113,7 @@ export default function PageItemNew(props) {
                 <div style={{ display: 'flex', flexFlow: 'column', flex: '1' }}>
                   <div style={{ padding: '10px' }}>
                     <TextField
+                      className={classes.root}
                       label="Τίτλος Σελίδας"
                       fullWidth
                       required={true}
@@ -121,41 +121,45 @@ export default function PageItemNew(props) {
                       value={pageTitle}
                       onChange={(e) => { setPageTitle(e.target.value); }}
                       variant="outlined"
-                      inputLabelProps={{ background: "white", shrink: true }}
-                      InputLabelProps={{ shrink: true }} />
-                  </div>
-                  <div style={{ padding: '10px' }}>
-                    <TextField
-                      label="URL Σελίδας"
-                      fullWidth 
-                      multiline={false} required={true} id={pageUrl} value={pageUrl}
-                      onChange={(e) => {  setPageUrl(e.target.value); }}
-                      variant="outlined" InputLabelProps={{ shrink: true }}
+                    // inputLabelProps={{ background: "white", shrink: true }}
+                    // InputLabelProps={{ shrink: true }} 
                     />
                   </div>
                   <div style={{ padding: '10px' }}>
-                    <div style={{ margin: '5px', border: '1px solid black', width: '100%' }}>
-                      <div style={{ backgroundColor: 'white' }}>
-                        <Autocomplete
-                          multiple
-                          id="tags-outlined"
-                          options={pageItemsList || []}
-                          getOptionLabel={item => item.Title}
-                          onChange={(event, value) => setTabs(value)}
-                          filterSelectedOptions
-                          defaultValue={tabs}
-                          ChipProps={{ color: "primary" }}
-                          style={{ flex: '1', padding: '0px' }}
-                          renderInput={params => (
-                            <TextField
-                              {...params}
-                              variant="standard"
-                              placeholder="Tab (Καρτέλα)"
-                              fullWidth
-                            />
-                          )}
-                        />
-                      </div>
+                    <TextField
+                      className={classes.root}
+                      label="URL Σελίδας"
+                      fullWidth
+                      multiline={false} required={true} id={pageUrl} value={pageUrl}
+                      onChange={(e) => {
+                        var newValue = e.target.value.replace(' ', '-');
+                        setPageUrl(newValue);
+                      }}
+                      variant="outlined"
+                    />
+                  </div>
+                  <div style={{ padding: '10px' }}>
+                    <div style={{ border: '1px solid black', width: '100%', backgroundColor: 'white' }}>
+                      <Autocomplete
+                        multiple
+                        id="tags-outlined"
+                        options={pageItemsList || []}
+                        getOptionLabel={item => item.Title}
+                        onChange={(event, value) => setTabs(value)}
+                        filterSelectedOptions
+                        defaultValue={tabs}
+                        ChipProps={{ color: "primary" }}
+                        style={{ flex: '1', padding: '0px' }}
+                        renderInput={params => (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            placeholder="Tab (Καρτέλα)"
+                            className={classes.root}
+                            fullWidth
+                          />
+                        )}
+                      />
                     </div>
                   </div>
                   <div style={{ padding: '10px' }}>
@@ -197,4 +201,3 @@ export default function PageItemNew(props) {
       </HomeWrapper >
     </div >
 }
-

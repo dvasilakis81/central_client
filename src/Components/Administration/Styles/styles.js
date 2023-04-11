@@ -1,0 +1,63 @@
+import { makeStyles } from '@material-ui/core/styles';
+
+export const useStyles = makeStyles({
+  root: {
+    "& .MuiInputBase-input": {
+      color: 'blue',
+      backgroundColor: 'white',
+      fontSize: '22px'
+    },
+    "& .MuiInputLabel-outlined.MuiInputLabel-shrink": {
+      color: 'blue',
+      fontSize: '18px',
+      fontWeight: 'bold'
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      border: '1px solid blue'
+    },
+    "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      border: "1px solid blue",
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      border: '2px solid blue'
+    }
+  }
+});
+
+const searchBarColor = '#FCE570';
+export const searchBarStyles = makeStyles({
+  root: {
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      border: '2px solid ' + searchBarColor
+    },
+    "& .MuiInputAdornment-root ": {
+      color: searchBarColor
+    },
+    "& .MuiIconButton-root ": {
+      color: searchBarColor
+    },
+    "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      border: "1px solid " + searchBarColor,
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      border: '4px solid ' + searchBarColor
+    },
+    "& .MuiInputBase-input": {
+      color: searchBarColor,
+      fontSize: '24px'
+    },
+    "& .MuiInputLabel-outlined.MuiInputLabel-shrink": {
+      color: searchBarColor,
+      fontSize: '18px',
+      fontWeight: 'normal'
+    },
+    "& .MuiSvgIcon-root": {
+      width: '2rem',
+      height: '2rem'
+    },
+    "& .MuiFormLabel-root": {
+      fontSize: '18px',
+      fontWeight: 'bolder'
+    }
+  }
+});

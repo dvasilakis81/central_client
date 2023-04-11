@@ -3,6 +3,20 @@ import format from 'string-format'
 //var dateFormat = require('dateformat');
 import { Checkbox } from '@material-ui/core';
 
+export function checkIfFileIsImage(imageName) {
+	var ret = false;
+	var imageExtensions = ['.jpg', '.png', '.jpeg', '.gif', '.tif', '.svg', '.bmp', '.ico'];
+
+	for (var i = 0; i < imageExtensions.length; i++) {
+		if (imageName.endsWith(imageExtensions[i]) === true) {
+			ret = true;
+			break;
+		}
+	}
+
+	return ret;
+}
+
 export function isTokenExpired(tokenjwt) {
 	var ret = false;
 
@@ -650,7 +664,7 @@ export function renderImage(itemtype, item) {
 			if (imageService.includes("fa-") === true)
 				return <div className='service-image-circle'>
 					<span style={{ marginLeft: '10px' }}>
-						<i class={imageService} />
+						<i className={imageService} />
 					</span>
 				</div>
 			else
@@ -659,14 +673,14 @@ export function renderImage(itemtype, item) {
 	} else if (itemtype === 1) {
 		if (imageMenu) {
 			if (imageMenu.includes("fa-") === true)
-				return <span style={{ marginLeft: '10px' }}><i class={imageMenu} /></span>
+				return <span style={{ marginLeft: '10px' }}><i className={imageMenu} /></span>
 			else
 				return <span><img src={getHostUrl() + imageMenu} /></span>
 		}
 
 		if (imageService) {
 			if (imageService.includes("fa-") === true)
-				return <span style={{ marginLeft: '10px' }}><i class={imageService} /></span>
+				return <span style={{ marginLeft: '10px' }}><i className={imageService} /></span>
 			else
 				return <img src={getHostUrl() + imageService} />
 		}

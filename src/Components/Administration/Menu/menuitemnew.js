@@ -11,20 +11,20 @@ import { addNewMenuItem, editNewMenuItem } from '../../../Redux/Actions/index';
 import HomeWrapper from '../../Home/homewrapper';
 import SelectImage from '../SelectImage/selectimage';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useStyles } from '../../Administration/Styles/styles';
 
 const styles = {
   textfield: {
     fontSize: '16px',
     fontWeight: 'normal',
     marginTop: '5px',
-    width: 800,
-    background: 'white',
-    borderRadius: '20px'
+    width: 800    
   }
 }
 
 export default function MenuItemNew(props) {
-
+  const classes = useStyles();
+  
   const dispatch = useDispatch();
   let navigate = useNavigate();
   let location = useLocation();
@@ -46,6 +46,7 @@ export default function MenuItemNew(props) {
   const [imageService, setImageService] = useState(menuItemDetails?.ImageService || '');
   const [imageMenu, setImageMenu] = useState(menuItemDetails?.ImageMenu || '');
   const [pageUrl, setPageUrl] = useState(menuItemDetails?.PageUrl || '');
+  const [oldOrderNo, setOldOrderNo] = useState(menuItemDetails?.OrderNo || 0);
   const [orderNo, setOrderNo] = useState(menuItemDetails?.OrderNo || 0);
   const [isdeleted, setIsdeleted] = useState(menuItemDetails?.isDeleted || false);
   const [hidden, setHidden] = useState((menuItemDetails?.Hidden === 1 ? true : false) || false);
@@ -68,6 +69,7 @@ export default function MenuItemNew(props) {
     data.menuItem = menuItem || 0;
     data.serviceItem = serviceItem || 0;
     data.announce = announce || 0;
+    data.oldOrderNo = oldOrderNo;
     data.orderNo = orderNo;
     data.categories = categories;
     if (location.state.isNew === 2)
@@ -76,15 +78,6 @@ export default function MenuItemNew(props) {
       dispatch(addNewMenuItem(data));
 
     navigate(-1);
-  };
-  const handleChangeName = (e) => {
-    setName(e.target.value);
-  };
-  const handleChangeUrl = (e) => {
-    setUrl(e.target.value);
-  };
-  const handleChangeImageMenu = (e) => {
-    setImageMenu(e.target.value);
   };
 
   if (newItemAdded === true) {
@@ -99,10 +92,11 @@ export default function MenuItemNew(props) {
               label="Όνομα"
               variant='outlined'
               type="text"
+              className={classes.root}
               style={styles.textfield}
               value={name}
               isRequired={true}
-              onChange={handleChangeName}
+              onChange={(e) => { setName(e.target.value); }}
               inputProps={{ style: { textAlign: 'Left' } }}
             />
           </div>
@@ -111,11 +105,12 @@ export default function MenuItemNew(props) {
               type="text"
               label="Εξωτερικό URL"
               variant='outlined'
+              className={classes.root}
               style={styles.textfield}
               value={url}
               isRequired={false}
               required={true}
-              onChange={handleChangeUrl}
+              onChange={(e) => { setUrl(e.target.value); }}
               inputProps={{ style: styles.textfield }}
             />
           </div>
@@ -128,6 +123,7 @@ export default function MenuItemNew(props) {
               renderInput={params => (
                 <TextField
                   {...params}
+                  className={classes.root}
                   variant="outlined"
                   placeholder="Σελίδα"
                 />
@@ -147,6 +143,7 @@ export default function MenuItemNew(props) {
               renderInput={params => (
                 <TextField
                   {...params}
+                  className={classes.root}
                   variant="outlined"
                   placeholder="Κατηγορίες"
                   fullWidth
@@ -159,6 +156,7 @@ export default function MenuItemNew(props) {
               type="number"
               label="Σειρά"
               variant='outlined'
+              className={classes.root}
               style={styles.textfield}
               value={orderNo}
               isRequired={true}

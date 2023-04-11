@@ -21,7 +21,7 @@ function CentralMenu() {
          
         d.Hidden === 0 && d.MenuItem === 1 ?
           (d.Url ?
-            <div key={index} className='menu-item-parent'>
+            <div key={index + '_' + d.MenuItem} className='menu-item-parent'>
               <div style={{ flex: '0.03' }}></div>
               <div
                 key={d}
@@ -29,7 +29,7 @@ function CentralMenu() {
                 onMouseLeave={handleMouseLeave}
                 onClick={() => { window.open(d.Url, '_blank', 'noreferrer'); }}
                 className={hoveredKey === d ? 'menu-item-hovered' : 'menu-item'}>
-                <i class={d.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i>
+                <i className={d.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i>
                 <span style={{ flex: '1', marginLeft: '15px' }}>
                   {d.Name}
                 </span>
@@ -48,7 +48,7 @@ function CentralMenu() {
                     navigate('/');
                 }}
                 className={hoveredKey === d ? 'menu-item-hovered' : 'menu-item'}>
-                <i class={d.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i>
+                <i className={d.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i>
                 <span style={{ flex: '1', marginLeft: '15px' }}>
                   {d.Name}
                 </span>

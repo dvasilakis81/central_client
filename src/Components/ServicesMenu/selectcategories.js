@@ -8,17 +8,16 @@ const styles = {
     marginLeft: '10px',
     width: '60px',
     height: '55px',
-    border: '2px solid blue',
+    border: '2px solid #FCE570',
     textAlign: 'center'
   },
   menuleave: { marginLeft: '10px', width: '60px', height: '55px', border: '2px solid white', textAlign: 'center' },
   menuentercolor: { color: 'white' },
-  menuleavecolor: { color: 'blue' }
+  menuleavecolor: { color: '#FCE570' }
 }
 
 export default function ServiceCategories(props) {
-  const { categoriesList } = useSelector(state => ({ categoriesList: state.parametricdata_reducer.categoriesList }));
-  const [isMenuIconClicked, setIsMenuIconClicked] = useState(false);
+  const { categoriesList } = useSelector(state => ({ categoriesList: state.parametricdata_reducer.categoriesList }));  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menustyle = isMenuOpen === false ? styles.menuenter : styles.menuleave;
   const menucolor = isMenuOpen === false ? styles.menuleavecolor : styles.menuentercolor;
@@ -26,15 +25,11 @@ export default function ServiceCategories(props) {
   const popupRef = useRef();
 
   useEffect(() => {
-    const checkIfClickedOutside = e => {
-      e.preventDefault();
-      if (isMenuOpen === true && menuRef.current && menuRef.current.contains(e.target)){
-        //setIsMenuOpen(false);
+    const checkIfClickedOutside = e => {      
+      if (isMenuOpen === true && menuRef.current && menuRef.current.contains(e.target)){        
       }
-      else if (isMenuOpen === true && popupRef.current && !popupRef.current.contains(e.target)){
-        //setIsMenuIconClicked(false);
-        setIsMenuOpen(false);
-      }
+      else if (isMenuOpen === true && popupRef.current && !popupRef.current.contains(e.target))        
+        setIsMenuOpen(false);      
     }
 
     document.addEventListener("mousedown", checkIfClickedOutside)
@@ -77,7 +72,7 @@ export default function ServiceCategories(props) {
           else
             setIsMenuOpen(true);
         }}>
-        <i class="fa fa-bars fa-3x" style={menucolor} />
+        <i className="fa fa-bars fa-3x" style={menucolor} />
       </div>
       {isMenuOpen === true ?
         <div ref={popupRef} style={{

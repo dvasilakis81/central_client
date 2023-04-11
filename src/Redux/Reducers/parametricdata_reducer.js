@@ -31,6 +31,7 @@ export default function (state = {}, action, root) {
           ...state,
           searchValue: action.payload
         }
+        break;
       case 'GET_CATEGORIES_PENDING':
         state = {
           ...state,
