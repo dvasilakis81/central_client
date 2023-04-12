@@ -24,9 +24,9 @@ function ItemsList(props) {
 			return null;
 	});
 
-	let template = null;
+	
 	if (props.data) {
-		template = props.data.map((item, i) => (
+		return props.data.map((item, i) => (
 			<ItemList
 				key={item.Id}
 				item={item}
@@ -35,10 +35,8 @@ function ItemsList(props) {
 				selectedItem={itemDetails}
 				searchValue={props.searchValue}
 			/>
-		));
-
-		return template;
-	} else {
+		));		
+	} else {		
 		<>Δεν βρέθηκαν.</>
 	}
 }

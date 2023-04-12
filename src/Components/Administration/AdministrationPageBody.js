@@ -6,7 +6,7 @@ import MediaItems from '../../Components/Administration/Media/mediaitems';
 import AnnouncementItems from '../../Components/Administration/Announcements/announcementitems';
 import store from '../../Redux/Store/store';
 
-import { getMenuItems, getPageItems, getMediaItems, getAnnouncements, getCategories } from '../../Redux/Actions/index';
+import { getMenuItems, getServiceItems, getPageItems, getMediaItems, getAnnouncements, getCategories } from '../../Redux/Actions/index';
 
 function getTabMenu(tab) {
 
@@ -33,14 +33,17 @@ export default function AdministrationPage(props) {
   const handleMouseLeave = () => { setHoveredKey(-1); };
   useEffect(() => {
     dispatch(getMenuItems());
+    dispatch(getServiceItems());
     dispatch(getPageItems()); 
     dispatch(getCategories()); 
     dispatch(getMediaItems());
   }, [])
 
   const handleTabChange = (event, newValue) => {
-    if (newValue === 0 || newValue === 1)
+    if (newValue === 0)
       dispatch(getMenuItems());
+    else if (newValue === 1)
+      dispatch(getServiceItems());
     else if (newValue === 2)
       dispatch(getPageItems());
     else if (newValue === 3)

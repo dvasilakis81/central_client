@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Paper from "@material-ui/core/Paper";
 import { Checkbox } from '@material-ui/core';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import CancelAltIcon from '@material-ui/icons/Cancel';
@@ -18,13 +19,15 @@ const styles = {
     fontSize: '16px',
     fontWeight: 'normal',
     marginTop: '5px',
-    width: 800    
+    width: 800
   }
 }
-
+const CustomPaper = (props) => {
+  return <Paper  {...props} style={{width: 'auto', backgroundColor:'lightgray', padding: '0px', margin: '0px'}} />;
+};
 export default function MenuItemNew(props) {
   const classes = useStyles();
-  
+
   const dispatch = useDispatch();
   let navigate = useNavigate();
   let location = useLocation();
@@ -46,8 +49,10 @@ export default function MenuItemNew(props) {
   const [imageService, setImageService] = useState(menuItemDetails?.ImageService || '');
   const [imageMenu, setImageMenu] = useState(menuItemDetails?.ImageMenu || '');
   const [pageUrl, setPageUrl] = useState(menuItemDetails?.PageUrl || '');
-  const [oldOrderNo, setOldOrderNo] = useState(menuItemDetails?.OrderNo || 0);
-  const [orderNo, setOrderNo] = useState(menuItemDetails?.OrderNo || 0);
+  const [oldMenuOrderNo, setOldMenuOrderNo] = useState(menuItemDetails?.MenuOrderNo || 0);
+  const [oldServiceOrderNo, setOldServiceOrderNo] = useState(menuItemDetails?.ServiceOrderNo || 0);
+  const [menuOrderNo, setMenuOrderNo] = useState(menuItemDetails?.MenuOrderNo || 0);
+  const [serviceOrderNo, setServiceOrderNo] = useState(menuItemDetails?.ServiceOrderNo || 0);
   const [isdeleted, setIsdeleted] = useState(menuItemDetails?.isDeleted || false);
   const [hidden, setHidden] = useState((menuItemDetails?.Hidden === 1 ? true : false) || false);
   const [announce, setAnnounce] = useState(menuItemDetails?.Announce || 0);
@@ -69,8 +74,10 @@ export default function MenuItemNew(props) {
     data.menuItem = menuItem || 0;
     data.serviceItem = serviceItem || 0;
     data.announce = announce || 0;
-    data.oldOrderNo = oldOrderNo;
-    data.orderNo = orderNo;
+    data.oldServiceOrderNo = oldServiceOrderNo;
+    data.serviceOrderNo = serviceOrderNo;
+    data.oldMenuOrderNo = oldMenuOrderNo;
+    data.menuOrderNo = menuOrderNo;
     data.categories = categories;
     if (location.state.isNew === 2)
       dispatch(editNewMenuItem(data));
@@ -120,6 +127,15 @@ export default function MenuItemNew(props) {
               getOptionLabel={item => (item.Url || '')}
               onChange={(event, value) => setPageUrl(value)}
               filterSelectedOptions
+              PaperComponent={CustomPaper}
+              renderOption={(props, option) => {
+                const { Url } = props;
+                return (
+                  <span style={{ backgroundColor: 'transparent', color: 'blue', padding: '5px' }}>
+                    <span style={{fontSize: '10px'}}>{'\u2B24'}</span> {Url}
+                  </span>
+                );
+              }}
               renderInput={params => (
                 <TextField
                   {...params}
@@ -152,19 +168,36 @@ export default function MenuItemNew(props) {
             />
           </div>
           <div style={{ padding: '10px' }}>
-            <TextField
-              type="number"
-              label="Σειρά"
-              variant='outlined'
-              className={classes.root}
-              style={styles.textfield}
-              value={orderNo}
-              isRequired={true}
-              required={true}
-              onChange={(e) => { setOrderNo(e.target.value) }}
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ style: { textAlign: 'Left' } }}
-            />
+            <div style={{ display: 'flex', flexDirection: 'row', flex: 1 }}>
+              {menuItem === true ?
+                <div style={{ flex: (serviceItem === true ? 0.5 : 1) }}>
+                  <TextField
+                    type="number"
+                    label="Σειρά στο Μενού"
+                    variant='outlined'
+                    className={classes.root}
+                    value={menuOrderNo}
+                    isRequired={true}
+                    required={true}
+                    onChange={(e) => { setMenuOrderNo(e.target.value) }}
+                    InputLabelProps={{ shrink: true }}
+                    inputProps={{ style: { textAlign: 'Left' } }}
+                  /></div> : <></>}
+              {serviceItem === true ?
+                <div style={{ flex: (menuItem === true ? 0.5 : 1) }}>
+                  <TextField
+                    type="number"
+                    label="Σειρά Υπηρεσία"
+                    variant='outlined'
+                    className={classes.root}
+                    value={serviceOrderNo}
+                    isRequired={true}
+                    required={true}
+                    onChange={(e) => { setServiceOrderNo(e.target.value) }}
+                    InputLabelProps={{ shrink: true }}
+                    inputProps={{ style: { textAlign: 'Left' } }}
+                  /></div> : <></>}
+            </div>
           </div>
           <div style={{ padding: '10px' }}>
             <SelectImage label="Εικονίδιο Υπηρεσίας"

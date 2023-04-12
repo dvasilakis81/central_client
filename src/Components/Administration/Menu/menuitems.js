@@ -11,6 +11,7 @@ import store from '../../../Redux/Store/store';
 function MenuItems(props) {
 
   const { menuItemsList } = useSelector(state => ({ menuItemsList: state.menu_reducer.menuItemsList }));
+  const { serviceItemsList } = useSelector(state => ({ serviceItemsList: state.menu_reducer.serviceItemsList }));
   let itemDetails = useSelector((state) => { return props.itemtype === 1 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails; });
   const [searchValue, setSearchValue] = useState('');
   const handleChangeSearchValue = (e) => {
@@ -25,11 +26,10 @@ function MenuItems(props) {
         <SearchBar searchValue={searchValue} handleChangeSearchValue={handleChangeSearchValue} />
         <div style={{ display: 'flex', flexFlow: 'row', flex: '1', overflowY: 'auto', overflowX: 'hidden', margin: '0px', padding: '0px' }}>
           <div style={{ display: 'flex', flexFlow: 'column', flex: '1', backgroundColor: '#fff' }}>
-            {(menuItemsList && menuItemsList.length > 0) ? <ItemsList data={menuItemsList}
-              defaultSelectedItem={menuItemsList[0]} kind="menuitems"
+            <ItemsList data={props.itemtype === 1 ? menuItemsList : serviceItemsList}
+              kind="menuitems"
               itemtype={props.itemtype}
-              searchValue={searchValue} /> :
-              <EmptyItems title="στοιχεία στο Μενού" />}
+              searchValue={searchValue} />
           </div>
         </div>
       </div>
@@ -39,10 +39,7 @@ function MenuItems(props) {
         <div style={{ display: 'flex', flexFlow: 'row', flex: '1', overflowY: 'hidden', overflowX: 'hidden' }}>
           <div style={{ display: 'flex', flexFlow: 'column', flex: '1', overflowY: 'hidden', overflowX: 'hidden', margin: '0px', padding: '0px' }}>
             <Actions navigatepage={'/newmenuitem'} itemtype={props.itemtype} itemname={itemDetails && itemDetails.Name || ''} contenttype="menuitem" />
-            {(menuItemsList && menuItemsList.length > 0)
-              ?
-              <ItemDetail kind="menuitems" itemtype={props.itemtype} />
-              : <></>}
+            <ItemDetail kind="menuitems" itemtype={props.itemtype} />
           </div>
         </div>
       </div>

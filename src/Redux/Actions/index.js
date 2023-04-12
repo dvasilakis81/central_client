@@ -2,6 +2,10 @@ import axios from 'axios';
 import { getHostUrl, getLoginUrl } from '../../Helper/helpermethods';
 
 //MENU
+export function getServiceItems() {
+  const request = axios.get(getHostUrl() + 'getServiceItems').then(response => response.data);
+  return { type: 'GET_SERVICEMENUITEMS', payload: request };
+}
 export function getMenuItems() {
   const request = axios.get(getHostUrl() + 'getMenuItems').then(response => response.data);
   return { type: 'GET_MENUITEMS', payload: request };

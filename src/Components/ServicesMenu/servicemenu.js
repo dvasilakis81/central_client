@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { getMenuItems } from '../../Redux/Actions/index';
+import { getServiceItems } from '../../Redux/Actions/index';
 import { getCategories } from '../../Redux/Actions/index';
 import { getHostUrl } from '../../Helper/helpermethods';
 import { includeStrings } from '../../Helper/helpermethods';
@@ -14,12 +14,12 @@ function ServicesMenu() {
   
   const handleMouseEnter = (e, d) => { setHoveredKey(d); };
   const handleMouseLeave = () => { setHoveredKey(''); };
-  const { menuItemsList } = useSelector(state => ({ menuItemsList: state.menu_reducer.menuItemsList }));
+  const { serviceItemsList } = useSelector(state => ({ serviceItemsList: state.menu_reducer.serviceItemsList }));
   const { searchValue } = useSelector(state => ({ searchValue: state.parametricdata_reducer.searchValue }));
 
   useEffect(() => { 
-    dispatch(getMenuItems()); 
-    dispatch(getCategories()); 
+    dispatch(getServiceItems());
+    dispatch(getCategories());
   }, []);
 
   function getBackgroundColor(item) {
@@ -63,13 +63,10 @@ function ServicesMenu() {
 
     return ret;
   }
-  function getItems(searchValue) {
-
-    var itemsList = menuItemsList;
-    // if (searchList && searchList.length > 0)
-    //   itemsList = searchList;
-    return (itemsList && itemsList.map(d => (
-      d.Hidden === 0 && d.ServiceItem === 1 && includeStrings(d.Name, searchValue) === true ?
+  function getItems(searchValue) {   
+    
+    return (serviceItemsList && serviceItemsList.map(d => (
+      d.Hidden === 0 && includeStrings(d.Name, searchValue) === true ?
         <div
           className="service-menu-item"
           onMouseEnter={(e) => handleMouseEnter(e, d)}

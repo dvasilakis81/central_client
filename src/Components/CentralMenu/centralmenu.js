@@ -19,7 +19,7 @@ function CentralMenu() {
     <div className='menu-body'>
       {menuItemsList && menuItemsList.map((d, index) => (
          
-        d.Hidden === 0 && d.MenuItem === 1 ?
+        d.Hidden === 0 ?
           (d.Url ?
             <div key={index + '_' + d.MenuItem} className='menu-item-parent'>
               <div style={{ flex: '0.03' }}></div>

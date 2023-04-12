@@ -38,19 +38,7 @@ export default function PageInfo() {
     }
   }, [history]);
 
-  return <HomeWrapperWithCentralMenu>
-    {/* <div className={pageInfo} style={{
-      padding: '10px',
-      display: 'flex',
-      flex: '0.9',
-      flexDirection: 'column',
-      flexWrap: 'column',
-      background: 'white',
-      borderRadius: '0px',
-      opacity: 0.9,
-      height: '90%',
-      margin: 'auto'
-    }}> */}
+  return <HomeWrapperWithCentralMenu> 
     <div className='page-info-container'>
       <div className='page-title'>
         {pageInfo && pageInfo.Title}

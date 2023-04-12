@@ -35,24 +35,10 @@ export default function (state = {}, action, root) {
 
             var serverMenuItems = serverResponse;
             var menuItem = undefined;
-            var serviceItem = undefined;
+            if (serverMenuItems.length > 0)
+              menuItem = serverMenuItems[0];           
 
-            for (var i = 0; i < serverMenuItems.length; i++) {
-              if (serverMenuItems[i].MenuItem === 1) {
-                menuItem = serverMenuItems[i];
-                break;
-              }
-            }
-
-            for (var i = 0; i < serverMenuItems.length; i++) {
-              if (serverMenuItems[i].ServiceItem === 1) {
-                serviceItem = serverMenuItems[i];
-                break;
-              }
-            }
-
-            var selectedMenuItem = state.menuItemDetails || menuItem;
-            var selectedServiceItem = state.serviceItemDetails || serviceItem;
+            var selectedMenuItem = state.menuItemDetails || menuItem;            
 
             state = {
               ...state,
@@ -60,8 +46,7 @@ export default function (state = {}, action, root) {
               requestRejected: undefined,
               requestServerError: undefined,
               menuItemsList: serverMenuItems,
-              menuItemDetails: selectedMenuItem,
-              serviceItemDetails: selectedServiceItem
+              menuItemDetails: selectedMenuItem
             };
           } else {
             state = {
@@ -70,8 +55,7 @@ export default function (state = {}, action, root) {
               requestRejected: undefined,
               requestServerError: undefined,
               menuItemsList: [],
-              menuItemsDetails: undefined,
-              serviceItemDetails: undefined
+              menuItemsDetails: undefined
             };
           }
         }
@@ -90,6 +74,67 @@ export default function (state = {}, action, root) {
         state = {
           ...state,
           menuItemDetails: action.payload
+        };
+        break;
+      case 'GET_SERVICEMENUITEMS_PENDING':
+        state = {
+          ...state,
+          requestPending: 'Get menu items pending',
+          requestServerError: undefined,
+          requestRejected: undefined
+        };
+        break;
+      case 'GET_SERVICEMENUITEMS_FULFILLED':
+        var serverResponse = action.payload;
+        if (serverResponse && serverResponse.servererrormessage) {
+          state = {
+            ...state,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: serverResponse
+          };
+        } else if (serverResponse.tokenIsValid !== undefined) {
+          state = {
+            ...state,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: undefined,
+            serviceItemsList: action.payload
+          };
+        } else {
+          if (serverResponse && serverResponse.length > 0) {
+            var serverMenuItems = serverResponse;
+            var serviceItem = undefined;
+            if (serverMenuItems.length > 0)
+              serviceItem = serverMenuItems[0];
+
+            state = {
+              ...state,
+              requestPending: undefined,
+              requestRejected: undefined,
+              requestServerError: undefined,
+              serviceItemsList: serverMenuItems,
+              serviceItemDetails: state.serviceItemDetails || serviceItem
+            };
+          } else {
+            state = {
+              ...state,
+              requestPending: undefined,
+              requestRejected: undefined,
+              requestServerError: undefined,              
+              serviceItemsList: [],              
+              serviceItemDetails: undefined
+            };
+          }
+        }
+        break;
+      case 'GET_SERVICEMENUITEMS_REJECTED':
+
+        state = {
+          ...state,
+          requestPending: undefined,
+          requestServerError: undefined,
+          requestRejected: action.payload
         };
         break;
       case 'SET_SERVICEITEM_DETAIL':
@@ -149,7 +194,6 @@ export default function (state = {}, action, root) {
           requestRejected: serverResponse
         };
         break;
-
       case 'EDIT_MENUITEM_PENDING':
         state = {
           ...state,
@@ -200,7 +244,7 @@ export default function (state = {}, action, root) {
             requestServerError: undefined,
             requestPending: undefined,
             requestRejected: undefined,
-            menuItemsList: updatedList            
+            menuItemsList: updatedList
           };
         }
 
@@ -216,9 +260,9 @@ export default function (state = {}, action, root) {
         var searchValue = action.payload;
         const searchList = [];
         if (searchValue !== '') {
-          if (state.menuItemsList) {
-            state.menuItemsList.forEach((item, index) => {
-              if (item.ServiceItem === 1 && item.Name.contains(searchValue))
+          if (state.serviceItemsList) {
+            state.serviceItemsList.forEach((item, index) => {
+              if (item.Name.contains(searchValue))
                 searchList.push(item);
             });
           }
