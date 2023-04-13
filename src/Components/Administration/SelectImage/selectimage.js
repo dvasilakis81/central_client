@@ -26,7 +26,7 @@ export function SelectOption(props) {
   //   }).catch((err) => console.log(err));
   // }, []);
 
-  return <div style={{background:'white'}}>
+  return <div style={{ background: 'white' }}>
     <div onClick={handleOpenSelectIcon} style={{ backgroundColor: 'white', color: 'blue', paddingTop: '5px' }}>ΕΠΙΛΟΓΗ</div>
     <Popover
       id={popoverid}
@@ -58,23 +58,22 @@ export function SelectOption(props) {
 
 export default function SelectImage(props) {
   const classes = useStyles();
-  
-  return <>
-    <div style={{ display: 'flex', flexDirection: 'row', flex: '1' }}>
-      <TextField
-        type="text"
-        variant='outlined'
-        label={props.label}
-        value={props.image}
-        className={classes.root}
-        isRequired={true}
-        onChange={props.setImage}
-        style={props.customstyle}
-        InputLabelProps={{ shrink: true }}
-        inputProps={{ style: { textAlign: 'Left' } }}
-        InputProps={{ endAdornment: <SelectOption setImage={props.setImage} imagetype={props.imagetype} /> }}
-      />
-      {/* <Button variant="contained" onClick={handleOpenSelectIcon}
+
+  return <div style={{ display: 'flex', flex: 1 }}>
+    <TextField
+      type="text"
+      variant='outlined'
+      label={props.label}
+      value={props.image}
+      className={classes.root}
+      isRequired={true}
+      onChange={props.setImage}
+      style={props.customstyle}
+      InputLabelProps={{ shrink: true }}
+      inputProps={{ style: { textAlign: 'Left' } }}
+      InputProps={{ endAdornment: <SelectOption setImage={props.setImage} imagetype={props.imagetype} /> }}
+    />
+    {/* <Button variant="contained" onClick={handleOpenSelectIcon}
         style={{
           flex: '0.1',
           height: '40px',  
@@ -88,7 +87,5 @@ export default function SelectImage(props) {
         }}>
         Επιλογή
       </Button> */}
-    </div>
-
-  </>
+  </div>
 }

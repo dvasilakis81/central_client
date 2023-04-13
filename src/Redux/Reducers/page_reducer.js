@@ -36,15 +36,14 @@ export default function (state = {}, action, root) {
         } else {
           if (serverResponse && serverResponse.length > 0) {
             var itemsList = serverResponse;
-            var itemDetails = itemsList ? itemsList[0] : undefined;
-
+            var itemDetails = itemsList ? itemsList[0] : undefined;            
             state = {
               ...state,
               requestPending: undefined,
               requestRejected: undefined,
               requestServerError: undefined,
               pageItemsList: itemsList,
-              pageItemDetails: itemDetails
+              pageItemDetails: state.pageItemDetails || itemDetails
             };
           } else {
             state = {
@@ -59,6 +58,7 @@ export default function (state = {}, action, root) {
         }
         break;
       case 'GET_PAGEITEMS_REJECTED':
+        console.log('GET_PAGEITEMS_REJECTED: ' + pageItemDetails?.Title)
         state = {
           ...state,
           requestPending: undefined,
@@ -68,6 +68,7 @@ export default function (state = {}, action, root) {
         };
         break;
       case 'SET_PAGEITEM_DETAIL':
+        console.log('GET_PAGEITEMS_REJECTED: ' + pageItemDetails?.Title)
         state = {
           ...state,
           pageItemDetails: action.payload
@@ -140,7 +141,8 @@ export default function (state = {}, action, root) {
         };
         break;
       case 'EDIT_PAGEITEM_FULFILLED':
-        var serverResponse = action.payload;
+        
+      var serverResponse = action.payload;
         if (serverResponse && serverResponse.errormessage) {
 
           state = {
@@ -161,7 +163,7 @@ export default function (state = {}, action, root) {
             });
           }
 
-          var pageItemDetails = serverResponse || (state.pageItemDetails || (updatedList ? updatedList[0] : undefined));
+          var pageItemDetails = serverResponse || (state.pageItemDetails || (updatedList ? updatedList[0] : undefined));          
           state = {
             ...state,
             itemChanged: true,

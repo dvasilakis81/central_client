@@ -37,7 +37,7 @@ function PageItems(props) {
       <div style={{ marginLeft: '10px', marginRight: '15px', display: 'flex', flexFlow: 'column', flexBasis: '100%', flex: '1', backgroundColor: 'white', overflowY: 'hidden' }}>
         <div style={{ display: 'flex', flexFlow: 'row', flex: '1', overflowY: 'hidden', overflowX: 'hidden' }}>
           <div style={{ display: 'flex', flexFlow: 'column', flex: '1', overflowY: 'hidden', overflowX: 'hidden', margin: '0px', padding: '0px' }}>
-            <Actions navigatepage={'/newpageitem'} itemname={pageItemDetails && pageItemDetails.Name || ''} contenttype="pageitem" />
+            <Actions navigatepage={'/newpageitem'} itemname={pageItemDetails?.Title || ''} contenttype="pageitem" />
             {(pageItemsList && pageItemsList.length > 0)
               ?
               <ItemDetail kind="pageitems" />

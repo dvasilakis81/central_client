@@ -23,7 +23,7 @@ const styles = {
   }
 }
 const CustomPaper = (props) => {
-  return <Paper  {...props} style={{width: 'auto', backgroundColor:'lightgray', padding: '0px', margin: '0px'}} />;
+  return <Paper  {...props} style={{ width: 'auto', backgroundColor: 'lightgray', padding: '0px', margin: '0px' }} />;
 };
 export default function MenuItemNew(props) {
   const classes = useStyles();
@@ -56,8 +56,8 @@ export default function MenuItemNew(props) {
   const [isdeleted, setIsdeleted] = useState(menuItemDetails?.isDeleted || false);
   const [hidden, setHidden] = useState((menuItemDetails?.Hidden === 1 ? true : false) || false);
   const [announce, setAnnounce] = useState(menuItemDetails?.Announce || 0);
-  const [menuItem, setMenuItem] = useState(menuItemDetails?.MenuItem || 0);
-  const [serviceItem, setServiceItem] = useState(menuItemDetails?.ServiceItem || 0);
+  const [menuItem, setMenuItem] = useState(menuItemDetails?.MenuItem === 1 ? true : false);
+  const [serviceItem, setServiceItem] = useState(menuItemDetails?.ServiceItem === 1 ? true : false);
   const [categories, setCategories] = useState(menuItemDetails?.categoriesInfo || '');
 
   const handleClick = () => {
@@ -127,12 +127,15 @@ export default function MenuItemNew(props) {
               getOptionLabel={item => (item.Url || '')}
               onChange={(event, value) => setPageUrl(value)}
               filterSelectedOptions
+              defaultValue={{ Url: pageUrl }}
               PaperComponent={CustomPaper}
               renderOption={(props, option) => {
                 const { Url } = props;
                 return (
                   <span style={{ backgroundColor: 'transparent', color: 'blue', padding: '5px' }}>
-                    <span style={{fontSize: '10px'}}>{'\u2B24'}</span> {Url}
+                    {/* <span style={{ fontSize: '10px' }}>{'\u2B24'}</span>  */}
+                    <i class="fa fa-file" />
+                    <span style={{ marginLeft: '10px' }}>{Url}</span>
                   </span>
                 );
               }}
@@ -154,8 +157,18 @@ export default function MenuItemNew(props) {
               getOptionLabel={item => (item.Name || '')}
               onChange={(event, value) => setCategories(value)}
               defaultValue={categories || []}
+              PaperComponent={CustomPaper}
               ChipProps={{ color: 'red' }}
               style={{ flex: '1', padding: '0px', flexWrap: 'wrap', maxWidth: '800px' }}
+              renderOption={(props, option) => {
+                const { Name } = props;
+                return (
+                  <span style={{ backgroundColor: 'transparent', color: 'blue', padding: '5px' }}>
+                    <i class="fa fa-tag" />
+                    <span style={{ marginLeft: '10px' }}>{Name}</span>
+                  </span>
+                );
+              }}
               renderInput={params => (
                 <TextField
                   {...params}
@@ -168,9 +181,9 @@ export default function MenuItemNew(props) {
             />
           </div>
           <div style={{ padding: '10px' }}>
-            <div style={{ display: 'flex', flexDirection: 'row', flex: 1 }}>
-              {menuItem === true ?
-                <div style={{ flex: (serviceItem === true ? 0.5 : 1) }}>
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+              {menuItem === true || menuItem === 1 ?
+                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', flexWrap: 'nowrap' }}>
                   <TextField
                     type="number"
                     label="Σειρά στο Μενού"
@@ -182,9 +195,27 @@ export default function MenuItemNew(props) {
                     onChange={(e) => { setMenuOrderNo(e.target.value) }}
                     InputLabelProps={{ shrink: true }}
                     inputProps={{ style: { textAlign: 'Left' } }}
-                  /></div> : <></>}
-              {serviceItem === true ?
-                <div style={{ flex: (menuItem === true ? 0.5 : 1) }}>
+                  />
+                  <div style={{ marginLeft: '15px', display: 'flex', flex: 1 }}>
+                    <SelectImage
+                      label="Εικονίδιο Μενού-fontawesome icon"
+                      image={imageMenu}
+                      customstyle={{ flex: 1 }}
+                      setImage={(e) => {
+                        if (typeof e === 'object')
+                          setImageMenu(e.target.value);
+                        else
+                          setImageMenu(e);
+                      }}
+                      imagetype={2} />
+                  </div>
+                </div> : <></>}
+            </div>
+          </div>
+          <div style={{ padding: '10px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+              {serviceItem === 1 || serviceItem === true ?
+                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', flexWrap: 'nowrap' }}>
                   <TextField
                     type="number"
                     label="Σειρά Υπηρεσία"
@@ -196,22 +227,23 @@ export default function MenuItemNew(props) {
                     onChange={(e) => { setServiceOrderNo(e.target.value) }}
                     InputLabelProps={{ shrink: true }}
                     inputProps={{ style: { textAlign: 'Left' } }}
-                  /></div> : <></>}
+                  />
+                  <div style={{ marginLeft: '15px', display: 'flex', flex: 1 }}>
+                    <SelectImage label="Εικονίδιο Υπηρεσίας"
+                      image={imageService}
+                      customstyle={{ flex: 1 }}
+                      setImage={(e) => {
+                        if (typeof e === 'object')
+                          setImageService(e.target.value);
+                        else
+                          setImageService(e);
+                      }}
+                      imagetype={1} />
+                  </div>
+                </div> : <></>}
             </div>
           </div>
-          <div style={{ padding: '10px' }}>
-            <SelectImage label="Εικονίδιο Υπηρεσίας"
-              image={imageService}
-              setImage={(e) => {
-                if (typeof e === 'object')
-                  setImageService(e.target.value);
-                else
-                  setImageService(e);
-              }}
-              customstyle={styles.textfield}
-              imagetype={1} />
-          </div>
-          <div style={{ padding: '10px' }}>
+          {/* <div style={{ padding: '10px' }}>
             <SelectImage
               label="Εικονίδιο Μενού-fontawesome icon"
               image={imageMenu}
@@ -223,7 +255,7 @@ export default function MenuItemNew(props) {
               }}
               customstyle={styles.textfield}
               imagetype={2} />
-          </div>
+          </div> */}
           <div style={{ display: 'flex', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden' }}>
             <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
               <Checkbox

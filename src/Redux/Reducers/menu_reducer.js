@@ -38,7 +38,7 @@ export default function (state = {}, action, root) {
             if (serverMenuItems.length > 0)
               menuItem = serverMenuItems[0];           
 
-            var selectedMenuItem = state.menuItemDetails || menuItem;            
+            var selectedMenuItem = state.menuItemDetails || menuItem;
 
             state = {
               ...state,

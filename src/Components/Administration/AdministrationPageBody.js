@@ -25,8 +25,10 @@ function getTabMenu(tab) {
 }
 
 export default function AdministrationPage(props) {
-  
+
   let selectedTab = useSelector((state) => state.parametricdata_reducer.selectedTabAdmin) || 0;
+  const { pageItemsList } = useSelector(state => ({ pageItemsList: state.page_reducer.pageItemsList }));
+
   const dispatch = useDispatch();
   const [hoveredKey, setHoveredKey] = useState(-1);
   const handleMouseEnter = (e, d) => { setHoveredKey(d); };
@@ -34,8 +36,10 @@ export default function AdministrationPage(props) {
   useEffect(() => {
     dispatch(getMenuItems());
     dispatch(getServiceItems());
-    dispatch(getPageItems()); 
-    dispatch(getCategories()); 
+    if (pageItemsList) {
+    } else
+      dispatch(getPageItems());
+    dispatch(getCategories());
     dispatch(getMediaItems());
   }, [])
 
@@ -64,28 +68,28 @@ export default function AdministrationPage(props) {
           onMouseLeave={handleMouseLeave}>
           ΜΕΝΟΥ
         </div>
-        <div 
+        <div
           className={selectedTab === 1 ? 'selected-tab' : (hoveredKey === 1 ? 'hovered-tab' : 'tab')}
           onClick={(e) => { handleTabChange(e, 1) }}
           onMouseEnter={(e) => handleMouseEnter(e, 1)}
           onMouseLeave={handleMouseLeave}>
           ΥΠΗΡΕΣΙΕΣ
         </div>
-        <div 
+        <div
           className={selectedTab === 2 ? 'selected-tab' : (hoveredKey === 2 ? 'hovered-tab' : 'tab')}
           onClick={(e) => { handleTabChange(e, 2) }}
           onMouseEnter={(e) => handleMouseEnter(e, 2)}
           onMouseLeave={handleMouseLeave}>
           ΣΕΛΙΔΕΣ
         </div>
-        <div 
+        <div
           className={selectedTab === 3 ? 'selected-tab' : (hoveredKey === 3 ? 'hovered-tab' : 'tab')}
           onClick={(e) => { handleTabChange(e, 3) }}
           onMouseEnter={(e) => handleMouseEnter(e, 3)}
           onMouseLeave={handleMouseLeave}>
           ΑΡΧΕΙΑ
         </div>
-        <div 
+        <div
           className={selectedTab === 4 ? 'selected-tab' : (hoveredKey === 4 ? 'hovered-tab' : 'tab')}
           onClick={(e) => { handleTabChange(e, 4) }}
           onMouseEnter={(e) => handleMouseEnter(e, 4)}
