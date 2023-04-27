@@ -155,7 +155,9 @@ export default function MenuItemNew(props) {
               filterSelectedOptions
               multiple
               getOptionLabel={item => (item.Name || '')}
-              onChange={(event, value) => setCategories(value)}
+              onChange={(event, value) =>                 
+                setCategories(value)
+              }
               defaultValue={categories || []}
               PaperComponent={CustomPaper}
               ChipProps={{ color: 'red' }}

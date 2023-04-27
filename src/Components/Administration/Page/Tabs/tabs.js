@@ -32,39 +32,19 @@ export default function PageTabs(props) {
   if (pageItemDetails && pageItemDetails.tabsInfo && pageItemDetails.tabsInfo.length > 0) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div style={{ display: 'flex', flexDirection: 'row', height: '70px', overflowY: 'hidden', overflowX: 'hidden' }}
-          onMouseEnter={() => {
-            console.log('onMouseEnter: ');
-            //setHoveredKey(d);
-          }}>
+        <div style={{ display: 'flex', flexDirection: 'row', height: '70px', overflowY: 'hidden', overflowX: 'hidden' }}>
           {(pageItemDetails.tabsInfo && pageItemDetails.tabsInfo.length > 0) ?
             [].concat(pageItemDetails.tabsInfo)
             .sort((a, b) => a.taborder > b.taborder ? 1 : -1)
             .map((item, index) => {
               return <div
                 id={index}
-                className={selectedTab === index ? 'selectedTab' : (hoveredKey === index ? 'hoveredTab' : 'tab')}
+                className={selectedTab === index ? 'selected-tab' : (hoveredKey === index ? 'hovered-tab' : 'tab')}
                 onClick={(e) => { handleTabChange(e, index, item); }}
                 onMouseEnter={(e) => { setHoveredKey(index); }}
                 onMouseLeave={(e) => { setHoveredKey(-1); }}>
                 {item.tabtitle}
-              </div>
-
-            // pageItemDetails.tabsInfo.map((item, index) => {
-            //   return <div
-            //     id={item.pageid}
-            //     onMouseOver={(e) => {
-            //       console.log('onMouseEnter: ');
-            //       //setHoveredKey(d);
-            //     }}
-            //     className={selectedTab === index ? 'selectedTab' : (hoveredKey === index ? 'hoveredTab' : 'tab')}
-            //     onClick={(e) => { handleTabChange(e, index, item) }}
-            //     onMouseLeave={(e) => {
-            //       console.log('onMouseLeave: ');
-            //       setHoveredKey(-1);
-            //     }}>
-            //     {item.tabtitle}
-            //   </div>
+              </div>            
             }) : <></>}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', height: 'hidden', overflowY: 'hidden' }}>

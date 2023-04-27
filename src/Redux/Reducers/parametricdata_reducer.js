@@ -49,7 +49,7 @@ export default function (state = {}, action, root) {
           requestServerError: undefined,
           categoriesList: undefined
         };
-        break;      
+        break;
       case 'GET_CATEGORIES_FULFILLED':
         var serverResponse = action.payload;
         if (serverResponse && serverResponse.servererrormessage) {
@@ -70,14 +70,14 @@ export default function (state = {}, action, root) {
           };
         } else {
           if (serverResponse && serverResponse.length > 0) {
-            var itemsList = serverResponse;         
+            var itemsList = serverResponse;
 
             state = {
               ...state,
               requestPending: undefined,
               requestRejected: undefined,
               requestServerError: undefined,
-              categoriesList: itemsList              
+              categoriesList: itemsList
             };
           } else {
             state = {
@@ -85,11 +85,12 @@ export default function (state = {}, action, root) {
               requestPending: undefined,
               requestRejected: undefined,
               requestServerError: undefined,
-              categoriesList: []              
+              categoriesList: []
             };
           }
         }
-        break; default:
+        break;
+      default:
         break;
     }
   }

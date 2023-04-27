@@ -2,8 +2,7 @@ export default function (state = {}, action, root) {
 
   if (action) {
     switch (action.type) {
-      case 'RESET_ACTION':
-        console.log('RESET_ACTION');
+      case 'RESET_ACTION':        
         state = {}
         break;
       case 'GET_ANNOUNCEMENTS_PENDING':

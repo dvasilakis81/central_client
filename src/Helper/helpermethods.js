@@ -576,9 +576,7 @@ export function findLocalIp() {
 				console.log("attributes: ");
 				for (let i = 0; i < attr.length; i += 2)
 					console.log("> " + attr[i] + ": " + attr[i + 1]);
-			}
-
-			console.log();
+			}			
 		}
 	});
 }
@@ -602,8 +600,14 @@ export function filterValue(fields, searchValue) {
 
 export function includeStrings(str1, str2) {
 	var ret = false;
-	if (ignoreTonousAndLowercase(str1).includes(ignoreTonousAndLowercase(str2)) === true)
-		ret = true;
+
+	if (str2) {
+		if (ignoreTonousAndLowercase(str1).includes(ignoreTonousAndLowercase(str2)) === true)
+			ret = true;
+	}
+	else
+		return true;
+
 	return ret;
 }
 export function ignoreTonousAndLowercase(searchValue) {

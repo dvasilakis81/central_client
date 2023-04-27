@@ -50,9 +50,16 @@ export default function Body(props) {
 		//}
 
 
-		let wh = screenDimensions ? screenDimensions.height : undefined;
+		//let ww = screenDimensions ? screenDimensions.width : undefined;	
+		let wh = screenDimensions ? screenDimensions.height : undefined;	
 		if (wh)
 			bodyHeight = wh - getHeaderHeight() - getFooterHeight();
+
+		// const rootElement = document.getElementById('root');
+		// if (ww < 1366)
+		// 	rootElement.setAttribute('style', 'transform:scale(.6);transform-origin:0 0');
+		// else 
+		// 	rootElement.setAttribute('style', 'transform:scale(.9);transform-origin:0 0');
 	});
 
 	return (<div style={{ width: '100%', height: bodyHeight, overflowX: 'hidden', overflowY: 'hidden', background: '#f4f6f7' }}>

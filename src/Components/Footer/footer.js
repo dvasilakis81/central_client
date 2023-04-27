@@ -13,11 +13,11 @@ export default function Footer(props) {
 
   return <div style={{
     display: 'flex',
-    height: getFooterHeight(),
+    height: getFooterHeight(),    
     background: 'lightBlue',
     alignItems: 'center',
     paddingRight: '50px',
-    fontSize: 16,
+    fontSize: '0.5rem',
     fontWeight: 'bolder'    
   }}>
     <div style={{display: 'flex', flex: 0.3, justifyContent:'flex-start', textAlign: 'left'}}><span style={{marginLeft: '15px'}}>Συνδέεστε στο Central με την IP διεύθυνση:</span><span style={{marginLeft: '5px', fontWeight: 'bolder'}}>{machineIp}</span></div>

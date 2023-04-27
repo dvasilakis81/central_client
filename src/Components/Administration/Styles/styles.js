@@ -24,7 +24,8 @@ export const useStyles = makeStyles({
   }
 });
 
-const searchBarColor = '#FCE570';
+//const searchBarColor = '#FCE570';
+const searchBarColor = '#00008b';
 export const searchBarStyles = makeStyles({
   root: {
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {

@@ -9,12 +9,10 @@ import Announcements from '../Announcements/announcement';
 export default function Home() {
 
   return (
-    <HomewrapperWithCentralMenu2>
-      {/* <CentralMenu /> */}
-      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-        {/* <Announcements /> */}
+    <HomewrapperWithCentralMenu2>            
+      {/* <div style={{ display: 'flex', flexDirection: 'column', width: '100%', justifyContent: 'start', alignItems: 'flex-start', overflowY: 'auto', background: 'red' }}>       */}
         <ServicesMenu />
-      </div>
+      {/* </div> */}
     </HomewrapperWithCentralMenu2>
   );
 }

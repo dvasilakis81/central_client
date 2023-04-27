@@ -2,8 +2,7 @@ export default function (state = {}, action, root) {
 
   if (action) {
     switch (action.type) {
-      case 'RESET_ACTION':
-        console.log('RESET_ACTION');
+      case 'RESET_ACTION':      
         state = {}
         break;
       case 'GET_PAGEITEMS_PENDING':
@@ -57,8 +56,7 @@ export default function (state = {}, action, root) {
           }
         }
         break;
-      case 'GET_PAGEITEMS_REJECTED':
-        console.log('GET_PAGEITEMS_REJECTED: ' + pageItemDetails?.Title)
+      case 'GET_PAGEITEMS_REJECTED':      
         state = {
           ...state,
           requestPending: undefined,
@@ -67,8 +65,7 @@ export default function (state = {}, action, root) {
           pageItemDetails: undefined
         };
         break;
-      case 'SET_PAGEITEM_DETAIL':
-        console.log('GET_PAGEITEMS_REJECTED: ' + pageItemDetails?.Title)
+      case 'SET_PAGEITEM_DETAIL':        
         state = {
           ...state,
           pageItemDetails: action.payload

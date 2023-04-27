@@ -18,8 +18,7 @@ class Editor extends Component {
   }
 
   handleChange(html) {
-    this.setState({ editorHtml: html });
-    console.log(html);
+    this.setState({ editorHtml: html });    
   }
 
   render() {

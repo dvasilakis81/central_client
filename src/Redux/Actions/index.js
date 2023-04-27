@@ -6,6 +6,10 @@ export function getServiceItems() {
   const request = axios.get(getHostUrl() + 'getServiceItems').then(response => response.data);
   return { type: 'GET_SERVICEMENUITEMS', payload: request };
 }
+export function getServiceItemsByGroup() {
+  const request = axios.get(getHostUrl() + 'getServiceItemsByGroup').then(response => response.data);
+  return { type: 'GET_SERVICEMENUITEMS', payload: request };
+}
 export function getMenuItems() {
   const request = axios.get(getHostUrl() + 'getMenuItems').then(response => response.data);
   return { type: 'GET_MENUITEMS', payload: request };

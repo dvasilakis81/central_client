@@ -8,12 +8,12 @@ const styles = {
     marginLeft: '10px',
     width: '60px',
     height: '55px',
-    border: '2px solid #FCE570',
+    border: '2px solid #00008b',
     textAlign: 'center'
   },
   menuleave: { marginLeft: '10px', width: '60px', height: '55px', border: '2px solid white', textAlign: 'center' },
   menuentercolor: { color: 'white' },
-  menuleavecolor: { color: '#FCE570' }
+  menuleavecolor: { color: '#00008b' }
 }
 
 export default function ServiceCategories(props) {

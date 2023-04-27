@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import parse from 'html-react-parser';
 import { getPageInfo } from '../../Redux/Actions';
 import HomeWrapperWithCentralMenu from '../Home/homewrapperwithcentralmenu';
+import HomeWrapperWithCentralMenu2 from '../Home/homewrapperwithcentralmenu2';
 import PageTabs from './pagetabs';
 import { getDateFormat } from '../../Helper/helpermethods';
 
@@ -38,7 +39,7 @@ export default function PageInfo() {
     }
   }, [history]);
 
-  return <HomeWrapperWithCentralMenu> 
+  return <HomeWrapperWithCentralMenu2> 
     <div className='page-info-container'>
       <div className='page-title'>
         {pageInfo && pageInfo.Title}
@@ -51,5 +52,5 @@ export default function PageInfo() {
         {renderComments(pageInfo)}
       </div>
     </div>
-  </HomeWrapperWithCentralMenu>
+  </HomeWrapperWithCentralMenu2>
 }

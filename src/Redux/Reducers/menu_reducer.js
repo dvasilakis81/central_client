@@ -36,7 +36,7 @@ export default function (state = {}, action, root) {
             var serverMenuItems = serverResponse;
             var menuItem = undefined;
             if (serverMenuItems.length > 0)
-              menuItem = serverMenuItems[0];           
+              menuItem = serverMenuItems[0];
 
             var selectedMenuItem = state.menuItemDetails || menuItem;
 
@@ -121,12 +121,18 @@ export default function (state = {}, action, root) {
               ...state,
               requestPending: undefined,
               requestRejected: undefined,
-              requestServerError: undefined,              
-              serviceItemsList: [],              
+              requestServerError: undefined,
+              serviceItemsList: [],
               serviceItemDetails: undefined
             };
           }
         }
+        break;
+      case 'SET_SELECTED_GROUP_SERVICES':
+        state = {
+          ...state,
+          groupServicesSelected: action.payload
+        };
         break;
       case 'GET_SERVICEMENUITEMS_REJECTED':
 
@@ -214,7 +220,7 @@ export default function (state = {}, action, root) {
         break;
       case 'EDIT_MENUITEM_FULFILLED':
         var serverResponse = action.payload;
-        if (serverResponse && serverResponse.errormessage) {
+        if (serverResponse && serverResponse.servererrormessage) {
 
           state = {
             ...state,

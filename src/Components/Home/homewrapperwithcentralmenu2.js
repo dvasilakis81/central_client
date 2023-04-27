@@ -7,7 +7,7 @@ import ServicesSearchBar from '../Search/servicessearchbar';
 import ServiceCategories from '../ServicesMenu/selectcategories';
 
 export default function HomewrapperWithCentralMenu2(props) {
-  
+
   return (
     <div>
       <Header
@@ -27,19 +27,18 @@ export default function HomewrapperWithCentralMenu2(props) {
             backgroundSize: '100% 100%',
             backgroundRepeat: 'none',
             overflowX: 'hidden',
-            overflowY: 'hidden'
+            overflowY: 'hidden',
+            justifyContent: 'center',
+            alignItems: 'center'
           }}>
-            <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: 'auto', paddingTop: '10px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', maxwidth: '300px', minWidth: '300px' }}></div>
-              <div className="services-menu-searchbar">                
-                <ServiceCategories visible={true} />
-                <span style={{marginLeft: '20px'}}></span>
-                <ServicesSearchBar />
-              </div>
-            </div>
-            
-            <div style={{ display: 'flex', flex: 1, flexDirection: 'row', width: '100%', height: '100px', paddingTop: '15px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', maxwidth: '300px', minWidth: '300px', background: 'transparent' }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'row',
+              width: '98%',
+              height: '98%',
+              background: 'transparent'
+            }}>
+              <div style={{ display: 'flex', flexDirection: 'column', maxwidth: '300px', minWidth: '300px', height: '100%', background: 'transparent'}}>
                 <CentralMenu />
               </div>
               {props.children}
