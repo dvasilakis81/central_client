@@ -7,6 +7,7 @@ import { getCategories } from '../../Redux/Actions/index';
 import { getHostUrl } from '../../Helper/helpermethods';
 import { includeStrings } from '../../Helper/helpermethods';
 import store from '../../Redux/Store/store';
+import parse from 'html-react-parser';
 
 function ServicesMenu() {
   const dispatch = useDispatch();
@@ -190,11 +191,22 @@ function ServicesMenu() {
           width: '70%'
         }}>
           {getSelectedServiceTitle()}
-          <div className="services-menu-container">
-            <div className="services-menu-items">
-              {/* <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}> */}
-              {getServicesFromSelectedGroup()}
-              {/* </div> */}
+          <div>
+            <div className="services-menu-container">
+              <div className="services-menu-items">
+                {/* <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}> */}
+                {getServicesFromSelectedGroup()}
+                {/* </div> */}
+              </div>
+            </div>
+            <div>
+              {
+                groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
+                  return <div key={index}>
+                    {parse(d.Description)}
+                  </div>
+                })
+              }
             </div>
           </div>
         </div>
