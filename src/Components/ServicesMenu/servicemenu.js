@@ -121,18 +121,17 @@ function ServicesMenu() {
     //     </div >
     //   })
     // }
-    if (items instanceof Array) {
-      return items && items.map((d, index) => {
-        return <div
-          style={{ margin: '2px', flexDirection: 'column' }}
-          onMouseEnter={(e, d) => { setGroupHoveredKey(index); }}
-          onMouseLeave={(e, d) => { setGroupHoveredKey(''); }}
-          className={groupHoveredKey === index || groupServicesSelected === d ? 'group-services-item-hovered' : 'group-services-item'}
-          onClick={(e) => { store.dispatch({ type: 'SET_SELECTED_GROUP_SERVICES', payload: d }) }}>
-          {d.Name}
-        </div>
-      })
-    }
+
+    return items && items.map((d, index) => {
+      return <div
+        style={{ margin: '2px', flexDirection: 'column' }}
+        onMouseEnter={(e, d) => { setGroupHoveredKey(index); }}
+        onMouseLeave={(e, d) => { setGroupHoveredKey(''); }}
+        className={groupHoveredKey === index || groupServicesSelected === d ? 'group-services-item-hovered' : 'group-services-item'}
+        onClick={(e) => { store.dispatch({ type: 'SET_SELECTED_GROUP_SERVICES', payload: d }) }}>
+        {d.Name}
+      </div>
+    })
   }
 
   function getSelectedServiceTitle() {

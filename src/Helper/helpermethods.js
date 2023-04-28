@@ -2,6 +2,7 @@ import { el } from 'date-fns/locale';
 import format from 'string-format'
 //var dateFormat = require('dateformat');
 import { Checkbox } from '@material-ui/core';
+import parse from 'html-react-parser';
 
 export function checkIfFileIsImage(imageName) {
 	var ret = false;
@@ -704,6 +705,10 @@ function renderValueUrl(value) {
 function renderValue(value) {
 	return <span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{value}</span>
 }
+function renderHtml(value) {
+	//return <span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{parse(value)}</span>
+	return parse(value)
+}
 
 export function renderCheckbox(value) {
 
@@ -747,6 +752,7 @@ export function renderDetail(label, value, info) {
 	if (value !== undefined && value !== null)
 		return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', fontSize: '1.5rem', fontWeight: "normal", width: '100%', paddingBottom: '20px' }}>
 			<div style={{ fontSize: '1.5rem', fontWeight: "bold", minWidth: '250px', maxWidth: '250px', textAlign: 'right', flexWrap: 'wrap' }}>{label}: </div>
+			{info && info.isHtml === true ? renderHtml(value) : <></>}			
 			{info && info.isDate === true ? renderDate(value) : <></>}
 			{info && info.isImage === true ? <span style={{ marginLeft: '5px' }}>{renderImage(value)}</span> : <></>}
 			{info && info.isCheckbox === true ? renderCheckbox(value) : <></>}

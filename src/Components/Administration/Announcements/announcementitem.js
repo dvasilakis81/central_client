@@ -27,6 +27,6 @@ export default function AnnouncementItem(props) {
       onMouseLeave={handleMouseLeave}
       onClick={() => { changeSelectedItem(dispatch, props, item); }}
       style={{ padding: '5px' }}>
-      <div className={itemStyle}>{item.Description}</div>
+      <div className={itemStyle}>{item.Title}</div>
     </ div >
 }

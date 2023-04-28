@@ -3,8 +3,8 @@ import Header from '../Header/header';
 import CentralMenu from '../CentralMenu/centralmenu';
 import Body from '../../HOC/Body/body';
 import Footer from '../Footer/footer';
-import ServicesSearchBar from '../Search/servicessearchbar';
-import ServiceCategories from '../ServicesMenu/selectcategories';
+// import ServicesSearchBar from '../Search/servicessearchbar';
+// import ServiceCategories from '../ServicesMenu/selectcategories';
 
 export default function HomewrapperWithCentralMenu2(props) {
 

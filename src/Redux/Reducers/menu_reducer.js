@@ -114,7 +114,8 @@ export default function (state = {}, action, root) {
               requestRejected: undefined,
               requestServerError: undefined,
               serviceItemsList: serverMenuItems,
-              serviceItemDetails: state.serviceItemDetails || serviceItem
+              serviceItemDetails: state.serviceItemDetails || serviceItem,
+              groupServicesSelected: serviceItem
             };
           } else {
             state = {

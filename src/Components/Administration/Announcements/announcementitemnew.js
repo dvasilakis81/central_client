@@ -6,11 +6,15 @@ import { Checkbox } from '@material-ui/core';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import CancelAltIcon from '@material-ui/icons/Cancel';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Editor } from '@tinymce/tinymce-react';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Paper from "@material-ui/core/Paper";
+
 import { addAnnouncement, editAnnouncement } from '../../../Redux/Actions/index';
+import { getHostUrl } from '../../../Helper/helpermethods';
+import { useStyles } from '../../Administration/Styles/styles';
 import HomeWrapper from '../../Home/homewrapper';
 import SelectImage from '../SelectImage/selectimage';
-import { Editor } from '@tinymce/tinymce-react';
-import { getHostUrl } from '../../../Helper/helpermethods';
 
 const styles = {
   textfield: {
@@ -19,7 +23,8 @@ const styles = {
     marginTop: '5px',
     width: 800,
     background: 'white',
-    borderRadius: '20px'
+    borderRadius: '20px',
+    transform: "scale(1)"
   },
   smallTextfield: {
     fontSize: '22px',
@@ -31,8 +36,12 @@ const styles = {
   }
 }
 
+const CustomPaper = (props) => {
+  return <Paper  {...props} style={{ width: 'auto', backgroundColor: 'lightgray', padding: '0px', margin: '0px' }} />;
+};
+
 export default function AnnouncementItemNew(props) {
-  
+  const classes = useStyles();
   const dispatch = useDispatch();
   let navigate = useNavigate();
   let location = useLocation();
@@ -43,11 +52,13 @@ export default function AnnouncementItemNew(props) {
     announcementItemDetails = announcementItemDetails2;
   let newItemAdded = useSelector((state) => state.announcement_reducer.newItemAdded);
   let itemChanged = useSelector((state) => state.announcement_reducer.itemChanged);
+  let categoriesList = useSelector((state) => state.parametricdata_reducer.categoriesList);
 
   const [id, setId] = useState(announcementItemDetails && announcementItemDetails.Id || '');
   const [descriptionInitial, setDescriptionInitial] = useState(announcementItemDetails && announcementItemDetails.Description || '');
   const [description, setDescription] = useState(announcementItemDetails && announcementItemDetails.Description || '');
   const [url, setUrl] = useState(announcementItemDetails && announcementItemDetails.Url || '');
+  const [title, setTitle] = useState(announcementItemDetails && announcementItemDetails.Title || '');
   const [color, setColor] = useState(announcementItemDetails?.Color || '');
   const [backgroundColor, setBackgroundColor] = useState(announcementItemDetails?.BackgroundColor || '');
   const [imageFile, setImageFile] = useState(announcementItemDetails?.Image || '');
@@ -55,58 +66,122 @@ export default function AnnouncementItemNew(props) {
   const [showonfirstpage, setShowonfirstpage] = useState(announcementItemDetails?.Showonfirstpage || false);
   const [hidden, setHidden] = useState(announcementItemDetails?.Hidden || false);
   const [orderNo, setOrderNo] = useState(announcementItemDetails?.OrderNo || 0);
+  const [categories, setCategories] = useState(announcementItemDetails?.categoriesInfo || '');
 
   if (newItemAdded === true || itemChanged === true) {
     dispatch({ type: 'SET_ADDED_NEWANNOUNCEMENT', payload: false });
     navigate(-1);
   } else {
     return <HomeWrapper>
-      <div style={{ display: 'flex', flexFlow: 'column', flexWrap: 'wrap', overflowY: 'hidden', width: '100%', height: '100%', background: 'white', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover' }}>
-        <div style={{ display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', flexWrap: 'wrap', alignContent: 'center' }}>
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            var data = {};
-            data.id = id;
-            data.description = description;
-            data.url = url;
-            data.color = color;
-            data.backgroundColor = backgroundColor;
-            data.image = (imageFile || imageFontAwesome || '');
-            data.showonfirstpage = showonfirstpage || 0;
-            data.hidden = hidden || 0;
-            data.orderNo = orderNo;
+      <form
+        style={{
+          display: 'flex',
+          flexFlow: 'row',
+          flexWrap: 'wrap',
+          overflowY: 'hidden',
+          width: '100%',
+          height: '100%',
+          background: 'white',
+          justifyContent: 'center',
+          alignContent: 'center',          
+          backgroundColor: 'lightyellow'
+        }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          
+          var data = {};
+          data.id = id;
+          data.title = title;
+          data.description = description;
+          data.url = url;
+          data.color = color;
+          data.backgroundColor = backgroundColor;
+          data.image = (imageFile || imageFontAwesome || '');
+          data.showonfirstpage = showonfirstpage || 0;
+          data.hidden = hidden || 0;
+          data.categories = categories;
+          data.orderNo = orderNo;
 
-            if (location.state.isNew === 2)
-              dispatch(editAnnouncement(data));
-            else
-              dispatch(addAnnouncement(data));            
-          }}>
+          if (location.state.isNew === 2)
+            dispatch(editAnnouncement(data));
+          else
+            dispatch(addAnnouncement(data));
+        }}>
+        <div style={{
+          display: 'flex',
+          flexFlow: 'row',
+          flexWrap: 'wrap',
+          overflowY: 'hidden',
+          width: '80%',
+          height: '100%',
+          background: 'white',
+          justifyContent: 'center'
+        }}>
+          <div style={{
+            display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', flexWrap: 'wrap' }}>
             <div style={{ padding: '10px' }}>
-              {/* <Editor
-              tinymceScriptSrc={getHostUrl() + '/js/tinymce/tinymce.min.js'}
-              init={{
-                plugins: "lists link image code table media links indent fontsize",                
-                height: '300px',
-                width: 'auto',
-                toolbar: "undo redo | bold italic underline | fontsize fontfamily | outdent indent | alignleft aligncenter alignright | numlist bullist | link | image | media | table | code",
-                content_style: "body { font-size: 14pt; font-family: Arial; }",
-                promotion: false
-              }}
-              style={{ height: '300px' }}
-              initialValue={descriptionInitial}
-              value={description}
-              onEditorChange={(newValue, editor) => setDescription(newValue)}
-            /> */}
-
+              <Editor
+                tinymceScriptSrc={getHostUrl() + '/js/tinymce/tinymce.min.js'}
+                init={{
+                  selector: 'textarea',
+                  resize: 'true',
+                  plugins: "lists link image code table media links indent fontsize autoresize",
+                  height: 300,
+                  min_height: 500,
+                  max_height: 500,
+                  width: 'auto',
+                  toolbar: "undo redo | bold italic underline | fontsize fontfamily | outdent indent | alignleft aligncenter alignright | numlist bullist | link | image | media | table | code",
+                  content_style: "body { font-size: 14pt; font-family: Arial; }",
+                  promotion: false
+                }}
+                initialValue={descriptionInitial}
+                value={description}
+                onEditorChange={(newValue, editor) => setDescription(newValue)}
+              />
+            </div>
+          </div>
+          <div style={{ display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', flexWrap: 'wrap', alignContent: 'center' }}>
+            <div style={{ padding: '10px' }}>
+              <Autocomplete
+                options={categoriesList || []}
+                filterSelectedOptions
+                multiple
+                getOptionLabel={item => (item.Name || '')}
+                onChange={(event, value) => setCategories(value)}
+                defaultValue={categories || []}
+                PaperComponent={CustomPaper}
+                ChipProps={{ color: 'red' }}
+                style={{ flex: '1', padding: '0px', flexWrap: 'wrap', maxWidth: '800px' }}
+                renderOption={(props, option) => {
+                  const { Name } = props;
+                  return (
+                    <span style={{ backgroundColor: 'transparent', color: 'blue', padding: '5px' }}>
+                      <i class="fa fa-tag" />
+                      <span style={{ marginLeft: '10px' }}>{Name}</span>
+                    </span>
+                  );
+                }}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    className={classes.root}
+                    variant="outlined"
+                    placeholder="Κατηγορίες"
+                    fullWidth
+                  />
+                )}
+              />
+            </div>
+            <div style={{ padding: '10px' }}>
               <TextField
                 required
-                label="Περιγραφή"
-                variant='outlined'
                 type="text"
+                label="Τίτλος"
+                variant='outlined'
                 style={styles.textfield}
-                value={description}
-                onChange={(e) => { setDescription(e.target.value); }}
-                inputProps={{ style: { textAlign: 'Left' } }}
+                value={title}
+                onChange={(e) => { setTitle(e.target.value); }}
+                inputProps={{ style: styles.textfield }}
               />
             </div>
             <div style={{ padding: '10px' }}>
@@ -121,19 +196,7 @@ export default function AnnouncementItemNew(props) {
                 inputProps={{ style: styles.textfield }}
               />
             </div>
-            {/* <div style={{ padding: '10px' }}>
-              <TextField
-                type="number"
-                label="Σειρά"
-                variant='outlined'
-                style={styles.textfield}
-                value={orderNo}
-                onChange={(e) => { setOrderNo(e.target.value) }}
-                InputLabelProps={{ shrink: true }}
-                inputProps={{ style: { textAlign: 'Left' } }}
-              />
-            </div> */}
-            <div style={{ padding: '10px', display: 'flex', direction: 'row' }}>
+            <div style={{ padding: '5px', display: 'flex', direction: 'row', marginTop: '10px'  }}>
               <div style={{ display: 'flex', direction: 'row' }}>
                 <div style={{ width: '30px', height: '30px', background: backgroundColor, padding: '1px', marginRight: '10px', border: '1px solid black' }}></div>
                 <TextField
@@ -172,7 +235,7 @@ export default function AnnouncementItemNew(props) {
                 />
               </div>
             </div>
-            <div style={{ padding: '10px' }}>
+            {/* <div style={{ padding: '10px' }}>
               <SelectImage
                 label="Εικονίδιο"
                 image={imageFile}
@@ -196,30 +259,32 @@ export default function AnnouncementItemNew(props) {
                 }}
                 customstyle={styles.textfield}
                 imagetype={2} />
-            </div>
-            <div style={{ display: 'flex', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden' }}>
-              <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
+            </div> */}
+            <div style={{ display: 'flex', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', marginTop: '10px'   }}>
+              <div style={{ fontSize: 24, padding: 0, textAlign: 'left' }}>
                 <Checkbox
                   defaultChecked={false}
                   color='primary'
                   checked={showonfirstpage}
-                  onChange={e => setShowonfirstpage(e.target.checked)}
+                  style={{ transform: "scale(2)" }}
+                  onChange={e => setShowonfirstpage(e.target.checked)}                  
                   inputProps={{ 'aria-label': 'controlled' }}
                 />
                 <span>Να φαίνεται στην πρώτη σελίδα</span>
               </div>
-              <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
+              <div style={{ fontSize: 24, marginTop: '20px', textAlign: 'left' }}>
                 <Checkbox
                   defaultChecked={false}
                   color='primary'
                   checked={hidden}
+                  style={{ transform: "scale(2)" }}
                   onChange={e => setHidden(e.target.checked)}
                   inputProps={{ 'aria-label': 'controlled' }}
                 />
                 <span>Κρυφό</span>
               </div>
             </div>
-            <div style={{ display: 'flex', flexFlow: 'row', height: 'auto', textAlign: 'right', marginTop: '0px' }}>
+            <div style={{ display: 'flex', flexFlow: 'row', height: 'auto', textAlign: 'right', marginTop: '20px' }}>
               <Button
                 variant="contained"
                 type="submit"
@@ -236,9 +301,9 @@ export default function AnnouncementItemNew(props) {
                 Ακύρωση
               </Button>
             </div>
-          </form>
-        </div>
-      </div >
-    </HomeWrapper>
+          </div>
+        </div >
+      </form>
+    </HomeWrapper >
   }
 }
