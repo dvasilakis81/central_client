@@ -90,6 +90,19 @@ export default function (state = {}, action, root) {
           }
         }
         break;
+      case 'OPEN_CATEGORIES': {
+        console.log('OPEN_CATEGORIES');
+        state = {
+          ...state,
+          opencategories: true
+        };
+      }
+      case 'CLOSE_CATEGORIES': {
+        state = {
+          ...state,
+          opencategories: false
+        };
+      }
       default:
         break;
     }

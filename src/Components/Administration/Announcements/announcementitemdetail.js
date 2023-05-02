@@ -8,10 +8,10 @@ export default function AnnouncementItemDetails(props) {
   if (itemDetails) {
     return (<div>
       {renderDetail('Περιγραφή', itemDetails.Description, {isHtml: true})}
-      {renderDetail('Σύνδεσμος', itemDetails.Url, {isUrl: true})}
+      {/* {renderDetail('Σύνδεσμος', itemDetails.Url, {isUrl: true})} */}
       {renderDetail('Κατηγορίες', itemDetails.categoriesInfo, {isList: true})}
-      {renderDetail('Χρώμα Κειμένου', itemDetails.Color, {isColor: true})}
-      {renderDetail('Χρώμα Φόντου', itemDetails.BackgroundColor, {isColor: true})}      
+      {/* {renderDetail('Χρώμα Κειμένου', itemDetails.Color, {isColor: true})}
+      {renderDetail('Χρώμα Φόντου', itemDetails.BackgroundColor, {isColor: true})}       */}
       {renderDetail('Πρώτη σελίδα', itemDetails.Showonfirstpage, {isCheckbox: true})}
       {renderDetail('Κρυφό', itemDetails.Hidden, {isCheckbox: true})}      
       {renderDetail('Δημιουργήθηκε', itemDetails.Created, {isDate: true})}

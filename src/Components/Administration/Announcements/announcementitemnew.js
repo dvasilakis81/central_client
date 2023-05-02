@@ -57,15 +57,15 @@ export default function AnnouncementItemNew(props) {
   const [id, setId] = useState(announcementItemDetails && announcementItemDetails.Id || '');
   const [descriptionInitial, setDescriptionInitial] = useState(announcementItemDetails && announcementItemDetails.Description || '');
   const [description, setDescription] = useState(announcementItemDetails && announcementItemDetails.Description || '');
-  const [url, setUrl] = useState(announcementItemDetails && announcementItemDetails.Url || '');
+  //const [url, setUrl] = useState(announcementItemDetails && announcementItemDetails.Url || '');
   const [title, setTitle] = useState(announcementItemDetails && announcementItemDetails.Title || '');
-  const [color, setColor] = useState(announcementItemDetails?.Color || '');
-  const [backgroundColor, setBackgroundColor] = useState(announcementItemDetails?.BackgroundColor || '');
+  //const [color, setColor] = useState(announcementItemDetails?.Color || '');
+  //const [backgroundColor, setBackgroundColor] = useState(announcementItemDetails?.BackgroundColor || '');
   const [imageFile, setImageFile] = useState(announcementItemDetails?.Image || '');
   const [imageFontAwesome, setImageFontAwesome] = useState(announcementItemDetails?.Image || '');
   const [showonfirstpage, setShowonfirstpage] = useState(announcementItemDetails?.Showonfirstpage || false);
   const [hidden, setHidden] = useState(announcementItemDetails?.Hidden || false);
-  const [orderNo, setOrderNo] = useState(announcementItemDetails?.OrderNo || 0);
+  //const [orderNo, setOrderNo] = useState(announcementItemDetails?.OrderNo || 0);
   const [categories, setCategories] = useState(announcementItemDetails?.categoriesInfo || '');
 
   if (newItemAdded === true || itemChanged === true) {
@@ -93,14 +93,14 @@ export default function AnnouncementItemNew(props) {
           data.id = id;
           data.title = title;
           data.description = description;
-          data.url = url;
-          data.color = color;
-          data.backgroundColor = backgroundColor;
+          //data.url = url;
+          //data.color = color;
+          //data.backgroundColor = backgroundColor;
           data.image = (imageFile || imageFontAwesome || '');
           data.showonfirstpage = showonfirstpage || 0;
           data.hidden = hidden || 0;
           data.categories = categories;
-          data.orderNo = orderNo;
+          //data.orderNo = orderNo;
 
           if (location.state.isNew === 2)
             dispatch(editAnnouncement(data));
@@ -184,7 +184,7 @@ export default function AnnouncementItemNew(props) {
                 inputProps={{ style: styles.textfield }}
               />
             </div>
-            <div style={{ padding: '10px' }}>
+            {/* <div style={{ padding: '10px' }}>
               <TextField
                 required
                 type="text"
@@ -195,8 +195,8 @@ export default function AnnouncementItemNew(props) {
                 onChange={(e) => { setUrl(e.target.value); }}
                 inputProps={{ style: styles.textfield }}
               />
-            </div>
-            <div style={{ padding: '5px', display: 'flex', direction: 'row', marginTop: '10px'  }}>
+            </div> */}
+            {/* <div style={{ padding: '5px', display: 'flex', direction: 'row', marginTop: '10px'  }}>
               <div style={{ display: 'flex', direction: 'row' }}>
                 <div style={{ width: '30px', height: '30px', background: backgroundColor, padding: '1px', marginRight: '10px', border: '1px solid black' }}></div>
                 <TextField
@@ -234,7 +234,7 @@ export default function AnnouncementItemNew(props) {
                   inputProps={{ style: { textAlign: 'Left' } }}
                 />
               </div>
-            </div>
+            </div> */}
             {/* <div style={{ padding: '10px' }}>
               <SelectImage
                 label="Εικονίδιο"

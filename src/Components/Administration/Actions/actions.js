@@ -7,18 +7,20 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Popover from '@material-ui/core/Popover';
-import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import { Grid, Paper, Typography, Button } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import store from '../../../Redux/Store/store';
+import Categories from '../Categories/categories';
 
 //import { deleteAnnouncement, deletePageItem, deleteMenuItem, deleteServiceItem } from '../../../Redux/Actions/index';
 import { deleteItem } from '../../../Redux/Actions/index';
+import { getWindowDimensions } from '../../../Helper/helpermethods';
 
-export default function Actions(props) {
+export default function Actions(props) {  
+
   const announcementItemDetails = useSelector((state) => state.announcement_reducer.announcementItemDetails);
   const mediaItemDetails = useSelector((state) => state.media_reducer.mediaItemDetails);
   const menuItemDetails = useSelector((state) => state.menu_reducer.menuItemDetails);
@@ -32,7 +34,28 @@ export default function Actions(props) {
   const [variant, setVariant] = useState('');
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openPopover, setOpenPopover] = useState(false);
+  const [openCategories, setOpenCategories] = useState(false);
 
+  function getPopoverTop(windowHeight) {
+    var ret = '';
+    ret = (windowHeight / 2) - 250
+    return ret;
+  }
+  function getPopoverLeft(windowWidth) {
+    var ret = '';
+    ret = (windowWidth / 2) - 400
+    return ret;
+  }
+
+  // function renderCategories() {
+  //   if (openCategories === true) {
+  //     return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+  //       <div style={{ background: 'red', width: '500px', height: '500' }}>
+  //         asdfsadf
+  //       </div>
+  //     </div>
+  //   }
+  // }
   function showDeleteMessage() {
 
     if (props.contenttype === "mediaitem")
@@ -71,79 +94,91 @@ export default function Actions(props) {
     navigate(props.navigatepage, { state: { isNew: 2, itemtype: props.itemtype } });
     //return <Navigate push to={props.navigatepage} isEdit={true} />
   } else {
-    return <div style={{ display: 'flex', height: '50px', justifyContent: 'flex-end'}}>
-        <Button
-          size="small"
-          variant="contained"
-          style={{ margin: '5px', background: 'lightgreen' }}
-          onClick={handleOpen}>
-          <AddIcon />
-          ΠΡΟΣΘΗΚΗ
-        </Button>
-        <Button
-          size="small"
-          variant="contained"
-          style={{ margin: '5px', background: '#2a9df4' }}
-          onClick={handleEdit}>
-          <AddIcon />
-          ΕΠΕΞΕΡΓΑΣΙΑ
-        </Button>
-        <Button
-          size="small"
-          variant="contained"
-          style={{ margin: '5px', background: 'red', color: 'white' }}
-          onClick={() => { setOpenDeleteDialog(true); }}>
-          <DeleteIcon />
-          ΔΙΑΓΡΑΦΗ
-        </Button>
-        <Dialog
-          open={openDeleteDialog}
-          onClose={() => {
+    return <div style={{ display: 'flex', height: '50px', justifyContent: 'flex-end' }}>
+      <Button
+        size="small"
+        variant="contained"
+        style={{ margin: '5px', background: 'lightgreen' }}
+        onClick={handleOpen}>
+        <AddIcon />
+        ΠΡΟΣΘΗΚΗ
+      </Button>
+      <Button
+        size="small"
+        variant="contained"
+        style={{ margin: '5px', background: '#2a9df4' }}
+        onClick={handleEdit}>
+        <AddIcon />
+        ΕΠΕΞΕΡΓΑΣΙΑ
+      </Button>
+      <Button
+        size="small"
+        variant="contained"
+        style={{ margin: '5px', background: 'red', color: 'white' }}
+        onClick={() => { setOpenDeleteDialog(true); }}>
+        <DeleteIcon />
+        ΔΙΑΓΡΑΦΗ
+      </Button>
+      <Dialog
+        open={openDeleteDialog}
+        onClose={() => {
+          setOpenPopover(false);
+          setOpenDeleteDialog(false);
+        }}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">{"ΜΗΝΥΜΑ"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {showDeleteMessage()}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => {
+            var data = {}
+            if (props.contenttype === "announcement") {
+              data.kind = 4;
+              data.id = announcementItemDetails.Id;
+            } else if (props.contenttype === "menuitem") {
+              data.kind = 1;
+              if (props.itemtype === 1)
+                data.id = menuItemDetails.Id;
+              else
+                data.id = serviceItemDetails.Id;
+            } else if (props.contenttype === "pageitem") {
+              data.kind = 2;
+              data.id = pageItemDetails.Id;
+            } else if (props.contenttype === "mediaitem") {
+              data.kind = 3;
+              data.id = mediaItemDetails.Id;
+            }
+
+            dispatch(deleteItem(data));
             setOpenPopover(false);
             setOpenDeleteDialog(false);
-          }}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description">
-          <DialogTitle id="alert-dialog-title">{"ΜΗΝΥΜΑ"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {showDeleteMessage()}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => {
-              var data = {}
-              if (props.contenttype === "announcement") {
-                data.kind = 4;
-                data.id = announcementItemDetails.Id;
-              } else if (props.contenttype === "menuitem") {
-                data.kind = 1;
-                if (props.itemtype === 1)
-                  data.id = menuItemDetails.Id;
-                else
-                  data.id = serviceItemDetails.Id;
-              } else if (props.contenttype === "pageitem") {
-                data.kind = 2;
-                data.id = pageItemDetails.Id;
-              } else if (props.contenttype === "mediaitem") {
-                data.kind = 3;
-                data.id = mediaItemDetails.Id;
-              }
-
-              dispatch(deleteItem(data));
-              setOpenPopover(false);
-              setOpenDeleteDialog(false);
-            }} color="primary" autoFocus>
-              Διαγραφή
-            </Button>
-            <Button onClick={() => {
-              setOpenPopover(false);
-              setOpenDeleteDialog(false);
-            }} color="primary" autoFocus>
-              Ακύρωση
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+          }} color="primary" autoFocus>
+            Διαγραφή
+          </Button>
+          <Button onClick={() => {
+            setOpenPopover(false);
+            setOpenDeleteDialog(false);
+          }} color="primary" autoFocus>
+            Ακύρωση
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <span style={{ textAlign: 'center' }}>
+        <Button
+          variant='contained'
+          style={{ margin: '5px', background: '#F3FCFF', color: '#000' }}
+          onClick={() => { 
+            //setOpenPopover(true) 
+            store.dispatch({ type: 'OPEN_CATEGORIES', payload: true })            
+            }}>
+          ΚΑΤΗΓΟΡΙΕΣ
+        </Button>
+        <Categories />
+      </span>
+    </div>
   }
 }
