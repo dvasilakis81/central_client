@@ -171,9 +171,8 @@ export default function Actions(props) {
         <Button
           variant='contained'
           style={{ margin: '5px', background: '#F3FCFF', color: '#000' }}
-          onClick={() => { 
-            //setOpenPopover(true) 
-            store.dispatch({ type: 'OPEN_CATEGORIES', payload: true })            
+          onClick={() => {             
+            store.dispatch({ type: 'OPEN_CATEGORIES', payload: true })
             }}>
           ΚΑΤΗΓΟΡΙΕΣ
         </Button>

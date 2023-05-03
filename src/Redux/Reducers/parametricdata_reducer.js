@@ -96,6 +96,7 @@ export default function (state = {}, action, root) {
           ...state,
           opencategories: true
         };
+        break;
       }
       case 'CLOSE_CATEGORIES': {
         state = {

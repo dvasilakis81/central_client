@@ -1,13 +1,16 @@
 ::-webkit-scrollbar {
   width: 5px;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #0072A0;  
+  background: #0072A0;
 }
+
 ::-webkit-scrollbar-track {
   background: lightsalmon;
   /* color of the tracking area */
 }
+
 * {
   scrollbar-color: #0072A0 lightsalmon;
   scrollbar-width: thin;
@@ -18,7 +21,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
 }
 
 .services-menu-container {
@@ -31,7 +34,7 @@
   background: transparent;
   overflow-x: hidden;
   overflow-y: hidden;
-  padding-left: 15px;  
+  padding-left: 15px;
 }
 
 .services-menu-items {
@@ -41,7 +44,7 @@
   flex-wrap: wrap;
   background: transparent;
   overflow-x: hidden;
-  overflow-y: auto;  
+  overflow-y: auto;
   align-content: flex-start;
   justify-content: center;
 }
@@ -58,47 +61,72 @@
   justify-content: center;
 }
 
-.service-menu-item {
+.service-menu-item-parent {
   display: flex;
   font-size: 16px;
-  font-style: 'bold|italic';
-  color: black;
+  font-weight: bold;
+  background-color: #9DD8EA;
+  color: #00008B;
   border: 0px solid black;
   cursor: pointer;
-  padding: 5px;
+  padding: 1px;
   justify-content: center;
   align-items: center;
-  text-align: center;
   margin: 10px;
   width: 200px;
   min-width: 200px;
   min-height: 100px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.08), 0 4px 4px rgba(0, 0, 0, 0.08), 0 8px 8px rgba(0, 0, 0, 0.08), 0 16px 16px rgba(0, 0, 0, 0.08);
   border-radius: 1px;
-  margin-top: 30px;
+  margin-top: 10px;
+}
+
+.service-menu-item-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  padding: 5px;
+  background-color: #9DD8EA;  
+}
+
+.service-menu-item-child-hovered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  padding: 5px;
+  background-color: #2196F3;
 }
 
 .page-info-container {
   padding: 10px;
   display: flex;
   flex: 1;
-  flex-direction: column;  
+  flex-direction: column;
   background-color: white;
   border-radius: 0px;
   opacity: 1;
   height: '100%';
 }
+
 .page-title {
   text-align: center;
   font-size: 2.5rem;
   color: #094fa3;
   font-weight: bolder;
 }
+
 .page-body {
   padding: 15px;
   overflow-y: auto;
   height: '100%';
 }
+
 .page-body-content {
   margin-top: 30px;
   padding: 0px;
@@ -117,9 +145,9 @@
   cursor: unset;
   font-weight: 600;
   color: white;
-  background-color: #094fa3;  
+  background-color: #094fa3;
   padding-left: 10px;
-  padding-right: 10px;  
+  padding-right: 10px;
 }
 
 .selected-tab {
@@ -133,7 +161,7 @@
   text-align: center;
   cursor: unset;
   color: #094fa3;
-  background-color: white;  
+  background-color: white;
   padding-left: 10px;
   padding-right: 10px;
   font-weight: 600;
@@ -203,7 +231,7 @@
   font-size: 1.5rem !important;
   font-family: 'Tinos', serif;
   font-weight: normal;
-  background-color: #A7C7E7 !important;  
+  background-color: #A7C7E7 !important;
   cursor: pointer;
   margin-left: 5px;
   padding: 10px;
@@ -219,18 +247,18 @@
   border-radius: 0px;
   opacity: 0.9;
   padding: 10px;
-  color: black;  
+  color: black;
   background: #FCF9B5;
-  overflow-y: auto;  
+  overflow-y: auto;
 }
 
 .menu-item {
   display: flex;
   flex: 1;
-  font-size: 16px;  
+  font-size: 16px;
   padding-top: 5px;
   padding-bottom: 5px;
-  font-weight: bolder;  
+  font-weight: bolder;
   cursor: pointer;
   background: #FCF9B5;
 }
@@ -246,27 +274,27 @@
   flex: 1;
   font-size: 16px;
   padding-top: 5px;
-  padding-bottom: 5px;  
+  padding-bottom: 5px;
   font-weight: bolder;
   color: white;
   background: #2196F3;
 }
 
-.group-services-item {  
+.group-services-item {
   font-size: 16px;
   padding: 10px;
   font-weight: bolder;
-  color: black;
-  background: lightgrey;
+  color: #00008B;
+  background: #87CEEB;
   padding: '10px'
 }
 
-.group-services-item-hovered {  
+.group-services-item-hovered {
   font-size: 16px;
   padding: 10px;
   font-weight: bolder;
-  color: black;
-  background: grey;
+  color: white;
+  background: #00008B;
 }
 
 .btn-central {

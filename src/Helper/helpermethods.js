@@ -96,6 +96,15 @@ export function getWindowDimensions(windowWidth, windowHeight, transform, zoom) 
 	return ret;
 }
 
+export function getScreenWidth() {
+	let windowDimensions = getWindowDimensions(window.innerWidth, window.innerHeight, document.getElementById('root').style.transform)
+	return windowDimensions[0]['width'];
+}
+export function getScreenHeight() {
+	let windowDimensions = getWindowDimensions(window.innerWidth, window.innerHeight, document.getElementById('root').style.transform)
+	return windowDimensions[1]['height'];
+}
+
 export function getBodyHeight() {
 	let windowDimensions = getWindowDimensions(window.innerWidth, window.innerHeight, document.getElementById('root').style.transform)
 	return windowDimensions[1]['height'] - (getHeaderHeight() + getFooterHeight());

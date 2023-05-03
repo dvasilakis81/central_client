@@ -35,7 +35,7 @@ export default function AdministrationPage(props) {
   const handleMouseLeave = () => { setHoveredKey(-1); };
   useEffect(() => {
     dispatch(getMenuItems());
-    dispatch(getServiceItems());
+    dispatch(getServiceItems());    
     if (pageItemsList) {
     } else
       dispatch(getPageItems());

@@ -26,22 +26,17 @@ function ServicesMenu() {
     dispatch(getCategories());
   }, []);
 
-  function getBackgroundColor(item) {
-    var ret = '#9DD8EA';
+  function getServiceClass(item) {
+    var ret = '';
 
     if (hoveredKey === item)
-      ret = '#2196F3';
-    else {
-      if (item.Announce === 1) {
-        //ret = 'linear-gradient(110.4deg, rgb(247, 112, 15) 6.4%, rgb(248, 50, 88) 100.2%);';
-        ret = '#ffa590';
-      }
-      else
-        ret = '#9DD8EA';
-    }
+      ret = 'service-menu-item-child-hovered';
+    else       
+      ret = 'service-menu-item-child';
 
     return ret;
   }
+
   function getImage(item) {
     var ret = <></>;
     var srcImage = getHostUrl() + item.ImageService;
@@ -69,34 +64,17 @@ function ServicesMenu() {
   }
   function getItems(items) {
 
-    // return items && items.map((d, index) => {
-    //   return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ?
-    //     <div
-    //       key={index}
-    //       onMouseEnter={(e) => handleMouseEnter(e, d)}
-    //       onMouseLeave={handleMouseLeave}
-    //       onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf')) }}
-    //       style={{ display: 'flex', flex: 1, background: getBackgroundColor(d) }}>
-    //       {getImage(d)}
-    //       <div style={{ flex: 0.7 }}>
-    //         {d.Name}
-    //       </div>
-    //     </div>
-    //     :
-    //     <></>
-    // })
-
     return items && items.map((d, index) => {
       return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ?
-        <div
-          key={index}
-          className="service-menu-item"
-          onMouseEnter={(e) => handleMouseEnter(e, d)}
-          onMouseLeave={handleMouseLeave}
-          onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf')) }}
-          style={{ background: getBackgroundColor(d) }}>
+      <div key={index} 
+           className="service-menu-item-parent"
+           onMouseEnter={(e) => handleMouseEnter(e, d)}
+           onMouseLeave={handleMouseLeave}
+           onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf')) }}>
+        <div className={getServiceClass(d)}>
           {getImage(d)}
           <div style={{ flex: 0.7 }}>{d.Name}</div>
+        </div>
         </div>
         :
         <></>
@@ -110,18 +88,6 @@ function ServicesMenu() {
   }
 
   function getItemsByGroup(items, searchValue) {
-    // if (items instanceof Array) {
-    //   return items && items.map((d, index) => {
-    //     return <div
-    //       style={{ margin: '2px', flexDirection: 'column' }}
-    //       onMouseEnter={(e, d) => { setGroupHoveredKey(index); }}
-    //       onMouseLeave={(e, d) => { setGroupHoveredKey(''); }}          
-    //       className={groupHoveredKey === index || groupServicesSelected === d ? 'group-services-item-hovered' : 'group-services-item'}
-    //       onClick={(e) => { store.dispatch({ type: 'SET_SELECTED_GROUP_SERVICES', payload: d }) }}>
-    //       {d.Name}
-    //     </div >
-    //   })
-    // }
 
     return items && items.map((d, index) => {
       return <div
@@ -135,32 +101,24 @@ function ServicesMenu() {
     })
   }
 
+  function getServicesTitle(groupServicesSelected) {
+    var servicesLen = groupServicesSelected.servicesInfo?.length;
+    var announcementsLen = groupServicesSelected.announcementsInfo?.length;
+    var msg = groupServicesSelected.servicesInfo?.length === 1 ? 'υπηρεσία' : 'υπηρεσίες';
+
+    if (servicesLen > 0 || announcementsLen > 0)
+      return <div style={{ margin: '10px', color: "#00008B" }}>{groupServicesSelected.Name}</div>
+  }
+
   function getSelectedServiceTitle() {
     if (groupServicesSelected)
-      return <div style={{ backgroundColor: 'blue', color: 'white', fontSize: '22px', width: '100%', textAlign: 'center' }}>
-        {groupServicesSelected.Name} <br /> {groupServicesSelected.servicesInfo?.length} {groupServicesSelected.servicesInfo ? (groupServicesSelected.servicesInfo.length === 1 ? 'υπηρεσία' : 'υπηρεσίες') : ''}
+      return <div style={{ backgroundColor: '#87CEEB', color: "#00008B", fontWeight: 'bold', fontSize: '22px', width: '100%', textAlign: 'center' }}>
+        {getServicesTitle(groupServicesSelected)}
       </div>
     else
       return <div style={{ fontSize: '22px', color: 'blue' }}>Παρακαλώ επιλέξτε κάποια κατηγορία</div>
   }
-  // return (<div className="services-menu-container">
-  //   <div className="services-menu-items">
-  //     {getItemsByGroup(serviceItemsList, searchValue || '')}
-  //   </div>
-  // </div>)
 
-  // return <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', width: '100%', justifyContent: 'start' }}>
-  //   <div style={{ display: 'flex', flexDirection: 'column', padding: '0px', minWidth: '500px', maxWidth: '500px' }}>
-  //     {getItemsByGroup(serviceItemsList, searchValue || '')}
-  //   </div>
-  //   <div>
-  //     <div className="services-menu-container">
-  //       <div className="services-menu-items">
-  //         {getServicesFromSelectedGroup()}
-  //       </div>
-  //     </div>
-  //   </div>
-  // </div >
   return <div style={{
     display: 'flex',
     flexDirection: 'column',
@@ -186,7 +144,7 @@ function ServicesMenu() {
         <div style={{
           display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '50px',
           background: 'transparent',
-          border: '2px solid blue',
+          border: '2px solid #87CEEB',
           paddingBottom: '10px',
           width: '70%'
         }}>
@@ -202,7 +160,7 @@ function ServicesMenu() {
             <div>
               {
                 groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
-                  return <div key={index}>
+                  return <div key={index} style={{ margin: '20px' }}>
                     {parse(d.Description)}
                   </div>
                 })
@@ -218,3 +176,54 @@ function ServicesMenu() {
 }
 
 export default ServicesMenu;
+
+
+    // return items && items.map((d, index) => {
+    //   return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ?
+    //     <div
+    //       key={index}
+    //       onMouseEnter={(e) => handleMouseEnter(e, d)}
+    //       onMouseLeave={handleMouseLeave}
+    //       onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf')) }}
+    //       style={{ display: 'flex', flex: 1, background: getBackgroundColor(d) }}>
+    //       {getImage(d)}
+    //       <div style={{ flex: 0.7 }}>
+    //         {d.Name}
+    //       </div>
+    //     </div>
+    //     :
+    //     <></>
+    // })
+
+
+      // return (<div className="services-menu-container">
+  //   <div className="services-menu-items">
+  //     {getItemsByGroup(serviceItemsList, searchValue || '')}
+  //   </div>
+  // </div>)
+
+  // return <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', width: '100%', justifyContent: 'start' }}>
+  //   <div style={{ display: 'flex', flexDirection: 'column', padding: '0px', minWidth: '500px', maxWidth: '500px' }}>
+  //     {getItemsByGroup(serviceItemsList, searchValue || '')}
+  //   </div>
+  //   <div>
+  //     <div className="services-menu-container">
+  //       <div className="services-menu-items">
+  //         {getServicesFromSelectedGroup()}
+  //       </div>
+  //     </div>
+  //   </div>
+  // </div >
+
+      // if (items instanceof Array) {
+    //   return items && items.map((d, index) => {
+    //     return <div
+    //       style={{ margin: '2px', flexDirection: 'column' }}
+    //       onMouseEnter={(e, d) => { setGroupHoveredKey(index); }}
+    //       onMouseLeave={(e, d) => { setGroupHoveredKey(''); }}          
+    //       className={groupHoveredKey === index || groupServicesSelected === d ? 'group-services-item-hovered' : 'group-services-item'}
+    //       onClick={(e) => { store.dispatch({ type: 'SET_SELECTED_GROUP_SERVICES', payload: d }) }}>
+    //       {d.Name}
+    //     </div >
+    //   })
+    // }
