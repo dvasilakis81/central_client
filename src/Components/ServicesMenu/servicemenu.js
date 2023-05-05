@@ -43,7 +43,9 @@ function ServicesMenu() {
 
     if (item && item.ImageService) {
       if (item.ImageService.includes("fa-") === true)
-        ret = <div style={{ flex: 0.3 }}><i className={item.ImageService} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i></div>
+        ret = <div style={{ flex: 0.3 }}>
+          <i className={item.ImageService} style={{ fontSize: '40px', fontWeight: 'bolder' }}></i>
+          </div>
       else
         ret = <div style={{ flex: 0.3 }}><img src={srcImage} style={{ fontSize: '26px', fontWeight: 'bolder' }} /></div>
     } else {
@@ -51,9 +53,9 @@ function ServicesMenu() {
         var srcImage = getHostUrl() + item.ImageMenu;
         if (item.ImageMenu.includes("fa-") === true)
           ret = <div style={{ flex: 0.3 }}>
-            <div className='service-image-circle'>
-              <i class={item.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder' }}></i>
-            </div>
+            {/* <div className='service-image-circle'> */}
+              <i class={item.ImageMenu} style={{ fontSize: '40px', fontWeight: 'bolder' }}></i>
+            {/* </div> */}
           </div>
         else
           ret = <div style={{ flex: 0.3 }}><img src={srcImage} style={{ fontSize: '26px', fontWeight: 'bolder' }} /></div>

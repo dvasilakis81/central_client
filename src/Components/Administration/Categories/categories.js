@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-import Popover from '@material-ui/core/Popover';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -10,6 +9,8 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import store from '../../../Redux/Store/store';
 import { getScreenWidth, getScreenHeight } from '../../../Helper/helpermethods';
 import { Button } from '@material-ui/core';
+
+import { editCategory } from '../../../Redux/Actions/index';
 
 function useOutsideAlerter(ref) {
   useEffect(() => {
@@ -30,104 +31,100 @@ function useOutsideAlerter(ref) {
   }, [ref]);
 }
 
-function renderItem(item, editItems, setEditItems, index) {
+function renderItem(dispatch, item, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, index) {
   var editMode = false;
-  for (var i = 0; i < editItems.length; i++) {
-    if (editItems[i].Id === item.Id) {
+
+  if (editItems && editItems.length > 0) {
+    if (editItems[0].Id === item.Id)
       editMode = true;
-      break;
-    }
   }
 
   if (editMode === true)
     return <>
       {/* <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div> */}
-      <input type='text' value={item.Name}></input>
+      <input style={{ flex: 0.95, textAlign: 'center', fontSize: '20px' }} type='text' value={item.Name} onChange={(e) => {
+        var updatedCategoryItem = { val: e.target.value, Id: item.Id }
+        store.dispatch({ type: 'UPDATE_CATEGORY_LIST_ITEM', payload: updatedCategoryItem })
+      }}></input>
       <Button variant="contained"
-        style={{ margin: '5px', background: 'blue', textTransform: 'none', fontSize: '16px' }}
+        style={{
+          margin: '5px',
+          background: 'blue',
+          textTransform: 'none',
+          fontSize: '16px',
+          color: 'white'
+        }}
         disabled={false}
         onClick={() => {
-          console.log('save')
+          var data ={};
+          data.id = item.Id;
+          data.name = item.Name;
+          dispatch(editCategory(data));          
+          setEditItems([]);
         }}>
         <SaveIcon />
       </Button>
       <Button
         variant="contained"
-        style={{ margin: '5px', background: 'red', textTransform: 'none', fontSize: '16px' }}
+        style={{
+          margin: '5px', background: 'red', textTransform: 'none',
+          fontSize: '16px',
+          color: 'white'
+        }}
         disabled={false}
         onClick={() => {
           setEditItems([]);
-          console.log('cancel')
+
+          var updatedCategoryItem = { val: itemBeforeEdit, Id: item.Id }
+          store.dispatch({ type: 'UPDATE_CATEGORY_LIST_ITEM', payload: updatedCategoryItem })
+          return item;
         }}>
         <CancelIcon />
-      </Button></>
+      </Button>
+    </>
   else {
-    if (editItems.length > 0)
-      return <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div>
-    else
-      return <><div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div>
+    return <>
+      <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div>
+      <>
         <Button variant="contained"
           style={{ margin: '5px', background: '#17d3cd', textTransform: 'none', fontSize: '16px' }}
-          disabled={false}
+          disabled={editItems && editItems.length > 0 ? true : false}
           onClick={() => {
-            //editItems.push(item);
             setEditItems([...editItems, item]);
+            var initialItemName = item.Name;
+            setItemBeforeEdit(initialItemName);
           }}>
           <EditIcon />
         </Button>
-        {/* {renderActionButton(item, editItems, setEditItems)} */}
         <Button variant="contained"
           style={{ margin: '5px', background: '#17d3cd', textTransform: 'none', fontSize: '16px' }}
-          disabled={false}
+          disabled={editItems && editItems.length > 0 ? true : false}
           onClick={() => { console.log('') }}>
           <DeleteIcon />
-        </Button></>
+        </Button>
+      </>
+    </>
   }
-  // return <><div style={{ flex: 0.95 }}>{item.Name}</div>
-  //   <Button variant="contained"
-  //     style={{ margin: '5px', background: '#17d3cd', textTransform: 'none', fontSize: '16px' }}
-  //     disabled={false}
-  //     onClick={() => {
-  //       //editItems.push(item);
-  //       setEditItems([...editItems, item]);
-  //     }}>
-  //     <EditIcon />
-  //   </Button>
-  //   {/* {renderActionButton(item, editItems, setEditItems)} */}
-  //   <Button variant="contained"
-  //     style={{ margin: '5px', background: '#17d3cd', textTransform: 'none', fontSize: '16px' }}
-  //     disabled={false}
-  //     onClick={() => { console.log('') }}>
-  //     <DeleteIcon />
-  //   </Button>
-  // </>
 }
 
-function renderActionButton(item, editItems, setEditItems) {
-  var editMode = false;
-  for (var i = 0; i < editItems.length; i++) {
-    if (editItems[i].Id === item.Id) {
-      editMode = true;
-      break;
-    }
-  }
-
-
-}
-function renderCategoriesList(editItems, setEditItems, categoriesList) {
+function renderCategoriesList(dispatch, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, categoriesList) {
   return categoriesList.map((item, index) => {
-    return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', fontSize: '1.5rem', padding: '10px', background: 'lightgray' }}>
-      {renderItem(item, editItems, setEditItems, index)}
+    return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', fontSize: '1.5rem', padding: '10px' }}>
+      {renderItem(dispatch, item, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, index)}
     </div>
   })
 }
+
 export default function Categories() {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
+  const dispatch = useDispatch();
 
   const { opencategories } = useSelector(state => ({ opencategories: state.parametricdata_reducer.opencategories }));
   const { categoriesList } = useSelector(state => ({ categoriesList: state.parametricdata_reducer.categoriesList }));
   const [editItems, setEditItems] = useState([]);
+  const [itemBeforeEdit, setItemBeforeEdit] = useState([]);
+
 
   if (opencategories === true)
     return <div
@@ -138,16 +135,16 @@ export default function Categories() {
         left: getScreenWidth() / 4,
         right: getScreenHeight() / 2,
         margin: '0 auto',
-        zIndex: 5,
         border: '5px solid #00001B',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        zIndex: 1
       }}>
-      <div style={{ background: 'white', flex: 0.05, fontSize: '1.5rem' }}>{categoriesList?.length} Κατηγορίες</div>
-      <div style={{ overflowY: 'scroll', flex: 0.9, background: 'white', zIndex: 10000 }}>
-        {renderCategoriesList(editItems, setEditItems, categoriesList)}
+      <div style={{ background: 'white', flex: 0.05, fontSize: '2.5rem' }}>{categoriesList?.length} Κατηγορίες</div>
+      <div style={{ overflowY: 'scroll', flex: 0.9, background: 'lightblue' }}>
+        {renderCategoriesList(dispatch, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, categoriesList)}
       </div>
-      <div style={{ flex: 0.05 }}>
+      <div style={{ flex: 0.05, backgroundColor: 'lightgrey' }}>
         <Button
           disabled={false}
           style={{ fontSize: '18px', textAlign: 'center' }}

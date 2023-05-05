@@ -9,17 +9,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import InfoIcon from '@material-ui/icons/Info';
-import { Grid, Paper, Typography, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import store from '../../../Redux/Store/store';
 import Categories from '../Categories/categories';
-
-//import { deleteAnnouncement, deletePageItem, deleteMenuItem, deleteServiceItem } from '../../../Redux/Actions/index';
 import { deleteItem } from '../../../Redux/Actions/index';
-import { getWindowDimensions } from '../../../Helper/helpermethods';
 
-export default function Actions(props) {  
+export default function Actions(props) {
 
   const announcementItemDetails = useSelector((state) => state.announcement_reducer.announcementItemDetails);
   const mediaItemDetails = useSelector((state) => state.media_reducer.mediaItemDetails);
@@ -34,28 +30,7 @@ export default function Actions(props) {
   const [variant, setVariant] = useState('');
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openPopover, setOpenPopover] = useState(false);
-  const [openCategories, setOpenCategories] = useState(false);
 
-  function getPopoverTop(windowHeight) {
-    var ret = '';
-    ret = (windowHeight / 2) - 250
-    return ret;
-  }
-  function getPopoverLeft(windowWidth) {
-    var ret = '';
-    ret = (windowWidth / 2) - 400
-    return ret;
-  }
-
-  // function renderCategories() {
-  //   if (openCategories === true) {
-  //     return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-  //       <div style={{ background: 'red', width: '500px', height: '500' }}>
-  //         asdfsadf
-  //       </div>
-  //     </div>
-  //   }
-  // }
   function showDeleteMessage() {
 
     if (props.contenttype === "mediaitem")
@@ -171,9 +146,9 @@ export default function Actions(props) {
         <Button
           variant='contained'
           style={{ margin: '5px', background: '#F3FCFF', color: '#000' }}
-          onClick={() => {             
+          onClick={() => {
             store.dispatch({ type: 'OPEN_CATEGORIES', payload: true })
-            }}>
+          }}>
           ΚΑΤΗΓΟΡΙΕΣ
         </Button>
         <Categories />

@@ -86,6 +86,10 @@ export function getCategories() {
   const request = axios.get(getHostUrl() + 'getCategories').then(response => response.data);
   return { type: 'GET_CATEGORIES', payload: request };
 }
+export function editCategory(data) {
+  const request = axios.post(getHostUrl() + 'editCategory', data).then(response => response.data);
+  return { type: 'EDIT_CATEGORY', payload: request };
+}
 
 export function deleteItem(data) {
   const request = axios.post(getHostUrl() + 'deleteItem', data).then(response => response.data);

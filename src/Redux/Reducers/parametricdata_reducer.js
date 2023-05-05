@@ -41,6 +41,57 @@ export default function (state = {}, action, root) {
           categoriesList: undefined
         };
         break;
+      case 'EDIT_CATEGORY_PENDING':
+        state = {
+          ...state,
+          itemChanged: false,
+          requestServerError: undefined,
+          requestPending: 'Edit category pending',
+          requestRejected: undefined
+        };
+        break;
+      case 'EDIT_CATEGORY_REJECTED':
+        state = {
+          ...state,
+          itemChanged: false,
+          requestPending: undefined,
+          requestServerError: undefined,
+          requestRejected: action.payload
+        };
+        break;
+      case 'EDIT_CATEGORY_FULFILLED':
+
+        var serverResponse = action.payload;
+        if (serverResponse && serverResponse.errormessage) {
+
+          state = {
+            ...state,
+            itemChanged: false,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: serverResponse.errormessage
+          };
+        } else {
+          const updatedList = [];
+          if (state.categoriesList) {
+            state.categoriesList.forEach((item, index) => {
+              if (item.Id === serverResponse.Id)
+                updatedList.push(serverResponse);
+              else
+                updatedList.push(item);
+            });
+          }
+          
+          state = {
+            ...state,
+            itemChanged: true,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: undefined,
+            categoriesList: updatedList
+          };
+        }
+        break;
       case 'GET_CATEGORIES_REJECTED':
         state = {
           ...state,
@@ -90,8 +141,48 @@ export default function (state = {}, action, root) {
           }
         }
         break;
+      case 'UPDATE_CATEGORY_LIST_ITEM':
+        const updatedList = [];
+        var catItem = action.payload;
+        if (state.categoriesList) {
+          state.categoriesList.forEach((item, index) => {
+            if (item.Id === catItem.Id) {
+              var newItem = item;
+              newItem.Name = catItem.val;
+              updatedList.push(newItem);
+            }
+            else
+              updatedList.push(item);
+          });
+        }
+
+        state = {
+          ...state,
+          categoriesList: updatedList
+        };
+        break;
+      case 'EDIT_CATEGORY_LIST_ITEM':
+        const updatedList2 = [];
+        var catItem = action.payload;
+        if (state.categoriesList) {
+          state.categoriesList.forEach((item, index) => {
+            if (item.Id === catItem.Id) {
+              var newItem = item;
+              newItem.Name = catItem.val;
+              updatedList.push(newItem);
+            }
+            else
+              updatedList.push(item);
+          });
+        }
+
+        state = {
+          ...state,
+          categoriesList: updatedList2
+        };
+        break;
+
       case 'OPEN_CATEGORIES': {
-        console.log('OPEN_CATEGORIES');
         state = {
           ...state,
           opencategories: true
