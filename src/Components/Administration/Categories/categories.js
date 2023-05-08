@@ -9,8 +9,8 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import store from '../../../Redux/Store/store';
 import { getScreenWidth, getScreenHeight } from '../../../Helper/helpermethods';
 import { Button } from '@material-ui/core';
-
-import { editCategory } from '../../../Redux/Actions/index';
+import { addCategory, editCategory } from '../../../Redux/Actions/index';
+import MyDialog from '../Common/dialog'
 
 function useOutsideAlerter(ref) {
   useEffect(() => {
@@ -31,7 +31,7 @@ function useOutsideAlerter(ref) {
   }, [ref]);
 }
 
-function renderItem(dispatch, item, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, index) {
+function renderItem(dispatch, item, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, setOpenDeleteDialog, index) {
   var editMode = false;
 
   if (editItems && editItems.length > 0) {
@@ -45,7 +45,7 @@ function renderItem(dispatch, item, editItems, setEditItems, itemBeforeEdit, set
       <input style={{ flex: 0.95, textAlign: 'center', fontSize: '20px' }} type='text' value={item.Name} onChange={(e) => {
         var updatedCategoryItem = { val: e.target.value, Id: item.Id }
         store.dispatch({ type: 'UPDATE_CATEGORY_LIST_ITEM', payload: updatedCategoryItem })
-      }}></input>
+      }} />
       <Button variant="contained"
         style={{
           margin: '5px',
@@ -56,10 +56,10 @@ function renderItem(dispatch, item, editItems, setEditItems, itemBeforeEdit, set
         }}
         disabled={false}
         onClick={() => {
-          var data ={};
+          var data = {};
           data.id = item.Id;
           data.name = item.Name;
-          dispatch(editCategory(data));          
+          dispatch(editCategory(data));
           setEditItems([]);
         }}>
         <SaveIcon />
@@ -98,33 +98,75 @@ function renderItem(dispatch, item, editItems, setEditItems, itemBeforeEdit, set
         </Button>
         <Button variant="contained"
           style={{ margin: '5px', background: '#17d3cd', textTransform: 'none', fontSize: '16px' }}
-          disabled={editItems && editItems.length > 0 ? true : false}
-          onClick={() => { console.log('') }}>
+          disabled={item.candelete === true ? false : true}
+          onClick={() => { setOpenDeleteDialog(true) }}>
           <DeleteIcon />
         </Button>
       </>
     </>
   }
 }
-
-function renderCategoriesList(dispatch, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, categoriesList) {
-  return categoriesList.map((item, index) => {
+function renderCategoriesList(dispatch, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, categoriesList, setOpenDeleteDialog) {
+  return categoriesList && categoriesList.map((item, index) => {
     return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', fontSize: '1.5rem', padding: '10px' }}>
-      {renderItem(dispatch, item, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, index)}
+      {renderItem(dispatch, item, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, setOpenDeleteDialog, index)}
     </div>
   })
 }
 
-export default function Categories() {
+function renderNewCategoryForm(newItem, setNewItem, newItemValue, setNewItemValue, dispatch) {
+  if (newItem === true) {
+
+    return <form onSubmit={(e) => {
+      e.preventDefault();
+      if (newItemValue) {
+        var data = {};
+        data.categoryname = newItemValue;
+        dispatch(addCategory(data));
+        setNewItemValue('');
+        setNewItem(false);
+      }
+    }}>
+      <div style={{ display: 'flex', flex: '1', flexDirection: "column", height: '200px', background: '#F3FCFF', padding: '30px' }}>
+        <span style={{ padding: '0px', fontSize: '20px', fontWeight: 'bold', textAlign: 'left', marginBottom: '10px' }}>Δώστε το όνομα της νεάς κατηγορίας</span>
+        <input
+          type='text'
+          value={newItemValue}
+          style={{ padding: '20px', fontSize: '20px' }}
+          onChange={(e) => setNewItemValue(e.target.value)}
+        />
+        <span style={{ margin: '20px' }}></span>
+        <div>
+          <input
+            type='submit'
+            value="Αποθήκευση"
+            style={{ fontSize: '18px', textAlign: 'center', padding: '10px', margin: '10px', background: 'lightgreen' }}
+          />
+          <input
+            type='button'
+            value="Ακύρωση"
+            style={{ fontSize: '18px', textAlign: 'center', padding: '10px', margin: '10px', background: 'orangered' }}
+            onClick={() => { setNewItem(false); }}
+          />
+        </div>
+      </div>
+    </form>
+  }
+}
+
+export default function Categories(props) {
+
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch();  
+  
   const { opencategories } = useSelector(state => ({ opencategories: state.parametricdata_reducer.opencategories }));
   const { categoriesList } = useSelector(state => ({ categoriesList: state.parametricdata_reducer.categoriesList }));
+  const [newItem, setNewItem] = useState(false);
+  const [newItemValue, setNewItemValue] = useState('');
   const [editItems, setEditItems] = useState([]);
   const [itemBeforeEdit, setItemBeforeEdit] = useState([]);
-
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   if (opencategories === true)
     return <div
@@ -140,19 +182,19 @@ export default function Categories() {
         flexDirection: 'column',
         zIndex: 1
       }}>
-      <div style={{ background: 'white', flex: 0.05, fontSize: '2.5rem' }}>{categoriesList?.length} Κατηγορίες</div>
-      <div style={{ overflowY: 'scroll', flex: 0.9, background: 'lightblue' }}>
-        {renderCategoriesList(dispatch, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, categoriesList)}
+      <div style={{ background: '#0b0647', color: 'white', flex: 0.05, fontSize: '2.5rem' }}>{categoriesList?.length} Κατηγορίες</div>
+      <div style={{ overflowY: 'scroll', flex: 0.9, background: '#eeedfc' }}>
+        {renderCategoriesList(dispatch, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, categoriesList, setOpenDeleteDialog)}
       </div>
-      <div style={{ flex: 0.05, backgroundColor: 'lightgrey' }}>
+      {renderNewCategoryForm(newItem, setNewItem, newItemValue, setNewItemValue, dispatch)}
+      <div style={{ flex: 0.05, backgroundColor: '#bebec2' }}>
         <Button
           disabled={false}
           style={{ fontSize: '18px', textAlign: 'center' }}
-          onClick={() => {
-            console.log('');
-          }}>
+          onClick={() => { setNewItem(true); }}>
           ΠΡΟΣΘΗΚΗ
         </Button>
-      </div>
-    </div >
+      </div>      
+      <MyDialog openDialog={openDeleteDialog} setOpenDialog={setOpenDeleteDialog} />
+    </div>
 }

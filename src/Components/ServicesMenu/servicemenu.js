@@ -92,6 +92,7 @@ function ServicesMenu() {
   function getItemsByGroup(items, searchValue) {
 
     return items && items.map((d, index) => {
+      if ((d.announcementsInfo && d.announcementsInfo.length > 0) || (d.servicesInfo && d.servicesInfo.length > 0))
       return <div
         style={{ margin: '2px', flexDirection: 'column' }}
         onMouseEnter={(e, d) => { setGroupHoveredKey(index); }}

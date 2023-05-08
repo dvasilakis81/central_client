@@ -12,8 +12,9 @@ function renderComments(pageItemDetails) {
   if (pageItemDetails && pageItemDetails.comments) {
     return pageItemDetails.comments.map((item, index) => {
       return <div style={{ display: 'flex', flexDirection: 'column', flex: '1', marginBottom: '10px' }}>
-        <div style={{ display: 'flex', flexDirection: 'row', flex: '1', background: 'blue', padding: '5px', fontWeight: 'bold' }}>
-          <span style={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }}>{item.firstname} {item.lastname} <i>{getDateFormat(item.created)}</i></span>
+        <div style={{ display: 'flex', flexDirection: 'row', flex: '1', background: '#45b6fe', padding: '5px', fontWeight: 'bold' }}>
+          <span style={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }}>{item.firstname} {item.lastname}</span>
+          <div style={{ display: 'flex', flex: '1', justifyContent: 'start', color: 'white', marginleft: '15px' }}>, {getDateFormat(item.created)}</div>
           {/* <span style={{ marginLeft: '10px' }}></span> */}
         </div>
         <span>{parse(item.content)}</span>
@@ -39,7 +40,7 @@ export default function PageInfo() {
     }
   }, [history]);
 
-  return <HomeWrapperWithCentralMenu2> 
+  return <HomeWrapperWithCentralMenu2>
     <div className='page-info-container'>
       <div className='page-title'>
         {pageInfo && pageInfo.Title}

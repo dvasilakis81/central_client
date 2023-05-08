@@ -1,7 +1,10 @@
-export default function (state = {}, action, root) {
+import { CoPresentOutlined } from "@mui/icons-material";
 
+export default function (state = {}, action, root) {
+  
   if (action) {
     switch (action.type) {
+
       case 'RESET_ACTION':
         state = {}
         break;
@@ -40,6 +43,57 @@ export default function (state = {}, action, root) {
           requestServerError: undefined,
           categoriesList: undefined
         };
+        break;
+      case 'ADD_CATEGORY_PENDING':
+        state = {
+          ...state,
+          newItemAdded: false,
+          requestPending: 'Add category pending',
+          requestServerError: undefined,
+          requestRejected: undefined
+        };
+        break;
+      case 'ADD_CATEGORY_REJECTED':        
+        var serverResponse = action.payload;
+        state = {
+          ...state,
+          newItemAdded: false,
+          requestPending: undefined,
+          requestServerError: undefined,
+          requestRejected: serverResponse
+        };
+        break;
+      case 'ADD_CATEGORY_FULFILLED':        
+        var serverResponse = action.payload;
+        if (serverResponse && serverResponse.servererrormessage) {
+          state = {
+            ...state,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: serverResponse,
+            newItemAdded: false
+          };
+        } else {
+
+          // return state.categoriesListslice().sort(function(a, b) {
+          //   var nameA = a.name.toLowerCase(),
+          //     nameB = b.name.toLowerCase()
+          //   if (nameA < nameB)
+          //     return -1
+          //   if (nameA > nameB)
+          //     return 1
+          //   return 0
+          // })
+
+          state = {
+            ...state,
+            newItemAdded: true,
+            requestServerError: undefined,
+            requestPending: undefined,
+            requestRejected: undefined,
+            categoriesList: [serverResponse, ...state.categoriesList]
+          };
+        }
         break;
       case 'EDIT_CATEGORY_PENDING':
         state = {
@@ -81,7 +135,7 @@ export default function (state = {}, action, root) {
                 updatedList.push(item);
             });
           }
-          
+
           state = {
             ...state,
             itemChanged: true,

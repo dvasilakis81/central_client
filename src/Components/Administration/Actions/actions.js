@@ -27,7 +27,6 @@ export default function Actions(props) {
   const dispatch = useDispatch();
   const [navigateToNew, setNavigateToNew] = useState(false);
   const [navigateToEdit, setNavigateToEdit] = useState(false);
-  const [variant, setVariant] = useState('');
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openPopover, setOpenPopover] = useState(false);
 
@@ -96,10 +95,7 @@ export default function Actions(props) {
       </Button>
       <Dialog
         open={openDeleteDialog}
-        onClose={() => {
-          setOpenPopover(false);
-          setOpenDeleteDialog(false);
-        }}
+        onClose={() => { setOpenDeleteDialog(false); }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description">
         <DialogTitle id="alert-dialog-title">{"ΜΗΝΥΜΑ"}</DialogTitle>
@@ -151,7 +147,7 @@ export default function Actions(props) {
           }}>
           ΚΑΤΗΓΟΡΙΕΣ
         </Button>
-        <Categories />
+        <Categories />        
       </span>
     </div>
   }

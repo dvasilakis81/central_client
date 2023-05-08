@@ -140,51 +140,48 @@
   justify-content: center;
   width: 200px;
   height: 70px;
-  text-align: center;
-  border-bottom: 1px solid black;
+  text-align: center;  
   cursor: unset;
-  font-weight: 600;
-  color: white;
-  background-color: #094fa3;
+  font-weight: 600;    
   padding-left: 10px;
   padding-right: 10px;
+  color: white;  
+  background-color: #094fa3;
+  border-bottom: 1px solid black;
 }
 
 .selected-tab {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: lightBlue;
-  border-bottom: 2px solid #094fa3;
   width: 200px;
-  height: 70px;
+  height: 70px;  
   text-align: center;
   cursor: unset;
-  color: #094fa3;
-  background-color: white;
+  font-weight: 600;
   padding-left: 10px;
   padding-right: 10px;
-  font-weight: 600;
-  color: #1b7ced;
+  color: #094fa3;
+  background-color: white;
+  border-bottom: 1px solid #094fa3;
 }
 
 .hovered-tab {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: #05E9FF;
-  border-bottom: 2px solid #1b7ced;
+  justify-content: center;  
   width: 200px;
   height: 70px;
   text-align: center;
   cursor: pointer;
-  font-weight: 600;
-  color: #1b7ced;
-  padding-top: '5px';
+  font-weight: 600;  
   padding-left: 10px;
   padding-right: 10px;
   cursor: 'pointer';
   bottom: 0;
+  color: #1b7ced;
+  background-color: #05E9FF;
+  border-bottom: 2px solid #1b7ced;
 }
 
 .announcement-item {

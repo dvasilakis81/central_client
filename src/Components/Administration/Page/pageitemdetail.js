@@ -26,21 +26,14 @@ function renderComments(pageItemDetails) {
   if (pageItemDetails && pageItemDetails.comments) {
     return pageItemDetails.comments.map((item, index) => {
       return <div style={{ display: 'flex', flexDirection: 'column', flex: '1', marginBottom: '10px' }}>
-        <div style={{ display: 'flex', flexDirection: 'row', flex: '1', background: 'blue', padding: '5px', fontWeight: 'bold' }}>
-          <span style={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }}>{item.firstname} {item.lastname} <i>{getDateFormat(item.created)}</i></span>
-          {/* <span style={{ marginLeft: '10px' }}></span> */}
+        <div style={{ display: 'flex', flexDirection: 'row', flex: '1', background: '#0072A0', paddisdfng: '5px', fontWeight: 'bold', fontSize: '1rem' }}>
+          <span style={{ color: 'white' }}>{item.firstname} {item.lastname}<i>{getDateFormat(item.created)}</i></span>
         </div>
         <span>{parse(item.content)}</span>
       </div>
     })
   }
 }
-
-// function renderComments(pageItemDetails){
-//   if (pageItemDetails && pageItemDetails.comments){
-//     <span>{pageItemDetails.comments.length | ''}</span>
-//   }
-// }
 
 export default function PageItemDetails(props) {
   let pageItemDetails = useSelector((state) => state.page_reducer.pageItemDetails);
