@@ -22,7 +22,7 @@ function CentralMenu() {
         d.Hidden === 0 ?
           (d.Url ?
             <div key={index + '_' + d.MenuItem} className='menu-item-parent'>
-              <div style={{ flex: '0.03' }}></div>
+              <div style={{ flex: '0.07' }}></div>
               <div
                 key={d}
                 onMouseEnter={(e) => handleMouseEnter(e, d)}
@@ -37,7 +37,7 @@ function CentralMenu() {
             </div>
             :
             <div key={index} className='menu-item-parent'>
-              <div style={{ flex: '0.03' }}></div>
+              <div style={{ flex: '0.07' }}></div>
               <div
                 onMouseEnter={(e) => handleMouseEnter(e, d)}
                 onMouseLeave={handleMouseLeave}

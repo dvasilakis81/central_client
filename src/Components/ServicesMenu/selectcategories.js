@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState, useRef } from 'react';
-import { getHostUrl } from '../../Helper/helpermethods';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const styles = {
   menuenter: {

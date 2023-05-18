@@ -80,7 +80,6 @@ export function deleteAnnouncement(data) {
   const request = axios.post(getHostUrl() + 'deleteAnnouncement', data).then(response => response.data);
   return { type: 'DELETE_ANNOUNCEMENT', payload: request };
 }
-
 //Categories
 export function getCategories() {
   const request = axios.get(getHostUrl() + 'getCategories').then(response => response.data);

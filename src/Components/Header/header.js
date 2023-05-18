@@ -1,6 +1,7 @@
 import React from 'react';
 import { getHeaderHeight } from '../../Helper/helpermethods';
 import thyraios from '../Images/thyraios.png';
+import ServicesSearchBar from '../Search/servicessearchbar';
 
 export default function Header(props) {
   const headerHeight = getHeaderHeight();
@@ -18,7 +19,8 @@ export default function Header(props) {
     header2: {
       width: '100%',
       backgroundColor: '#f4f6f7',
-      verticalAlign: 'center',
+      justifyContent: 'left',
+      alignItems: 'center',
       display: "flex",
       flex: 1,
       fontWeight: 'bold',
@@ -27,16 +29,38 @@ export default function Header(props) {
       height: headerHeight
     },
     headerTitle: {
+      marginLeft: 10,
       fontSize: 26,
       color: '#094fa3',
+      textAlign: 'left',
+      flexGrow: 0.1,
+      alignSelf: 'left'
+    },
+    headerSearchBar: {
+      marginLeft: 10,
+      fontSize: 24,
       textAlign: 'center',
-      flexGrow: 1,
-      alignSelf: 'center'
+      flexGrow: 0.5,
+      width: '300px',
+      alignSelf: 'center',
+      borderTop: '1px darkblue solid',      
     }
   }
 
   return <div style={styles.header2}>
     <img src={thyraios} alt="Δήμος Αθηναίων" width='50px' height='50px' />
     <div style={styles.headerTitle}>Κεντρική Σελίδα Δήμου Αθηναίων</div>
+    {/* <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <span style={{
+        verticalAlign: 'center',
+        fontSize: '24px',
+      }}>
+        <i className="fa fa-magnifying-glass" />
+      </span>
+      <input
+        style={styles.headerSearchBar}
+        type='text' />
+    </div> */}
+    {/* <ServicesSearchBar /> */}
   </div>
 }

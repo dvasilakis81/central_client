@@ -34,8 +34,8 @@ export default function HomewrapperWithCentralMenu2(props) {
             <div style={{
               display: 'flex',
               flexDirection: 'row',
-              width: '98%',
-              height: '98%',
+              width: '100%',
+              height: '100%',
               background: 'transparent'
             }}>
               <div style={{ display: 'flex', flexDirection: 'column', maxwidth: '300px', minWidth: '300px', height: '100%', background: 'transparent'}}>

@@ -135,6 +135,18 @@ export default function (state = {}, action, root) {
           groupServicesSelected: action.payload
         };
         break;
+      case 'SET_SELECTED_CATEGORY_WITH_SUBCATEGORIES':
+        state = {
+          ...state,
+          categoryWithSubCategoriesSelected: action.payload          
+        };
+        break;        
+      case 'CLOSE_CATEGORY_LIST':
+        state = {
+          ...state,          
+          categoryWithSubCategoriesSelected: undefined
+        };
+        break;                
       case 'GET_SERVICEMENUITEMS_REJECTED':
 
         state = {

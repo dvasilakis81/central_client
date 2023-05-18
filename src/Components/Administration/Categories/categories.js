@@ -172,7 +172,8 @@ export default function Categories(props) {
     return <div
       ref={wrapperRef}
       style={{
-        width: getScreenWidth() / 2, height: getScreenHeight() / 2,
+        width: getScreenWidth() / 2, 
+        height: getScreenHeight() / 2,
         position: 'absolute',
         left: getScreenWidth() / 4,
         right: getScreenHeight() / 2,

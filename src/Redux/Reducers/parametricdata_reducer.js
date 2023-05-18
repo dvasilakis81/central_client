@@ -1,7 +1,7 @@
 import { CoPresentOutlined } from "@mui/icons-material";
 
 export default function (state = {}, action, root) {
-  
+
   if (action) {
     switch (action.type) {
 
@@ -53,7 +53,7 @@ export default function (state = {}, action, root) {
           requestRejected: undefined
         };
         break;
-      case 'ADD_CATEGORY_REJECTED':        
+      case 'ADD_CATEGORY_REJECTED':
         var serverResponse = action.payload;
         state = {
           ...state,
@@ -63,7 +63,7 @@ export default function (state = {}, action, root) {
           requestRejected: serverResponse
         };
         break;
-      case 'ADD_CATEGORY_FULFILLED':        
+      case 'ADD_CATEGORY_FULFILLED':
         var serverResponse = action.payload;
         if (serverResponse && serverResponse.servererrormessage) {
           state = {
@@ -235,7 +235,6 @@ export default function (state = {}, action, root) {
           categoriesList: updatedList2
         };
         break;
-
       case 'OPEN_CATEGORIES': {
         state = {
           ...state,
@@ -248,6 +247,28 @@ export default function (state = {}, action, root) {
           ...state,
           opencategories: false
         };
+        break;
+      }
+      case 'OPEN_POP_UP': {
+        state = {
+          ...state,
+          openPopUp: action.payload
+        }
+        break;
+      }
+      case 'CLOSE_POP_UP': {
+        state = {
+          ...state,
+          openPopUp: false
+        }
+        break;
+      }
+      case 'SET_DIV_POSITION': {
+        state = {
+          ...state,
+          divPosition: action.payload
+        };
+        break;
       }
       default:
         break;
