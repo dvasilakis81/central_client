@@ -31,135 +31,12 @@ function useOutsideAlerter(ref) {
   }, [ref]);
 }
 
-function renderItem(dispatch, item, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, setOpenDeleteDialog, index) {
-  var editMode = false;
-
-  if (editItems && editItems.length > 0) {
-    if (editItems[0].Id === item.Id)
-      editMode = true;
-  }
-
-  if (editMode === true)
-    return <>
-      {/* <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div> */}
-      <input style={{ flex: 0.95, textAlign: 'center', fontSize: '20px' }} type='text' value={item.Name} onChange={(e) => {
-        var updatedCategoryItem = { val: e.target.value, Id: item.Id }
-        store.dispatch({ type: 'UPDATE_CATEGORY_LIST_ITEM', payload: updatedCategoryItem })
-      }} />
-      <Button variant="contained"
-        style={{
-          margin: '5px',
-          background: 'blue',
-          textTransform: 'none',
-          fontSize: '16px',
-          color: 'white'
-        }}
-        disabled={false}
-        onClick={() => {
-          var data = {};
-          data.id = item.Id;
-          data.name = item.Name;
-          dispatch(editCategory(data));
-          setEditItems([]);
-        }}>
-        <SaveIcon />
-      </Button>
-      <Button
-        variant="contained"
-        style={{
-          margin: '5px', background: 'red', textTransform: 'none',
-          fontSize: '16px',
-          color: 'white'
-        }}
-        disabled={false}
-        onClick={() => {
-          setEditItems([]);
-
-          var updatedCategoryItem = { val: itemBeforeEdit, Id: item.Id }
-          store.dispatch({ type: 'UPDATE_CATEGORY_LIST_ITEM', payload: updatedCategoryItem })
-          return item;
-        }}>
-        <CancelIcon />
-      </Button>
-    </>
-  else {
-    return <>
-      <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div>
-      <>
-        <Button variant="contained"
-          style={{ margin: '5px', background: '#17d3cd', textTransform: 'none', fontSize: '16px' }}
-          disabled={editItems && editItems.length > 0 ? true : false}
-          onClick={() => {
-            setEditItems([...editItems, item]);
-            var initialItemName = item.Name;
-            setItemBeforeEdit(initialItemName);
-          }}>
-          <EditIcon />
-        </Button>
-        <Button variant="contained"
-          style={{ margin: '5px', background: '#17d3cd', textTransform: 'none', fontSize: '16px' }}
-          disabled={item.candelete === true ? false : true}
-          onClick={() => { setOpenDeleteDialog(true) }}>
-          <DeleteIcon />
-        </Button>
-      </>
-    </>
-  }
-}
-function renderCategoriesList(dispatch, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, categoriesList, setOpenDeleteDialog) {
-  return categoriesList && categoriesList.map((item, index) => {
-    return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', fontSize: '1.5rem', padding: '10px' }}>
-      {renderItem(dispatch, item, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, setOpenDeleteDialog, index)}
-    </div>
-  })
-}
-
-function renderNewCategoryForm(newItem, setNewItem, newItemValue, setNewItemValue, dispatch) {
-  if (newItem === true) {
-
-    return <form onSubmit={(e) => {
-      e.preventDefault();
-      if (newItemValue) {
-        var data = {};
-        data.categoryname = newItemValue;
-        dispatch(addCategory(data));
-        setNewItemValue('');
-        setNewItem(false);
-      }
-    }}>
-      <div style={{ display: 'flex', flex: '1', flexDirection: "column", height: '200px', background: '#F3FCFF', padding: '30px' }}>
-        <span style={{ padding: '0px', fontSize: '20px', fontWeight: 'bold', textAlign: 'left', marginBottom: '10px' }}>Δώστε το όνομα της νεάς κατηγορίας</span>
-        <input
-          type='text'
-          value={newItemValue}
-          style={{ padding: '20px', fontSize: '20px' }}
-          onChange={(e) => setNewItemValue(e.target.value)}
-        />
-        <span style={{ margin: '20px' }}></span>
-        <div>
-          <input
-            type='submit'
-            value="Αποθήκευση"
-            style={{ fontSize: '18px', textAlign: 'center', padding: '10px', margin: '10px', background: 'lightgreen' }}
-          />
-          <input
-            type='button'
-            value="Ακύρωση"
-            style={{ fontSize: '18px', textAlign: 'center', padding: '10px', margin: '10px', background: 'orangered' }}
-            onClick={() => { setNewItem(false); }}
-          />
-        </div>
-      </div>
-    </form>
-  }
-}
-
 export default function Categories(props) {
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
-  const dispatch = useDispatch();  
-  
+  const dispatch = useDispatch();
+
   const { opencategories } = useSelector(state => ({ opencategories: state.parametricdata_reducer.opencategories }));
   const { categoriesList } = useSelector(state => ({ categoriesList: state.parametricdata_reducer.categoriesList }));
   const [newItem, setNewItem] = useState(false);
@@ -167,12 +44,195 @@ export default function Categories(props) {
   const [editItems, setEditItems] = useState([]);
   const [itemBeforeEdit, setItemBeforeEdit] = useState([]);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [checkedHasSubCategories, setCheckedHasSubCategories] = React.useState(false);
+  const [checkedIsSubCategory, setCheckedIsSubCategory] = React.useState(false);
+  const [parentCategory, setParentCategory] = React.useState(0);
+
+  function renderItem(item, index) {
+    var editMode = false;
+  
+    if (editItems && editItems.length > 0) {
+      if (editItems[0].Id === item.Id)
+        editMode = true;
+    }
+  
+    if (editMode === true)
+      return <>
+        {/* <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div> */}
+        <input style={{ flex: 0.95, textAlign: 'center', fontSize: '20px' }} type='text' value={item.Name} onChange={(e) => {
+          var updatedCategoryItem = { val: e.target.value, Id: item.Id }
+          store.dispatch({ type: 'UPDATE_CATEGORY_LIST_ITEM', payload: updatedCategoryItem })
+        }} />
+        <Button variant="contained"
+          style={{
+            margin: '5px',
+            background: 'blue',
+            textTransform: 'none',
+            fontSize: '16px',
+            color: 'white'
+          }}
+          disabled={false}
+          onClick={() => {
+            var data = {};
+            data.id = item.Id;
+            data.name = item.Name;
+            dispatch(editCategory(data));
+            setEditItems([]);
+          }}>
+          <SaveIcon />
+        </Button>
+        <Button
+          variant="contained"
+          style={{
+            margin: '5px', background: 'red', textTransform: 'none',
+            fontSize: '16px',
+            color: 'white'
+          }}
+          disabled={false}
+          onClick={() => {
+            setEditItems([]);
+            store.dispatch({ type: 'UPDATE_CATEGORY_LIST_ITEM', payload: { val: itemBeforeEdit, Id: item.Id } })
+            return item;
+          }}>
+          <CancelIcon />
+        </Button>
+      </>
+    else {
+      return <>
+        <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div>
+        <>
+          <Button variant="contained"
+            style={{ margin: '5px', background: '#17d3cd', textTransform: 'none', fontSize: '16px' }}
+            disabled={editItems && editItems.length > 0 ? true : false}
+            onClick={() => {
+              setEditItems([...editItems, item]);
+              var initialItemName = item.Name;
+              setItemBeforeEdit(initialItemName);
+            }}>
+            <EditIcon />
+          </Button>
+          <Button variant="contained"
+            style={{ margin: '5px', background: '#17d3cd', textTransform: 'none', fontSize: '16px' }}
+            disabled={item.candelete === true ? false : true}
+            onClick={() => { setOpenDeleteDialog(true) }}>
+            <DeleteIcon />
+          </Button>
+        </>
+      </>
+    }
+  }
+  function renderCategoriesList() {
+    return categoriesList && categoriesList.map((item, index) => {
+      return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', fontSize: '1.5rem', padding: '10px' }}>
+        {renderItem(item, index)}
+      </div>
+    })
+  }
+  function renderSelectOptions() {
+  
+    return categoriesList.map((item, index) => {
+      if (item.HasSubCategories === 1) {
+        // if (item.ParentId === parentCategory)
+        //   return <option style={{ fontSize: '16px', padding: '10px' }} value={item.ParentId} >{item.Name}</option>;
+        // else
+        return <option style={{ fontSize: '16px', padding: '10px' }} value={item.Id}>{item.Name}</option>;
+      }
+    })
+  }
+
+  function renderSelectCategories() {
+    if (checkedIsSubCategory === true)
+      return <div style={{ textAlign: 'left' }}>
+        <label style={{ fontSize: '30px' }} for="categories">Ανήκει στην:</label>
+        <select
+          onChange={(e) => { setParentCategory(e.target.value); }}
+          style={{ width: '200px', height: '30px', fontSize: '20px', margin: '10px' }}
+          name="categories"
+          id="categories">
+          {renderSelectOptions()}
+        </select>
+      </div>
+  }
+  function renderNewCategoryForm() {
+
+    if (newItem === true) {
+  
+      return <form onSubmit={(e) => {
+        e.preventDefault();
+        if (newItemValue) {
+  
+          if (parentCategory === 0) {
+            if (categoriesList) {
+              for (var i = 0; i < categoriesList.length; i++) {
+                if (categoriesList[i].HasSubCategories === 1) {
+                  setParentCategory(categoriesList[i].Id);
+                  break;
+                }
+              }
+            }
+          }
+  
+          var data = {};
+          data.hassubcategories = checkedHasSubCategories ? 1 : 0;
+          data.parentid = parentCategory;
+          data.categoryname = newItemValue;
+          dispatch(addCategory(data));
+          setNewItemValue('');
+          setNewItem(false);
+  
+        }
+      }}>
+        <div style={{ display: 'flex', flex: '1', flexDirection: "column", height: '300px', background: '#F3FCFF', padding: '30px', overflowY: 'scroll' }}>
+          <span style={{ padding: '0px', fontSize: '20px', fontWeight: 'bold', textAlign: 'left', marginBottom: '10px' }}>Δώστε το όνομα της νεάς κατηγορίας</span>
+          <input
+            type='text'
+            value={newItemValue}
+            style={{ padding: '20px', fontSize: '20px' }}
+            onChange={(e) => setNewItemValue(e.target.value)}
+          />
+          <span style={{ margin: '20px' }}></span>
+          <div style={{ textAlign: 'left', alignSelft: 'left', fontSize: '30px' }}>
+            <input type="checkbox" style={{ width: '30px', height: '30px' }} checked={checkedHasSubCategories} onChange={(e) => {
+              setCheckedHasSubCategories(!checkedHasSubCategories)
+            }} />
+            <label for="coding" style={{ marginLeft: '10px' }}>Έχει υποκατηγορίες?</label>
+          </div>
+          <div style={{ textAlign: 'left', alignSelft: 'left', fontSize: '30px', display: 'flex', flexDirection: 'row', flex: 1 }}>
+            <div>
+              <input type="checkbox" style={{ width: '30px', height: '30px' }} checked={checkedIsSubCategory} onChange={(e) => {
+                setCheckedIsSubCategory(!checkedIsSubCategory)
+              }} />
+              <label for="coding" style={{ marginLeft: '10px' }}>  Είναι υποκατηγορία?</label>
+            </div>
+            {renderSelectCategories()}
+          </div>
+          <div>
+            <input
+              type='submit'
+              value="Αποθήκευση"
+              style={{ fontSize: '18px', textAlign: 'center', padding: '10px', margin: '10px', background: 'lightgreen' }}
+            />
+            <input
+              type='button'
+              value="Ακύρωση"
+              style={{ fontSize: '18px', textAlign: 'center', padding: '10px', margin: '10px', background: 'orangered' }}
+              onClick={() => {
+                setCheckedHasSubCategories(false);
+                setCheckedIsSubCategory(false);
+                setNewItem(false);
+              }}
+            />
+          </div>
+        </div>
+      </form>
+    }
+  }
 
   if (opencategories === true)
     return <div
       ref={wrapperRef}
       style={{
-        width: getScreenWidth() / 2, 
+        width: getScreenWidth() / 2,
         height: getScreenHeight() / 2,
         position: 'absolute',
         left: getScreenWidth() / 4,
@@ -185,9 +245,9 @@ export default function Categories(props) {
       }}>
       <div style={{ background: '#0b0647', color: 'white', flex: 0.05, fontSize: '2.5rem' }}>{categoriesList?.length} Κατηγορίες</div>
       <div style={{ overflowY: 'scroll', flex: 0.9, background: '#eeedfc' }}>
-        {renderCategoriesList(dispatch, editItems, setEditItems, itemBeforeEdit, setItemBeforeEdit, categoriesList, setOpenDeleteDialog)}
+        {renderCategoriesList()}
       </div>
-      {renderNewCategoryForm(newItem, setNewItem, newItemValue, setNewItemValue, dispatch)}
+      {renderNewCategoryForm()}
       <div style={{ flex: 0.05, backgroundColor: '#bebec2' }}>
         <Button
           disabled={false}
@@ -195,7 +255,7 @@ export default function Categories(props) {
           onClick={() => { setNewItem(true); }}>
           ΠΡΟΣΘΗΚΗ
         </Button>
-      </div>      
+      </div>
       <MyDialog openDialog={openDeleteDialog} setOpenDialog={setOpenDeleteDialog} />
     </div>
 }

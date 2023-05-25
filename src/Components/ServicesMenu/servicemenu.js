@@ -29,10 +29,10 @@ function ServicesMenu() {
     dispatch(getCategories());
   }, []);
 
-  function getSubCategories(selectedCategory) {
+  function getSubCategories(groupServicesSelected) {
 
     return serviceItemsList && serviceItemsList.map((d, index) => {
-      if (selectedCategory && d && d.ParentId == selectedCategory.Id)
+      if (groupServicesSelected && d && d.ParentId == groupServicesSelected.Id)
         return <div
           key={index}
           style={{ margin: '10px', flexDirection: 'column' }}
@@ -44,7 +44,6 @@ function ServicesMenu() {
         </div>
     })
   }
-
   function getServiceClass(item) {
     var ret = '';
 
@@ -111,12 +110,16 @@ function ServicesMenu() {
   function getItemsByGroup(openPopUp, menuRef, searchValue) {
 
     return serviceItemsList && serviceItemsList.map((d, index) => {
-      var conditionToShow = (d.announcementsInfo && d.announcementsInfo.length > 0) || (d.servicesInfo && d.servicesInfo.length > 0) || d.HasSubCategories == 1
-      conditionToShow = conditionToShow && d.ParentId == 0
+      var hasAtLeastOneAnnouncement = (d.announcementsInfo && d.announcementsInfo.length > 0);
+      var hasAtLeastOneService = (d.servicesInfo && d.servicesInfo.length > 0);
+      var hasSubCategories = (d.HasSubCategories == 1);
+      var hasNoParent = (d.ParentId == 0);
+
+      var conditionToShow = (hasNoParent && (hasAtLeastOneAnnouncement || hasAtLeastOneService || hasSubCategories));
       if (conditionToShow)
         return <>
           <div
-            style={{ margin: '2px', flexDirection: 'column' }}
+            style={{ margin: '10px', flexDirection: 'column' }}
             ref={menuRef}
             onMouseEnter={(e, d) => { setGroupHoveredKey(index); }}
             onMouseLeave={(e, d) => { setGroupHoveredKey(''); }}
@@ -136,59 +139,40 @@ function ServicesMenu() {
             }}>
             {d.Name}
           </div>
-          <PopUp>
+          {/* <PopUp>
             {getSubCategories(d)}
-          </PopUp>
+          </PopUp> */}
         </>
     })
   }
-  function getServicesTitle(groupServicesSelected) {
-
-    if (groupServicesSelected.ParentId > 0) {
-      for (let i = 0; i < serviceItemsList.length; i++) {
-        if (groupServicesSelected.ParentId === serviceItemsList[i].Id){
-          return <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-            <div
-              style={{ margin: '10px'}}
-              onMouseEnter={(e, d) => { setGroupHoveredKey(i); }}
-              onMouseLeave={(e, d) => { setGroupHoveredKey(''); }}
-              className='group-services-item-header'
-              onClick={(e) => { store.dispatch({ type: 'SET_SELECTED_GROUP_SERVICES', payload: serviceItemsList[i] }); }}>
-              {serviceItemsList[i].Name}
-            </div>
-            <div style={{ margin: '10px', color: "#00008B" }}>{groupServicesSelected.Name}</div>
-          </div>
-        }
-      }
-    }
-
-    return <div style={{ margin: '10px', color: "#00008B" }}>{groupServicesSelected.Name}</div>
-  }
-
   function getSelectedServiceTitle() {
     if (groupServicesSelected)
-      return <div style={{ backgroundColor: '#87CEEB', color: "#00008B", fontWeight: 'bold', fontSize: '22px', width: '100%', textAlign: 'center' }}>
-        {getServicesTitle(groupServicesSelected)}
+      return <div className="selected-service-title">
+        {groupServicesSelected.Name}
       </div>
     else
-      return <div style={{ fontSize: '22px', color: 'blue' }}>Παρακαλώ επιλέξτε κάποια κατηγορία</div>
+      return <div className="selected-service-title">Παρακαλώ επιλέξτε κάποια κατηγορία</div>
   }
 
   const menuRef = useState();
-
-  //var openPopUp = categoryWithSubCategoriesSelected && openPopUp ? true : false
   return <>
     <div style={{
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
       height: '100%',
-      justifyContent: 'start',
       background: 'white',
       opacity: '1',
       overflowY: 'scroll'
     }}>
-      <div style={{ display: 'flex', flexDirection: 'row', padding: '10px', flexWrap: 'wrap', maxHeight: '100px', overflowY: 'scroll' }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        padding: '10px',
+        flexWrap: 'wrap',
+        margin: '30px',
+        justifyContent: 'center'
+      }}>
         {getItemsByGroup(openPopUp, menuRef, searchValue || '')}
       </div>
       <div>
@@ -201,7 +185,12 @@ function ServicesMenu() {
         <div className="services-menu-items"> */}
         <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
           <div style={{
-            display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '50px',
+            display: 'flex',
+            flex: 0.8,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '0px',
             background: 'transparent',
             border: '2px solid #87CEEB',
             paddingBottom: '10px',

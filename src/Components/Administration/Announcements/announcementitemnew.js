@@ -11,7 +11,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Paper from "@material-ui/core/Paper";
 
 import { addAnnouncement, editAnnouncement } from '../../../Redux/Actions/index';
-import { getHostUrl } from '../../../Helper/helpermethods';
+import { getBodyHeight, getHostUrl } from '../../../Helper/helpermethods';
 import { useStyles } from '../../Administration/Styles/styles';
 import HomeWrapper from '../../Home/homewrapper';
 import SelectImage from '../SelectImage/selectimage';
@@ -21,7 +21,7 @@ const styles = {
     fontSize: '22px',
     fontWeight: 'bold',
     marginTop: '5px',
-    width: 800,
+    width: '100%',
     background: 'white',
     borderRadius: '20px',
     transform: "scale(1)"
@@ -52,7 +52,16 @@ export default function AnnouncementItemNew(props) {
     announcementItemDetails = announcementItemDetails2;
   let newItemAdded = useSelector((state) => state.announcement_reducer.newItemAdded);
   let itemChanged = useSelector((state) => state.announcement_reducer.itemChanged);
-  let categoriesList = useSelector((state) => state.parametricdata_reducer.categoriesList);
+  let categoriesList = useSelector((state) => {
+    if (state.parametricdata_reducer.categoriesList) {
+      const filteredItems = state.parametricdata_reducer.categoriesList.filter(
+        (item) => item.HasSubCategories === 0
+      );
+      return filteredItems;
+    }
+    else
+      return undefined;
+  });
 
   const [id, setId] = useState(announcementItemDetails && announcementItemDetails.Id || '');
   const [descriptionInitial, setDescriptionInitial] = useState(announcementItemDetails && announcementItemDetails.Description || '');
@@ -77,18 +86,17 @@ export default function AnnouncementItemNew(props) {
         style={{
           display: 'flex',
           flexFlow: 'row',
+          flex: 1,
           flexWrap: 'wrap',
-          overflowY: 'hidden',
-          width: '100%',
-          height: '100%',
+          overflowY: 'scroll',
+          height: '100%',          
           background: 'white',
-          justifyContent: 'center',
-          alignContent: 'center',          
-          backgroundColor: 'lightyellow'
+          justifyContent: 'start',
+          alignItems: 'stretch',
         }}
         onSubmit={(e) => {
           e.preventDefault();
-          
+
           var data = {};
           data.id = id;
           data.title = title;
@@ -106,42 +114,38 @@ export default function AnnouncementItemNew(props) {
             dispatch(editAnnouncement(data));
           else
             dispatch(addAnnouncement(data));
-        }}>
-        <div style={{
-          display: 'flex',
-          flexFlow: 'row',
-          flexWrap: 'wrap',
-          overflowY: 'hidden',
-          width: '80%',
-          height: '100%',
-          background: 'white',
-          justifyContent: 'center'
-        }}>
+        }}>       
           <div style={{
-            display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', flexWrap: 'wrap' }}>
-            <div style={{ padding: '10px' }}>
-              <Editor
-                tinymceScriptSrc={getHostUrl() + '/js/tinymce/tinymce.min.js'}
-                init={{
-                  selector: 'textarea',
-                  resize: 'true',
-                  plugins: "lists link image code table media links indent fontsize autoresize",
-                  height: 300,
-                  min_height: 500,
-                  max_height: 500,
-                  width: 'auto',
-                  toolbar: "undo redo | bold italic underline | fontsize fontfamily | outdent indent | alignleft aligncenter alignright | numlist bullist | link | image | media | table | code",
-                  content_style: "body { font-size: 14pt; font-family: Arial; }",
-                  promotion: false
-                }}
-                initialValue={descriptionInitial}
-                value={description}
-                onEditorChange={(newValue, editor) => setDescription(newValue)}
-              />
-            </div>
-          </div>
-          <div style={{ display: 'flex', flex: '1', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', flexWrap: 'wrap', alignContent: 'center' }}>
-            <div style={{ padding: '10px' }}>
+            width: '50%',            
+            overflowX: 'hidden', 
+            padding: '40px'            
+          }}>
+            <Editor
+              tinymceScriptSrc={getHostUrl() + '/js/tinymce/tinymce.min.js'}
+              init={{
+                selector: 'textarea',
+                resize: 'true',
+                plugins: "lists link image code table media links indent fontsize autoresize",
+                height: getBodyHeight() - 100,
+                height: 'auto',
+                min_height: 500,
+                max_height: 500,
+                width: 'auto',
+                toolbar: "undo redo | bold italic underline | fontsize fontfamily | outdent indent | alignleft aligncenter alignright | numlist bullist | link | image | media | table | code",
+                content_style: "body { font-size: 14pt; font-family: Arial; }",
+                promotion: false
+              }}
+              initialValue={descriptionInitial}
+              value={description}
+              onEditorChange={(newValue, editor) => setDescription(newValue)}
+            />
+          </div>          
+          <div style={{            
+            overflowX: 'hidden',
+            width: '50%',
+            padding: '40px'
+          }}>
+            <div style={{ padding: '0px' }}>
               <Autocomplete
                 options={categoriesList || []}
                 filterSelectedOptions
@@ -151,7 +155,7 @@ export default function AnnouncementItemNew(props) {
                 defaultValue={categories || []}
                 PaperComponent={CustomPaper}
                 ChipProps={{ color: 'red' }}
-                style={{ flex: '1', padding: '0px', flexWrap: 'wrap', maxWidth: '800px' }}
+                style={{ width: '100%', flexWrap: 'wrap' }}
                 renderOption={(props, option) => {
                   const { Name } = props;
                   return (
@@ -172,7 +176,7 @@ export default function AnnouncementItemNew(props) {
                 )}
               />
             </div>
-            <div style={{ padding: '10px' }}>
+            <div style={{ marginTop: '10px' }}>
               <TextField
                 required
                 type="text"
@@ -183,8 +187,53 @@ export default function AnnouncementItemNew(props) {
                 onChange={(e) => { setTitle(e.target.value); }}
                 inputProps={{ style: styles.textfield }}
               />
+            </div>            
+            <div style={{ display: 'flex', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', marginTop: '20px' }}>
+              <div style={{ fontSize: 24, textAlign: 'left' }}>
+                <Checkbox
+                  defaultChecked={false}
+                  color='primary'
+                  checked={showonfirstpage}
+                  style={{ transform: "scale(2)" }}
+                  onChange={e => setShowonfirstpage(e.target.checked)}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+                <span>Να φαίνεται στην πρώτη σελίδα</span>
+              </div>
+                <div style={{ fontSize: 24, marginTop: '20px', textAlign: 'left' }}>
+                  <Checkbox
+                    defaultChecked={false}
+                    color='primary'
+                    checked={hidden}
+                    style={{ transform: "scale(2)" }}
+                    onChange={e => setHidden(e.target.checked)}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                  />
+                  <span>Κρυφό</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexFlow: 'row', height: 'auto', textAlign: 'right', marginTop: '20px' }}>
+              <Button
+                variant="contained"
+                type="submit"
+                color="primary"
+                style={{ margin: '5px', textTransform: 'none', fontSize: '16px' }}>
+                <SaveAltIcon />
+                Αποθήκευση
+              </Button>
+              <Button
+                variant="contained"
+                style={{ margin: '5px', background: 'orangered', textTransform: 'none', fontSize: '16px' }}
+                onClick={() => { navigate(-1); }}>
+                <CancelAltIcon />
+                Ακύρωση
+              </Button>
             </div>
-            {/* <div style={{ padding: '10px' }}>
+          </div>        
+      </form>
+    </HomeWrapper>
+
+    {/* <div style={{ padding: '10px' }}>
               <TextField
                 required
                 type="text"
@@ -260,50 +309,5 @@ export default function AnnouncementItemNew(props) {
                 customstyle={styles.textfield}
                 imagetype={2} />
             </div> */}
-            <div style={{ display: 'flex', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', marginTop: '10px'   }}>
-              <div style={{ fontSize: 24, padding: 0, textAlign: 'left' }}>
-                <Checkbox
-                  defaultChecked={false}
-                  color='primary'
-                  checked={showonfirstpage}
-                  style={{ transform: "scale(2)" }}
-                  onChange={e => setShowonfirstpage(e.target.checked)}                  
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-                <span>Να φαίνεται στην πρώτη σελίδα</span>
-              </div>
-              <div style={{ fontSize: 24, marginTop: '20px', textAlign: 'left' }}>
-                <Checkbox
-                  defaultChecked={false}
-                  color='primary'
-                  checked={hidden}
-                  style={{ transform: "scale(2)" }}
-                  onChange={e => setHidden(e.target.checked)}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-                <span>Κρυφό</span>
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexFlow: 'row', height: 'auto', textAlign: 'right', marginTop: '20px' }}>
-              <Button
-                variant="contained"
-                type="submit"
-                color="primary"
-                style={{ margin: '5px', textTransform: 'none', fontSize: '16px' }}>
-                <SaveAltIcon />
-                Αποθήκευση
-              </Button>
-              <Button
-                variant="contained"
-                style={{ margin: '5px', background: 'orangered', textTransform: 'none', fontSize: '16px' }}
-                onClick={() => { navigate(-1); }}>
-                <CancelAltIcon />
-                Ακύρωση
-              </Button>
-            </div>
-          </div>
-        </div >
-      </form>
-    </HomeWrapper >
   }
 }

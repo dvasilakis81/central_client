@@ -27,10 +27,10 @@
 .services-menu-container {
   display: flex;
   flex: 1;
+  height: 100%;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
-  height: 100%;
   background: transparent;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -42,6 +42,7 @@
   flex: 1;
   flex-direction: row;
   flex-wrap: wrap;
+  max-height: 400px;
   background: transparent;
   overflow-x: hidden;
   overflow-y: auto;
@@ -116,7 +117,6 @@
 
 .page-title {
   text-align: center;
-  font-size: 2.5rem;
   color: #094fa3;
   font-weight: bolder;
 }
@@ -124,14 +124,13 @@
 .page-body {
   padding: 15px;
   overflow-y: auto;
-  height: '100%';
 }
 
 .page-body-content {
   margin-top: 30px;
   padding: 0px;
-  height: '100%';
   overflow-y: auto;
+  font-size: 16px;
 }
 
 .tab {
@@ -235,53 +234,37 @@
   text-align: left;
 }
 
+.colors {
+  background: #FCF9B5;
+  background: #1434A4;
+  background: #f4f6f7;
+  background: #094fa3;
+}
+
 .menu-body {
   display: flex;
   flex-direction: column;
-  min-width: 250px;
-  max-width: 300px;
+  min-width: 500px;
+  max-width: 500px;
   width: 100%;
   height: 100%;
   border-radius: 0px;
-  opacity: 0.8;
+  opacity: 1;
   padding-top: 20px;
-  color: black;
-  background: #FCF9B5;
+  color: #094fa3;
+  background: #f4f6f7;
   overflow-y: auto;
-}
-
-.menu-item {
-  display: flex;
-  flex: 1;
-  font-size: 16px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  font-weight: bolder;
-  cursor: pointer;
-  background: #FCF9B5;
 }
 
 .menu-item-parent {
   display: flex;
   flex-direction: row;
-  height: 50px;
-}
-
-/* line-height: 26pt; */
-.menu-item-hovered {
-  display: flex;
-  flex: 1;
-  font-size: 16px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  font-weight: bolder;
-  color: white;
-  background: #2196F3;
+  height: auto;
 }
 
 .group-services-item {
   font-size: 20px;
-  padding: 10px;  
+  padding: 10px;
   font-weight: bolder;
   text-align: center;
   color: #00008B;
@@ -303,7 +286,7 @@
 
 .group-services-item-header {
   font-size: 20px;
-  padding: 10px;  
+  padding: 10px;
   font-weight: bolder;
   text-align: center;
   color: #87CEEB;
@@ -353,23 +336,139 @@
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-/* .servicesMenuItems::after{
-  content: '';
-  margin: auto;
-} */
-
-/* .MuiOutlinedInput-notchedOutline {
-  border-color: red !important;
+.selected-service-title {
+  background-color: #87CEEB;
+  color: #00008B;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-.MuiFilledInput-root {
-  border-bottom: 1px solid red !important;
+@media only screen and (min-width: 1920px) {
+  /* .menuItemName {
+    font-size: 1.5rem;
+  } */
+
+  .selected-tab,
+  .tab,
+  .hovered-tab {
+    font-size: 1rem;
+    height: 80px;
+    width: 220px;
+  }
+
+  .group-services-item-hovered,
+  .group-services-item {
+    font-size: 20px;
+    padding: 10px;
+  }
+
+  .selected-service-title {
+    font-size: 24px;
+  }
+
+  .menuIteImage {
+    font-size: 26px;
+    font-weight: bolder;
+    min-width: 30px;
+    max-width: 30px;
+  }
+
+  .menu-item {
+    display: flex;
+    flex: 1;
+    font-weight: bolder;
+    cursor: pointer;
+    background: #f4f6f7;
+    font-size: 1.3rem;
+    padding-left: 5px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .menu-item-hovered {
+    display: flex;
+    flex: 1;
+    font-weight: bolder;
+    cursor: pointer;
+    color: white;
+    background: #2196F3;
+    font-size: 1.3rem;
+    padding-left: 5px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
 }
 
-.MuiInput-root {
-  border-bottom: 1px solid 53af5b !important;
-} */
+@media only screen and (max-width: 1366px) {
 
-/* fieldset {
-  border-radius: 60px;
-} */
+  .menuItemName,
+  .selected-tab,
+  .tab,
+  .hovered-tab {
+    font-size: 0.9rem;
+  }
+
+  .selected-tab,
+  .tab,
+  .hovered-tab {
+    font-size: 0.8rem;
+    height: 60px;
+    width: 140px;
+  }
+
+  .group-services-item-hovered,
+  .group-services-item {
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  .selected-service-title {
+    font-size: 18px;
+  }
+
+  .service-menu-item-parent {
+    max-height: 70px;
+  }
+
+  .menuIteImage {
+    font-size: 1.2rem;
+    font-weight: bolder;
+    min-width: 24px;
+    max-width: 24px;
+  }
+
+  .menu-item{
+    display: flex;
+    flex: 1;
+    font-weight: bolder;
+    cursor: pointer;
+    background: #f4f6f7;
+    font-size: 1rem;
+    padding-left: 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .menu-item-hovered {
+    display: flex;
+    flex: 1;
+    font-weight: bolder;
+    cursor: pointer;
+    color: white;
+    background: #2196F3;
+    font-size: 1rem;
+    padding-left: 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .page-title {
+    font-size: 1.7rem;
+  }
+}

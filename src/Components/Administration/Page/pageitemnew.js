@@ -43,7 +43,7 @@ export default function PageItemNew(props) {
     if (location.state && location.state.isNew === 2) {
 
       pageItemDetails = itemDetails2;
-      
+
       setPageId(pageItemDetails?.Id || '');
       setPageTitle(pageItemDetails?.Title || '');
       setPageUrl(pageItemDetails?.Url || '');
@@ -86,9 +86,7 @@ export default function PageItemNew(props) {
                 data.Url = pageUrl;
                 data.HasComments = hasComments;
                 data.Tabs = [];
-                tabs.map((item) => {
-                  data.Tabs.push(item);
-                })
+                tabs.map((item) => { data.Tabs.push(item); })
 
                 if (location && location.state && location.state.isNew === 2)
                   dispatch(editPageItem(data));

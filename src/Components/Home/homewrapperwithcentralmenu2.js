@@ -23,7 +23,7 @@ export default function HomewrapperWithCentralMenu2(props) {
             flex: 1,
             flexDirection: 'column',
             height: 'auto',
-            backgroundImage: `url("/img/cityofathens1.jpg")`,
+            //backgroundImage: `url("/img/cityofathens1.jpg")`,
             backgroundSize: '100% 100%',
             backgroundRepeat: 'none',
             overflowX: 'hidden',
@@ -38,7 +38,7 @@ export default function HomewrapperWithCentralMenu2(props) {
               height: '100%',
               background: 'transparent'
             }}>
-              <div style={{ display: 'flex', flexDirection: 'column', maxwidth: '300px', minWidth: '300px', height: '100%', background: 'transparent'}}>
+              <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'transparent'}}>
                 <CentralMenu />
               </div>
               {props.children}

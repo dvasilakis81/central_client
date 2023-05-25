@@ -28,6 +28,13 @@ export default function PageInfo() {
   const history = useNavigate();
   let pageInfo = useSelector((state) => state.page_reducer.pageInfo);
 
+  function removeFontSize(bodyContent){
+    for (var i=0;i<100;i++){
+      bodyContent = bodyContent.toString().replace('fontSize: ' + i.toString() +'px', '');
+    }
+    return bodyContent;
+  }
+
   useEffect(() => {
 
     var pageName = '';

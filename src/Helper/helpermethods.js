@@ -534,7 +534,7 @@ export function getUnitsLex(div) {
 }
 
 export function getHeaderHeight() {
-	return 50;
+	return 80;
 }
 
 export function getFooterHeight() {
@@ -760,7 +760,7 @@ export function renderList(list) {
 export function renderDetail(label, value, info) {
 	if (value !== undefined && value !== null)
 		return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', fontSize: '1.5rem', fontWeight: "normal", width: '100%', paddingBottom: '20px' }}>
-			<div style={{ fontSize: '1.5rem', fontWeight: "bold", minWidth: '250px', maxWidth: '250px', textAlign: 'right', flexWrap: 'wrap' }}>{label}: </div>
+			<div style={{ fontSize: '1.5rem', fontWeight: "bold", minWidth: '250px', maxWidth: '250px', textAlign: 'right', flexWrap: 'wrap', alignSelf: 'center' }}>{label}: </div>
 			{info && info.isHtml === true ? renderHtml(value) : <></>}			
 			{info && info.isDate === true ? renderDate(value) : <></>}
 			{info && info.isImage === true ? <span style={{ marginLeft: '5px' }}>{renderImage(value)}</span> : <></>}

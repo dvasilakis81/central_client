@@ -29,12 +29,12 @@ export default function Header(props) {
       height: headerHeight
     },
     headerTitle: {
-      marginLeft: 10,
-      fontSize: 26,
+      flexGrow: 1,
+      padding: 10,
+      fontSize: 36,
       color: '#094fa3',
-      textAlign: 'left',
-      flexGrow: 0.1,
-      alignSelf: 'left'
+      textAlign: 'center',
+      alignSelf: 'center'
     },
     headerSearchBar: {
       marginLeft: 10,
@@ -43,13 +43,18 @@ export default function Header(props) {
       flexGrow: 0.5,
       width: '300px',
       alignSelf: 'center',
-      borderTop: '1px darkblue solid',      
+      borderTop: '1px darkblue solid',
     }
   }
 
   return <div style={styles.header2}>
-    <img src={thyraios} alt="Δήμος Αθηναίων" width='50px' height='50px' />
-    <div style={styles.headerTitle}>Κεντρική Σελίδα Δήμου Αθηναίων</div>
+    <div style={{ minWidth: '500px', maxWidth: '500px' }}>
+      <img src={thyraios} alt="Δήμος Αθηναίων" width='50px' height='50px' />
+    </div>
+    <div style={styles.headerTitle}>
+      Κεντρική Σελίδα Δήμου Αθηναίων
+    </div>
+
     {/* <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <span style={{
         verticalAlign: 'center',

@@ -44,23 +44,20 @@ export default function Actions(props) {
     } else if (props.contenttype === "announcement")
       return "Θέλετε να διαγράψετε την ανακοίνωση «" + announcementItemDetails?.Description + "»;";
   }
-
   const handleOpen = useCallback(
     () => {
       setNavigateToNew(true);
       setNavigateToEdit(false);
     },
     [], // Tells React to memoize regardless of arguments.
-  );
-
+  )
   const handleEdit = useCallback(
     () => {
       setNavigateToNew(false);
       setNavigateToEdit(true);
     },
     [], // Tells React to memoize regardless of arguments.
-  );
-
+  )
   if (navigateToNew === true) {
     navigate(props.navigatepage, { state: { isNew: 1 } })
     // return <Navigate push to={props.navigatepage} />

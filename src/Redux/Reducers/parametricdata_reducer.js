@@ -270,6 +270,13 @@ export default function (state = {}, action, root) {
         };
         break;
       }
+    case 'SET_SELECTED_CENTRAL_MENU':{
+      state = {
+        ...state,
+        selectedCentralMenu: action.payload
+      }
+      break;
+    }
       default:
         break;
     }

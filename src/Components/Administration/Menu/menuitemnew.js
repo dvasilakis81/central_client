@@ -34,7 +34,16 @@ export default function MenuItemNew(props) {
   let location = useLocation();
 
   let pageItemsList = useSelector((state) => state.page_reducer.pageItemsList);
-  let categoriesList = useSelector((state) => state.parametricdata_reducer.categoriesList);
+  let categoriesList = useSelector((state) => {
+    if (state.parametricdata_reducer.categoriesList) {
+      const filteredItems = state.parametricdata_reducer.categoriesList.filter(
+        (item) => item.HasSubCategories === 0
+      );
+      return filteredItems;
+    }
+    else
+      return undefined;    
+  });
 
   let menuItemDetails2 = useSelector((state) => {
     return location.state.itemtype === 1 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails;
@@ -156,7 +165,7 @@ export default function MenuItemNew(props) {
               filterSelectedOptions
               multiple
               getOptionLabel={item => (item.Name || '')}
-              onChange={(event, value) =>                 
+              onChange={(event, value) =>
                 setCategories(value)
               }
               defaultValue={categories || []}

@@ -6,7 +6,7 @@ export default function AnnouncementItemDetails(props) {
   let itemDetails = useSelector((state) => state.announcement_reducer.announcementItemDetails);
 
   if (itemDetails) {
-    return (<div>
+    return (<div style={{overflowY: 'scroll'}}>
       {renderDetail('Περιγραφή', itemDetails.Description, {isHtml: true})}
       {/* {renderDetail('Σύνδεσμος', itemDetails.Url, {isUrl: true})} */}
       {renderDetail('Κατηγορίες', itemDetails.categoriesInfo, {isList: true})}

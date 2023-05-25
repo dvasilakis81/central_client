@@ -21,13 +21,13 @@ export default function HomewrapperWithCentralMenu(props) {
             flex: 1,
             flexDirection: 'row',
             height: 'auto',
-            backgroundImage: `url("/img/cityofathens1.jpg")`,
+            //backgroundImage: `url("/img/cityofathens1.jpg")`,
             backgroundSize: '100% 100%',
             backgroundRepeat: 'none',
             overflowX: 'hidden',
             overflowY: 'hidden'
           }}>
-            <div style={{ maxwidth: '300px', minWidth: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <CentralMenu />
             </div>
             {props.children}
