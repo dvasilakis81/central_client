@@ -30,6 +30,5 @@ export default function ServicesSearchBar() {
         </IconButton>
       </InputAdornment>)
     }}
-  />
-  );
+  />);
 }

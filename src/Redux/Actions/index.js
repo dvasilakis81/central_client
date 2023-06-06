@@ -102,6 +102,8 @@ export function deleteItem(data) {
     return { type: 'DELETE_PAGE', payload: request };
   else if (data.kind === 3)
     return { type: 'DELETE_MEDIA', payload: request };
-  if (data.kind === 4)
+  else if (data.kind === 4)
     return { type: 'DELETE_ANNOUNCEMENT', payload: request };
+  else if (data.kind === 5)
+    return { type: 'DELETE_CATEGORY', payload: request };
 }

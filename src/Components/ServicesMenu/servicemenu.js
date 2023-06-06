@@ -8,7 +8,7 @@ import { getHostUrl } from '../../Helper/helpermethods';
 import { includeStrings } from '../../Helper/helpermethods';
 import store from '../../Redux/Store/store';
 import parse from 'html-react-parser';
-import PopUp from '../../HOC/PopUp/PopUp';
+import ServicesSearchBar from '../Search/servicessearchbar';
 
 function ServicesMenu() {
   const dispatch = useDispatch();
@@ -81,30 +81,47 @@ function ServicesMenu() {
 
     return ret;
   }
+
+  function renderServiceRectangle(d, index) {
+    return <div key={index}
+      className="service-menu-item-parent"
+      onMouseEnter={(e) => handleMouseEnter(e, d)}
+      onMouseLeave={handleMouseLeave}
+      onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf')) }}>
+      <div className={getServiceClass(d)}>
+        {getImage(d)}
+        <div style={{ flex: 0.7 }}>{d.Name}</div>
+      </div>
+    </div>
+  }
   function getItems(items) {
 
     return items && items.map((d, index) => {
-      return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ?
-        <div key={index}
-          className="service-menu-item-parent"
-          onMouseEnter={(e) => handleMouseEnter(e, d)}
-          onMouseLeave={handleMouseLeave}
-          onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf')) }}>
-          <div className={getServiceClass(d)}>
-            {getImage(d)}
-            <div style={{ flex: 0.7 }}>{d.Name}</div>
-          </div>
-        </div>
-        :
-        <></>
+      return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ? renderServiceRectangle(d, index) : <></>
+    })
+  }
+  function getItemsFromSearch(serviceGroups) {
+    var itemIds = [];
+    return serviceGroups && serviceGroups.map((servicegroup, index) => {
+      return servicegroup.servicesInfo && servicegroup.servicesInfo.map((d, index) => {
+        if (!itemIds.includes(d.Id)) {
+          itemIds.push(d.Id)
+          return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ? renderServiceRectangle(d, index) : <></>
+        } else
+          return <></>
+      })
     })
   }
   function getServicesFromSelectedGroup() {
-    if (groupServicesSelected) {
-      if (groupServicesSelected.HasSubCategories === 1)
-        return getSubCategories(groupServicesSelected);
-      else
-        return getItems(groupServicesSelected.servicesInfo);
+    if (searchValue) {
+      return getItemsFromSearch(serviceItemsList);
+    } else {
+      if (groupServicesSelected) {
+        if (groupServicesSelected.HasSubCategories === 1)
+          return getSubCategories(groupServicesSelected);
+        else
+          return getItems(groupServicesSelected.servicesInfo);
+      }
     }
   }
   function getItemsByGroup(openPopUp, menuRef, searchValue) {
@@ -135,6 +152,7 @@ function ServicesMenu() {
               //   store.dispatch({ type: 'OPEN_POP_UP', payload: openPopUp == true ? false : true });
               // }
               // else
+              store.dispatch({ type: 'SET_SEARCH_VALUE', payload: '' })
               store.dispatch({ type: 'SET_SELECTED_GROUP_SERVICES', payload: d })
             }}>
             {d.Name}
@@ -145,13 +163,23 @@ function ServicesMenu() {
         </>
     })
   }
-  function getSelectedServiceTitle() {
-    if (groupServicesSelected)
-      return <div className="selected-service-title">
-        {groupServicesSelected.Name}
-      </div>
+  function getTitle() {
+    var ret = '';
+
+    if (searchValue)
+      ret = 'Αναζήτηση';
+    else if (groupServicesSelected)
+      ret = groupServicesSelected.Name;
     else
-      return <div className="selected-service-title">Παρακαλώ επιλέξτε κάποια κατηγορία</div>
+      ret = 'Παρακαλώ επιλέξτε κάποια κατηγορία';
+
+    return ret;
+  }
+  function getSelectedServiceTitle() {
+
+    return <div className="selected-service-title">
+      {getTitle()}
+    </div>
   }
 
   const menuRef = useState();
@@ -165,6 +193,9 @@ function ServicesMenu() {
       opacity: '1',
       overflowY: 'scroll'
     }}>
+      <div style={{ textAlign: 'center', paddingTop: '20px' }}>
+        <ServicesSearchBar />
+      </div>
       <div style={{
         display: 'flex',
         flexDirection: 'row',
@@ -200,14 +231,13 @@ function ServicesMenu() {
             <div>
               <div className="services-menu-container">
                 <div className="services-menu-items">
-                  {/* <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}> */}
+                  {console.log('getServicesFromSelectedGroup: ' + getServicesFromSelectedGroup())}
                   {getServicesFromSelectedGroup()}
-                  {/* </div> */}
                 </div>
               </div>
               <div>
                 {
-                  groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
+                  searchValue === '' && groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
                     return <div key={index} style={{ margin: '20px' }}>
                       {parse(d.Description)}
                     </div>
@@ -217,8 +247,6 @@ function ServicesMenu() {
             </div>
           </div>
         </div>
-        {/* </div>
-      </div> */}
       </div>
     </div>
   </>

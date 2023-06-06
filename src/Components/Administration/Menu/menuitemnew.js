@@ -289,7 +289,7 @@ export default function MenuItemNew(props) {
                 inputProps={{ 'aria-label': 'controlled' }} />
               <span>Υπηρεσία</span>
             </div>
-            <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
+            {/* <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
               <Checkbox
                 label='Ανακοίνωση'
                 defaultChecked={false}
@@ -299,7 +299,7 @@ export default function MenuItemNew(props) {
                 inputProps={{ 'aria-label': 'controlled' }}
               />
               <span>Ανακοίνωση</span>
-            </div>
+            </div> */}
             <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
               <Checkbox
                 label='Κρυφό'

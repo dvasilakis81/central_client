@@ -5,49 +5,41 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
+import { deleteItem } from '../../../Redux/Actions/index';
 
 export default function MyDialog(props) {
 
   const dispatch = useDispatch();
 
+  const handleDelete = () => {
+        
+    var data = {};
+    data.kind = 5;
+    data.id = props.itemToDelete.Id;
+    dispatch(deleteItem(data));
+    //props.setOpenDialog(false);
+  };
+
+  const handleClose = () => {
+    //props.setOpenDialog(false);
+  };
+
   return <Dialog
     open={props.openDialog}
-    onClose={() => { props.openDialog(false); }}
+    // onClose={() => { props.openDialog(false); }}
     aria-labelledby="alert-dialog-title"
     aria-describedby="alert-dialog-description">
     <DialogTitle id="alert-dialog-title">ΜΗΝΥΜΑ</DialogTitle>
     <DialogContent>
       <DialogContentText id="alert-dialog-description">
-        {/* {showDeleteMessage()} */}
-        asdfasdf
+        Είστε σίγουροι οτι Θέλετε να διαγράψετε το {props.itemToDelete?.Name}
       </DialogContentText>
     </DialogContent>
     <DialogActions>
-      <Button onClick={() => {
-        var data = {}
-        // if (props.contenttype === "announcement") {
-        //   data.kind = 4;
-        //   data.id = announcementItemDetails.Id;
-        // } else if (props.contenttype === "menuitem") {
-        //   data.kind = 1;
-        //   if (props.itemtype === 1)
-        //     data.id = menuItemDetails.Id;
-        //   else
-        //     data.id = serviceItemDetails.Id;
-        // } else if (props.contenttype === "pageitem") {
-        //   data.kind = 2;
-        //   data.id = pageItemDetails.Id;
-        // } else if (props.contenttype === "mediaitem") {
-        //   data.kind = 3;
-        //   data.id = mediaItemDetails.Id;
-        // }
-
-        //dispatch(deleteItem(data));
-        props.setOpenDialog(false);
-      }} color="primary" autoFocus>
+      <Button onClick={handleDelete} color="primary">
         Διαγραφή
       </Button>
-      <Button onClick={() => { props.setOpenDialog(false); }} color="primary" autoFocus>
+      <Button onClick={handleClose} color="primary">
         Ακύρωση
       </Button>
     </DialogActions>

@@ -15,7 +15,7 @@ export default function MenuItemDetails(props) {
       {renderDetail('Κατηγορίες', menuItemDetails.categoriesInfo, { isList: true })}
       {renderDetail('Μενού', menuItemDetails.MenuItem, { isCheckbox: true })}
       {renderDetail('Υπηρεσία', menuItemDetails.ServiceItem, { isCheckbox: true })}      
-      {renderDetail('Ανακοίνωση', menuItemDetails.Announce, { isCheckbox: true })}
+      {/* {renderDetail('Ανακοίνωση', menuItemDetails.Announce, { isCheckbox: true })} */}
       {renderDetail('Κρυφό', menuItemDetails.Hidden, { isCheckbox: true })}
       {renderDetail('Δημιουργήθηκε', menuItemDetails.Created, { isDate: true })}
       {renderDetail('Ενημερώθηκε', menuItemDetails.Updated, { isDate: true })}

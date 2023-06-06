@@ -270,13 +270,50 @@ export default function (state = {}, action, root) {
         };
         break;
       }
-    case 'SET_SELECTED_CENTRAL_MENU':{
-      state = {
-        ...state,
-        selectedCentralMenu: action.payload
+      case 'SET_SELECTED_CENTRAL_MENU': {
+        state = {
+          ...state,
+          selectedCentralMenu: action.payload
+        }
+        break;
       }
-      break;
-    }
+      case 'DELETE_CATEGORY_PENDING':
+
+        state = {
+          ...state,
+          openMessage: false,
+          requestPending: true,
+          requestRejected: undefined,
+          requestServerError: undefined
+        };
+        break;
+      case 'DELETE_CATEGORY_REJECTED':
+
+        state = {
+          ...state,
+          requestPending: undefined,
+          requestRejected: action.payload,
+          requestServerError: undefined
+        };
+        break;
+      case 'DELETE_CATEGORY_FULFILLED':
+        var serverResponse = action.payload;
+        if (serverResponse) {
+          let items = state.categoriesList.filter((item) => {
+            if (item.Id !== serverResponse.id)
+              return item;
+          });
+
+          state = {
+            ...state,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: undefined,
+            categoriesList: items
+          };
+        }
+
+        break;
       default:
         break;
     }
