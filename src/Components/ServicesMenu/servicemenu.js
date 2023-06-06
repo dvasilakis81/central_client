@@ -237,7 +237,7 @@ function ServicesMenu() {
               </div>
               <div>
                 {
-                  searchValue === '' && groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
+                  (searchValue === '' || searchValue === undefined || searchValue === null) && groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
                     return <div key={index} style={{ margin: '20px' }}>
                       {parse(d.Description)}
                     </div>
