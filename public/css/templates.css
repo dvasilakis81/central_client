@@ -121,6 +121,18 @@
   font-weight: bolder;
 }
 
+.centered {  
+  position: absolute;
+  top: 30%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  background: transparent;
+  min-width: 500px;
+  padding: 20px;
+  border-radius: 0px;  
+  white-space: pre-wrap;
+}
+
 .page-body {
   padding: 15px;
   overflow-y: auto;

@@ -1,9 +1,10 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '../HOC/Layout/layout';
 import { showGenericMessage } from '../Components/Common/templates';
 import Home from '../Components/Home/home';
 import AdministrationPage from '../Components/Administration/AdministrationPage';
+import LoginPage from '../Components/Login/login';
 import MenuItemNew from '../Components/Administration/Menu/menuitemnew';
 import PageItemNew from '../Components/Administration/Page/pageitemnew';
 import MediaItemNew from '../Components/Administration/Media/mediaitemnew';
@@ -34,6 +35,7 @@ class AppRoutes extends React.Component {
 						<Route path="/newpageitem" element={<PageItemNew/>} />
 						<Route path="/newannouncementitem" element={<AnnouncementItemNew/>} />						
 						<Route path="/administration" element={<AdministrationPage/>} />
+						<Route path="/login" element={<LoginPage/>} />
 						<Route path="/:pageurl" element={<PageInfo />} />
 						<Route path="/" element={<Home/>} />
 					</Routes>

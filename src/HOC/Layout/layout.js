@@ -59,8 +59,7 @@ class Layout extends Component {
 
 		var dimensions = setDimensions(store);
 		return (
-			// <div style={{ width: dimensions.width, height: dimensions.height, background: 'red' }}>
-			<div style={{ width: dimensions.width, height: dimensions.height, background: 'red' }}>
+			<div style={{ width: dimensions.width, height: dimensions.height }}>
 				{this.props.children}
 			</div>
 		)

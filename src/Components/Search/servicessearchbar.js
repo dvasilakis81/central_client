@@ -14,7 +14,7 @@ export default function ServicesSearchBar() {
     label="Αναζήτηση"
     type="text"
     variant='outlined'
-    style={{ width: 700, background: 'none', fontWeight: 'bold', opacity: 0.7, fontSize: '43px' }}
+    style={{ width: '800px', background: 'none', fontWeight: 'bold', fontSize: '43px' }}
     value={searchValue}
     onChange={(e) => { store.dispatch({ type: 'SET_SEARCH_VALUE', payload: e.target.value }) }}
     className={classes.root}

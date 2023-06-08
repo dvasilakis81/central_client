@@ -80,6 +80,7 @@ export function deleteAnnouncement(data) {
   const request = axios.post(getHostUrl() + 'deleteAnnouncement', data).then(response => response.data);
   return { type: 'DELETE_ANNOUNCEMENT', payload: request };
 }
+
 //Categories
 export function getCategories() {
   const request = axios.get(getHostUrl() + 'getCategories').then(response => response.data);
@@ -92,6 +93,20 @@ export function addCategory(data) {
 export function editCategory(data) {
   const request = axios.post(getHostUrl() + 'editCategory', data).then(response => response.data);
   return { type: 'EDIT_CATEGORY', payload: request };
+}
+
+//Users 
+export function loginUser(data) {
+  const request = axios.post(getHostUrl() + 'loginUser', data).then(response => response.data);
+  return { type: 'GET_TOKEN_JWT', payload: request };
+}
+export function createUser(data) {
+  const request = axios.post(getHostUrl() + 'createUser', data).then(response => response.data);
+  return { type: 'CREATE_USER', payload: request };
+}
+export function updateUser(data) {
+  const request = axios.post(getHostUrl() + 'updateUser', data).then(response => response.data);
+  return { type: 'UPDATE_USER', payload: request };
 }
 
 export function deleteItem(data) {

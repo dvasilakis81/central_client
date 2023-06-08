@@ -10,6 +10,8 @@ import store from '../../Redux/Store/store';
 import parse from 'html-react-parser';
 import ServicesSearchBar from '../Search/servicessearchbar';
 
+var itemIds = [];
+
 function ServicesMenu() {
   const dispatch = useDispatch();
   const [hoveredKey, setHoveredKey] = useState('');
@@ -82,7 +84,7 @@ function ServicesMenu() {
     return ret;
   }
 
-  function renderServiceRectangle(d, index) {
+  function renderServiceItem(d, index) {
     return <div key={index}
       className="service-menu-item-parent"
       onMouseEnter={(e) => handleMouseEnter(e, d)}
@@ -97,16 +99,21 @@ function ServicesMenu() {
   function getItems(items) {
 
     return items && items.map((d, index) => {
-      return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ? renderServiceRectangle(d, index) : <></>
+      return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ? renderServiceItem(d, index) : <></>
     })
   }
   function getItemsFromSearch(serviceGroups) {
-    var itemIds = [];
+    itemIds = [];
     return serviceGroups && serviceGroups.map((servicegroup, index) => {
       return servicegroup.servicesInfo && servicegroup.servicesInfo.map((d, index) => {
         if (!itemIds.includes(d.Id)) {
-          itemIds.push(d.Id)
-          return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ? renderServiceRectangle(d, index) : <></>
+
+          if (d.Hidden === 0 && includeStrings(d.Name, searchValue || '')) {
+            itemIds.push(d.Id);
+            return renderServiceItem(d, index);
+          }
+          else
+            return <></>
         } else
           return <></>
       })
@@ -114,7 +121,12 @@ function ServicesMenu() {
   }
   function getServicesFromSelectedGroup() {
     if (searchValue) {
-      return getItemsFromSearch(serviceItemsList);
+      itemIds = [];
+      var ret = getItemsFromSearch(serviceItemsList);
+      if (itemIds.length === 0)
+        return 'Δεν βρέθηκαν υπηρεσίες';
+      else
+        return ret;
     } else {
       if (groupServicesSelected) {
         if (groupServicesSelected.HasSubCategories === 1)
@@ -231,7 +243,6 @@ function ServicesMenu() {
             <div>
               <div className="services-menu-container">
                 <div className="services-menu-items">
-                  {console.log('getServicesFromSelectedGroup: ' + getServicesFromSelectedGroup())}
                   {getServicesFromSelectedGroup()}
                 </div>
               </div>

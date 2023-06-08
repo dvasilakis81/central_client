@@ -5,6 +5,7 @@ import MenuItems from '../../Components/Administration/Menu/menuitems';
 import MediaItems from '../../Components/Administration/Media/mediaitems';
 import AnnouncementItems from '../../Components/Administration/Announcements/announcementitems';
 import store from '../../Redux/Store/store';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { getMenuItems, getServiceItems, getPageItems, getMediaItems, getAnnouncements, getCategories } from '../../Redux/Actions/index';
 
@@ -28,14 +29,18 @@ export default function AdministrationPage(props) {
 
   let selectedTab = useSelector((state) => state.parametricdata_reducer.selectedTabAdmin) || 0;
   const { pageItemsList } = useSelector(state => ({ pageItemsList: state.page_reducer.pageItemsList }));
+  const { token } = useSelector(state => ({ pageItemsList: state.parametricdata_reducer.token }));
 
   const dispatch = useDispatch();
   const [hoveredKey, setHoveredKey] = useState(-1);
   const handleMouseEnter = (e, d) => { setHoveredKey(d); };
   const handleMouseLeave = () => { setHoveredKey(-1); };
+
+  let navigate = useNavigate();
+
   useEffect(() => {
     dispatch(getMenuItems());
-    dispatch(getServiceItems());    
+    dispatch(getServiceItems());
     if (pageItemsList) {
     } else
       dispatch(getPageItems());
@@ -58,47 +63,50 @@ export default function AdministrationPage(props) {
     store.dispatch({ type: 'SET_SELECTED_TAB_ADMIN', payload: newValue })
   };
 
-  return (
-    <div style={{ display: 'flex', flexFlow: 'column', flexWrap: 'wrap', width: '100%', height: '100%', overflowY: 'hidden' }}>
-      <div style={{ display: 'flex', flexDirection: 'row', height: 'auto', overflowY: 'hidden', overflowX: 'hidden' }}>
-        <div
-          className={selectedTab === 0 ? 'selected-tab' : (hoveredKey === 0 ? 'hovered-tab' : 'tab')}
-          onClick={(e) => { handleTabChange(e, 0) }}
-          onMouseEnter={(e) => handleMouseEnter(e, 0)}
-          onMouseLeave={handleMouseLeave}>
-          ΜΕΝΟΥ
+  if (token === undefined || token === '')
+    navigate('/login');
+  else
+    return (
+      <div style={{ display: 'flex', flexFlow: 'column', flexWrap: 'wrap', width: '100%', height: '100%', overflowY: 'hidden' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', height: 'auto', overflowY: 'hidden', overflowX: 'hidden' }}>
+          <div
+            className={selectedTab === 0 ? 'selected-tab' : (hoveredKey === 0 ? 'hovered-tab' : 'tab')}
+            onClick={(e) => { handleTabChange(e, 0) }}
+            onMouseEnter={(e) => handleMouseEnter(e, 0)}
+            onMouseLeave={handleMouseLeave}>
+            ΜΕΝΟΥ
+          </div>
+          <div
+            className={selectedTab === 1 ? 'selected-tab' : (hoveredKey === 1 ? 'hovered-tab' : 'tab')}
+            onClick={(e) => { handleTabChange(e, 1) }}
+            onMouseEnter={(e) => handleMouseEnter(e, 1)}
+            onMouseLeave={handleMouseLeave}>
+            ΥΠΗΡΕΣΙΕΣ
+          </div>
+          <div
+            className={selectedTab === 2 ? 'selected-tab' : (hoveredKey === 2 ? 'hovered-tab' : 'tab')}
+            onClick={(e) => { handleTabChange(e, 2) }}
+            onMouseEnter={(e) => handleMouseEnter(e, 2)}
+            onMouseLeave={handleMouseLeave}>
+            ΣΕΛΙΔΕΣ
+          </div>
+          <div
+            className={selectedTab === 3 ? 'selected-tab' : (hoveredKey === 3 ? 'hovered-tab' : 'tab')}
+            onClick={(e) => { handleTabChange(e, 3) }}
+            onMouseEnter={(e) => handleMouseEnter(e, 3)}
+            onMouseLeave={handleMouseLeave}>
+            ΑΡΧΕΙΑ
+          </div>
+          <div
+            className={selectedTab === 4 ? 'selected-tab' : (hoveredKey === 4 ? 'hovered-tab' : 'tab')}
+            onClick={(e) => { handleTabChange(e, 4) }}
+            onMouseEnter={(e) => handleMouseEnter(e, 4)}
+            onMouseLeave={handleMouseLeave}>
+            ΑΝΑΚΟΙΝΩΣΕΙΣ
+          </div>
         </div>
-        <div
-          className={selectedTab === 1 ? 'selected-tab' : (hoveredKey === 1 ? 'hovered-tab' : 'tab')}
-          onClick={(e) => { handleTabChange(e, 1) }}
-          onMouseEnter={(e) => handleMouseEnter(e, 1)}
-          onMouseLeave={handleMouseLeave}>
-          ΥΠΗΡΕΣΙΕΣ
-        </div>
-        <div
-          className={selectedTab === 2 ? 'selected-tab' : (hoveredKey === 2 ? 'hovered-tab' : 'tab')}
-          onClick={(e) => { handleTabChange(e, 2) }}
-          onMouseEnter={(e) => handleMouseEnter(e, 2)}
-          onMouseLeave={handleMouseLeave}>
-          ΣΕΛΙΔΕΣ
-        </div>
-        <div
-          className={selectedTab === 3 ? 'selected-tab' : (hoveredKey === 3 ? 'hovered-tab' : 'tab')}
-          onClick={(e) => { handleTabChange(e, 3) }}
-          onMouseEnter={(e) => handleMouseEnter(e, 3)}
-          onMouseLeave={handleMouseLeave}>
-          ΑΡΧΕΙΑ
-        </div>
-        <div
-          className={selectedTab === 4 ? 'selected-tab' : (hoveredKey === 4 ? 'hovered-tab' : 'tab')}
-          onClick={(e) => { handleTabChange(e, 4) }}
-          onMouseEnter={(e) => handleMouseEnter(e, 4)}
-          onMouseLeave={handleMouseLeave}>
-          ΑΝΑΚΟΙΝΩΣΕΙΣ
-        </div>
+        {getTabMenu(selectedTab || 0)}
       </div>
-      {getTabMenu(selectedTab || 0)}
-    </div>
-  );
+    );
 
 }
