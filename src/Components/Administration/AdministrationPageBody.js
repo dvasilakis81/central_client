@@ -29,7 +29,7 @@ export default function AdministrationPage(props) {
 
   let selectedTab = useSelector((state) => state.parametricdata_reducer.selectedTabAdmin) || 0;
   const { pageItemsList } = useSelector(state => ({ pageItemsList: state.page_reducer.pageItemsList }));
-  const { token } = useSelector(state => ({ pageItemsList: state.parametricdata_reducer.token }));
+  const { token } = useSelector(state => ({ token: state.token_reducer.token }));
 
   const dispatch = useDispatch();
   const [hoveredKey, setHoveredKey] = useState(-1);

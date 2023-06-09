@@ -16,7 +16,7 @@ const styles = {
 }
 
 export default function ServiceCategories(props) {
-  const { categoriesList } = useSelector(state => ({ categoriesList: state.parametricdata_reducer.categoriesList }));  
+  const { categoriesList } = useSelector(state => ({ categoriesList: state.parametricdata_reducer.categoriesList }));
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menustyle = isMenuOpen === false ? styles.menuenter : styles.menuleave;
   const menucolor = isMenuOpen === false ? styles.menuleavecolor : styles.menuentercolor;
@@ -24,11 +24,11 @@ export default function ServiceCategories(props) {
   const popupRef = useRef();
 
   useEffect(() => {
-    const checkIfClickedOutside = e => {      
-      if (isMenuOpen === true && menuRef.current && menuRef.current.contains(e.target)){        
+    const checkIfClickedOutside = e => {
+      if (isMenuOpen === true && menuRef.current && menuRef.current.contains(e.target)) {
       }
-      else if (isMenuOpen === true && popupRef.current && !popupRef.current.contains(e.target))        
-        setIsMenuOpen(false);      
+      else if (isMenuOpen === true && popupRef.current && !popupRef.current.contains(e.target))
+        setIsMenuOpen(false);
     }
 
     document.addEventListener("mousedown", checkIfClickedOutside)
@@ -73,25 +73,27 @@ export default function ServiceCategories(props) {
         }}>
         <i className="fa fa-bars fa-3x" style={menucolor} />
       </div>
-      {isMenuOpen === true ?
-        <div ref={popupRef} style={{
-          position: 'fixed', width: '500px', height: '300px',
-          top: menuRef.current ? menuRef.current.offsetTop + menuRef.current.offsetHeight + 10 : 0,
-          left: menuRef.current ? menuRef.current.offsetLeft : 0
-        }}>
-          <div style={{
-            position: 'relative',
-            width: '70%', background: '#fff', padding: '20px',
-            border: '1px solid #999',
-            overflow: 'auto'
+      {
+        isMenuOpen === true ?
+          <div ref={popupRef} style={{
+            position: 'fixed', width: '500px', height: '300px',
+            top: menuRef.current ? menuRef.current.offsetTop + menuRef.current.offsetHeight + 10 : 0,
+            left: menuRef.current ? menuRef.current.offsetLeft : 0
           }}>
-            {categoriesList && categoriesList.map((item, index) => {
-              return <div id={item.Id} style={{ display: 'flex', flexDirection: 'row', borderBottom: '0px solid black' }}>
-                <input value={item.Id} type="checkbox" onChange={handleCheck} checked={isChecked(item)} style={{ transform: 'scale(2)', margin: '5px', height: '10px' }} />
-                <div style={{ paddingLeft: '15px', paddingBottom: '15px' }}>{item.Name}</div>
-              </div>
-            })}
-          </div>
-        </div> : <></>}
+            <div style={{
+              position: 'relative',
+              width: '70%', background: '#fff', padding: '20px',
+              border: '1px solid #999',
+              overflow: 'auto'
+            }}>
+              {categoriesList && categoriesList.map((item, index) => {
+                return <div id={item.Id} style={{ display: 'flex', flexDirection: 'row', borderBottom: '0px solid black' }}>
+                  <input value={item.Id} type="checkbox" onChange={handleCheck} checked={isChecked(item)} style={{ transform: 'scale(2)', margin: '5px', height: '10px' }} />
+                  <div style={{ paddingLeft: '15px', paddingBottom: '15px' }}>{item.Name}</div>
+                </div>
+              })}
+            </div>
+          </div> : <></>
+      }
     </>)
 }

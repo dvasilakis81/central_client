@@ -59,12 +59,15 @@ export default function MySnackbar(props) {
   const { screenDimensions } = useSelector(state => ({ screenDimensions: state.parametricdata_reducer.screenDimensions }));
   const { snackBarInfo } = useSelector(state => ({ snackBarInfo: state.parametricdata_reducer.snackBarInfo }));
 
-  let width = 1400;
-  let left = screenDimensions ? screenDimensions.width - (width + 50) : 0;
-  let top = screenDimensions.height - (getHeaderHeight() + getFooterHeight() + 150)
-  let style = { width: width + 'px', position: 'absolute', left: left, top: top }
+  let width = 10;
+  // let left = screenDimensions ? screenDimensions.width - (width + 50) : 0;
+  // let top = screenDimensions.height - (getHeaderHeight() + getFooterHeight() + 150);
+  // let left = screenDimensions ? screenDimensions.width - (width + 50) : 0;
 
-  //const Icon = variantIcon[variant];
+  let top = screenDimensions ? (screenDimensions.height - (getHeaderHeight() + getFooterHeight())) / 2 : 0;
+  let left = screenDimensions ? screenDimensions.width / 2 : 0;
+  let style = { width: '0px', position: 'absolute', left: left, top: top }
+  
   const bgColor = variantBgColor[snackBarInfo?.variant || ''];
   const fgColor = variantFgColor[snackBarInfo?.variant || ''];
 
