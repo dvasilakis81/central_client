@@ -76,19 +76,14 @@ export default function Login(props) {
           snackbarInfo.message = response.value.message;
           snackbarInfo.variant = 'error';
           store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
-        }
-
-        // setLoginSuccess(false);
-        // setMessage(response.value);
-        // setOpenMessage(true);
-        // setVariant('error');
+        }        
       }).catch(error => {
         var msg = 'Αποτυχία σύνδεσης στον διακομιστή!';
-
-        setLoginSuccess(false);
-        setMessage(<><div>{msg}</div><div>{getServerErrorResponseMessage(error)}</div></>);
-        setOpenMessage(true);
-        setVariant('error');
+        var snackbarInfo = {};
+        snackbarInfo.openMessage = true;
+        snackbarInfo.message = <div>{msg}</div>;
+        snackbarInfo.variant = 'error';
+        store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
       })
     }
   }

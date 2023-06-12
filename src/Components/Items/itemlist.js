@@ -3,6 +3,7 @@ import MenuItem from '../Administration/Menu/menuitem';
 import MediaItem from '../Administration/Media/mediaitem';
 import PageItem from '../Administration/Page/pageitem';
 import AnnouncementItem from '../Administration/Announcements/announcementitem';
+import UserItem from '../Administration/Users/useritem';
 
 export default function ItemList(props) {
 	const itemToRender = props.item;
@@ -18,6 +19,8 @@ export default function ItemList(props) {
 		return <PageItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
 	else if (props.kindss === "announcementitems")
 		return <AnnouncementItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
+	else if (props.kindss === "useritems")
+		return <UserItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
 	else {
 		return <></>;
 	}

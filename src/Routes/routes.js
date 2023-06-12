@@ -9,6 +9,8 @@ import MenuItemNew from '../Components/Administration/Menu/menuitemnew';
 import PageItemNew from '../Components/Administration/Page/pageitemnew';
 import MediaItemNew from '../Components/Administration/Media/mediaitemnew';
 import AnnouncementItemNew from '../Components/Administration/Announcements/announcementitemnew';
+import UserItemNew from '../Components/Administration/Users/useritemnew';
+
 import PageInfo from '../Components/PageInfo/pageinfo';
 
 //const Consultations = lazy(() => import('./Components/Consultations/ConsultationsPage'));  
@@ -33,6 +35,7 @@ class AppRoutes extends React.Component {
 						<Route path="/newmediaitem" element={<MediaItemNew/>} />
 						<Route path="/newmenuitem" element={<MenuItemNew/>} />
 						<Route path="/newpageitem" element={<PageItemNew/>} />
+						<Route path="/newuseritem" element={<UserItemNew/>} />
 						<Route path="/newannouncementitem" element={<AnnouncementItemNew/>} />						
 						<Route path="/administration" element={<AdministrationPage/>} />
 						<Route path="/login" element={<LoginPage/>} />

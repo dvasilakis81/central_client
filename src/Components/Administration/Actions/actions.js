@@ -22,6 +22,7 @@ export default function Actions(props) {
   const menuItemDetails = useSelector((state) => state.menu_reducer.menuItemDetails);
   const serviceItemDetails = useSelector((state) => state.menu_reducer.serviceItemDetails);
   const pageItemDetails = useSelector((state) => state.page_reducer.pageItemDetails);
+  const userItemDetails = useSelector((state) => state.user_reducer.userItemDetails);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -43,6 +44,8 @@ export default function Actions(props) {
         return "Θέλετε να διαγράψετε την υπηρεσία «" + serviceItemDetails?.Name + "»;";
     } else if (props.contenttype === "announcement")
       return "Θέλετε να διαγράψετε την ανακοίνωση «" + announcementItemDetails?.Description + "»;";
+     else if (props.contenttype === "user")
+      return "Θέλετε να διαγράψετε τον χρήστη «" + userItemDetails?.Firstname + " " + userItemDetails?.Lastname + " »;";
   }
   const handleOpen = useCallback(
     () => {

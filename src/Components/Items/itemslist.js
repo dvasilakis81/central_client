@@ -20,6 +20,10 @@ function ItemsList(props) {
 			return state.media_reducer.mediaItemDetails;
 		else if (props.kind === 'announcementitems')
 			return state.announcement_reducer.announcementItemDetails;
+		else if (props.kind === 'announcementitems')
+			return state.announcement_reducer.announcementItemDetails;
+		else if (props.kind === 'useritems')
+			return state.user_reducer.userItemDetails;
 		else
 			return null;
 	});

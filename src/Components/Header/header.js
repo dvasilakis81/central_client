@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useRef } from 'react';
 import { getHeaderHeight } from '../../Helper/helpermethods';
 import thyraios from '../Images/thyraios.png';
 import ServicesSearchBar from '../Search/servicessearchbar';
@@ -26,6 +25,21 @@ export default function Header(props) {
   //const menustyle = isMenuOpen === false ? styles.menuenter : styles.menuleave;
   const menuRef = useRef();
   const popupRef = useRef();
+  const [userInfoVisible, setUserInfoVisible] = useState('');
+
+  useEffect(() => {
+
+    var pageName = '';
+    var pageUrlParts = window.location.href.split('/');
+    if (pageUrlParts) {
+      pageName = pageUrlParts[pageUrlParts.length - 1];
+      var data = {};
+      data.pagename = pageName;
+      if (pageName === 'administration')
+        setUserInfoVisible(true);
+      //dispatch(getPageInfo(data));
+    }
+  }, []);
 
   const styles = {
     header: {
@@ -69,15 +83,9 @@ export default function Header(props) {
     }
   }
 
-  return <div style={styles.header2}>
-    <div style={{ minWidth: '500px', maxWidth: '500px' }}>
-      <img src={thyraios} alt="Δήμος Αθηναίων" width='50px' height='50px' />
-    </div>
-    <div style={styles.headerTitle}>
-      Κεντρική Σελίδα Δήμου Αθηναίων
-    </div>
-    <div style={{ display: 'flex', flex: 1, justifyContent: 'right', alignItems: 'center', marginRight: '20px' }}>
-      <>
+  function renderUserInfo() {
+    if (userInfoVisible === true) {
+      return <div style={{ display: 'flex', flex: 1, justifyContent: 'right', alignItems: 'center', marginRight: '20px' }}>
         <div
           ref={menuRef}
           onClick={(e) => {
@@ -124,8 +132,18 @@ export default function Header(props) {
               </div>
             </div> : <></>
         }
-      </>
+      </div>
+    }
+  }
+
+  return <div style={styles.header2}>
+    <div style={{ minWidth: '500px', maxWidth: '500px' }}>
+      <img src={thyraios} alt="Δήμος Αθηναίων" width='50px' height='50px' />
     </div>
+    <div style={styles.headerTitle}>
+      Κεντρική Σελίδα Δήμου Αθηναίων
+    </div>
+    {renderUserInfo()}
     {/* <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <span style={{
         verticalAlign: 'center',

@@ -3,6 +3,7 @@ import MenuItemDetails from '../Administration/Menu/menuitemdetail';
 import PageItemDetails from '../Administration/Page/pageitemdetail';
 import MediaItemDetails from '../Administration/Media/mediaitemdetail';
 import AnnouncementItemDetails from '../Administration/Announcements/announcementitemdetail';
+import UserItemDetails from '../Administration/Users/useritemdetail';
 
 export default function ItemDetail(props) {
 		
@@ -14,6 +15,8 @@ export default function ItemDetail(props) {
 		return <MediaItemDetails />
 	else if (props.kind === "announcementitems")
 		return <AnnouncementItemDetails />
+	else if (props.kind === "useritems")
+		return <UserItemDetails />
 	else
 		return <></>	
 }

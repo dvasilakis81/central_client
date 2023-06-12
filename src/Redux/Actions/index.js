@@ -95,18 +95,22 @@ export function editCategory(data) {
   return { type: 'EDIT_CATEGORY', payload: request };
 }
 
-//Users 
+//Users
+export function getUsers() {
+  const request = axios.get(getHostUrl() + 'getUsers').then(response => response.data);
+  return { type: 'GET_USERS', payload: request };
+}
 export function loginUser(data) {
   const request = axios.post(getHostUrl() + 'loginUser', data).then(response => response.data);
   return { type: 'GET_TOKEN_JWT', payload: request };
 }
-export function createUser(data) {
-  const request = axios.post(getHostUrl() + 'createUser', data).then(response => response.data);
-  return { type: 'CREATE_USER', payload: request };
+export function addUser(data) {
+  const request = axios.post(getHostUrl() + 'addUser', data).then(response => response.data);
+  return { type: 'ADD_USER', payload: request };
 }
-export function updateUser(data) {
-  const request = axios.post(getHostUrl() + 'updateUser', data).then(response => response.data);
-  return { type: 'UPDATE_USER', payload: request };
+export function editUser(data) {
+  const request = axios.post(getHostUrl() + 'editUser', data).then(response => response.data);
+  return { type: 'EDIT_USER', payload: request };
 }
 
 export function deleteItem(data) {

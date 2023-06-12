@@ -4,10 +4,11 @@ import PageItems from '../../Components/Administration/Page/pageitems';
 import MenuItems from '../../Components/Administration/Menu/menuitems';
 import MediaItems from '../../Components/Administration/Media/mediaitems';
 import AnnouncementItems from '../../Components/Administration/Announcements/announcementitems';
+import UserItems from '../../Components/Administration/Users/useritems';
 import store from '../../Redux/Store/store';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { getMenuItems, getServiceItems, getPageItems, getMediaItems, getAnnouncements, getCategories } from '../../Redux/Actions/index';
+import { getMenuItems, getServiceItems, getPageItems, getMediaItems, getAnnouncements, getCategories, getUsers } from '../../Redux/Actions/index';
 
 function getTabMenu(tab) {
 
@@ -21,6 +22,8 @@ function getTabMenu(tab) {
     return <MediaItems />
   else if (tab === 4)
     return <AnnouncementItems />
+  else if (tab === 5)
+    return <UserItems />
 
   return <></>
 }
@@ -46,6 +49,7 @@ export default function AdministrationPage(props) {
       dispatch(getPageItems());
     dispatch(getCategories());
     dispatch(getMediaItems());
+    dispatch(getUsers());
   }, [])
 
   const handleTabChange = (event, newValue) => {
@@ -59,6 +63,8 @@ export default function AdministrationPage(props) {
       dispatch(getMediaItems());
     else if (newValue === 4)
       dispatch(getAnnouncements());
+    else if (newValue === 5)
+      dispatch(getUsers());
 
     store.dispatch({ type: 'SET_SELECTED_TAB_ADMIN', payload: newValue })
   };
@@ -103,6 +109,13 @@ export default function AdministrationPage(props) {
             onMouseEnter={(e) => handleMouseEnter(e, 4)}
             onMouseLeave={handleMouseLeave}>
             ΑΝΑΚΟΙΝΩΣΕΙΣ
+          </div>
+          <div
+            className={selectedTab === 5 ? 'selected-tab' : (hoveredKey === 5 ? 'hovered-tab' : 'tab')}
+            onClick={(e) => { handleTabChange(e, 5) }}
+            onMouseEnter={(e) => handleMouseEnter(e, 5)}
+            onMouseLeave={handleMouseLeave}>
+            ΧΡΗΣΤΗΣ
           </div>
         </div>
         {getTabMenu(selectedTab || 0)}
