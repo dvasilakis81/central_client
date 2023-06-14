@@ -124,7 +124,7 @@ function ServicesMenu() {
       itemIds = [];
       var ret = getItemsFromSearch(serviceItemsList);
       if (itemIds.length === 0)
-        return 'Δεν βρέθηκαν υπηρεσίες';
+        return <div style={{fontSize: '30px', padding: '30px', fontWeight: 'bold'}}>Δεν βρέθηκαν υπηρεσίες</div>;
       else
         return ret;
     } else {

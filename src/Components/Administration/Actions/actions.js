@@ -23,6 +23,7 @@ export default function Actions(props) {
   const serviceItemDetails = useSelector((state) => state.menu_reducer.serviceItemDetails);
   const pageItemDetails = useSelector((state) => state.page_reducer.pageItemDetails);
   const userItemDetails = useSelector((state) => state.user_reducer.userItemDetails);
+  const { token } = useSelector(state => ({ token: state.token_reducer.token }));
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,6 +31,10 @@ export default function Actions(props) {
   const [navigateToEdit, setNavigateToEdit] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openPopover, setOpenPopover] = useState(false);
+
+  const [canCreate, setCanCreate] = useState(false);
+  const [canUpdate, setCanUpdate] = useState(false);
+  const [canDelete, setCanDelete] = useState(false);
 
   function showDeleteMessage() {
 
@@ -44,7 +49,7 @@ export default function Actions(props) {
         return "Θέλετε να διαγράψετε την υπηρεσία «" + serviceItemDetails?.Name + "»;";
     } else if (props.contenttype === "announcement")
       return "Θέλετε να διαγράψετε την ανακοίνωση «" + announcementItemDetails?.Description + "»;";
-     else if (props.contenttype === "user")
+    else if (props.contenttype === "user")
       return "Θέλετε να διαγράψετε τον χρήστη «" + userItemDetails?.Firstname + " " + userItemDetails?.Lastname + " »;";
   }
   const handleOpen = useCallback(
@@ -61,6 +66,38 @@ export default function Actions(props) {
     },
     [], // Tells React to memoize regardless of arguments.
   )
+  function getActionValue(rightsrow, action) {
+    if (action === 'create')
+      return rightsrow.Create;
+    else if (action === 'update')
+      return rightsrow.Update;
+    else if (action === 'delete')
+      return rightsrow.Delete;
+  }
+  function showActionButton(contenttype, menuitemkind, action) {
+    if (token && token.userLoginInfo) {
+      var rights = token.userLoginInfo[0].rights;
+      if (rights) {
+        for (var i = 0; i < rights.length; i++) {
+          if (contenttype === 'menuitem' && menuitemkind === 1 && rights[i].Title === 'Κεντρικό Μενού')
+            return getActionValue(rights[i], action);
+          else if (contenttype === 'menuitem' && menuitemkind === 2 && rights[i].Title === 'Υπηρεσίες')
+            return getActionValue(rights[i], action);
+          else if (contenttype === 'pageitem' && rights[i].Title === 'Σελίδες')
+            return getActionValue(rights[i], action);
+          else if (contenttype === 'announcement' && rights[i].Title === 'Ανακοινώσεις')
+            return getActionValue(rights[i], action);
+          else if (contenttype === 'mediaitem' && rights[i].Title === 'Media')
+            return getActionValue(rights[i], action);
+          else if (contenttype === 'user' && rights[i].Title === 'Χρήστες')
+            return getActionValue(rights[i], action);
+        }
+      }
+      else
+        return true
+    }
+  }
+
   if (navigateToNew === true) {
     navigate(props.navigatepage, { state: { isNew: 1 } })
     // return <Navigate push to={props.navigatepage} />
@@ -69,30 +106,30 @@ export default function Actions(props) {
     //return <Navigate push to={props.navigatepage} isEdit={true} />
   } else {
     return <div style={{ display: 'flex', height: '50px', justifyContent: 'flex-end' }}>
-      <Button
+      {showActionButton(props.contenttype, props.itemtype, 'create') ? <Button
         size="small"
         variant="contained"
         style={{ margin: '5px', background: 'lightgreen' }}
         onClick={handleOpen}>
         <AddIcon />
         ΠΡΟΣΘΗΚΗ
-      </Button>
-      <Button
+      </Button> : <></>}
+      {showActionButton(props.contenttype, props.itemtype, 'update') ? <Button
         size="small"
         variant="contained"
         style={{ margin: '5px', background: '#2a9df4' }}
         onClick={handleEdit}>
         <AddIcon />
         ΕΠΕΞΕΡΓΑΣΙΑ
-      </Button>
-      <Button
+      </Button> : <></>}
+      {showActionButton(props.contenttype, props.itemtype, 'delete') ? <Button
         size="small"
         variant="contained"
         style={{ margin: '5px', background: 'red', color: 'white' }}
         onClick={() => { setOpenDeleteDialog(true); }}>
         <DeleteIcon />
         ΔΙΑΓΡΑΦΗ
-      </Button>
+      </Button> : <></>}
       <Dialog
         open={openDeleteDialog}
         onClose={() => { setOpenDeleteDialog(false); }}
@@ -106,7 +143,7 @@ export default function Actions(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => {
-            var data = {}
+            var data = {};
             if (props.contenttype === "announcement") {
               data.kind = 4;
               data.id = announcementItemDetails.Id;
@@ -122,9 +159,29 @@ export default function Actions(props) {
             } else if (props.contenttype === "mediaitem") {
               data.kind = 3;
               data.id = mediaItemDetails.Id;
+            } else if (props.contenttype === "user") {
+              data.kind = 6;
+              data.id = userItemDetails.Id;
             }
 
-            dispatch(deleteItem(data));
+            dispatch(deleteItem(data)).then(response => {
+              var snackbarInfo = {};
+              snackbarInfo.openMessage = response.value.success;
+              if (response.value.success === true) {
+                snackbarInfo.message = 'H διαγραφή έγινε επιτυχώς!';
+                snackbarInfo.variant = 'success';
+              } else if (response.value.success === false) {                
+                snackbarInfo.message = 'H διαγραφή απέτυχε! ' + response;
+                snackbarInfo.variant = 'error';
+              }
+              store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+            }).catch(error => {
+              var snackbarInfo = {};
+              snackbarInfo.openMessage = true;
+              snackbarInfo.message = 'Αποτυχία σύνδεσης στον διακομιστή!';
+              snackbarInfo.variant = 'error';
+              store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+            });
             setOpenPopover(false);
             setOpenDeleteDialog(false);
           }} color="primary" autoFocus>
@@ -147,7 +204,7 @@ export default function Actions(props) {
           }}>
           ΚΑΤΗΓΟΡΙΕΣ
         </Button>
-        <Categories />        
+        <Categories />
       </span>
     </div>
   }

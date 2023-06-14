@@ -26,7 +26,7 @@ function AnnouncementItems(props) {
           <div style={{ display: 'flex', flexFlow: 'column', flex: '1', backgroundColor: '#fff' }}>
             {(announcementsList && announcementsList.length > 0) ?
               <ItemsList data={announcementsList} defaultSelectedItem={announcementsList[0]} kind="announcementitems" searchValue={searchValue} />
-              : <EmptyItems title="announcement" />}
+              : <EmptyItems title="ανακοινώσεις" />}
           </div>
         </div>
       </div>

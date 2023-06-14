@@ -7,6 +7,7 @@ export default function UserItemDetails(props) {
 
   if (itemDetails) {
     return (<div style={{overflowY: 'scroll'}}>
+      {renderDetail('Username', itemDetails.Username, {isText: true})}
       {renderDetail('Όνομα', itemDetails.Firstname, {isText: true})}
       {renderDetail('Επίθετο', itemDetails.Lastname, {isText: true})}
       {renderDetail('Email', itemDetails.Email, {isText: true})}

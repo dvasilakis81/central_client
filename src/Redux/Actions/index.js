@@ -125,4 +125,6 @@ export function deleteItem(data) {
     return { type: 'DELETE_ANNOUNCEMENT', payload: request };
   else if (data.kind === 5)
     return { type: 'DELETE_CATEGORY', payload: request };
+  else if (data.kind === 6)
+    return { type: 'DELETE_USER', payload: request };
 }

@@ -26,7 +26,7 @@ function CentralMenu() {
       //return (hoveredKey === d ? 'menu-item-hovered' : 'menu-item');
   }
   function getImageClassName(ImageMenu){
-    return ImageMenu + ' menuIteImage' 
+    return ImageMenu + ' menuItemImage' 
   }
   return (
     <div className='menu-body'>
