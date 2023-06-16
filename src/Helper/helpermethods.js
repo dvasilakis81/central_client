@@ -726,7 +726,7 @@ export function renderCheckbox(value) {
 			contentEditable={false}
 			color='primary'
 			checked={value}
-			style={{ transform: "scale(2)" }}
+			style={{ transform: "scale(1)" }}
 			inputProps={{ 'aria-label': 'controlled' }} />
 	</span>
 }

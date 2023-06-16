@@ -60,12 +60,10 @@ export default function Categories(props) {
       if (editItems[0].Id === item.Id)
         editMode = true;
     }
-
     if (deleteItems && deleteItems.length > 0) {
       if (deleteItems[0].Id === item.Id)
         deleteMode = true;
     }
-
     if (editMode === true) {
       return <>
         {/* <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div> */}
@@ -149,8 +147,7 @@ export default function Categories(props) {
           <CancelIcon />
         </Button>
       </>
-    }
-    else if (deleteMode === true)
+    } else if (deleteMode === true)
       return <>
         {/* <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div> */}
         {/* <input style={{ flex: 0.95, textAlign: 'center', fontSize: '20px' }} type='text' value={item.Name} onChange={(e) => {
@@ -243,7 +240,6 @@ export default function Categories(props) {
       }
     })
   }
-
   function renderSelectCategories() {
     if (checkedIsSubCategory === true)
       return <div style={{ textAlign: 'left' }}>
@@ -264,12 +260,12 @@ export default function Categories(props) {
       return <form onSubmit={(e) => {
         e.preventDefault();
         if (newItemValue) {
-
-          if (parentCategory === 0) {
+          var pCategory = parentCategory;
+          if (pCategory === 0) {
             if (categoriesList) {
               for (var i = 0; i < categoriesList.length; i++) {
                 if (categoriesList[i].HasSubCategories === 1) {
-                  setParentCategory(categoriesList[i].Id);
+                  pCategory = categoriesList[i].Id;
                   break;
                 }
               }
@@ -278,7 +274,7 @@ export default function Categories(props) {
 
           var data = {};
           data.hassubcategories = checkedHasSubCategories ? 1 : 0;
-          data.parentid = parentCategory;
+          data.parentid = pCategory;
           data.categoryname = newItemValue;
           dispatch(addCategory(data));
           setNewItemValue('');
@@ -330,7 +326,6 @@ export default function Categories(props) {
       </form>
     }
   }
-
   if (opencategories === true)
     return <div
       ref={wrapperRef}

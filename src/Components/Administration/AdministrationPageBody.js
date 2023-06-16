@@ -74,7 +74,7 @@ export default function AdministrationPage(props) {
             return rights[i].View;
           else if (tabtitle === 'ΣΕΛΙΔΕΣ' && rights[i].Title === 'Σελίδες')
             return rights[i].View;
-          else if (tabtitle === 'ΑΡΧΕΙΑ' && rights[i].Title === 'Media')
+          else if (tabtitle === 'ΑΡΧΕΙΑ' && rights[i].Title === 'Αρχεία')
             return rights[i].View;
           else if (tabtitle === 'ΑΝΑΚΟΙΝΩΣΕΙΣ' && rights[i].Title === 'Ανακοινώσεις')
             return rights[i].View;

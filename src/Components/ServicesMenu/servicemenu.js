@@ -83,7 +83,6 @@ function ServicesMenu() {
 
     return ret;
   }
-
   function renderServiceItem(d, index) {
     return <div key={index}
       className="service-menu-item-parent"
@@ -124,7 +123,7 @@ function ServicesMenu() {
       itemIds = [];
       var ret = getItemsFromSearch(serviceItemsList);
       if (itemIds.length === 0)
-        return <div style={{fontSize: '30px', padding: '30px', fontWeight: 'bold'}}>Δεν βρέθηκαν υπηρεσίες</div>;
+        return <div style={{ fontSize: '30px', padding: '30px', fontWeight: 'bold' }}>Δεν βρέθηκαν υπηρεσίες</div>;
       else
         return ret;
     } else {
@@ -187,13 +186,6 @@ function ServicesMenu() {
 
     return ret;
   }
-  function getSelectedServiceTitle() {
-
-    return <div className="selected-service-title">
-      {getTitle()}
-    </div>
-  }
-
   const menuRef = useState();
   return <>
     <div style={{
@@ -211,50 +203,47 @@ function ServicesMenu() {
       <div style={{
         display: 'flex',
         flexDirection: 'row',
-        padding: '10px',
         flexWrap: 'wrap',
-        margin: '30px',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        padding: '10px',
+        marginTop: '10px'
       }}>
         {getItemsByGroup(openPopUp, menuRef, searchValue || '')}
       </div>
-      <div>
-        {/* <div className="services-menu-container">
-        <div className="services-menu-items">
-          {getServicesFromSelectedGroup()}
-        </div>
-      </div> */}
-        {/* <div className="services-menu-container">
-        <div className="services-menu-items"> */}
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
-          <div style={{
-            display: 'flex',
-            flex: 0.8,
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: '0px',
-            background: 'transparent',
-            border: '2px solid #87CEEB',
-            paddingBottom: '10px',
-            width: '70%'
-          }}>
-            {getSelectedServiceTitle()}
-            <div>
-              <div className="services-menu-container">
-                <div className="services-menu-items">
-                  {getServicesFromSelectedGroup()}
-                </div>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        marginTop: '30px'
+      }}>
+        <div style={{
+          display: 'flex',
+          flex: 0.8,
+          flexDirection: 'column',
+          height: '80%',
+          background: 'transparent',
+          border: '5px solid #87CEEB',
+          overflowY: 'hidden'
+        }}>
+          <div className="selected-service-title">
+            {getTitle()}
+          </div>
+          <div style={{marginTop: '30px', overflowY: 'auto'}}>
+            <div className="services-menu-container">
+              <div className="services-menu-items">
+                {getServicesFromSelectedGroup()}
               </div>
-              <div>
-                {
-                  (searchValue === '' || searchValue === undefined || searchValue === null) && groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
-                    return <div key={index} style={{ margin: '20px' }}>
-                      {parse(d.Description)}
-                    </div>
-                  })
-                }
-              </div>
+            </div>
+            <div className='services-menu-announcement-container'>
+              {
+                (searchValue === '' || searchValue === undefined || searchValue === null) && groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
+                  return <div key={index} style={{ margin: '20px' }}>
+                    {parse(d.Description)}
+                  </div>
+                })
+              }
             </div>
           </div>
         </div>

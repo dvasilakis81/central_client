@@ -82,6 +82,26 @@ function setRights(title, viewItem, setViewItem, createItem, setCreateItem, upda
   </>
 }
 
+function getUserRightValue(userdetails, title, action) {
+
+  if (userdetails && userdetails.rightsInfo && userdetails.rightsInfo.length === 1 && userdetails.rightsInfo[0].Rights) {
+    var length = userdetails.rightsInfo[0].Rights.length;
+    for (var i = 0; i < length; i++) {
+      if (userdetails.rightsInfo[0].Rights[i].Title === title) {
+        if (action === 'view')
+          return userdetails.rightsInfo[0].Rights[i].View;
+        else if (action === 'create')
+          return userdetails.rightsInfo[0].Rights[i].Create;
+        else if (action === 'update')
+          return userdetails.rightsInfo[0].Rights[i].Update;
+        else if (action === 'delete')
+          return userdetails.rightsInfo[0].Rights[i].Delete;
+      }
+    }
+  }
+
+  return true;
+}
 export default function UserItemNew(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -100,40 +120,40 @@ export default function UserItemNew(props) {
   const [firstname, setFirstname] = useState(userItemDetails && userItemDetails.Firstname || '');
   const [lastname, setLastname] = useState(userItemDetails && userItemDetails.Lastname || '');
 
-  const [viewMenuItem, setViewMenuItem] = useState(true);
-  const [createMenuItem, setCreateMenuItem] = useState(true);
-  const [updateMenuItem, setUpdateMenuItem] = useState(true);
-  const [deleteMenuItem, setDeleteMenuItem] = useState(true);
+  const [viewMenuItem, setViewMenuItem] = useState(getUserRightValue(userItemDetails, 'Κεντρικό Μενού', 'view'));
+  const [createMenuItem, setCreateMenuItem] = useState(getUserRightValue(userItemDetails, 'Κεντρικό Μενού', 'create'));
+  const [updateMenuItem, setUpdateMenuItem] = useState(getUserRightValue(userItemDetails, 'Κεντρικό Μενού', 'update'));
+  const [deleteMenuItem, setDeleteMenuItem] = useState(getUserRightValue(userItemDetails, 'Κεντρικό Μενού', 'delete'));
 
-  const [viewServiceItem, setViewServiceItem] = useState(true);
-  const [createServiceItem, setCreateServiceItem] = useState(true);
-  const [updateServiceItem, setUpdateServiceItem] = useState(true);
-  const [deleteServiceItem, setDeleteServiceItem] = useState(true);
+  const [viewServiceItem, setViewServiceItem] = useState(getUserRightValue(userItemDetails, 'Υπηρεσίες', 'view'));
+  const [createServiceItem, setCreateServiceItem] = useState(getUserRightValue(userItemDetails, 'Υπηρεσίες', 'create'));
+  const [updateServiceItem, setUpdateServiceItem] = useState(getUserRightValue(userItemDetails, 'Υπηρεσίες', 'update'));
+  const [deleteServiceItem, setDeleteServiceItem] = useState(getUserRightValue(userItemDetails, 'Υπηρεσίες', 'delete'));
 
-  const [viewPageItem, setViewPageItem] = useState(true);
-  const [createPageItem, setCreatePageItem] = useState(true);
-  const [updatePageItem, setUpdatePageItem] = useState(true);
-  const [deletePageItem, setDeletePageItem] = useState(true);
+  const [viewPageItem, setViewPageItem] = useState(getUserRightValue(userItemDetails, 'Σελίδες', 'view'));
+  const [createPageItem, setCreatePageItem] = useState(getUserRightValue(userItemDetails, 'Σελίδες', 'create'));
+  const [updatePageItem, setUpdatePageItem] = useState(getUserRightValue(userItemDetails, 'Σελίδες', 'update'));
+  const [deletePageItem, setDeletePageItem] = useState(getUserRightValue(userItemDetails, 'Σελίδες', 'delete'));
 
-  const [viewMediaItem, setViewMediaItem] = useState(true);
-  const [createMediaItem, setCreateMediaItem] = useState(true);
-  const [updateMediaItem, setUpdateMediaItem] = useState(true);
-  const [deleteMediaItem, setDeleteMediaItem] = useState(true);
+  const [viewMediaItem, setViewMediaItem] = useState(getUserRightValue(userItemDetails, 'Αρχεία', 'view'));
+  const [createMediaItem, setCreateMediaItem] = useState(getUserRightValue(userItemDetails, 'Αρχεία', 'create'));
+  const [updateMediaItem, setUpdateMediaItem] = useState(getUserRightValue(userItemDetails, 'Αρχεία', 'update'));
+  const [deleteMediaItem, setDeleteMediaItem] = useState(getUserRightValue(userItemDetails, 'Αρχεία', 'delete'));
 
-  const [viewAnnouncementItem, setViewAnnouncementItem] = useState(true);
-  const [createAnnouncementItem, setCreateAnnouncementItem] = useState(true);
-  const [updateAnnouncementItem, setUpdateAnnouncementItem] = useState(true);
-  const [deleteAnnouncementItem, setDeleteAnnouncementItem] = useState(true);
+  const [viewAnnouncementItem, setViewAnnouncementItem] = useState(getUserRightValue(userItemDetails, 'Ανακοινώσεις', 'view'));
+  const [createAnnouncementItem, setCreateAnnouncementItem] = useState(getUserRightValue(userItemDetails, 'Ανακοινώσεις', 'create'));
+  const [updateAnnouncementItem, setUpdateAnnouncementItem] = useState(getUserRightValue(userItemDetails, 'Ανακοινώσεις', 'update'));
+  const [deleteAnnouncementItem, setDeleteAnnouncementItem] = useState(getUserRightValue(userItemDetails, 'Ανακοινώσεις', 'delete'));
 
-  const [viewCategoryItem, setViewCategoryItem] = useState(true);
-  const [createCategoryItem, setCreateCategoryItem] = useState(true);
-  const [updateCategoryItem, setUpdateCategoryItem] = useState(true);
-  const [deleteCategoryItem, setDeleteCategoryItem] = useState(true);
+  const [viewCategoryItem, setViewCategoryItem] = useState(getUserRightValue(userItemDetails, 'Κατηγορίες', 'view'));
+  const [createCategoryItem, setCreateCategoryItem] = useState(getUserRightValue(userItemDetails, 'Κατηγορίες', 'create'));
+  const [updateCategoryItem, setUpdateCategoryItem] = useState(getUserRightValue(userItemDetails, 'Κατηγορίες', 'update'));
+  const [deleteCategoryItem, setDeleteCategoryItem] = useState(getUserRightValue(userItemDetails, 'Κατηγορίες', 'delete'));
 
-  const [viewUserItem, setViewUserItem] = useState(true);
-  const [createUserItem, setCreateUserItem] = useState(true);
-  const [updateUserItem, setUpdateUserItem] = useState(true);
-  const [deleteUserItem, setDeleteUserItem] = useState(true);    
+  const [viewUserItem, setViewUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'view'));
+  const [createUserItem, setCreateUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'create'));
+  const [updateUserItem, setUpdateUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'update'));
+  const [deleteUserItem, setDeleteUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'delete'));
 
   if (newItemAdded === true || itemChanged === true) {
     dispatch({ type: 'SET_ADDED_NEWUSER', payload: false });
@@ -187,12 +207,12 @@ export default function UserItemNew(props) {
           data.rights.push(pages);
 
           var media = {};
-          media.Title = 'Media';
+          media.Title = 'Αρχεία';
           media.View = viewMediaItem;
           media.Create = createMediaItem;
           media.Update = updateMediaItem;
           media.Delete = deleteMediaItem;
-          data.rights.push(pages);
+          data.rights.push(media);
 
           var announcements = {};
           announcements.Title = 'Ανακοινώσεις';
@@ -242,11 +262,11 @@ export default function UserItemNew(props) {
               if (response.value.success === true) {
                 snackbarInfo.message = 'Ο χρήστης δημιουργήθηκε επιτυχώς!';
                 snackbarInfo.variant = 'success';
-              } else if (response.value.success === false) {                
+              } else if (response.value.success === false) {
                 snackbarInfo.message = 'H προσπάθεια για την δημιουργία του χρήστη απέτυχε! ' + response;
                 snackbarInfo.variant = 'error';
               }
-              store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });              
+              store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
             }).catch(error => {
               var snackbarInfo = {};
               snackbarInfo.openMessage = true;
@@ -280,10 +300,10 @@ export default function UserItemNew(props) {
           </div>
           <div style={{ margin: '20px' }}>
             <TextField
-              required              
+              required
               type="password"
               label="Password"
-              variant='outlined'
+              variant="outlined"
               style={styles.textfield}
               value={password}
               onChange={(e) => { setPassword(e.target.value); }}
@@ -328,7 +348,7 @@ export default function UserItemNew(props) {
           {setRights('Κεντρικό Μενού', viewMenuItem, setViewMenuItem, createMenuItem, setCreateMenuItem, updateMenuItem, setUpdateMenuItem, deleteMenuItem, setDeleteMenuItem)}
           {setRights('Υπηρεσίες', viewServiceItem, setViewServiceItem, createServiceItem, setCreateServiceItem, updateServiceItem, setUpdateServiceItem, deleteServiceItem, setDeleteServiceItem)}
           {setRights('Σελίδες', viewPageItem, setViewPageItem, createPageItem, setCreatePageItem, updatePageItem, setUpdatePageItem, deletePageItem, setDeletePageItem)}
-          {setRights('Media', viewMediaItem, setViewMediaItem, createMediaItem, setCreateMediaItem, updateMediaItem, setUpdateMediaItem, deleteMediaItem, setDeleteMediaItem)}
+          {setRights('Αρχεία', viewMediaItem, setViewMediaItem, createMediaItem, setCreateMediaItem, updateMediaItem, setUpdateMediaItem, deleteMediaItem, setDeleteMediaItem)}
           {setRights('Ανακοινώσεις', viewAnnouncementItem, setViewAnnouncementItem, createAnnouncementItem, setCreateAnnouncementItem, updateAnnouncementItem, setUpdateAnnouncementItem, deleteAnnouncementItem, setDeleteAnnouncementItem)}
           {setRights('Κατηγορίες', viewCategoryItem, setViewCategoryItem, createCategoryItem, setCreateCategoryItem, updateCategoryItem, setUpdateCategoryItem, deleteCategoryItem, setDeleteCategoryItem)}
           {setRights('Χρήστες', viewUserItem, setViewUserItem, createUserItem, setCreateUserItem, updateUserItem, setUpdateUserItem, deleteUserItem, setDeleteUserItem)}

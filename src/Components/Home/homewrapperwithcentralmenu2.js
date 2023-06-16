@@ -17,7 +17,13 @@ export default function HomewrapperWithCentralMenu2(props) {
         style={{ flexFlow: "0 1 auto" }}
       />
       <Body>
-        <div style={{ display: 'flex', flex: 1, flexFlow: 'column', flexWrap: 'wrap', width: '100%', height: '100%', overflowX: 'hidden', overflowY: 'hidden' }}>
+        <div style={{
+          display: 'flex', flex: 1, flexFlow: 'column', flexWrap: 'wrap', 
+          width: '100%', 
+          height: '100%', 
+          overflowX: 'hidden', 
+          overflowY: 'hidden'          
+        }}>
           <div style={{
             display: 'flex',
             flex: 1,
@@ -38,7 +44,7 @@ export default function HomewrapperWithCentralMenu2(props) {
               height: '100%',
               background: 'transparent'
             }}>
-              <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'transparent'}}>
+              <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'transparent' }}>
                 <CentralMenu />
               </div>
               {props.children}
