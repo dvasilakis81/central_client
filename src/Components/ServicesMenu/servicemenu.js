@@ -195,9 +195,9 @@ function ServicesMenu() {
       height: '100%',
       background: 'white',
       opacity: '1',
-      overflowY: 'scroll'
+      overflowY: 'auto'
     }}>
-      <div style={{ textAlign: 'center', paddingTop: '20px' }}>
+      <div style={{ textAlign: 'center', paddingTop: '50px' }}>
         <ServicesSearchBar />
       </div>
       <div style={{
@@ -218,19 +218,13 @@ function ServicesMenu() {
         alignItems: 'flex-start',
         marginTop: '30px'
       }}>
-        <div style={{
-          display: 'flex',
-          flex: 0.8,
-          flexDirection: 'column',
-          height: '80%',
-          background: 'transparent',
-          border: '5px solid #87CEEB',
-          overflowY: 'hidden'
-        }}>
-          <div className="selected-service-title">
-            {getTitle()}
+        <div className='div-frame'>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexBasis: 'fit-content'}}>
+            <div className='selected-service-title'>
+              {getTitle()}
+            </div>
           </div>
-          <div style={{marginTop: '30px', overflowY: 'auto'}}>
+          <div style={{ marginTop: '30px', overflowY: 'auto' }}>
             <div className="services-menu-container">
               <div className="services-menu-items">
                 {getServicesFromSelectedGroup()}

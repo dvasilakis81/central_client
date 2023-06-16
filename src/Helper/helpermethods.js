@@ -608,49 +608,85 @@ export function filterValue(fields, searchValue) {
 }
 
 
-export function includeStrings(str1, str2) {
+export function includeStrings(str1, searchvalue) {
 	var ret = false;
 
-	if (str2) {
-		if (ignoreTonousAndLowercase(str1).includes(ignoreTonousAndLowercase(str2)) === true)
+	if (searchvalue) {
+		if (ignoreTonousAndLowercase(str1).includes(ignoreTonousAndLowercase(searchvalue)) === true)
 			ret = true;
 	}
 	else
 		return true;
 
-	return ret;
+return ret;
 }
 export function ignoreTonousAndLowercase(searchValue) {
 	var ret = '';
 	for (var i = 0; i < searchValue.length; i++) {
-		if (searchValue[i] === "ά")
+		if (searchValue[i] === 'ά' || searchValue[i] === 'Ά')
 			ret += 'α';
-		else if (searchValue[i] === 'Ά')
-			ret += 'A';
-		else if (searchValue[i] === 'έ')
+		else if (searchValue[i] === 'έ' || searchValue[i] === 'Έ')
 			ret += 'ε';
-		else if (searchValue[i] === 'Έ')
-			ret += 'Ε';
-		else if (searchValue[i] === 'ή')
+		else if (searchValue[i] === 'ή' || searchValue[i] === 'Ή')
 			ret += 'η';
-		else if (searchValue[i] === 'Ή')
-			ret += 'Η';
-		else if (searchValue[i] === 'ί')
+		else if (searchValue[i] === 'ί' || searchValue[i] === 'Ί')
 			ret += 'ι';
-		else if (searchValue[i] === 'Ί')
-			ret += 'Ι';
-		else if (searchValue[i] === 'ό')
+		else if (searchValue[i] === 'ό' || searchValue[i] === 'Ό')
 			ret += 'ο';
-		else if (searchValue[i] === 'Ό')
-			ret += 'Ο';
-		else if (searchValue[i] === 'ύ')
+		else if (searchValue[i] === 'ύ' || searchValue[i] === 'Ύ')
 			ret += 'υ';
-		else if (searchValue[i] === 'Ύ')
-			ret += 'Υ';
-		else if (searchValue[i] === 'Ώ')
+		else if (searchValue[i] === 'Ώ' || searchValue[i] === 'ώ')
 			ret += 'Ω';
-		else if (searchValue[i] === 'ώ')
+		else if (searchValue[i] === 'w' || searchValue[i] === 'W')
+			ret += 'ς';
+		else if (searchValue[i] === 'e' || searchValue[i] === 'E')
+			ret += 'ε';
+		else if (searchValue[i] === 'r' || searchValue[i] === 'R')
+			ret += 'ρ';
+		else if (searchValue[i] === 't' || searchValue[i] === 'T')
+			ret += 'τ';
+		else if (searchValue[i] === 'y' || searchValue[i] === 'Y')
+			ret += 'υ';
+		else if (searchValue[i] === 'u' || searchValue[i] === 'U')
+			ret += 'θ';
+		else if (searchValue[i] === 'i' || searchValue[i] === 'I')
+			ret += 'ι';
+		else if (searchValue[i] === 'o' || searchValue[i] === 'O')
+			ret += 'ο';
+		else if (searchValue[i] === 'p' || searchValue[i] === 'P')
+			ret += 'π';
+		else if (searchValue[i] === 'a' || searchValue[i] === 'A')
+			ret += 'α';
+		else if (searchValue[i] === 's' || searchValue[i] === 'S')
+			ret += 'σ';
+		else if (searchValue[i] === 'd' || searchValue[i] === 'D')
+			ret += 'δ';
+		else if (searchValue[i] === 'f' || searchValue[i] === 'F')
+			ret += 'φ';
+		else if (searchValue[i] === 'g' || searchValue[i] === 'G')
+			ret += 'γ';
+		else if (searchValue[i] === 'h' || searchValue[i] === 'H')
+			ret += 'η';
+		else if (searchValue[i] === 'j' || searchValue[i] === 'J')
+			ret += 'ξ';
+		else if (searchValue[i] === 'k' || searchValue[i] === 'K')
+			ret += 'κ';
+		else if (searchValue[i] === 'l' || searchValue[i] === 'L')
+			ret += 'λ';
+		else if (searchValue[i] === 'z' || searchValue[i] === 'Z')
+			ret += 'ζ';
+		else if (searchValue[i] === 'x' || searchValue[i] === 'X')
+			ret += 'χ';
+		else if (searchValue[i] === 'c' || searchValue[i] === 'C')
+			ret += 'ψ';
+		else if (searchValue[i] === 'v' || searchValue[i] === 'V')
 			ret += 'ω';
+		else if (searchValue[i] === 'b' || searchValue[i] === 'B')
+			ret += 'β';
+		else if (searchValue[i] === 'n' || searchValue[i] === 'N')
+			ret += 'ν';
+		else if (searchValue[i] === 'm' || searchValue[i] === 'M')
+			ret += 'μ';
 		else
 			ret += searchValue[i];
 	}
