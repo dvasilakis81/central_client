@@ -49,7 +49,7 @@ export default function PageTabs(props) {
                     onMouseLeave={(e) => { setHoveredKey(-1); }}>
                     {item.tabtitle}
                   </div>
-                }) : <div style={{ background: 'red' }}>alabornezika</div>
+                }) : <div style={{ background: 'red' }}></div>
           }
         </div>
         <div style={{ background: 'transparent', padding: '20px' }}>

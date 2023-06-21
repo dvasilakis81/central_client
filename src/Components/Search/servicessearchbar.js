@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import CancelIcon from '@material-ui/icons/Cancel';
 import SearchIcon from '@mui/icons-material/Search';
 import { InputAdornment, IconButton } from '@material-ui/core';
-import { searchBarStyles } from '../Administration/Styles/styles';
+import { searchBarStyles } from '../Styles/styles';
 
 export default function ServicesSearchBar() {
   const classes = searchBarStyles();

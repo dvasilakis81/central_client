@@ -112,6 +112,14 @@ export function editUser(data) {
   const request = axios.post(getHostUrl() + 'editUser', data).then(response => response.data);
   return { type: 'EDIT_USER', payload: request };
 }
+export function changePassword(data) {
+  const request = axios.post(getHostUrl() + 'changePassword', data).then(response => response.data);
+  return { type: 'CHANGE_PASSWORD_USER', payload: request };
+}
+export function checkPassword(data) {
+  const request = axios.post(getHostUrl() + 'checkPassword', data).then(response => response.data);
+  return { type: 'CHECK_PASSWORD_USER', payload: request };
+}
 
 export function deleteItem(data) {
   const request = axios.post(getHostUrl() + 'deleteItem', data).then(response => response.data);

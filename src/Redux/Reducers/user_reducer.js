@@ -2,7 +2,7 @@ export default function (state = {}, action, root) {
 
   if (action) {
     switch (action.type) {
-      case 'RESET_ACTION':        
+      case 'RESET_ACTION':
         state = {}
         break;
       case 'GET_USERS_PENDING':
@@ -176,6 +176,36 @@ export default function (state = {}, action, root) {
             userItemDetails: itemDetails
           };
         }
+        break;
+      case 'CHANGE_PASSWORD_USER_PENDING':
+        state = {
+          ...state,
+          itemChanged: false,
+          requestServerError: undefined,
+          requestPending: 'Change password user pending',
+          requestRejected: undefined
+        };
+        break;
+      case 'CHANGE_PASSWORD_USER_REJECTED':
+        state = {
+          ...state,
+          itemChanged: false,
+          requestPending: undefined,
+          requestServerError: undefined,
+          requestRejected: action.payload
+        };
+        break;
+      case 'CHANGE_PASSWORD_USER_FULFILLED':
+        state = {
+          ...state,
+          token: undefined
+        };
+        break;
+      case 'OPEN_CHANGE_PASSWORD':
+        state = {
+          ...state,
+          openchangepassword: action.payload
+        };
         break;
       case 'GET_USERS_REJECTED':
         state = {

@@ -8,6 +8,7 @@ import UserItems from '../../Components/Administration/Users/useritems';
 import store from '../../Redux/Store/store';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getMenuItems, getServiceItems, getPageItems, getMediaItems, getAnnouncements, getCategories, getUsers } from '../../Redux/Actions/index';
+import UserChangePassword from '../Administration/Users/userchangepassword';
 
 export default function AdministrationPage(props) {
 
@@ -179,6 +180,7 @@ export default function AdministrationPage(props) {
           </div> : <></>}
         </div>
         {getTabMenu(selectedTab || 0)}
+        <UserChangePassword />
       </div>
     );
 

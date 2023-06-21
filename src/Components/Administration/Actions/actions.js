@@ -78,6 +78,7 @@ export default function Actions(props) {
     if (token && token.userLoginInfo) {
       var rights = token.userLoginInfo[0].rights;
       if (rights) {
+        console.log('contenttype: ' + contenttype);
         for (var i = 0; i < rights.length; i++) {
           if (contenttype === 'menuitem' && menuitemkind === 1 && rights[i].Title === 'Κεντρικό Μενού')
             return getActionValue(rights[i], action);
@@ -87,7 +88,7 @@ export default function Actions(props) {
             return getActionValue(rights[i], action);
           else if (contenttype === 'announcement' && rights[i].Title === 'Ανακοινώσεις')
             return getActionValue(rights[i], action);
-          else if (contenttype === 'mediaitem' && rights[i].Title === 'Media')
+          else if (contenttype === 'mediaitem' && rights[i].Title === 'Αρχεία')
             return getActionValue(rights[i], action);
           else if (contenttype === 'user' && rights[i].Title === 'Χρήστες')
             return getActionValue(rights[i], action);
@@ -170,7 +171,7 @@ export default function Actions(props) {
               if (response.value.success === true) {
                 snackbarInfo.message = 'H διαγραφή έγινε επιτυχώς!';
                 snackbarInfo.variant = 'success';
-              } else if (response.value.success === false) {                
+              } else if (response.value.success === false) {
                 snackbarInfo.message = 'H διαγραφή απέτυχε! ' + response;
                 snackbarInfo.variant = 'error';
               }

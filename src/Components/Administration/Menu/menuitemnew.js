@@ -12,7 +12,7 @@ import { addNewMenuItem, editNewMenuItem } from '../../../Redux/Actions/index';
 import HomeWrapper from '../../Home/homewrapper';
 import SelectImage from '../SelectImage/selectimage';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useStyles } from '../../Administration/Styles/styles';
+import { useStyles } from '../../Styles/styles';
 
 const styles = {
   textfield: {

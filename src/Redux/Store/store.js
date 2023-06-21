@@ -9,25 +9,24 @@ function saveToLocalStorage(state) {
     const serializedState = JSON.stringify(state)
     localStorage.setItem('state', serializedState)
   } catch (e) {
-    console.log(e)
+    //console.log(e)
   }
 }
 
 function loadFromLocalStorage() {
   try {
-    const serializedState = localStorage.getItem('state')
+    const serializedState = localStorage.getItem('state');
     if (serializedState === null) return undefined
-    return JSON.parse(serializedState)
+    return JSON.parse(serializedState);
   } catch (e) {
-    console.log(e);
     return undefined
   }
 }
 
 const persistedState = loadFromLocalStorage()
-//const store = createStore(RootReducer, persistedState, applyMiddleware(reduxPromiseMiddleware));
-const store = createStore(RootReducer, applyMiddleware(reduxPromiseMiddleware));
+const store = createStore(RootReducer, persistedState, applyMiddleware(reduxPromiseMiddleware));
+//const store = createStore(RootReducer, applyMiddleware(reduxPromiseMiddleware));
 
-//store.subscribe(() => saveToLocalStorage(store.getState()))
+store.subscribe(() => saveToLocalStorage(store.getState()))
 
 export default store;

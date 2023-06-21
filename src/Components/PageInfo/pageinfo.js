@@ -7,32 +7,33 @@ import HomeWrapperWithCentralMenu from '../Home/homewrapperwithcentralmenu';
 import HomeWrapperWithCentralMenu2 from '../Home/homewrapperwithcentralmenu2';
 import PageTabs from './pagetabs';
 import { getDateFormat } from '../../Helper/helpermethods';
-
-function renderComments(pageItemDetails) {
-  if (pageItemDetails && pageItemDetails.comments) {
-    return pageItemDetails.comments.map((item, index) => {
-      return <div style={{ display: 'flex', flexDirection: 'column', flex: '1', marginBottom: '10px' }}>
-        <div style={{ display: 'flex', flexDirection: 'row', flex: '1', background: '#45b6fe', padding: '5px', fontWeight: 'bold' }}>
-          <span style={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }}>{item.firstname} {item.lastname}</span>
-          <div style={{ display: 'flex', flex: '1', justifyContent: 'start', color: 'white', marginleft: '15px' }}>, {getDateFormat(item.created)}</div>
-          {/* <span style={{ marginLeft: '10px' }}></span> */}
-        </div>
-        <span>{parse(item.content)}</span>
-      </div>
-    })
-  }
-}
+import CreatePageComment from './createpagecomment';
 
 export default function PageInfo() {
   const dispatch = useDispatch();
   const history = useNavigate();
   let pageInfo = useSelector((state) => state.page_reducer.pageInfo);
 
-  function removeFontSize(bodyContent){
-    for (var i=0;i<100;i++){
-      bodyContent = bodyContent.toString().replace('fontSize: ' + i.toString() +'px', '');
+  function removeFontSize(bodyContent) {
+    for (var i = 0; i < 100; i++) {
+      bodyContent = bodyContent.toString().replace('fontSize: ' + i.toString() + 'px', '');
     }
     return bodyContent;
+  }
+
+  function renderComments(pageItemDetails) {
+    if (pageItemDetails && pageItemDetails.comments) {
+      return pageItemDetails.comments.map((item, index) => {
+        return <div style={{ display: 'flex', flexDirection: 'column', flex: '1', marginBottom: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', flex: '1', background: '#45b6fe', padding: '5px', fontWeight: 'bold' }}>
+            <span style={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }}>{item.firstname} {item.lastname}</span>
+            <div style={{ display: 'flex', flex: '1', justifyContent: 'start', color: 'white', marginleft: '15px' }}>, {getDateFormat(item.created)}</div>
+            {/* <span style={{ marginLeft: '10px' }}></span> */}
+          </div>
+          <span>{parse(item.content)}</span>
+        </div>
+      })
+    }
   }
 
   useEffect(() => {
@@ -57,7 +58,10 @@ export default function PageInfo() {
         <div className='page-body-content'>
           {pageInfo ? parse(pageInfo?.Body) : 'Η Σελίδα δεν βρέθηκε'}
         </div>
-        {renderComments(pageInfo)}
+        <CreatePageComment />
+        <div style={{marginTop: '20px'}}>
+          {renderComments(pageInfo)}
+        </div>
       </div>
     </div>
   </HomeWrapperWithCentralMenu2>

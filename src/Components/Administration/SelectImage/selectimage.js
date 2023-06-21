@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Popover from '@material-ui/core/Popover';
 import TextField from '@material-ui/core/TextField';
 import { addHostUrl, checkIfFileIsImage } from '../../../Helper/helpermethods';
-import { useStyles } from '../../Administration/Styles/styles';
+import { useStyles } from '../../Styles/styles';
 
 export function SelectOption(props) {
   const { mediaItemsList } = useSelector(state => ({

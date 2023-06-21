@@ -12,7 +12,7 @@ import Paper from "@material-ui/core/Paper";
 
 import { addAnnouncement, editAnnouncement } from '../../../Redux/Actions/index';
 import { getBodyHeight, getHostUrl } from '../../../Helper/helpermethods';
-import { useStyles } from '../../Administration/Styles/styles';
+import { useStyles } from '../../Styles/styles';
 import HomeWrapper from '../../Home/homewrapper';
 import SelectImage from '../SelectImage/selectimage';
 

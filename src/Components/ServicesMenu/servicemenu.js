@@ -224,7 +224,7 @@ function ServicesMenu() {
               {getTitle()}
             </div>
           </div>
-          <div style={{ marginTop: '30px', overflowY: 'auto' }}>
+          <div style={{ marginTop: '0px', overflowY: 'auto' }}>
             <div className="services-menu-container">
               <div className="services-menu-items">
                 {getServicesFromSelectedGroup()}
@@ -234,7 +234,7 @@ function ServicesMenu() {
               {
                 (searchValue === '' || searchValue === undefined || searchValue === null) && groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
                   return <div key={index} style={{ margin: '20px' }}>
-                    {parse(d.Description)}
+                    {parse(d.Description || '')}
                   </div>
                 })
               }

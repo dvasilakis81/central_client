@@ -24,7 +24,6 @@ export const useStyles = makeStyles({
   }
 });
 
-//const searchBarColor = '#FCE570';
 const searchBarColor = '#00008b';
 export const searchBarStyles = makeStyles({
   root: {
@@ -59,6 +58,41 @@ export const searchBarStyles = makeStyles({
     "& .MuiFormLabel-root": {
       fontSize: '18px',
       fontWeight: 'bolder'
+    }
+  }
+});
+
+export const inputTextfieldStyle = makeStyles({
+  root: {
+    "& .MuiInputLabel-root":{
+      color: 'blue'
+    },
+    "& .MuiInputBase-input": {
+      color: 'blue',
+      backgroundColor: 'white',
+      fontSize: '22px'
+    },
+    "& .MuiInputLabel-outlined.MuiInputLabel-shrink": {
+      color: 'blue',
+      fontSize: '18px',
+      fontWeight: 'bold'
+    },
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      border: '1px solid blue'
+    },
+    "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      border: "1px solid blue",
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      border: '2px solid blue'
+    },
+    MuiInput: {
+      input: {
+        "&::placeholder": {
+          color: "gray"
+        },
+        color: "white", // if you also want to change the color of the input, this is the prop you'd use
+      }
     }
   }
 });

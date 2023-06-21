@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Paper from "@material-ui/core/Paper";
 
 import { addUser, editUser } from '../../../Redux/Actions/index';
-import { useStyles } from '../../Administration/Styles/styles';
+import { useStyles } from '../../Styles/styles';
 import HomeWrapper from '../../Home/homewrapper';
 import store from '../../../Redux/Store/store';
 import { getServerErrorResponseMessage } from '../../../Helper/helpermethods';
@@ -155,6 +155,15 @@ export default function UserItemNew(props) {
   const [updateUserItem, setUpdateUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'update'));
   const [deleteUserItem, setDeleteUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'delete'));
 
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue)
+  };
+  const [hoveredKey, setHoveredKey] = useState(-1);
+  const handleMouseEnter = (e, d) => { setHoveredKey(d); };
+  const handleMouseLeave = () => { setHoveredKey(-1); };
+
   if (newItemAdded === true || itemChanged === true) {
     dispatch({ type: 'SET_ADDED_NEWUSER', payload: false });
     navigate(-1);
@@ -275,102 +284,133 @@ export default function UserItemNew(props) {
               store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
             })
         }}>
-        <div style={{ fontSize: '36px', fontWeight: 'bold', marginTop: '20px' }}>
-          Στοιχεία Νέου Χρήστη
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexFlow: 'row',
-            background: 'white',
-            justifyContent: 'start',
-            alignItems: 'center'
-          }}>
-          <div style={{ margin: '20px' }}>
-            <TextField
-              required
-              type="text"
-              label="Username"
-              variant='outlined'
-              style={styles.textfield}
-              value={username}
-              onChange={(e) => { setUsername(e.target.value); }}
-              inputProps={{ style: styles.textfield }}
-            />
+        <div style={{
+          display: 'flex',
+          flexFlow: 'column',          
+          overflowY: 'hidden',
+          flex: 1,
+          marginTop: '50px',
+          justifyContent: 'flex-start',
+          alignItems: 'center'
+        }}>
+          <div style={{ display: 'flex', flexDirection: 'row', height: 'auto', overflowY: 'hidden', overflowX: 'hidden', width: '100%', minWidth: '700px' }}>
+            {<div
+              className={selectedTab === 0 ? 'selected-tab' : (hoveredKey === 0 ? 'hovered-tab' : 'tab')}
+              onClick={(e) => { handleTabChange(e, 0) }}
+              onMouseEnter={(e) => handleMouseEnter(e, 0)}
+              onMouseLeave={handleMouseLeave}
+              style={{flex: 0.5}}>
+              Στοιχεία Χρήστη
+            </div>}
+            {<div
+              className={selectedTab === 1 ? 'selected-tab' : (hoveredKey === 1 ? 'hovered-tab' : 'tab')}
+              onClick={(e) => { handleTabChange(e, 1) }}
+              onMouseEnter={(e) => handleMouseEnter(e, 1)}
+              onMouseLeave={handleMouseLeave}
+              style={{flex: 0.5}}>
+              Δικαιώματα
+            </div>}
           </div>
-          <div style={{ margin: '20px' }}>
-            <TextField
-              required
-              type="password"
-              label="Password"
-              variant="outlined"
-              style={styles.textfield}
-              value={password}
-              onChange={(e) => { setPassword(e.target.value); }}
-              inputProps={{ style: styles.textfield }}
-            />
+          {selectedTab === 0 ?
+            <div>              
+              <div
+                style={{
+                  display: 'flex',
+                  flexFlow: 'row',
+                  background: 'white',
+                  justifyContent: 'start',
+                  alignItems: 'center'
+                }}>
+                <div style={{ margin: '20px' }}>
+                  <TextField
+                    required
+                    type="text"
+                    label="Username"
+                    variant='outlined'
+                    style={styles.textfield}
+                    value={username}
+                    onChange={(e) => { setUsername(e.target.value); }}
+                    inputProps={{ style: styles.textfield }}
+                  />
+                </div>
+                <div style={{ margin: '20px' }}>
+                  <TextField
+                    required
+                    type="password"
+                    label="Password"
+                    variant="outlined"
+                    style={styles.textfield}
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); }}
+                    inputProps={{ style: styles.textfield }}
+                  />
+                </div>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  flexFlow: 'row',
+                  background: 'white',
+                  justifyContent: 'start',
+                  alignItems: 'center'
+                }}>
+                <div style={{ margin: '20px' }}>
+                  <TextField
+                    required
+                    type="text"
+                    label="Όνομα"
+                    variant='outlined'
+                    style={styles.textfield}
+                    value={firstname}
+                    onChange={(e) => { setFirstname(e.target.value); }}
+                    inputProps={{ style: styles.textfield }}
+                  />
+                </div>
+                <div style={{ margin: '20px' }}>
+                  <TextField
+                    required
+                    type="text"
+                    label="Επίθετο"
+                    variant='outlined'
+                    style={styles.textfield}
+                    value={lastname}
+                    onChange={(e) => { setLastname(e.target.value); }}
+                    inputProps={{ style: styles.textfield }}
+                  />
+                </div>
+              </div>
+            </div>
+            : <></>}
+          {selectedTab === 1 ? <div style={{ display: 'flex', flexDirection: 'column', margin: '20px', background: 'lightblue' }}>
+            {setRights('Κεντρικό Μενού', viewMenuItem, setViewMenuItem, createMenuItem, setCreateMenuItem, updateMenuItem, setUpdateMenuItem, deleteMenuItem, setDeleteMenuItem)}
+            {setRights('Υπηρεσίες', viewServiceItem, setViewServiceItem, createServiceItem, setCreateServiceItem, updateServiceItem, setUpdateServiceItem, deleteServiceItem, setDeleteServiceItem)}
+            {setRights('Σελίδες', viewPageItem, setViewPageItem, createPageItem, setCreatePageItem, updatePageItem, setUpdatePageItem, deletePageItem, setDeletePageItem)}
+            {setRights('Αρχεία', viewMediaItem, setViewMediaItem, createMediaItem, setCreateMediaItem, updateMediaItem, setUpdateMediaItem, deleteMediaItem, setDeleteMediaItem)}
+            {setRights('Ανακοινώσεις', viewAnnouncementItem, setViewAnnouncementItem, createAnnouncementItem, setCreateAnnouncementItem, updateAnnouncementItem, setUpdateAnnouncementItem, deleteAnnouncementItem, setDeleteAnnouncementItem)}
+            {setRights('Κατηγορίες', viewCategoryItem, setViewCategoryItem, createCategoryItem, setCreateCategoryItem, updateCategoryItem, setUpdateCategoryItem, deleteCategoryItem, setDeleteCategoryItem)}
+            {setRights('Χρήστες', viewUserItem, setViewUserItem, createUserItem, setCreateUserItem, updateUserItem, setUpdateUserItem, deleteUserItem, setDeleteUserItem)}
           </div>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexFlow: 'row',
-            background: 'white',
-            justifyContent: 'start',
-            alignItems: 'center'
-          }}>
-          <div style={{ margin: '20px' }}>
-            <TextField
-              required
-              type="text"
-              label="Όνομα"
-              variant='outlined'
-              style={styles.textfield}
-              value={firstname}
-              onChange={(e) => { setFirstname(e.target.value); }}
-              inputProps={{ style: styles.textfield }}
-            />
+            : <></>}
+          <div style={{ display: 'flex', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', marginTop: '20px' }}>
+            <div style={{ display: 'flex', flexFlow: 'row', height: 'auto', textAlign: 'right', marginTop: '20px' }}>
+              <Button
+                variant="contained"
+                type="submit"
+                color="primary"
+                style={{ margin: '5px', textTransform: 'none', fontSize: '16px' }}>
+                <SaveAltIcon />
+                Αποθήκευση
+              </Button>
+              <Button
+                variant="contained"
+                style={{ margin: '5px', background: 'orangered', textTransform: 'none', fontSize: '16px' }}
+                onClick={() => { navigate(-1); }}>
+                <CancelAltIcon />
+                Ακύρωση
+              </Button>
+            </div>
           </div>
-          <div style={{ margin: '20px' }}>
-            <TextField
-              required
-              type="text"
-              label="Επίθετο"
-              variant='outlined'
-              style={styles.textfield}
-              value={lastname}
-              onChange={(e) => { setLastname(e.target.value); }}
-              inputProps={{ style: styles.textfield }}
-            />
-          </div>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', margin: '20px', background: 'lightblue' }}>
-          {setRights('Κεντρικό Μενού', viewMenuItem, setViewMenuItem, createMenuItem, setCreateMenuItem, updateMenuItem, setUpdateMenuItem, deleteMenuItem, setDeleteMenuItem)}
-          {setRights('Υπηρεσίες', viewServiceItem, setViewServiceItem, createServiceItem, setCreateServiceItem, updateServiceItem, setUpdateServiceItem, deleteServiceItem, setDeleteServiceItem)}
-          {setRights('Σελίδες', viewPageItem, setViewPageItem, createPageItem, setCreatePageItem, updatePageItem, setUpdatePageItem, deletePageItem, setDeletePageItem)}
-          {setRights('Αρχεία', viewMediaItem, setViewMediaItem, createMediaItem, setCreateMediaItem, updateMediaItem, setUpdateMediaItem, deleteMediaItem, setDeleteMediaItem)}
-          {setRights('Ανακοινώσεις', viewAnnouncementItem, setViewAnnouncementItem, createAnnouncementItem, setCreateAnnouncementItem, updateAnnouncementItem, setUpdateAnnouncementItem, deleteAnnouncementItem, setDeleteAnnouncementItem)}
-          {setRights('Κατηγορίες', viewCategoryItem, setViewCategoryItem, createCategoryItem, setCreateCategoryItem, updateCategoryItem, setUpdateCategoryItem, deleteCategoryItem, setDeleteCategoryItem)}
-          {setRights('Χρήστες', viewUserItem, setViewUserItem, createUserItem, setCreateUserItem, updateUserItem, setUpdateUserItem, deleteUserItem, setDeleteUserItem)}
-        </div>
-        <div style={{ display: 'flex', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', marginTop: '20px' }}>
-          <div style={{ display: 'flex', flexFlow: 'row', height: 'auto', textAlign: 'right', marginTop: '20px' }}>
-            <Button
-              variant="contained"
-              type="submit"
-              color="primary"
-              style={{ margin: '5px', textTransform: 'none', fontSize: '16px' }}>
-              <SaveAltIcon />
-              Αποθήκευση
-            </Button>
-            <Button
-              variant="contained"
-              style={{ margin: '5px', background: 'orangered', textTransform: 'none', fontSize: '16px' }}
-              onClick={() => { navigate(-1); }}>
-              <CancelAltIcon />
-              Ακύρωση
-            </Button>
-          </div>
+
         </div>
       </form>
     </HomeWrapper >

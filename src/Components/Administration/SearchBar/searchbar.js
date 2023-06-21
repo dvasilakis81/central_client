@@ -1,35 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { InputAdornment, IconButton } from '@material-ui/core';
-
-const useStyles = makeStyles({
-  root: {
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      border: '2px solid blue'
-    },
-    "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      border: "2px solid blue",
-    },
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      border: '1px solid blue'
-    },
-    "& .MuiInputBase-input": {
-      fontSize: '1rem',
-      fontColor: 'blue'
-    },
-    "& .MuiSvgIcon-root": {
-      width: '2rem',
-      height: '2rem'
-    },
-    "& .MuiFormLabel-root": {
-      fontSize: '1rem',
-      fontWeight: 'bolder'
-    }
-  }
-});
+import { useStyles } from '../../Styles/styles';
 
 export default function SearchBar(props) {
   const classes = useStyles();

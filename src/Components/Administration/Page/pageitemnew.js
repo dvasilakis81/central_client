@@ -13,33 +13,31 @@ import HomeWrapper from '../../Home/homewrapper';
 import { Editor } from '@tinymce/tinymce-react';
 import * as React from "react";
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useStyles } from '../../Administration/Styles/styles';
+import { useStyles } from '../../Styles/styles';
 
 export default function PageItemNew(props) {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const editorRef = useRef(null);
   let navigate = useNavigate();
   let location = useLocation();
   let pageItemsList = useSelector((state) => state.page_reducer.pageItemsList);
   let itemDetails2 = useSelector((state) => state.page_reducer.pageItemDetails);
-  var selectedTabs = [];
+  
   let pageItemDetails;
 
-  const [pageTitle, setPageTitle] = useState(pageItemDetails?.Title || '');
-  const [pageUrl, setPageUrl] = useState(pageItemDetails?.Url || '');
-  const [pageBodyInitial, setPageBodyInitial] = useState(pageItemDetails?.Body || '');
-  const [pageBody, setPageBody] = useState(pageItemDetails?.Body || '');
-  const [hasComments, setHasComments] = useState(pageItemDetails?.HasComments || '');
-  const [pageId, setPageId] = useState(pageItemDetails?.Id || '');
-  const [tabs, setTabs] = useState(selectedTabs || []);
-  let requestRejected = useSelector((state) => state.page_reducer.requestRejected);
+  const [pageTitle, setPageTitle] = useState('');
+  const [pageUrl, setPageUrl] = useState('');
+  const [pageBodyInitial, setPageBodyInitial] = useState('');
+  const [pageBody, setPageBody] = useState('');  
+  const [canComment, setCanComment] = useState(false);
+  const [pageId, setPageId] = useState('');
+  const [tabs, setTabs] = useState([]);
   let newItemAdded = useSelector((state) => state.page_reducer.newItemAdded);
   let itemChanged = useSelector((state) => state.page_reducer.itemChanged);
 
   useEffect(() => {
-
+    var selectedTabs = [];
     if (location.state && location.state.isNew === 2) {
 
       pageItemDetails = itemDetails2;
@@ -48,8 +46,8 @@ export default function PageItemNew(props) {
       setPageTitle(pageItemDetails?.Title || '');
       setPageUrl(pageItemDetails?.Url || '');
       setPageBodyInitial(pageItemDetails?.Body || '');
-      setPageBody(pageItemDetails?.Body || '');
-      setHasComments(pageItemDetails?.HasComments || '');
+      setPageBody(pageItemDetails?.Body || '');      
+      setCanComment(pageItemDetails?.CanComment || '');
 
       if (pageItemsList && pageItemDetails && pageItemDetails.tabsInfo) {
         var tabsInfoOrdered = [...pageItemDetails.tabsInfo].sort((a, b) => a.taborder < b.taborder ? -1 : 1);
@@ -62,6 +60,7 @@ export default function PageItemNew(props) {
           }
         }
       }
+      setTabs(selectedTabs);
     }
   }, []);
 
@@ -83,8 +82,8 @@ export default function PageItemNew(props) {
                 data.Id = pageId;
                 data.Title = pageTitle;
                 data.Body = pageBody;
-                data.Url = pageUrl;
-                data.HasComments = hasComments;
+                data.Url = pageUrl;                
+                data.CanComment = canComment;
                 data.Tabs = [];
                 tabs.map((item) => { data.Tabs.push(item); })
 
@@ -145,7 +144,7 @@ export default function PageItemNew(props) {
                         getOptionLabel={item => item.Title}
                         onChange={(event, value) => setTabs(value)}
                         filterSelectedOptions
-                        defaultValue={tabs}
+                        value={tabs}                        
                         ChipProps={{ color: "primary" }}
                         style={{ flex: '1', padding: '0px' }}
                         renderInput={params => (
@@ -161,13 +160,13 @@ export default function PageItemNew(props) {
                     </div>
                   </div>
                   <div style={{ padding: '10px' }}>
-                    <div style={{ display: 'flex', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden' }}>
+                    <div style={{ display: 'flex', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden' }}>                      
                       <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
                         <Checkbox
                           defaultChecked={false}
                           color='primary'
-                          checked={hasComments}
-                          onChange={e => setHasComments(e.target.checked)}
+                          checked={canComment}
+                          onChange={e => setCanComment(e.target.checked)}
                           inputProps={{ 'aria-label': 'controlled' }} />
                         <span>Επιτρέπονται Σχόλια</span>
                       </div>

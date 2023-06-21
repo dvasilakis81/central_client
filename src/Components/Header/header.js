@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getHeaderHeight } from '../../Helper/helpermethods';
 import thyraios from '../Images/thyraios.png';
 import ServicesSearchBar from '../Search/servicessearchbar';
+import store from '../../Redux/Store/store';
 
 const styles = {
   menuenter: {
@@ -40,7 +41,6 @@ export default function Header(props) {
       //dispatch(getPageInfo(data));
     }
   }, []);
-
   const styles = {
     header: {
       width: '100%',
@@ -82,7 +82,6 @@ export default function Header(props) {
       borderTop: '1px darkblue solid',
     }
   }
-
   function renderUserInfo() {
     if (userInfoVisible === true) {
       return <div style={{ display: 'flex', flex: 1, justifyContent: 'right', alignItems: 'center', marginRight: '20px' }}>
@@ -117,7 +116,7 @@ export default function Header(props) {
                 background: '#fff',
                 padding: '0px',
                 border: '1px solid #999',
-                overflow: 'auto',
+                overflow: 'auto'
               }}>
                 <div style={{ padding: '20px' }}>
                   {token && token.userLoginInfo[0].Firstname}
@@ -126,8 +125,19 @@ export default function Header(props) {
                 </div>
                 <div style={{ padding: '20px' }}
                   onMouseEnter={(e) => { e.target.style.backgroundColor = 'lightblue'; }}
-                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>
+                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                  onClick={(e) => {
+                    store.dispatch({ type: 'OPEN_CHANGE_PASSWORD', payload: true });
+                  }}>
                   Αλλαγή Kωδικού
+                </div>
+                <div style={{ padding: '20px' }}
+                  onMouseEnter={(e) => { e.target.style.backgroundColor = 'lightblue'; }}
+                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                  onClick={(e) => {
+                    store.dispatch({ type: 'SET_TOKEN_JWT', payload: undefined });
+                  }}>
+                  Αποσύνδεση
                 </div>
               </div>
             </div> : <></>
@@ -135,7 +145,6 @@ export default function Header(props) {
       </div>
     }
   }
-
   return <div style={styles.header2}>
     <div style={{ minWidth: '500px', maxWidth: '500px' }}>
       <img src={thyraios} alt="Δήμος Αθηναίων" width='50px' height='50px' />
