@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import parse from 'html-react-parser';
 import { getPageInfo } from '../../Redux/Actions';
-import HomeWrapperWithCentralMenu from '../Home/homewrapperwithcentralmenu';
 import HomeWrapperWithCentralMenu2 from '../Home/homewrapperwithcentralmenu2';
 import PageTabs from './pagetabs';
 import { getDateFormat } from '../../Helper/helpermethods';
@@ -14,23 +13,15 @@ export default function PageInfo() {
   const history = useNavigate();
   let pageInfo = useSelector((state) => state.page_reducer.pageInfo);
 
-  function removeFontSize(bodyContent) {
-    for (var i = 0; i < 100; i++) {
-      bodyContent = bodyContent.toString().replace('fontSize: ' + i.toString() + 'px', '');
-    }
-    return bodyContent;
-  }
-
   function renderComments(pageItemDetails) {
     if (pageItemDetails && pageItemDetails.comments) {
       return pageItemDetails.comments.map((item, index) => {
         return <div style={{ display: 'flex', flexDirection: 'column', flex: '1', marginBottom: '10px' }}>
-          <div style={{ display: 'flex', flexDirection: 'row', flex: '1', background: '#45b6fe', padding: '5px', fontWeight: 'bold' }}>
-            <span style={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }}>{item.firstname} {item.lastname}</span>
-            <div style={{ display: 'flex', flex: '1', justifyContent: 'start', color: 'white', marginleft: '15px' }}>, {getDateFormat(item.created)}</div>
-            {/* <span style={{ marginLeft: '10px' }}></span> */}
+          <div style={{ display: 'flex', flexDirection: 'column', flex: '1', background: '#0072A0', padding: '5px', fontWeight: 'bold' }}>
+            <span style={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }}>{item.firstname} {item.lastname} {item.direction && item.department ? ',' : ''} {item.direction || ''} {item.direction ? '-' : ''} {item.department || ''}</span>
+            <div style={{ display: 'flex', flex: '1', justifyContent: 'start', color: 'white', marginleft: '15px', fontSize: '12px' }}><i>{getDateFormat(item.created)}</i></div>
           </div>
-          <span>{parse(item.content)}</span>
+          <span>{parse(item.content || '')}</span>
         </div>
       })
     }

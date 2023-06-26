@@ -6,8 +6,7 @@ import thunkMiddleware from 'redux-thunk'
 
 function saveToLocalStorage(state) {
   try {
-    const serializedState = JSON.stringify(state)
-    localStorage.setItem('state', serializedState)
+    localStorage.setItem('state', JSON.stringify(state))
   } catch (e) {
     //console.log(e)
   }
@@ -23,9 +22,9 @@ function loadFromLocalStorage() {
   }
 }
 
-const persistedState = loadFromLocalStorage()
-const store = createStore(RootReducer, persistedState, applyMiddleware(reduxPromiseMiddleware));
-//const store = createStore(RootReducer, applyMiddleware(reduxPromiseMiddleware));
+const persistedState = loadFromLocalStorage();
+//const store = createStore(RootReducer, persistedState, applyMiddleware(reduxPromiseMiddleware));
+const store = createStore(RootReducer, applyMiddleware(reduxPromiseMiddleware));
 
 store.subscribe(() => saveToLocalStorage(store.getState()))
 

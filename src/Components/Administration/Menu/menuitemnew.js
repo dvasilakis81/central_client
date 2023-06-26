@@ -42,7 +42,7 @@ export default function MenuItemNew(props) {
       return filteredItems;
     }
     else
-      return undefined;    
+      return undefined;
   });
 
   let menuItemDetails2 = useSelector((state) => {

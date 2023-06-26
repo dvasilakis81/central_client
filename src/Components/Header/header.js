@@ -1,29 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getHeaderHeight } from '../../Helper/helpermethods';
 import thyraios from '../Images/thyraios.png';
-import ServicesSearchBar from '../Search/servicessearchbar';
 import store from '../../Redux/Store/store';
 
-const styles = {
-  menuenter: {
-    marginLeft: '10px',
-    width: '60px',
-    height: '55px',
-    border: '2px solid #00008b',
-    textAlign: 'center'
-  },
-  menuleave: { marginLeft: '10px', width: '60px', height: '55px', border: '2px solid white', textAlign: 'center' },
-  menuentercolor: { color: 'white' },
-  menuleavecolor: { color: '#00008b' }
-}
-
 export default function Header(props) {
-  const headerHeight = getHeaderHeight();
-  const { pageItemsList } = useSelector(state => ({ pageItemsList: state.page_reducer.pageItemsList }));
+  const headerHeight = getHeaderHeight();  
   const { token } = useSelector(state => ({ token: state.token_reducer.token }));
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  //const menustyle = isMenuOpen === false ? styles.menuenter : styles.menuleave;
+  const [isMenuOpen, setIsMenuOpen] = useState(false);  
   const menuRef = useRef();
   const popupRef = useRef();
   const [userInfoVisible, setUserInfoVisible] = useState('');
@@ -38,7 +22,6 @@ export default function Header(props) {
       data.pagename = pageName;
       if (pageName === 'administration')
         setUserInfoVisible(true);
-      //dispatch(getPageInfo(data));
     }
   }, []);
   const styles = {
@@ -87,8 +70,7 @@ export default function Header(props) {
       return <div style={{ display: 'flex', flex: 1, justifyContent: 'right', alignItems: 'center', marginRight: '20px' }}>
         <div
           ref={menuRef}
-          onClick={(e) => {
-            //setIsMenuIconClicked(true);
+          onClick={(e) => {            
             if (isMenuOpen === true)
               setIsMenuOpen(false);
             else
@@ -135,7 +117,7 @@ export default function Header(props) {
                   onMouseEnter={(e) => { e.target.style.backgroundColor = 'lightblue'; }}
                   onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
                   onClick={(e) => {
-                    store.dispatch({ type: 'SET_TOKEN_JWT', payload: undefined });
+                    store.dispatch({ type: 'LOGOUT_RESET_STORE', payload: undefined });
                   }}>
                   Αποσύνδεση
                 </div>

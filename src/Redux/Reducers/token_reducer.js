@@ -19,8 +19,11 @@ export default function (state = {}, action) {
     case 'SET_TOKEN_JWT':
       state = { ...state, token: undefined };
       break;
-    default:
+    case 'LOGOUT_RESET_STORE':
+      state = { ...state, token: undefined };
       break;
+    default:
+      return state;
   }
 
   return state;

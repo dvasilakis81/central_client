@@ -77,8 +77,7 @@ export default function Actions(props) {
   function showActionButton(contenttype, menuitemkind, action) {
     if (token && token.userLoginInfo) {
       var rights = token.userLoginInfo[0].rights;
-      if (rights) {
-        console.log('contenttype: ' + contenttype);
+      if (rights) {        
         for (var i = 0; i < rights.length; i++) {
           if (contenttype === 'menuitem' && menuitemkind === 1 && rights[i].Title === 'Κεντρικό Μενού')
             return getActionValue(rights[i], action);

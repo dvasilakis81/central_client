@@ -28,6 +28,7 @@ export default function Footer(props) {
     </div>
     <div style={{ flex: 1, justifyContent: 'end', textAlign: 'right' }}>
       ©{new Date().getFullYear()} Central Athens
+      {window.innerWidth}
     </div>
   </div>
 }

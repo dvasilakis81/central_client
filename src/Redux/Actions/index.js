@@ -62,7 +62,10 @@ export function getPageTabInfo(data) {
   const request = axios.post(getHostUrl() + 'getPageInfo', data).then(response => response.data);
   return { type: 'GET_PAGETABINFO', payload: request };
 }
-
+export function addPageComment(data) {
+  const request = axios.post(getHostUrl() + 'addPageComment', data).then(response => response.data);
+  return { type: 'ADD_PAGE_COMMENT', payload: request };
+}
 //Announcement
 export function getAnnouncements() {
   const request = axios.get(getHostUrl() + 'getAnnouncements').then(response => response.data);

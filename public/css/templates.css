@@ -16,6 +16,12 @@
   scrollbar-width: thin;
 }
 
+.flex-row {
+  display: flex;
+  flex-direction: row;  
+  margin-top: 15px;
+}
+
 /* .ql-container {
   min-height: 10rem;
   height: 20%;
@@ -79,6 +85,7 @@
   border-radius: 1px;
   margin-top: 10px;
 }
+
 .service-menu-item-child {
   display: flex;
   justify-content: center;
@@ -89,6 +96,7 @@
   padding: 5px;
   background-color: #9DD8EA;
 }
+
 .service-menu-item-child-hovered {
   display: flex;
   justify-content: center;
@@ -99,6 +107,7 @@
   padding: 5px;
   background-color: #2196F3;
 }
+
 .page-info-container {
   padding: 10px;
   display: flex;
@@ -109,11 +118,13 @@
   opacity: 1;
   height: '100%';
 }
+
 .page-title {
   text-align: center;
   color: #094fa3;
   font-weight: bolder;
 }
+
 .centered {
   position: absolute;
   top: 30%;
@@ -125,16 +136,19 @@
   border-radius: 0px;
   white-space: pre-wrap;
 }
+
 .page-body {
   padding: 15px;
   overflow-y: auto;
 }
+
 .page-body-content {
   margin-top: 30px;
   padding: 0px;
   overflow-y: auto;
   font-size: 16px;
 }
+
 .tab {
   display: flex;
   align-items: center;
@@ -151,7 +165,7 @@
   border-bottom: 1px solid black;
 }
 
-.ql-editor{
+.ql-editor {
   height: 250px !important;
   min-height: 250px !important;
   max-height: 250px !important;
@@ -354,7 +368,7 @@
   justify-content: center;
   align-items: center;
   padding-bottom: 0px;
-  height: 50px;  
+  height: 50px;
 }
 
 .div-frame {
@@ -364,12 +378,52 @@
   height: auto;
   background: transparent;
   border: 5px solid #87CEEB;
-  overflow-y: hidden;  
+  overflow-y: hidden;
   padding-bottom: 30px;
   max-height: 80%;
 }
 
-@media only screen and (max-width: 1980px){
+@media only screen and (min-width: 2000px) {
+  body {
+    background-color: lightblue;
+  }
+
+  .menuItemImage {
+    font-size: 1.3rem;
+    font-weight: bolder;
+    min-width: 24px;
+    max-width: 24px;
+  }
+
+  .menu-item {
+    display: flex;
+    flex: 1;
+    font-weight: bolder;
+    cursor: pointer;
+    background: #f4f6f7;
+    font-size: 1.3rem;
+    padding-left: 5px;
+    padding-top: 6px;
+    padding-bottom: 16px;
+    line-height: 30px;
+  }
+
+  .menu-item-hovered {
+    display: flex;
+    flex: 1;
+    font-weight: bolder;
+    cursor: pointer;
+    color: white;
+    background: #2196F3;
+    font-size: 1.3rem;
+    padding-left: 5px;
+    padding-top: 6px;
+    padding-bottom: 16px;
+    line-height: 30px;
+  }
+}
+
+@media only screen and (max-width: 1920px) {
 
   .selected-tab,
   .tab,
@@ -378,23 +432,28 @@
     height: 80px;
     width: 220px;
   }
+
   .group-services-item-hovered,
   .group-services-item {
     font-size: 20px;
     padding: 10px;
   }
+
   .selected-service-title {
     font-size: 24px;
   }
+
   .menuItemImage {
     font-size: 26px;
     font-weight: bolder;
     min-width: 30px;
     max-width: 30px;
   }
+
   .services-menu-announcement-container {
     transform: scale(1);
   }
+
   .menu-item {
     display: flex;
     flex: 1;
@@ -406,6 +465,7 @@
     padding-top: 12px;
     padding-bottom: 12px;
   }
+
   .menu-item-hovered {
     display: flex;
     flex: 1;
@@ -418,6 +478,7 @@
     padding-top: 12px;
     padding-bottom: 12px;
   }
+
   .page-title {
     font-size: 2rem;
   }
@@ -445,8 +506,9 @@
     font-size: 16px;
     padding: 8px;
   }
+
   .selected-service-title {
-    font-size: 20px;    
+    font-size: 20px;
   }
 
   .service-menu-item-parent {
@@ -495,6 +557,7 @@
   }
 
 }
+
 @media only screen and (max-width: 900px) {
   body {
     background-color: lightblue;
@@ -506,6 +569,7 @@
     min-width: 24px;
     max-width: 24px;
   }
+
   .menu-item {
     display: flex;
     flex: 1;
@@ -517,6 +581,7 @@
     padding-top: 6px;
     padding-bottom: 6px;
   }
+
   .menu-item-hovered {
     display: flex;
     flex: 1;
@@ -530,6 +595,7 @@
     padding-bottom: 6px;
   }
 }
+
 @media only screen and (max-width: 200px) {
   body {
     background-color: lightblue;
@@ -541,6 +607,7 @@
     min-width: 24px;
     max-width: 24px;
   }
+
   .menu-item {
     display: flex;
     flex: 1;
@@ -552,6 +619,7 @@
     padding-top: 6px;
     padding-bottom: 6px;
   }
+
   .menu-item-hovered {
     display: flex;
     flex: 1;
