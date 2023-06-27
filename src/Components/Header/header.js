@@ -19,7 +19,7 @@ export default function Header(props) {
     if (pageUrlParts) {
       pageName = pageUrlParts[pageUrlParts.length - 1];
       var data = {};
-      data.pagename = pageName;
+      data.url = pageName;
       if (pageName === 'administration')
         setUserInfoVisible(true);
     }

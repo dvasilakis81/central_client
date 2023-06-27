@@ -66,6 +66,11 @@ export function addPageComment(data) {
   const request = axios.post(getHostUrl() + 'addPageComment', data).then(response => response.data);
   return { type: 'ADD_PAGE_COMMENT', payload: request };
 }
+export function approveOrRejectComment(data) {
+  const request = axios.post(getHostUrl() + 'approveOrRejectComment', data).then(response => response.data);
+  return { type: 'APPROVE_REJECT_PAGE_COMMENT', payload: request };
+}
+
 //Announcement
 export function getAnnouncements() {
   const request = axios.get(getHostUrl() + 'getAnnouncements').then(response => response.data);

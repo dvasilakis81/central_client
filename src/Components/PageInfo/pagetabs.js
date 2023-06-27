@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import parse from 'html-react-parser';
+
 import store from '../../Redux/Store/store';
 import { getPageTabInfo } from '../../Redux/Actions/index';
+import { renderHtml } from '../../Helper/helpermethods';
 
 export default function PageTabs(props) {
   const dispatch = useDispatch();
 
-  function fetchPageInfo(tabIndex, tabItem){
+  function fetchPageInfo(tabIndex, tabItem) {
     store.dispatch({ type: 'SET_SELECTED_PAGE_TAB', payload: { tab: tabIndex, item: tabItem } });
     var data = {};
-    data.pagename = tabItem.taburl;
+    data.url = tabItem.taburl;
     dispatch(getPageTabInfo(data));
   }
-  
+
   useEffect(() => {
     if (props.pageinfo && props.pageinfo.tabsInfo && props.pageinfo.tabsInfo.length > 0) {
       var tabWithLawOrder = null;
@@ -53,7 +54,7 @@ export default function PageTabs(props) {
           }
         </div>
         <div style={{ background: 'transparent', padding: '20px' }}>
-          {pageTabInfo ? parse(pageTabInfo.Body || '') : <>ΔΕΝ ΒΡΕΘΗΚΕ</>}
+          {pageTabInfo ? renderHtml(pageTabInfo.Body) : <>ΔΕΝ ΒΡΕΘΗΚΕ</>}
         </div>
       </div>
     )

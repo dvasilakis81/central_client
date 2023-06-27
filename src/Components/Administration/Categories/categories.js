@@ -10,7 +10,7 @@ import store from '../../../Redux/Store/store';
 import { getScreenWidth, getScreenHeight } from '../../../Helper/helpermethods';
 import { Button } from '@material-ui/core';
 import { addCategory, editCategory } from '../../../Redux/Actions/index';
-import MyDialog from '../Common/dialog'
+import MyDialog from '../../Common/dialog'
 
 import { deleteItem } from '../../../Redux/Actions/index';
 

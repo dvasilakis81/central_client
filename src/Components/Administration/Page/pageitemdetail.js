@@ -1,73 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import parse from 'html-react-parser';
-import { useSelector } from 'react-redux';
-import PageTabs from './Tabs/tabs';
-import { getDateFormat } from '../../../Helper/helpermethods';
 import Button from '@material-ui/core/Button';
 
-function getItem(key, index, pageItemDetails) {
-  var ret = <></>;
-  var val = '';
-  val = pageItemDetails[key];
-
-  if (key !== 'Body' && key != 'tabsInfo' && key != 'comments')
-    ret = <div key={index} style={{ flex: 1, borderBottom: '1px solid black', paddingBottom: '15px' }}>
-      <div style={{ fontSize: 16, padding: 10, fontWeight: 'bold', background: 'lightBlue' }}>
-        {key}
-      </div>
-      <div style={{ fontSize: 16, paddingLeft: 0, paddingTop: 10 }}>
-        {val}
-      </div>
-    </div>
-
-  return ret;
-}
-function renderApprovedButton(item) {
-  if (item.isapproved === 0) {
-    return <Button style={{ backgroundColor: 'green', width: '100px', color: 'white', fontWeight: 'bold' }}>
-      ΕΓΚΡΙΣΗ
-    </Button>
-  }
-}
-function renderRejectedButton(item) {
-  if (item.isapproved === 0) {
-    return <Button style={{ background: 'orangered', width: '100px', color: 'white', fontWeight: 'bold' }}>
-      ΑΠΟΡΡΙΨΗ
-    </Button>
-  }
-}
-
-function renderComments(pageItemDetails, selectedTab) {
-  if (pageItemDetails && pageItemDetails.comments) {
-    var commentsToRender = [];
-    if (selectedTab === 1)
-      commentsToRender = pageItemDetails.comments.filter(comment => comment.isapproved === 1)
-    else if (selectedTab === 2)
-      commentsToRender = pageItemDetails.comments.filter(comment => comment.isrejected === 1)
-    else if (selectedTab === 3)
-      commentsToRender = pageItemDetails.comments.filter(comment => comment.isapproved === 0 && comment.isrejected === 0)
-
-    if (commentsToRender) {
-      return commentsToRender.map((item, index) => {
-        return <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
-          <div style={{ display: 'flex', flexDirection: 'row', flex: '1', background: '#0072A0', paddisdfng: '5px', fontWeight: 'bold', fontSize: '1rem', padding: '10px' }}>
-            <span style={{ color: 'white' }}>{item.firstname} {item.lastname}<i>{getDateFormat(item.created)}</i></span>
-          </div>
-          <span>{parse(item.content)}</span>
-          <div className="flex-row">
-            {renderApprovedButton(item)}
-            <span style={{ marginLeft: '15px' }}></span>
-            {renderRejectedButton(item)}
-          </div>
-        </div>
-      })
-    }
-    else
-      return <></>
-  }
-}
-
-
+import PageTabs from './Tabs/tabs';
+import { approveOrRejectComment } from '../../../Redux/Actions/index';
+import { showSnackbarMessage, showFailedConnectWithServerMessage, renderComments } from '../../Common/methods';
 
 export default function PageItemDetails(props) {
   let pageItemDetails = useSelector((state) => state.page_reducer.pageItemDetails);
@@ -76,10 +14,75 @@ export default function PageItemDetails(props) {
   const [numberOfApprovedComments, setNumberOfApprovedComments] = useState(0);
   const [numberOfRejectedComments, setNumberOfRejectedComments] = useState(0);
   const [numberOfCommentsToBeApproved, setNumberOfCommentsToBeApproved] = useState(0);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getNumberOfApprovedRejectedComments();
   }, [pageItemDetails])
+
+  function getItem(key, index, pageItemDetails) {
+    var ret = <></>;
+    var val = '';
+    val = pageItemDetails[key];
+
+    if (key !== 'Body' && key != 'tabsInfo' && key != 'comments')
+      ret = <div key={index} style={{ flex: 1, borderBottom: '1px solid black', paddingBottom: '15px' }}>
+        <div style={{ fontSize: 16, padding: 10, fontWeight: 'bold', background: 'lightBlue' }}>
+          {key}
+        </div>
+        <div style={{ fontSize: 16, paddingLeft: 0, paddingTop: 10 }}>
+          {val}
+        </div>
+      </div>
+
+    return ret;
+  }
+  function renderApprovedButton(page, item) {
+    if (page.CommentNeedsApproval === 1) {
+      if ((item.isapproved === 0 && item.isrejected === 0) || item.isrejected === 1) {
+        return <Button
+          style={{ backgroundColor: 'green', width: '100px', color: 'white', fontWeight: 'bold' }}
+          onClick={() => {
+
+            var data = {};
+            data.id = item.commentid;
+            data.isapproved = 1;
+            data.isrejected = 0;
+            data.url = page.Url;
+            dispatch(approveOrRejectComment(data)).then(response => {
+              showSnackbarMessage(response, 'Το σχόλιο εγκρίθηκε!');
+            }).catch(error => {
+              showFailedConnectWithServerMessage(error);
+            });
+          }}>
+          ΕΓΚΡΙΣΗ
+        </Button>
+      }
+    }
+  }
+  function renderRejectedButton(page, item) {
+    if (page.CommentNeedsApproval === 1) {
+      if ((item.isapproved === 0 && item.isrejected === 0) || item.isapproved === 1) {
+        return <Button
+          style={{ background: 'orangered', width: '100px', color: 'white', fontWeight: 'bold' }}
+          onClick={() => {
+
+            var data = {};
+            data.id = item.commentid;
+            data.isapproved = 0;
+            data.isrejected = 1;
+            data.url = page.Url;
+            dispatch(approveOrRejectComment(data)).then(response => {
+              showSnackbarMessage(response, 'Το σχόλιο απορρίφθηκε!');
+            }).catch(error => {
+              showFailedConnectWithServerMessage(error);
+            });
+          }}>
+          ΑΠΟΡΡΙΨΗ
+        </Button>
+      }
+    }
+  }
 
   function getNumberOfApprovedRejectedComments() {
     var approvedComments = 0;
@@ -90,23 +93,41 @@ export default function PageItemDetails(props) {
       pageItemDetails.comments.map((item, index) => {
         if (item.isapproved === 1)
           approvedComments += 1;
-        console.log('item.isrejected: ' + item.isrejected);
-        if (item.isrejected === 1) {
-          console.log('item.isrejected: ' + rejectedComments);
-          rejectedComments += 1;
-        }
+        if (item.isrejected === 1)
+          rejectedComments += 1;        
         if (item.isapproved === 0 && item.isrejected === 0)
           commentsToBeApproved += 1;
       })
     }
 
-    console.log('approvedComments: ' + approvedComments);
-    console.log('rejectedComments: ' + rejectedComments);
-    console.log('commentsToBeApproved: ' + commentsToBeApproved);
-
     setNumberOfApprovedComments(approvedComments);
     setNumberOfRejectedComments(rejectedComments);
     setNumberOfCommentsToBeApproved(commentsToBeApproved);
+  }
+
+  function renderTab(tabValue, tabTitle, numberOfComments) {
+    var classValue = selectedTab === tabValue ? 'selected-tab' : (hoveredKey === 3 ? 'hovered-tab' : 'tab')
+
+    if (pageItemDetails.CommentNeedsApproval === 0) {
+      if (tabValue === 1)
+        return <div
+          className={classValue}
+          onClick={(e) => { setSelectedTab(tabValue); }}
+          onMouseEnter={(e) => setHoveredKey(tabValue)}
+          onMouseLeave={(e) => { setHoveredKey(-1) }}>
+          ({numberOfComments || 0}) ΕΓΚΕΚΡΙΜΜΕΝΑ ΣΧΟΛΙΑ
+        </div>
+    } else {
+      {
+        return <div
+          className={classValue}
+          onClick={(e) => { setSelectedTab(tabValue); }}
+          onMouseEnter={(e) => setHoveredKey(1)}
+          onMouseLeave={(e) => { setHoveredKey(-1) }}>
+          ({numberOfComments || 0}) {tabTitle}
+        </div>
+      }
+    }
   }
 
   function getTabContent() {
@@ -126,7 +147,7 @@ export default function PageItemDetails(props) {
               <div style={{ fontSize: 16, paddingLeft: 0, paddingTop: 10 }}>
                 <div>{pageItemDetails['Body'] ? parse(pageItemDetails['Body']) : ""}</div>
               </div>
-              {renderComments(pageItemDetails, selectedTab)}
+              {renderComments(pageItemDetails, selectedTab, true, renderApprovedButton, renderRejectedButton)}
             </div>
           </div >
         )
@@ -135,7 +156,7 @@ export default function PageItemDetails(props) {
     }
     else
       return <div style={{ display: 'flex', flexDirection: 'column', flex: '1', marginBottom: '10px', overflowY: 'auto' }}>
-        {renderComments(pageItemDetails, selectedTab)}
+        {renderComments(pageItemDetails, selectedTab, true, renderApprovedButton, renderRejectedButton)}
       </div>
   }
 
@@ -143,34 +164,15 @@ export default function PageItemDetails(props) {
     <div style={{ display: 'flex', flexDirection: 'row', height: 'auto', overflowY: 'hidden', overflowX: 'hidden' }}>
       {<div
         className={selectedTab === 0 ? 'selected-tab' : (hoveredKey === 0 ? 'hovered-tab' : 'tab')}
-        onClick={(e) => {
-          setSelectedTab(0)
-        }}
+        onClick={(e) => { setSelectedTab(0) }}
         onMouseEnter={(e) => setHoveredKey(0)}
         onMouseLeave={(e) => { setHoveredKey(-1) }}>
         ΠΕΡΙΕΧΟΜΕΝΟ
       </div>}
-      {<div
-        className={selectedTab === 1 ? 'selected-tab' : (hoveredKey === 1 ? 'hovered-tab' : 'tab')}
-        onClick={(e) => { setSelectedTab(1); }}
-        onMouseEnter={(e) => setHoveredKey(1)}
-        onMouseLeave={(e) => { setHoveredKey(-1) }}>
-        ({numberOfApprovedComments || 0}) ΕΓΚΕΚΡΙΜΜΕΝΑ ΣΧΟΛΙΑ
-      </div>}
-      {<div
-        className={selectedTab === 2 ? 'selected-tab' : (hoveredKey === 2 ? 'hovered-tab' : 'tab')}
-        onClick={(e) => { setSelectedTab(2); }}
-        onMouseEnter={(e) => setHoveredKey(2)}
-        onMouseLeave={(e) => { setHoveredKey(-1) }}>
-        ({numberOfRejectedComments || 0}) ΑΠΟΡΡΙΠΤΕΑ ΣΧΟΛΙΑ
-      </div>}
-      {<div
-        className={selectedTab === 3 ? 'selected-tab' : (hoveredKey === 3 ? 'hovered-tab' : 'tab')}
-        onClick={(e) => { setSelectedTab(3); }}
-        onMouseEnter={(e) => setHoveredKey(3)}
-        onMouseLeave={(e) => { setHoveredKey(-1) }}>
-        ({numberOfCommentsToBeApproved || 0}) ΣΧΟΛΙΑ ΠΡΟΣ ΕΚΓΡΙΣΗ
-      </div>}
+      {renderTab(1, 'ΕΓΚΕΚΡΙΜΜΕΝΑ ΣΧΟΛΙΑ', pageItemDetails && pageItemDetails.comments && pageItemDetails.CommentNeedsApproval === 0 ?
+        pageItemDetails.comments.length : numberOfApprovedComments)}
+      {renderTab(2, 'ΑΠΟΡΡΙΠΤΕΑ ΣΧΟΛΙΑ', numberOfRejectedComments)}
+      {renderTab(3, 'ΣΧΟΛΙΑ ΠΡΟΣ ΕΓΚΡΙΣΗ', numberOfCommentsToBeApproved)}      
     </div>
     {getTabContent()}
   </div>

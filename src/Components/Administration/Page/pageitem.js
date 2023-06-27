@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Grid, Typography, Paper } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { filterValue } from '../../../Helper/helpermethods';
 import { getAdminItemStyle } from '../../Common/styles';
-//import styles from './styles.css';
 
 function changeSelectedItem(dispatch, props, item) {
   if (props.isSearchMode === true)

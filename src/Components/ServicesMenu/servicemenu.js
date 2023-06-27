@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { getServiceItems, getServiceItemsByGroup } from '../../Redux/Actions/index';
-import { getCategories } from '../../Redux/Actions/index';
-import { getHostUrl } from '../../Helper/helpermethods';
-import { includeStrings } from '../../Helper/helpermethods';
+
+import { getServiceItems, getServiceItemsByGroup, getCategories } from '../../Redux/Actions/index';
+import { getHostUrl, renderHtml, includeStrings } from '../../Helper/helpermethods';
 import store from '../../Redux/Store/store';
-import parse from 'html-react-parser';
 import ServicesSearchBar from '../Search/servicessearchbar';
 
 var itemIds = [];
@@ -234,7 +231,7 @@ function ServicesMenu() {
               {
                 (searchValue === '' || searchValue === undefined || searchValue === null) && groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
                   return <div key={index} style={{ margin: '20px' }}>
-                    {parse(d.Description || '')}
+                    {renderHtml(d.Description)}
                   </div>
                 })
               }

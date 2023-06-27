@@ -29,6 +29,7 @@ export default function CreatePageComment(props) {
       onSubmit={(e) => {
         setLoading(true);
         e.preventDefault();
+
         var data = {};
         data.pageid = pageInfo.Id;
         data.firstname = firstname;
@@ -36,14 +37,14 @@ export default function CreatePageComment(props) {
         data.direction = direction;
         data.department = department;
         data.content = content;
+        data.isapproved = pageInfo.CommentNeedsApproval === 0 ? 1 : 0;
         data.url = pageInfo.Url;
-        data.pagename = pageInfo.Url;
 
         dispatch(addPageComment(data)).then(response => {
           var snackbarInfo = {};
           snackbarInfo.openMessage = true;
           if (response.value.success === true) {
-            snackbarInfo.message = 'H υποβολή σχολίου έγινε επιτυχώς!';
+            snackbarInfo.message = 'H υποβολή σχολίου έγινε επιτυχώς!' + (pageInfo.CommentNeedsApproval === 1 ? 'Αναμένεται έγκριση!' : '');
             snackbarInfo.variant = 'success';
           } else if (response.value.success === false) {
             snackbarInfo.message = response.value.message;
@@ -57,7 +58,7 @@ export default function CreatePageComment(props) {
           setDepartment('');
           
           var data = {};
-          data.pagename = pageInfo.Url;
+          data.url = pageInfo.Url;
           dispatch(getPageInfo(data));
           store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
         }).catch(error => {

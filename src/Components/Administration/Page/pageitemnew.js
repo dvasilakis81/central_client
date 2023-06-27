@@ -31,6 +31,7 @@ export default function PageItemNew(props) {
   const [pageBodyInitial, setPageBodyInitial] = useState('');
   const [pageBody, setPageBody] = useState('');  
   const [canComment, setCanComment] = useState(false);
+  const [commentNeedsApproval, setCommentNeedsApproval] = useState(false);
   const [pageId, setPageId] = useState('');
   const [tabs, setTabs] = useState([]);
   let newItemAdded = useSelector((state) => state.page_reducer.newItemAdded);
@@ -47,8 +48,9 @@ export default function PageItemNew(props) {
       setPageUrl(pageItemDetails?.Url || '');
       setPageBodyInitial(pageItemDetails?.Body || '');
       setPageBody(pageItemDetails?.Body || '');      
-      setCanComment(pageItemDetails?.CanComment || '');
-
+      setCanComment(pageItemDetails?.CanComment || 0);
+      setCommentNeedsApproval(pageItemDetails?.CommentNeedsApproval || 0);
+      
       if (pageItemsList && pageItemDetails && pageItemDetails.tabsInfo) {
         var tabsInfoOrdered = [...pageItemDetails.tabsInfo].sort((a, b) => a.taborder < b.taborder ? -1 : 1);
         for (var t = 0; t < tabsInfoOrdered.length; t++) {
@@ -79,13 +81,14 @@ export default function PageItemNew(props) {
               onClick={() => {
 
                 var data = {};
-                data.Id = pageId;
-                data.Title = pageTitle;
-                data.Body = pageBody;
-                data.Url = pageUrl;                
-                data.CanComment = canComment;
-                data.Tabs = [];
-                tabs.map((item) => { data.Tabs.push(item); })
+                data.id = pageId;
+                data.title = pageTitle;
+                data.body = pageBody;
+                data.url = pageUrl;
+                data.cancomment = canComment;
+                data.commentneedsapproval = commentNeedsApproval;
+                data.tabs = [];
+                tabs.map((item) => { data.tabs.push(item); })
 
                 if (location && location.state && location.state.isNew === 2)
                   dispatch(editPageItem(data));
@@ -118,8 +121,6 @@ export default function PageItemNew(props) {
                       value={pageTitle}
                       onChange={(e) => { setPageTitle(e.target.value); }}
                       variant="outlined"
-                    // inputLabelProps={{ background: "white", shrink: true }}
-                    // InputLabelProps={{ shrink: true }} 
                     />
                   </div>
                   <div style={{ padding: '10px' }}>
@@ -169,6 +170,15 @@ export default function PageItemNew(props) {
                           onChange={e => setCanComment(e.target.checked)}
                           inputProps={{ 'aria-label': 'controlled' }} />
                         <span>Επιτρέπονται Σχόλια</span>
+                      </div>
+                      <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
+                        <Checkbox
+                          defaultChecked={false}
+                          color='primary'
+                          checked={commentNeedsApproval}
+                          onChange={e => setCommentNeedsApproval(e.target.checked)}
+                          inputProps={{ 'aria-label': 'controlled' }} />
+                        <span>Απαιτείται Έγκριση</span>
                       </div>
                     </div>
                   </div>

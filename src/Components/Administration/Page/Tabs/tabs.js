@@ -15,7 +15,7 @@ export default function PageTabs(props) {
       var payload = { tab: 0, item: pageItemDetails.tabsInfo[0] }
       store.dispatch({ type: 'SET_SELECTED_PAGE_TAB', payload: payload });
       var data = {};
-      data.pagename = pageItemDetails.tabsInfo[0].taburl;
+      data.url = pageItemDetails.tabsInfo[0].taburl;
       dispatch(getPageInfo(data));
     }
   }, [pageItemDetails]);
@@ -25,7 +25,7 @@ export default function PageTabs(props) {
     var payload = { tab: newValue, item: item }
     store.dispatch({ type: 'SET_SELECTED_PAGE_TAB', payload: payload });
     var data = {};
-    data.pagename = item.taburl;
+    data.url = item.taburl;
     dispatch(getPageInfo(data));
   };
 

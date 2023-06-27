@@ -2,7 +2,7 @@ export default function (state = {}, action, root) {
 
   if (action) {
     switch (action.type) {
-      case 'RESET_ACTION':      
+      case 'RESET_ACTION':
         state = {}
         break;
       case 'GET_PAGEITEMS_PENDING':
@@ -35,7 +35,7 @@ export default function (state = {}, action, root) {
         } else {
           if (serverResponse && serverResponse.length > 0) {
             var itemsList = serverResponse;
-            var itemDetails = itemsList ? itemsList[0] : undefined;            
+            var itemDetails = itemsList ? itemsList[0] : undefined;
             state = {
               ...state,
               requestPending: undefined,
@@ -56,7 +56,7 @@ export default function (state = {}, action, root) {
           }
         }
         break;
-      case 'GET_PAGEITEMS_REJECTED':      
+      case 'GET_PAGEITEMS_REJECTED':
         state = {
           ...state,
           requestPending: undefined,
@@ -65,7 +65,7 @@ export default function (state = {}, action, root) {
           pageItemDetails: undefined
         };
         break;
-      case 'SET_PAGEITEM_DETAIL':        
+      case 'SET_PAGEITEM_DETAIL':
         state = {
           ...state,
           pageItemDetails: action.payload
@@ -138,8 +138,8 @@ export default function (state = {}, action, root) {
         };
         break;
       case 'EDIT_PAGEITEM_FULFILLED':
-        
-      var serverResponse = action.payload;
+
+        var serverResponse = action.payload;
         if (serverResponse && serverResponse.errormessage) {
 
           state = {
@@ -151,7 +151,7 @@ export default function (state = {}, action, root) {
           };
         } else {
           const updatedList = [];
-          if (state.pageItemsList) {            
+          if (state.pageItemsList) {
             state.pageItemsList.forEach((item, index) => {
               if (item.Id === serverResponse.Id)
                 updatedList.push(serverResponse);
@@ -160,7 +160,7 @@ export default function (state = {}, action, root) {
             });
           }
 
-          var pageItemDetails = serverResponse || (state.pageItemDetails || (updatedList ? updatedList[0] : undefined));          
+          var pageItemDetails = serverResponse || (state.pageItemDetails || (updatedList ? updatedList[0] : undefined));
           state = {
             ...state,
             itemChanged: true,
@@ -236,6 +236,45 @@ export default function (state = {}, action, root) {
             requestRejected: undefined,
             requestServerError: undefined,
             pageTabInfo: action.payload
+          };
+        }
+        break;
+      case 'APPROVE_REJECT_PAGE_COMMENT_PENDING':
+        break;
+      case 'APPROVE_REJECT_PAGE_COMMENT_REJECTED':
+        break;
+      case 'APPROVE_REJECT_PAGE_COMMENT_FULFILLED':
+        var serverResponse = action.payload;
+        if (serverResponse && serverResponse.errormessage) {
+
+          state = {
+            ...state,
+            itemChanged: false,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: serverResponse.errormessage
+          };
+        } else {
+          var pageitem = serverResponse.data;
+          const updatedList = [];
+          if (state.pageItemsList) {
+            state.pageItemsList.forEach((item, index) => {
+              if (item.Id === pageitem.Id)
+                updatedList.push(pageitem);
+              else
+                updatedList.push(item);
+            });
+          }
+
+          var pageItemDetails = pageitem || (state.pageItemDetails || (updatedList ? updatedList[0] : undefined));
+          state = {
+            ...state,
+            itemChanged: true,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: undefined,
+            pageItemsList: updatedList,
+            pageItemDetails: pageItemDetails
           };
         }
         break;

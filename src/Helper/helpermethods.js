@@ -606,8 +606,6 @@ export function filterValue(fields, searchValue) {
 
 	return ret;
 }
-
-
 export function includeStrings(str1, searchvalue) {
 	var ret = false;
 
@@ -693,7 +691,6 @@ export function ignoreTonousAndLowercase(searchValue) {
 
 	return ret.toLowerCase();
 }
-
 export function renderImage(itemtype, item) {
 	var imageMenu = item.ImageMenu;
 	var imageService = item.ImageService;
@@ -738,7 +735,6 @@ export function renderImage(itemtype, item) {
 
 	return <></>;
 }
-
 function renderValueUrl(value) {
 
 	if (value && (value.startsWith('http://') || value.startsWith('https://')))
@@ -746,15 +742,13 @@ function renderValueUrl(value) {
 	else
 		return <a href={getHostUrl() + value} target='_blank'><span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{getHostUrl() + value}</span></a>
 }
-
 function renderValue(value) {
 	return <span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{value}</span>
 }
-function renderHtml(value) {
+export function renderHtml(value) {
 	//return <span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{parse(value)}</span>
-	return parse(value)
+	return parse(value || '')
 }
-
 export function renderCheckbox(value) {
 
 	return <span style={{ marginLeft: '15px' }}>

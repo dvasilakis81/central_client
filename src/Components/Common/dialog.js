@@ -5,7 +5,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { deleteItem } from '../../../Redux/Actions/index';
+import { deleteItem } from '../../Redux/Actions/index';
 
 export default function MyDialog(props) {
 
