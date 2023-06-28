@@ -11,6 +11,7 @@ import { inputTextfieldStyle } from '../Styles/styles';
 import { addPageComment } from '../../Redux/Actions/index';
 import store from '../../Redux/Store/store';
 import { getPageInfo } from '../../Redux/Actions';
+import { showSnackbarMessage } from '../Common/methods';
 
 export default function CreatePageComment(props) {
   const dispatch = useDispatch();
@@ -27,55 +28,62 @@ export default function CreatePageComment(props) {
   if (pageInfo && pageInfo.CanComment === 1)
     return <form style={{ display: 'flex', flexDirection: 'column', border: '1px dashed blue', padding: '10px' }}
       onSubmit={(e) => {
-        setLoading(true);
         e.preventDefault();
 
-        var data = {};
-        data.pageid = pageInfo.Id;
-        data.firstname = firstname;
-        data.lastname = lastname;
-        data.direction = direction;
-        data.department = department;
-        data.content = content;
-        data.isapproved = pageInfo.CommentNeedsApproval === 0 ? 1 : 0;
-        data.url = pageInfo.Url;
+        setLoading(true);
+        if (content && content !== '<p><br></p>') {
 
-        dispatch(addPageComment(data)).then(response => {
-          var snackbarInfo = {};
-          snackbarInfo.openMessage = true;
-          if (response.value.success === true) {
-            snackbarInfo.message = 'H υποβολή σχολίου έγινε επιτυχώς!' + (pageInfo.CommentNeedsApproval === 1 ? 'Αναμένεται έγκριση!' : '');
-            snackbarInfo.variant = 'success';
-          } else if (response.value.success === false) {
-            snackbarInfo.message = response.value.message;
-            snackbarInfo.variant = 'error';
-          }
-
-          setLoading(false);
-          setFirstname('');
-          setLastname('');
-          setDirection('');
-          setDepartment('');
-          
           var data = {};
+          data.pageid = pageInfo.Id;
+          data.firstname = firstname;
+          data.lastname = lastname;
+          data.direction = direction;
+          data.department = department;
+          data.content = content;
+          data.isapproved = pageInfo.CommentNeedsApproval === 0 ? 1 : 0;
           data.url = pageInfo.Url;
-          dispatch(getPageInfo(data));
-          store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
-        }).catch(error => {
 
-          var msg = 'Αποτυχία σύνδεσης στον διακομιστή!';
-          var snackbarInfo = {};
-          snackbarInfo.openMessage = true;
-          snackbarInfo.message = <div>{msg}</div>;
-          snackbarInfo.variant = 'error';
+          dispatch(addPageComment(data)).then(response => {
+            var snackbarInfo = {};
+            snackbarInfo.openMessage = true;
+            if (response.value.success === true) {
+              snackbarInfo.message = 'H υποβολή σχολίου έγινε επιτυχώς!' + (pageInfo.CommentNeedsApproval === 1 ? 'Αναμένεται έγκριση!' : '');
+              snackbarInfo.variant = (pageInfo.CommentNeedsApproval === 1 ? 'info' : 'success');
+            } else if (response.value.success === false) {
+              snackbarInfo.message = response.value.message;
+              snackbarInfo.variant = 'error';
+            }
 
+            setLoading(false);
+            setFirstname('');
+            setLastname('');
+            setDirection('');
+            setDepartment('');
+
+            var data = {};
+            data.url = pageInfo.Url;
+            dispatch(getPageInfo(data));
+            store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+
+          }).catch(error => {
+
+            var msg = 'Αποτυχία σύνδεσης στον διακομιστή!';
+            var snackbarInfo = {};
+            snackbarInfo.openMessage = true;
+            snackbarInfo.message = <div>{msg}</div>;
+            snackbarInfo.variant = 'error';
+
+            setLoading(false);
+            setFirstname('');
+            setLastname('');
+            setDirection('');
+            setDepartment('');
+            store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+          });
+        } else {
           setLoading(false);
-          setFirstname('');
-          setLastname('');
-          setDirection('');
-          setDepartment('');
-          store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
-        });
+          showSnackbarMessage(undefined, 'Παρακάλω συμπληρώστε κάποιο σχόλιο');
+        }
       }}>
       <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
         <TextField
@@ -126,14 +134,18 @@ export default function CreatePageComment(props) {
       <div style={{ marginTop: '30px' }}>
         <ReactQuill
           value={content}
-          onChange={setContent}
+          onChange={(e) => { setContent(e); }}
         />
       </div>
       <div style={{ marginTop: '20px' }}>
-        <Button
-          disabled={false}
+        <Button          
           type='submit'
-          style={{ fontSize: '18px', textAlign: 'center', backgroundColor: 'blue', color: 'white' }}>
+          style={{
+            fontSize: '18px',
+            textAlign: 'center',
+            backgroundColor: 'blue', 
+            color: 'white'
+          }}>
           {loading && <CircularProgress size={18} style={{ color: 'white' }} />}
           {!loading && 'ΥΠΟΒΟΛΗ NEOY ΣΧΟΛΙΟΥ'}
         </Button>

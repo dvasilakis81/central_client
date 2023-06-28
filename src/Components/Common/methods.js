@@ -6,17 +6,21 @@ import { getDateFormat, renderHtml } from '../../Helper/helpermethods';
 export function showSnackbarMessage(response, message) {
   var snackbarInfo = {};
   snackbarInfo.openMessage = true;
-  if (response.value.success === true) {
-    snackbarInfo.message = message;
-    snackbarInfo.variant = 'success';
+  if (response) {
+    if (response.value.success === true) {
+      snackbarInfo.message = message;
+      snackbarInfo.variant = 'success';
+    } else {
+      snackbarInfo.message = 'H προσπάθεια απέτυχε! ' + (response.value.message || '');
+      snackbarInfo.variant = 'error';
+    }
   } else {
-    snackbarInfo.message = 'H προσπάθεια απέτυχε! ' + (response.value.message || '');
-    snackbarInfo.variant = 'error';
+    snackbarInfo.message = message;
+    snackbarInfo.variant = 'info';
   }
 
   store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
 }
-
 export function showFailedConnectWithServerMessage(error) {
   var snackbarInfo = {};
   snackbarInfo.openMessage = true;
@@ -24,7 +28,6 @@ export function showFailedConnectWithServerMessage(error) {
   snackbarInfo.variant = 'error';
   store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
 }
-
 export function renderComments(pageItemDetails, selectedTab, showActions, renderApprovedButton, renderRejectedButton) {
   if (pageItemDetails && pageItemDetails.comments) {
     var commentsToRender = [];
@@ -42,13 +45,16 @@ export function renderComments(pageItemDetails, selectedTab, showActions, render
     if (commentsToRender) {
       return commentsToRender.map((item, index) => {
         return <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
-          <div style={{ display: 'flex', flexDirection: 'row', flex: '1', background: '#0072A0', paddisdfng: '5px', fontWeight: 'bold', fontSize: '1rem', padding: '10px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', flex: '1', background: '#0072A0', padding: '5px', fontWeight: 'bold' }}>
-              <span style={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }}>{item.firstname} {item.lastname} {item.direction && item.department ? ',' : ''} {item.direction || ''} {item.direction ? '-' : ''} {item.department || ''}</span>
-              <div style={{ display: 'flex', flex: '1', justifyContent: 'start', color: 'white', marginleft: '15px', fontSize: '12px' }}><i>{getDateFormat(item.created)}</i></div>
+          <div style={{ display: 'flex', flexDirection: 'row', flex: '1', background: '#0072A0', fontWeight: 'bold', fontSize: '1rem', padding: '5px' }}>
+            <i className='fa fa-person' style={{ color: 'white', fontSize: '40px', padding: '5px' }}></i>
+            <div style={{ display: 'flex', flexDirection: 'column', flex: '1', background: '#0072A0', padding: '0px', fontWeight: 'bold' }}>
+              <span style={{ color: 'white', fontWeight: 'bold', fontSize: '25px' }}>{item.firstname} {item.lastname} {item.direction && item.department ? ',' : ''} {item.direction || ''} {item.direction ? '-' : ''} {item.department || ''}</span>
+              <div style={{ display: 'flex', flex: '1', justifyContent: 'start', color: 'white', marginleft: '15px', fontSize: '16px' }}><i>{getDateFormat(item.created)}</i></div>
             </div>
           </div>
-          <span>{renderHtml(item.content)}</span>
+          <span style={{ margin: '20px' }}>
+            {renderHtml(item.content)}
+          </span>
           {showActions === true ? <div className="flex-row">
             {renderApprovedButton(pageItemDetails, item)}
             <span style={{ marginLeft: '15px' }}></span>

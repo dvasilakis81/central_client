@@ -1,3 +1,11 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Tinos:wght@100;300;400&display=swap');
+
+.html{
+  -webkit-font-smoothing: 'antialiased';
+  text-rendering: 'optimizeLegibility';
+  text-size-adjust: '100%';
+}
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -54,7 +62,6 @@
   overflow-y: hidden;
   padding-left: 0px;
 }
-
 .services-menu-items {
   display: flex;
   flex-direction: row;
@@ -65,7 +72,6 @@
   align-content: flex-start;
   justify-content: center;
 }
-
 .service-menu-item-parent {
   display: flex;
   font-size: 16px;
@@ -85,7 +91,6 @@
   border-radius: 1px;
   margin-top: 10px;
 }
-
 .service-menu-item-child {
   display: flex;
   justify-content: center;
@@ -96,7 +101,6 @@
   padding: 5px;
   background-color: #9DD8EA;
 }
-
 .service-menu-item-child-hovered {
   display: flex;
   justify-content: center;
@@ -107,7 +111,6 @@
   padding: 5px;
   background-color: #2196F3;
 }
-
 .page-info-container {
   padding: 10px;
   display: flex;
@@ -117,13 +120,14 @@
   border-radius: 0px;
   opacity: 1; 
 }
-
 .page-title {
-  text-align: center;
+  display: flex;
+  flex: 1; 
+  justify-content: center;
+  align-items: 'center';  
   color: #094fa3;
   font-weight: bolder;
 }
-
 .centered {
   position: absolute;
   top: 30%;
@@ -135,19 +139,16 @@
   border-radius: 0px;
   white-space: pre-wrap;
 }
-
 .page-body {
   padding: 15px;
   overflow-y: auto;
 }
-
 .page-body-content {
   margin-top: 30px;
   padding: 0px;
   overflow-y: auto;
   font-size: 16px;
 }
-
 .tab {
   display: flex;
   align-items: center;
@@ -260,6 +261,7 @@
   background: #1434A4;
   background: #f4f6f7;
   background: #094fa3;
+  background-color: #e7e7e7;
 }
 
 .menu-body {
@@ -272,8 +274,8 @@
   border-radius: 0px;
   opacity: 1;
   padding-top: 20px;
-  color: #094fa3;
-  background: #f4f6f7;
+  color: #094fa3;  
+  background: #e7e7e7;
   overflow-y: auto;
 }
 
@@ -369,7 +371,7 @@
   height: 50px;
 }
 
-.div-frame {
+.div-services-frame {
   display: flex;
   flex: 0.8;
   flex-direction: column;
@@ -378,7 +380,7 @@
   border: 5px solid #87CEEB;
   overflow-y: hidden;
   padding-bottom: 30px;
-  max-height: 80%;
+  max-height: 70%;
 }
 
 @media only screen and (min-width: 2000px) {
@@ -398,7 +400,7 @@
     flex: 1;
     font-weight: bolder;
     cursor: pointer;
-    background: #f4f6f7;
+    background: #e7e7e7;
     font-size: 1.3rem;
     padding-left: 5px;
     padding-top: 6px;
@@ -411,8 +413,8 @@
     flex: 1;
     font-weight: bolder;
     cursor: pointer;
-    color: white;
-    background: #2196F3;
+    color: #e7e7e7;
+    background: #094fa3;
     font-size: 1.3rem;
     padding-left: 5px;
     padding-top: 6px;
@@ -420,7 +422,6 @@
     line-height: 30px;
   }
 }
-
 @media only screen and (max-width: 1920px) {
 
   .selected-tab,
@@ -431,47 +432,41 @@
     width: 220px;
     cursor: pointer;
   }
-
   .group-services-item-hovered,
   .group-services-item {
     font-size: 20px;
     padding: 10px;
   }
-
   .selected-service-title {
     font-size: 24px;
   }
-
   .menuItemImage {
     font-size: 26px;
     font-weight: bolder;
     min-width: 30px;
     max-width: 30px;
   }
-
   .services-menu-announcement-container {
     transform: scale(1);
   }
-
   .menu-item {
     display: flex;
     flex: 1;
     font-weight: bolder;
     cursor: pointer;
-    background: #f4f6f7;
+    background: #e7e7e7;
     font-size: 1.3rem;
     padding-left: 5px;
     padding-top: 12px;
     padding-bottom: 12px;
   }
-
   .menu-item-hovered {
     display: flex;
     flex: 1;
     font-weight: bolder;
     cursor: pointer;
-    color: white;
-    background: #2196F3;
+    color: #e7e7e7;
+    background: #094fa3;
     font-size: 1.3rem;
     padding-left: 5px;
     padding-top: 12px;
@@ -482,13 +477,11 @@
     font-size: 2rem;
   }
 }
-
 @media only screen and (max-width: 1366px) {
 
   .menuItemName,
   .selected-tab,
   .tab,  
-
   .selected-tab,
   .tab,
   .hovered-tab {
@@ -497,133 +490,117 @@
     width: 140px;
     cursor: pointer;
   }
-
   .group-services-item-hovered,
   .group-services-item {
     font-size: 16px;
     padding: 8px;
   }
-
   .selected-service-title {
     font-size: 20px;
   }
-
   .service-menu-item-parent {
     max-height: 70px;
     transform: scale(0.8);
   }
-
   .services-menu-announcement-container {
     transform: scale(0.8);
   }
-
   .menuItemImage {
     font-size: 1.2rem;
     font-weight: bolder;
     min-width: 24px;
     max-width: 24px;
   }
-
   .menu-item {
     display: flex;
     flex: 1;
     font-weight: bolder;
     cursor: pointer;
-    background: #f4f6f7;
+    color: #094fa3;
+    background: #e7e7e7;
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
   }
-
   .menu-item-hovered {
     display: flex;
     flex: 1;
     font-weight: bolder;
     cursor: pointer;
-    color: white;
-    background: #2196F3;
+    color: #e7e7e7;
+    background: #094fa3;
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
   }
-
   .page-title {
     font-size: 1.7rem;
   }
-
 }
-
 @media only screen and (max-width: 900px) {
   body {
     background-color: lightblue;
   }
-
   .menuItemImage {
     font-size: 1.2rem;
     font-weight: bolder;
     min-width: 24px;
     max-width: 24px;
   }
-
   .menu-item {
     display: flex;
     flex: 1;
     font-weight: bolder;
     cursor: pointer;
-    background: #f4f6f7;
+    background: #e7e7e7;    
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
   }
-
   .menu-item-hovered {
     display: flex;
     flex: 1;
     font-weight: bolder;
     cursor: pointer;
-    color: white;
-    background: #2196F3;
+    color: #e7e7e7;
+    background: #094fa3;
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
   }
 }
-
 @media only screen and (max-width: 200px) {
   body {
     background-color: lightblue;
   }
-
   .menuItemImage {
     font-size: 1.2rem;
     font-weight: bolder;
     min-width: 24px;
     max-width: 24px;
   }
-
   .menu-item {
     display: flex;
     flex: 1;
     font-weight: bolder;
     cursor: pointer;
-    background: #f4f6f7;
+    background: #e7e7e7;
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
   }
-
   .menu-item-hovered {
     display: flex;
     flex: 1;
     font-weight: bolder;
     cursor: pointer;
-    color: white;
-    background: #2196F3;
+    color: #e7e7e7;
+    background: #094fa3;
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;

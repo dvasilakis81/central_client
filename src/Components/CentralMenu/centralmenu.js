@@ -26,7 +26,7 @@ function CentralMenu() {
       //return (hoveredKey === d ? 'menu-item-hovered' : 'menu-item');
   }
   function getImageClassName(ImageMenu){
-    return ImageMenu + ' menuItemImage' 
+    return ImageMenu + ' menuItemImage' ;
   }
   return (
     <div className='menu-body'>
@@ -40,10 +40,12 @@ function CentralMenu() {
               onMouseEnter={(e) => handleMouseEnter(e, d)}
               onMouseLeave={handleMouseLeave}
               onClick={() => {
+                
                 if (d.Url)
                   window.open(d.Url, '_blank', 'noreferrer');
                 else {
                   store.dispatch({ type: 'SET_SELECTED_CENTRAL_MENU', payload: d })
+                  store.dispatch({ type: 'SET_HEADER_TITLE', payload: d.Name })
                   if (d.PageUrl)
                     navigate('/' + d.PageUrl);
                   else
@@ -51,7 +53,6 @@ function CentralMenu() {
                 }
               }}>
               <span>&nbsp;&nbsp;</span>
-              {/* <i className={d.ImageMenu} style={{ fontSize: '26px', fontWeight: 'bolder', minWidth: '30px', maxWidth: '30px' }}></i> */}
               <i className={getImageClassName(d.ImageMenu)}></i>
               <span style={{ flex: '1', marginLeft: '15px' }}>
                 {d.Name}

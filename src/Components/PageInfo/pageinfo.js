@@ -26,10 +26,7 @@ export default function PageInfo() {
   }, [history]);
 
   return <HomeWrapperWithCentralMenu2>
-    <div className='page-info-container'>
-      <div className='page-title'>
-        {pageInfo && pageInfo.Title}
-      </div>
+    <div className='page-info-container'>      
       <div className='page-body'>
         <PageTabs pageinfo={pageInfo} />
         <div className='page-body-content'>

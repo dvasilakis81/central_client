@@ -296,6 +296,12 @@ export default function (state = {}, action, root) {
           requestServerError: undefined
         };
         break;
+      case 'SET_HEADER_TITLE':
+        state = {
+          ...state,
+          headerTitleValue: action.payload          
+        };
+        break;
       case 'DELETE_CATEGORY_FULFILLED':
         var serverResponse = action.payload;
         if (serverResponse) {

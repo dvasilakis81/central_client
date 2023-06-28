@@ -5,9 +5,10 @@ import thyraios from '../Images/thyraios.png';
 import store from '../../Redux/Store/store';
 
 export default function Header(props) {
-  const headerHeight = getHeaderHeight();  
+  const headerHeight = getHeaderHeight();
   const { token } = useSelector(state => ({ token: state.token_reducer.token }));
-  const [isMenuOpen, setIsMenuOpen] = useState(false);  
+  const { headerTitleValue } = useSelector(state => ({ headerTitleValue: state.parametricdata_reducer.headerTitleValue }));
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef();
   const popupRef = useRef();
   const [userInfoVisible, setUserInfoVisible] = useState('');
@@ -24,20 +25,11 @@ export default function Header(props) {
         setUserInfoVisible(true);
     }
   }, []);
-  const styles = {
+
+  const styles = {    
     header: {
       width: '100%',
-      backgroundColor: '#1b7ced',
-      verticalAlign: 'center',
-      display: "flex",
-      flex: 1,
-      flexDirection: 'row',
-      padding: 0,
-      height: headerHeight
-    },
-    header2: {
-      width: '100%',
-      backgroundColor: '#f4f6f7',
+      backgroundColor: '#e7e7e7',
       justifyContent: 'left',
       alignItems: 'center',
       display: "flex",
@@ -52,17 +44,9 @@ export default function Header(props) {
       padding: 10,
       fontSize: 36,
       color: '#094fa3',
-      textAlign: 'center',
-      alignSelf: 'center'
-    },
-    headerSearchBar: {
-      marginLeft: 10,
-      fontSize: 24,
-      textAlign: 'center',
-      flexGrow: 0.5,
-      width: '300px',
-      alignSelf: 'center',
-      borderTop: '1px darkblue solid',
+      textAlign: 'left',
+      alignSelf: 'left',
+      verticalAlign: 'middle'
     }
   }
   function renderUserInfo() {
@@ -70,7 +54,7 @@ export default function Header(props) {
       return <div style={{ display: 'flex', flex: 1, justifyContent: 'right', alignItems: 'center', marginRight: '20px' }}>
         <div
           ref={menuRef}
-          onClick={(e) => {            
+          onClick={(e) => {
             if (isMenuOpen === true)
               setIsMenuOpen(false);
             else
@@ -127,25 +111,16 @@ export default function Header(props) {
       </div>
     }
   }
-  return <div style={styles.header2}>
-    <div style={{ minWidth: '500px', maxWidth: '500px' }}>
+  return <header style={styles.header}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <img src={thyraios} alt="Δήμος Αθηναίων" width='50px' height='50px' />
-    </div>
-    <div style={styles.headerTitle}>
-      Κεντρική Σελίδα Δήμου Αθηναίων
-    </div>
-    {renderUserInfo()}
-    {/* <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <span style={{
-        verticalAlign: 'center',
-        fontSize: '24px',
-      }}>
-        <i className="fa fa-magnifying-glass" />
+      <span style={styles.headerTitle}>
+        Κεντρική Σελίδα Δήμου Αθηναίων
       </span>
-      <input
-        style={styles.headerSearchBar}
-        type='text' />
-    </div> */}
-    {/* <ServicesSearchBar /> */}
-  </div>
+    </div>
+    <div className='page-title'>
+      {headerTitleValue}
+    </div>        
+    {renderUserInfo()}    
+  </header>
 }

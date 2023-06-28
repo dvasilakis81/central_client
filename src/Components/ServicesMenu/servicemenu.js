@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 
+import Card from '@material-ui/core/Button';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+
 import { getServiceItems, getServiceItemsByGroup, getCategories } from '../../Redux/Actions/index';
 import { getHostUrl, renderHtml, includeStrings } from '../../Helper/helpermethods';
 import store from '../../Redux/Store/store';
@@ -215,8 +219,8 @@ function ServicesMenu() {
         alignItems: 'flex-start',
         marginTop: '30px'
       }}>
-        <div className='div-frame'>
-          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexBasis: 'fit-content'}}>
+        <div className='div-services-frame'>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexBasis: 'fit-content' }}>
             <div className='selected-service-title'>
               {getTitle()}
             </div>
@@ -228,13 +232,29 @@ function ServicesMenu() {
               </div>
             </div>
             <div className='services-menu-announcement-container'>
-              {
+            {
                 (searchValue === '' || searchValue === undefined || searchValue === null) && groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
                   return <div key={index} style={{ margin: '20px' }}>
                     {renderHtml(d.Description)}
                   </div>
                 })
               }
+              {/* <div style={{ margin: '20px', display: 'flex', flexDirection: 'row', flex: 1 }}>
+                {
+                  (searchValue === '' || searchValue === undefined || searchValue === null) &&
+                  groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
+                    return <Card key={index} sx={{ maxWidth: '200px', margin: '50px' }}>
+                      <CardContent>
+                        <Typography variant="body2" color="text.secondary">
+                          <div style={{ maxWidth: '200px' }}>
+                            {renderHtml(d.Description)}
+                          </div>
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  })
+                }
+              </div> */}
             </div>
           </div>
         </div>

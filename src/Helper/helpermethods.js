@@ -17,7 +17,6 @@ export function checkIfFileIsImage(imageName) {
 
 	return ret;
 }
-
 export function isTokenExpired(tokenjwt) {
 	var ret = false;
 
@@ -36,7 +35,6 @@ export function isTokenExpired(tokenjwt) {
 
 	return ret;
 }
-
 export function tokenExpiresAt(tokenjwt) {
 	var ret = ''
 
@@ -59,7 +57,6 @@ export function tokenExpiresAt(tokenjwt) {
 
 	return ret;
 }
-
 export function setDimensions(store) {
 	let windowDimensions = getWindowDimensions(window.innerWidth, window.innerHeight, document.getElementById('root').style.transform)
 	var dimensions = {};
@@ -68,13 +65,11 @@ export function setDimensions(store) {
 	store.dispatch({ type: 'SCREEN_DIMENSIONS', payload: dimensions })
 	return dimensions;
 }
-
 export function resetData(store) {
 	console.log('resetData just called')
 	store.dispatch({ type: 'RESET_ACTION', payload: null });
 	setDimensions(store);
 }
-
 export function getWindowDimensions(windowWidth, windowHeight, transform, zoom) {
 	var ret = []
 	var scale = transform.substring(6);
@@ -95,7 +90,6 @@ export function getWindowDimensions(windowWidth, windowHeight, transform, zoom) 
 
 	return ret;
 }
-
 export function getScreenWidth() {
 	let windowDimensions = getWindowDimensions(window.innerWidth, window.innerHeight, document.getElementById('root').style.transform)
 	return windowDimensions[0]['width'];
@@ -104,23 +98,19 @@ export function getScreenHeight() {
 	let windowDimensions = getWindowDimensions(window.innerWidth, window.innerHeight, document.getElementById('root').style.transform)
 	return windowDimensions[1]['height'];
 }
-
 export function getBodyHeight() {
 	let windowDimensions = getWindowDimensions(window.innerWidth, window.innerHeight, document.getElementById('root').style.transform)
 	return windowDimensions[1]['height'] - (getHeaderHeight() + getFooterHeight());
 }
-
 export function getConsultationsLimit(loadedContracts) {
 	let contractsItems = window.CONTRACTS_PAGING || process.env.REACT_APP_CONTRACTS_PAGING
 	if (loadedContracts && loadedContracts > contractsItems)
 		contractsItems = loadedContracts
 	return contractsItems;
 }
-
 export function getHostUrl() {
 	return window.SERVER_URL
 }
-
 export function getLoginUrl(url, isLdap, username, password) {
 	var ret = '';
 
@@ -131,16 +121,13 @@ export function getLoginUrl(url, isLdap, username, password) {
 
 	return ret;
 }
-
 const capitalize = (s) => {
 	if (typeof s !== 'string') return ''
 	return s.charAt(0).toUpperCase() + s.slice(1)
 }
-
 export function getFpaLabel(fpaValue) {
 	return 'Φ.Π.Α. ' + fpaValue + '%';
 }
-
 export function getServerErrorResponseMessage(serverError) {
 	var ret = '';
 	if (serverError.response) {
@@ -151,7 +138,6 @@ export function getServerErrorResponseMessage(serverError) {
 
 	return ret;
 }
-
 export function getFpaValueFromReservations(reservations) {
 	var ret = '';
 	if (reservations) {
@@ -160,7 +146,6 @@ export function getFpaValueFromReservations(reservations) {
 	}
 	return ret;
 }
-
 export function getStringInLower(input) {
 	let ret = '';
 
@@ -176,7 +161,6 @@ export function getStringInLower(input) {
 
 	return ret.trim();
 }
-
 export function addHostUrl(url) {
 	return getHostUrl() + url;
 }
