@@ -67,7 +67,7 @@ export default function Categories(props) {
     if (editMode === true) {
       return <>
         {/* <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div> */}
-        <div style={{ display: 'flex', flex: 0.95, flexDirection: 'column', margin: '10px', background: 'white' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', margin: '10px', background: 'white', justifyContent: 'center', alignItems: 'center' }}>
 
           <input style={{ textAlign: 'center', fontSize: '20px', marginTop: '20px', margin: '10px', padding: '10px', width: 'auto' }} type='text' value={item.Name} onChange={(e) => {
             var updatedCategoryItem = { val: e.target.value, Id: item.Id }
@@ -192,7 +192,7 @@ export default function Categories(props) {
       </>
     else {
       return <>
-        <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div>
+        <div style={{ flex: 0.95 }}>{item.Name}</div>
         <>
           <Button variant="contained"
             style={{ margin: '5px', background: '#17d3cd', textTransform: 'none', fontSize: '16px' }}
@@ -330,30 +330,43 @@ export default function Categories(props) {
     return <div
       ref={wrapperRef}
       style={{
-        width: getScreenWidth() / 2,
-        height: getScreenHeight() / 2,
+        width: '90%',
+        height: '80%',
         position: 'absolute',
-        left: getScreenWidth() / 4,
-        right: getScreenHeight() / 2,
+        left: getScreenWidth() / 8,
         margin: '0 auto',
         border: '5px solid #00001B',
         display: 'flex',
         flexDirection: 'column',
         zIndex: 1
       }}>
-      <div style={{ background: '#0b0647', color: 'white', flex: 0.05, fontSize: '2.5rem' }}>{categoriesList?.length} Κατηγορίες</div>
+      <div style={{ background: '#0b0647', color: 'white', flex: 0.05, fontSize: '2.5rem' }}>
+        <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
+          <div style={{ flex: 0.9 }}>
+            {categoriesList?.length} Κατηγορίες
+          </div>
+          <div style={{ flex: 0.1 }}>
+          </div>
+        </div>
+      </div>
       <div style={{ overflowY: 'scroll', flex: 0.9, background: '#eeedfc' }}>
         {renderCategoriesList()}
       </div>
       {renderNewCategoryForm()}
-      <div style={{ flex: 0.05, backgroundColor: '#bebec2' }}>
-        <Button
-          disabled={false}
-          style={{ fontSize: '18px', textAlign: 'center' }}
-          onClick={() => { setNewItem(true); }}>
-          ΠΡΟΣΘΗΚΗ
-        </Button>
+      <div style={{ flex: 0.05, backgroundColor: 'white' }}>
+        <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
+          <div style={{ flex: 0.9 }}>
+            <Button
+              disabled={false}
+              style={{ fontSize: '26px', textAlign: 'center', border: '2px solid green', margin: '10px', color: 'green', fontWeight: 'bold' }}
+              onClick={() => { setNewItem(true); }}>
+              ΠΡΟΣΘΗΚΗ
+            </Button>
+          </div>
+          <div style={{ flex: 0.1 }}>
+          </div>
+        </div>
       </div>
       <MyDialog openDialog={openDeleteDialog} setOpenDialog={setOpenDeleteDialog} itemToDelete={itemToDelete} />
-    </div>
+    </div >
 }

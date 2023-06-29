@@ -7,7 +7,7 @@ export default function AdministrationPage() {
   
   return (
     <HomeWrapper>      
-      <AdministrationPageBody style={{ overflowY: 'hidden' }} />
+      <AdministrationPageBody style={{ overflowY: 'hidden' }} />      
     </HomeWrapper>
   );
 }

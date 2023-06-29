@@ -28,7 +28,7 @@ export function showFailedConnectWithServerMessage(error) {
   snackbarInfo.variant = 'error';
   store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
 }
-export function renderComments(pageItemDetails, selectedTab, showActions, renderApprovedButton, renderRejectedButton) {
+export function renderComments2(pageItemDetails, selectedTab, showActions, renderApprovedButton, renderRejectedButton) {
   if (pageItemDetails && pageItemDetails.comments) {
     var commentsToRender = [];
     if (selectedTab === 1) {
@@ -63,6 +63,53 @@ export function renderComments(pageItemDetails, selectedTab, showActions, render
           }
         </div>
       })
+    }
+    else
+      return <></>
+  }
+}
+
+function divComments(pageItemDetails, commentsToRender, showActions, renderApprovedButton, renderRejectedButton) {
+  return commentsToRender.map((item, index) => {
+    return <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div className='comment-item'>
+        <div className='comment-user'>
+          <span>{getDateFormat(item.created)}</span>
+          <span style={{ marginLeft: '5px' }}>| {item.firstname} {item.lastname} {item.direction && item.department ? ',' : ''} {item.direction || ''} {item.direction ? '-' : ''} {item.department || ''}</span>
+        </div>
+        <div style={{ marginTop: '5px' }}>
+          {renderHtml(item.content)}
+        </div>
+        {showActions === true ? <div className="flex-row">
+          {renderApprovedButton(pageItemDetails, item)}
+          <span style={{ marginLeft: '15px' }}></span>
+          {renderRejectedButton(pageItemDetails, item)}
+        </div> : <></>
+        }
+      </div>
+    </div>
+  })
+}
+
+export function renderComments(pageItemDetails, selectedTab, showActions, renderApprovedButton, renderRejectedButton) {
+  if (pageItemDetails && pageItemDetails.comments) {
+    var commentsToRender = [];
+    if (selectedTab === 1) {
+      if (pageItemDetails.CommentNeedsApproval === 1)
+        commentsToRender = pageItemDetails.comments.filter(comment => comment.isapproved === 1)
+      else
+        commentsToRender = pageItemDetails.comments
+    }
+    else if (selectedTab === 2)
+      commentsToRender = pageItemDetails.comments.filter(comment => comment.isrejected === 1)
+    else if (selectedTab === 3)
+      commentsToRender = pageItemDetails.comments.filter(comment => comment.isapproved === 0 && comment.isrejected === 0)
+
+    if (commentsToRender && commentsToRender.length > 0) {
+      return <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div class='comment-nav'>Σχόλια</div>
+        {divComments(pageItemDetails, commentsToRender, showActions, renderApprovedButton, renderRejectedButton)}
+      </div>
     }
     else
       return <></>

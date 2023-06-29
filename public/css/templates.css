@@ -127,6 +127,7 @@
   align-items: 'center';  
   color: #094fa3;
   font-weight: bolder;
+  padding: 10  
 }
 .centered {
   position: absolute;
@@ -379,22 +380,19 @@
   background: transparent;
   border: 5px solid #87CEEB;
   overflow-y: hidden;
-  padding-bottom: 30px;
-  max-height: 70%;
+  padding-bottom: 30px;  
 }
 
 @media only screen and (min-width: 2000px) {
   body {
     background-color: lightblue;
   }
-
   .menuItemImage {
     font-size: 1.3rem;
     font-weight: bolder;
     min-width: 24px;
     max-width: 24px;
   }
-
   .menu-item {
     display: flex;
     flex: 1;
@@ -407,7 +405,6 @@
     padding-bottom: 16px;
     line-height: 30px;
   }
-
   .menu-item-hovered {
     display: flex;
     flex: 1;
@@ -472,9 +469,11 @@
     padding-top: 12px;
     padding-bottom: 12px;
   }
-
   .page-title {
-    font-size: 2rem;
+    font-size: 36px;
+  }
+  .div-services-frame{
+    max-height: 70%;
   }
 }
 @media only screen and (max-width: 1366px) {
@@ -536,7 +535,10 @@
     padding-bottom: 6px;
   }
   .page-title {
-    font-size: 1.7rem;
+    font-size: 30px;
+  }
+  .div-services-frame{
+    max-height: 60%;
   }
 }
 @media only screen and (max-width: 900px) {
@@ -572,6 +574,9 @@
     padding-top: 6px;
     padding-bottom: 6px;
   }
+  .page-title {
+    font-size: 26x;
+  }
 }
 @media only screen and (max-width: 200px) {
   body {
@@ -605,5 +610,8 @@
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
+  }
+  .page-title {
+    font-size: 20x;
   }
 }

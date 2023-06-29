@@ -9,6 +9,7 @@ import store from '../../Redux/Store/store';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getMenuItems, getServiceItems, getPageItems, getMediaItems, getAnnouncements, getCategories, getUsers } from '../../Redux/Actions/index';
 import UserChangePassword from '../Administration/Users/userchangepassword';
+import Categories from './Categories/categories';
 
 export default function AdministrationPage(props) {
 
@@ -180,7 +181,7 @@ export default function AdministrationPage(props) {
           </div> : <></>}
         </div>
         {getTabMenu(selectedTab || 0)}
-        <UserChangePassword />
+        <UserChangePassword />        
       </div>
     );
 

@@ -9,11 +9,18 @@ import { showSnackbarMessage, showFailedConnectWithServerMessage, renderComments
 
 export default function PageItemDetails(props) {
   let pageItemDetails = useSelector((state) => state.page_reducer.pageItemDetails);
+
+  const [approvedButtonBackgroundColor, setApprovedButtonBackgroundColor] = useState('transparent');
+  const [approvedButtonColor, setApprovedButtonColor] = useState('green');
+  const [rejectedButtonBackgroundColor, setRejectedButtonBackgroundColor] = useState('transparent');
+  const [rejectedButtonColor, setRejectedButtonColor] = useState('orangered');
+  const [buttonItem, setButtonItem] = useState();    
   const [selectedTab, setSelectedTab] = useState(0);
   const [hoveredKey, setHoveredKey] = useState(-1);
   const [numberOfApprovedComments, setNumberOfApprovedComments] = useState(0);
   const [numberOfRejectedComments, setNumberOfRejectedComments] = useState(0);
   const [numberOfCommentsToBeApproved, setNumberOfCommentsToBeApproved] = useState(0);
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -41,7 +48,22 @@ export default function PageItemDetails(props) {
     if (page.CommentNeedsApproval === 1) {
       if ((item.isapproved === 0 && item.isrejected === 0) || item.isrejected === 1) {
         return <Button
-          style={{ backgroundColor: 'green', width: '100px', color: 'white', fontWeight: 'bold' }}
+          style={{
+            width: '100px',
+            backgroundColor: buttonItem === item ? approvedButtonBackgroundColor : 'transparent',
+            color: buttonItem === item ? approvedButtonColor: 'green',
+            border: '1px solid green',
+            fontWeight: 'bold'
+          }}
+          onMouseEnter={(e) => {
+            setButtonItem(item);
+            setApprovedButtonBackgroundColor('green');
+            setApprovedButtonColor('white');
+          }}
+          onMouseLeave={(e) => {
+            setApprovedButtonBackgroundColor('transparent');
+            setApprovedButtonColor('green');
+          }}
           onClick={() => {
 
             var data = {};
@@ -64,7 +86,21 @@ export default function PageItemDetails(props) {
     if (page.CommentNeedsApproval === 1) {
       if ((item.isapproved === 0 && item.isrejected === 0) || item.isapproved === 1) {
         return <Button
-          style={{ background: 'orangered', width: '100px', color: 'white', fontWeight: 'bold' }}
+          style={{ 
+            backgroundColor: buttonItem === item ? rejectedButtonBackgroundColor : 'transparent',
+            color: buttonItem === item ? rejectedButtonColor: 'orangered',            
+            width: '100px',             
+            fontWeight: 'bold', 
+            border: '1px solid orangered' }}
+          onMouseEnter={(e) => {
+            setButtonItem(item);
+            setRejectedButtonBackgroundColor('orangered');
+            setRejectedButtonColor('white');
+          }}
+          onMouseLeave={(e) => {
+            setRejectedButtonBackgroundColor('transparent');
+            setRejectedButtonColor('orangered');
+          }}
           onClick={() => {
 
             var data = {};
@@ -94,7 +130,7 @@ export default function PageItemDetails(props) {
         if (item.isapproved === 1)
           approvedComments += 1;
         if (item.isrejected === 1)
-          rejectedComments += 1;        
+          rejectedComments += 1;
         if (item.isapproved === 0 && item.isrejected === 0)
           commentsToBeApproved += 1;
       })
@@ -104,7 +140,6 @@ export default function PageItemDetails(props) {
     setNumberOfRejectedComments(rejectedComments);
     setNumberOfCommentsToBeApproved(commentsToBeApproved);
   }
-
   function renderTab(tabValue, tabTitle, numberOfComments) {
     var classValue = selectedTab === tabValue ? 'selected-tab' : (hoveredKey === 3 ? 'hovered-tab' : 'tab')
 
@@ -129,7 +164,6 @@ export default function PageItemDetails(props) {
       }
     }
   }
-
   function getTabContent() {
     if (selectedTab === 0) {
       if (pageItemDetails) {
@@ -172,7 +206,7 @@ export default function PageItemDetails(props) {
       {renderTab(1, 'ΕΓΚΕΚΡΙΜΜΕΝΑ ΣΧΟΛΙΑ', pageItemDetails && pageItemDetails.comments && pageItemDetails.CommentNeedsApproval === 0 ?
         pageItemDetails.comments.length : numberOfApprovedComments)}
       {renderTab(2, 'ΑΠΟΡΡΙΠΤΕΑ ΣΧΟΛΙΑ', numberOfRejectedComments)}
-      {renderTab(3, 'ΣΧΟΛΙΑ ΠΡΟΣ ΕΓΚΡΙΣΗ', numberOfCommentsToBeApproved)}      
+      {renderTab(3, 'ΣΧΟΛΙΑ ΠΡΟΣ ΕΓΚΡΙΣΗ', numberOfCommentsToBeApproved)}
     </div>
     {getTabContent()}
   </div>

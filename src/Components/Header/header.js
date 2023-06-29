@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { getHeaderHeight } from '../../Helper/helpermethods';
 import thyraios from '../Images/thyraios.png';
 import store from '../../Redux/Store/store';
+import Categories from '../Administration/Categories/categories';
 
 export default function Header(props) {
   const headerHeight = getHeaderHeight();
@@ -25,8 +26,7 @@ export default function Header(props) {
         setUserInfoVisible(true);
     }
   }, []);
-
-  const styles = {    
+  const styles = {
     header: {
       width: '100%',
       backgroundColor: '#e7e7e7',
@@ -42,7 +42,7 @@ export default function Header(props) {
     headerTitle: {
       flexGrow: 1,
       padding: 10,
-      fontSize: 36,
+      fontSize: '36px',
       color: '#094fa3',
       textAlign: 'left',
       alignSelf: 'left',
@@ -52,6 +52,7 @@ export default function Header(props) {
   function renderUserInfo() {
     if (userInfoVisible === true) {
       return <div style={{ display: 'flex', flex: 1, justifyContent: 'right', alignItems: 'center', marginRight: '20px' }}>
+        {renderAdminOptions()}
         <div
           ref={menuRef}
           onClick={(e) => {
@@ -109,8 +110,27 @@ export default function Header(props) {
             </div> : <></>
         }
       </div>
+    } else {
+      return <div className='page-title'>
+        {headerTitleValue}
+      </div>
     }
   }
+  function renderAdminOptions() {
+    return <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
+      <div style={{ marginRight: '20px' }}>
+        LOGS
+      </div>
+      <div
+        style={{ marginRight: '20px' }}
+        onClick={() => {
+          store.dispatch({ type: 'OPEN_CATEGORIES', payload: true })
+        }}>
+        ΚΑΤΗΓΟΡΙΕΣ
+      </div>      
+    </div>
+  }
+
   return <header style={styles.header}>
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <img src={thyraios} alt="Δήμος Αθηναίων" width='50px' height='50px' />
@@ -118,9 +138,6 @@ export default function Header(props) {
         Κεντρική Σελίδα Δήμου Αθηναίων
       </span>
     </div>
-    <div className='page-title'>
-      {headerTitleValue}
-    </div>        
-    {renderUserInfo()}    
+    {renderUserInfo()}
   </header>
 }
