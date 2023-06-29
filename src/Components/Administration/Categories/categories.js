@@ -67,7 +67,30 @@ export default function Categories(props) {
     if (editMode === true) {
       return <>
         {/* <div style={{ flex: 0.95, justifyContent: 'flex-start' }}>{item.Name}</div> */}
-        <div style={{ display: 'flex', flexDirection: 'column', margin: '10px', background: 'white', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ flex: 0.95, justifyContent: 'flex-start', background: '#FFFFE0' }}>
+          <input style={{ textAlign: 'center', fontSize: '20px', marginTop: '20px', margin: '10px', padding: '10px', width: '80%' }} type='text' value={item.Name} onChange={(e) => {
+            var updatedCategoryItem = { val: e.target.value, Id: item.Id }
+            store.dispatch({ type: 'UPDATE_CATEGORY_LIST_ITEM', payload: updatedCategoryItem })
+          }} />
+          <div style={{ textAlign: 'center', fontSize: '20px', marginLeft: '10px' }}>
+            <input type="checkbox" style={{ width: '30px', height: '30px' }} checked={checkedHasSubCategories} onChange={(e) => {
+              setCheckedHasSubCategories(!checkedHasSubCategories);
+            }} />
+            <label style={{ marginLeft: '10px' }}>Έχει υποκατηγορίες?</label>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'center', fontSize: '20px', marginLeft: '10px' }}>
+            <div>
+              <input type="checkbox" style={{ width: '30px', height: '30px' }} checked={checkedIsSubCategory} onChange={(e) => {
+                setCheckedIsSubCategory(!checkedIsSubCategory);
+              }} />
+              <label style={{ marginLeft: '10px' }}>  Είναι υποκατηγορία?</label>
+            </div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'center', fontSize: '20px', marginLeft: '10px' }}>
+            {renderSelectCategories()}
+          </div>
+        </div>
+        {/* <div style={{ display: 'flex', flexDirection: 'column', margin: '10px', background: 'white', justifyContent: 'center', alignItems: 'center' }}>
 
           <input style={{ textAlign: 'center', fontSize: '20px', marginTop: '20px', margin: '10px', padding: '10px', width: 'auto' }} type='text' value={item.Name} onChange={(e) => {
             var updatedCategoryItem = { val: e.target.value, Id: item.Id }
@@ -90,7 +113,7 @@ export default function Categories(props) {
             </div>
             {renderSelectCategories()}
           </div>
-        </div>
+        </div> */}
         <Button variant="contained"
           style={{
             margin: '5px',
@@ -243,7 +266,7 @@ export default function Categories(props) {
   function renderSelectCategories() {
     if (checkedIsSubCategory === true)
       return <div style={{ textAlign: 'left' }}>
-        <label style={{ fontSize: '22px' }} for="categories"> Ανήκει στην:</label>
+        <label style={{ fontSize: '22px' }} for="categories"> Ανήκει στην κατηγορία:</label>
         <select
           onChange={(e) => { setParentCategory(e.target.value); }}
           style={{ width: '200px', height: '30px', fontSize: '20px', margin: '10px', marginLeft: '10px' }}
@@ -282,7 +305,9 @@ export default function Categories(props) {
         }
       }}>
         <div style={{ display: 'flex', flex: '1', flexDirection: "column", height: '300px', background: '#F3FCFF', padding: '30px', overflowY: 'scroll' }}>
-          <span style={{ padding: '0px', fontSize: '20px', fontWeight: 'bold', textAlign: 'left', marginBottom: '10px' }}>Δώστε το όνομα της νεάς κατηγορίας</span>
+          <span style={{ padding: '0px', fontSize: '20px', fontWeight: 'bold', textAlign: 'left', marginBottom: '10px' }}>
+            Δώστε το όνομα της νεάς κατηγορίας
+          </span>
           <input
             type='text'
             value={newItemValue}
@@ -349,11 +374,11 @@ export default function Categories(props) {
           </div>
         </div>
       </div>
-      <div style={{ overflowY: 'scroll', flex: 0.9, background: '#eeedfc' }}>
+      <div style={{ overflowY: 'scroll', flex: 0.9, background: 'white' }}>
         {renderCategoriesList()}
       </div>
       {renderNewCategoryForm()}
-      <div style={{ flex: 0.05, backgroundColor: 'white' }}>
+      <div style={{ flex: 0.05, backgroundColor: 'white', borderTop: '1px dashed green' }}>
         <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
           <div style={{ flex: 0.9 }}>
             <Button
