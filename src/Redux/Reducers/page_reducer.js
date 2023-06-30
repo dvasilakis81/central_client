@@ -1,10 +1,7 @@
 export default function (state = {}, action, root) {
 
   if (action) {
-    switch (action.type) {
-      case 'RESET_ACTION':
-        state = {}
-        break;
+    switch (action.type) {      
       case 'GET_PAGEITEMS_PENDING':
         state = {
           ...state,

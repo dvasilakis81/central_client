@@ -107,7 +107,7 @@ export function renderComments(pageItemDetails, selectedTab, showActions, render
 
     if (commentsToRender && commentsToRender.length > 0) {
       return <div style={{display: 'flex', flexDirection: 'column'}}>
-        <div class='comment-nav'>Σχόλια</div>
+        <div class='comment-nav'>{commentsToRender.length} Σχόλια</div>
         {divComments(pageItemDetails, commentsToRender, showActions, renderApprovedButton, renderRejectedButton)}
       </div>
     }

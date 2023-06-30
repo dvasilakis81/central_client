@@ -1,9 +1,6 @@
 export default function (state = {}, action) {
 
-  switch (action.type) {
-    case 'RESET_ACTION':
-      state = {}
-      break;
+  switch (action.type) {    
     case 'GET_TOKEN_JWT_PENDING':
       state = { ...state, tokenPending: 'token pending', tokenRejected: undefined, token: undefined };
       break;

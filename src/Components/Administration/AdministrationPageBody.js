@@ -138,42 +138,42 @@ export default function AdministrationPage(props) {
       <div style={{ display: 'flex', flexFlow: 'column', flexWrap: 'wrap', width: '100%', height: '100%', overflowY: 'hidden' }}>
         <div style={{ display: 'flex', flexDirection: 'row', height: 'auto', overflowY: 'hidden', overflowX: 'hidden' }}>
           {showTabButton('MENOY') ? <div
-            className={selectedTab === 0 ? 'selected-tab' : (hoveredKey === 0 ? 'hovered-tab' : 'tab')}
+            className={selectedTab === 0 ? 'selected-tab' : (hoveredKey === 0 ? 'selected-tab' : 'tab')}
             onClick={(e) => { handleTabChange(e, 0) }}
             onMouseEnter={(e) => handleMouseEnter(e, 0)}
             onMouseLeave={handleMouseLeave}>
             ΜΕΝΟΥ
           </div> : <></>}
           {showTabButton('ΥΠΗΡΕΣΙΕΣ') ? <div
-            className={selectedTab === 1 ? 'selected-tab' : (hoveredKey === 1 ? 'hovered-tab' : 'tab')}
+            className={selectedTab === 1 ? 'selected-tab' : (hoveredKey === 1 ? 'selected-tab' : 'tab')}
             onClick={(e) => { handleTabChange(e, 1) }}
             onMouseEnter={(e) => handleMouseEnter(e, 1)}
             onMouseLeave={handleMouseLeave}>
             ΥΠΗΡΕΣΙΕΣ
           </div> : <></>}
           {showTabButton('ΣΕΛΙΔΕΣ') ? <div
-            className={selectedTab === 2 ? 'selected-tab' : (hoveredKey === 2 ? 'hovered-tab' : 'tab')}
+            className={selectedTab === 2 ? 'selected-tab' : (hoveredKey === 2 ? 'selected-tab' : 'tab')}
             onClick={(e) => { handleTabChange(e, 2) }}
             onMouseEnter={(e) => handleMouseEnter(e, 2)}
             onMouseLeave={handleMouseLeave}>
             ΣΕΛΙΔΕΣ
           </div> : <></>}
           {showTabButton('ΑΡΧΕΙΑ') ? <div
-            className={selectedTab === 3 ? 'selected-tab' : (hoveredKey === 3 ? 'hovered-tab' : 'tab')}
+            className={selectedTab === 3 ? 'selected-tab' : (hoveredKey === 3 ? 'selected-tab' : 'tab')}
             onClick={(e) => { handleTabChange(e, 3) }}
             onMouseEnter={(e) => handleMouseEnter(e, 3)}
             onMouseLeave={handleMouseLeave}>
             ΑΡΧΕΙΑ
           </div> : <></>}
           {showTabButton('ΑΝΑΚΟΙΝΩΣΕΙΣ') ? <div
-            className={selectedTab === 4 ? 'selected-tab' : (hoveredKey === 4 ? 'hovered-tab' : 'tab')}
+            className={selectedTab === 4 ? 'selected-tab' : (hoveredKey === 4 ? 'selected-tab' : 'tab')}
             onClick={(e) => { handleTabChange(e, 4) }}
             onMouseEnter={(e) => handleMouseEnter(e, 4)}
             onMouseLeave={handleMouseLeave}>
             ΑΝΑΚΟΙΝΩΣΕΙΣ
           </div> : <></>}
           {showTabButton('ΧΡΗΣΤΕΣ') ? <div
-            className={selectedTab === 5 ? 'selected-tab' : (hoveredKey === 5 ? 'hovered-tab' : 'tab')}
+            className={selectedTab === 5 ? 'selected-tab' : (hoveredKey === 5 ? 'selected-tab' : 'tab')}
             onClick={(e) => { handleTabChange(e, 5) }}
             onMouseEnter={(e) => handleMouseEnter(e, 5)}
             onMouseLeave={handleMouseLeave}>

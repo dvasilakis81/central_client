@@ -62,7 +62,7 @@ export const searchBarStyles = makeStyles({
   }
 });
 
-export const inputTextfieldStyle = makeStyles({
+export const inputTextfieldStyle = makeStyles({ 
   root: {
     "& .MuiInputLabel-root":{
       color: 'blue'

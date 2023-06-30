@@ -39,7 +39,7 @@ export default function PageTabs(props) {
             .map((item, index) => {
               return <div
                 id={index}
-                className={selectedTab === index ? 'selected-tab' : (hoveredKey === index ? 'hovered-tab' : 'tab')}
+                className={selectedTab === index ? 'selected-tab' : (hoveredKey === index ? 'selected-tab' : 'tab')}
                 onClick={(e) => { handleTabChange(e, index, item); }}
                 onMouseEnter={(e) => { setHoveredKey(index); }}
                 onMouseLeave={(e) => { setHoveredKey(-1); }}>

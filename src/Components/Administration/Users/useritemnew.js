@@ -295,7 +295,7 @@ export default function UserItemNew(props) {
         }}>
           <div style={{ display: 'flex', flexDirection: 'row', height: 'auto', overflowY: 'hidden', overflowX: 'hidden', width: '100%', minWidth: '700px' }}>
             {<div
-              className={selectedTab === 0 ? 'selected-tab' : (hoveredKey === 0 ? 'hovered-tab' : 'tab')}
+              className={selectedTab === 0 ? 'selected-tab' : (hoveredKey === 0 ? 'selected-tab' : 'tab')}
               onClick={(e) => { handleTabChange(e, 0) }}
               onMouseEnter={(e) => handleMouseEnter(e, 0)}
               onMouseLeave={handleMouseLeave}
@@ -303,7 +303,7 @@ export default function UserItemNew(props) {
               Στοιχεία Χρήστη
             </div>}
             {<div
-              className={selectedTab === 1 ? 'selected-tab' : (hoveredKey === 1 ? 'hovered-tab' : 'tab')}
+              className={selectedTab === 1 ? 'selected-tab' : (hoveredKey === 1 ? 'selected-tab' : 'tab')}
               onClick={(e) => { handleTabChange(e, 1) }}
               onMouseEnter={(e) => handleMouseEnter(e, 1)}
               onMouseLeave={handleMouseLeave}

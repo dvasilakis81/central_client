@@ -141,9 +141,9 @@ export default function PageItemDetails(props) {
     setNumberOfCommentsToBeApproved(commentsToBeApproved);
   }
   function renderTab(tabValue, tabTitle, numberOfComments) {
-    var classValue = selectedTab === tabValue ? 'selected-tab' : (hoveredKey === 3 ? 'hovered-tab' : 'tab')
+    var classValue = selectedTab === tabValue ? 'selected-tab' : (hoveredKey === 3 ? 'selected-tab' : 'tab')
 
-    if (pageItemDetails.CommentNeedsApproval === 0) {
+    if (pageItemDetails?.CommentNeedsApproval === 0) {
       if (tabValue === 1)
         return <div
           className={classValue}
@@ -197,7 +197,7 @@ export default function PageItemDetails(props) {
   return <div style={{ display: 'flex', flexFlow: 'column', flexWrap: 'wrap', width: '100%', height: '100%', overflowY: 'hidden' }}>
     <div style={{ display: 'flex', flexDirection: 'row', height: 'auto', overflowY: 'hidden', overflowX: 'hidden' }}>
       {<div
-        className={selectedTab === 0 ? 'selected-tab' : (hoveredKey === 0 ? 'hovered-tab' : 'tab')}
+        className={selectedTab === 0 ? 'selected-tab' : (hoveredKey === 0 ? 'selected-tab' : 'tab')}
         onClick={(e) => { setSelectedTab(0) }}
         onMouseEnter={(e) => setHoveredKey(0)}
         onMouseLeave={(e) => { setHoveredKey(-1) }}>

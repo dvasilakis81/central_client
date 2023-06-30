@@ -13,6 +13,8 @@ export default function Header(props) {
   const menuRef = useRef();
   const popupRef = useRef();
   const [userInfoVisible, setUserInfoVisible] = useState('');
+  const [mouseOver, setMouseOver] = useState(true);
+  const [mouseLeave, setMouseLeave] = useState(true);
 
   useEffect(() => {
 
@@ -29,7 +31,7 @@ export default function Header(props) {
   const styles = {
     header: {
       width: '100%',
-      backgroundColor: '#e7e7e7',
+      backgroundColor: '#ADD8E6',
       justifyContent: 'left',
       alignItems: 'center',
       display: "flex",
@@ -47,6 +49,10 @@ export default function Header(props) {
       textAlign: 'left',
       alignSelf: 'left',
       verticalAlign: 'middle'
+    },
+    optionStyle: {
+      marginRight: '20px',
+      cursor: 'pointer'
     }
   }
   function renderUserInfo() {
@@ -117,17 +123,22 @@ export default function Header(props) {
     }
   }
   function renderAdminOptions() {
+    const divStyle = {
+      mouseOver: {
+        cursor: 'pointer'
+      }
+    }
+
     return <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
-      <div style={{ marginRight: '20px' }}>
+      <div
+        style={styles.optionStyle}>
         LOGS
       </div>
       <div
-        style={{ marginRight: '20px' }}
-        onClick={() => {
-          store.dispatch({ type: 'OPEN_CATEGORIES', payload: true })
-        }}>
+        style={styles.optionStyle}
+        onClick={() => { store.dispatch({ type: 'OPEN_CATEGORIES', payload: true }) }}>
         ΚΑΤΗΓΟΡΙΕΣ
-      </div>      
+      </div>
     </div>
   }
 
