@@ -24,6 +24,8 @@ function ItemsList(props) {
 			return state.announcement_reducer.announcementItemDetails;
 		else if (props.kind === 'useritems')
 			return state.user_reducer.userItemDetails;
+		else if (props.kind === 'categoryitems')
+			return state.categories_reducer.categoryItemDetails;
 		else
 			return null;
 	});

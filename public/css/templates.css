@@ -5,31 +5,25 @@
   text-rendering: 'optimizeLegibility';
   text-size-adjust: '100%';
 }
-
 ::-webkit-scrollbar {
   width: 10px;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #0072A0;
 }
-
 ::-webkit-scrollbar-track {
   background: lightsalmon;
   /* color of the tracking area */
 }
-
 * {
   scrollbar-color: #0072A0 lightsalmon;
   scrollbar-width: thin;
 }
-
 .flex-row {
   display: flex;
   flex-direction: row;
   margin-top: 15px;
 }
-
 /* .ql-container {
   min-height: 10rem;
   height: 20%;
@@ -52,7 +46,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .services-menu-container {
   display: flex;
   flex-direction: column;
@@ -62,7 +55,6 @@
   overflow-y: hidden;
   padding-left: 0px;
 }
-
 .services-menu-items {
   display: flex;
   flex-direction: row;
@@ -73,7 +65,6 @@
   align-content: flex-start;
   justify-content: center;
 }
-
 .service-menu-item-parent {
   display: flex;
   font-size: 16px;
@@ -93,7 +84,6 @@
   border-radius: 1px;
   margin-top: 10px;
 }
-
 .service-menu-item-child {
   display: flex;
   justify-content: center;
@@ -104,7 +94,6 @@
   padding: 5px;
   background-color: #9DD8EA;
 }
-
 .service-menu-item-child-hovered {
   display: flex;
   justify-content: center;
@@ -115,7 +104,6 @@
   padding: 5px;
   background-color: #2196F3;
 }
-
 .page-info-container {
   padding: 10px;
   display: flex;
@@ -125,7 +113,6 @@
   border-radius: 0px;
   opacity: 1;
 }
-
 .page-title {
   display: flex;
   flex: 1;
@@ -135,7 +122,6 @@
   font-weight: bolder;
   padding: 10
 }
-
 .centered {
   position: absolute;
   top: 30%;
@@ -147,26 +133,22 @@
   border-radius: 0px;
   white-space: pre-wrap;
 }
-
 .page-body {
   padding: 15px;
   overflow-y: auto;
 }
-
 .page-body-content {
   margin-top: 30px;
   padding: 0px;
   overflow-y: auto;
   font-size: 16px;
 }
-
 .ql-editor {
   height: 250px !important;
   min-height: 250px !important;
   max-height: 250px !important;
   overflow: auto !important;
 }
-
 .tab {
   display: flex;
   align-items: center;
@@ -183,7 +165,6 @@
   background-color: #ADD8E6;
   border-bottom: 2px solid #094fa3;
 }
-
 .selected-tab {
   display: flex;
   align-items: center;
@@ -200,7 +181,6 @@
   background-color: #094fa3;
   border-bottom: 4px solid #ADD8E6;
 }
-
 .announcement-item {
   display: 'flex';
   flex: 1;
@@ -211,7 +191,6 @@
   padding-bottom: 3;
   cursor: pointer;
 }
-
 .admin-item {
   display: flex;
   flex: 1;
@@ -225,7 +204,6 @@
   padding: 10px;
   text-align: left;
 }
-
 .admin-selected-item {
   display: flex;
   flex: 1;
@@ -239,7 +217,6 @@
   padding: 10px;
   text-align: left;
 }
-
 .admin-hovered-item {
   display: flex;
   flex: 1;
@@ -253,7 +230,6 @@
   padding: 10px;
   text-align: left;
 }
-
 .colors {
   background: #FCF9B5;
   background: #1434A4;
@@ -263,12 +239,11 @@
   background-color: #F0FFFF;
   background-color: #ADD8E6;
 }
-
 .menu-body {
   display: flex;
   flex-direction: column;
-  min-width: 500px;
-  max-width: 500px;
+  min-width: 300px;
+  max-width: 300px;
   width: 100%;
   height: 100%;
   border-radius: 0px;
@@ -278,13 +253,11 @@
   background: #ADD8E6;
   overflow-y: auto;
 }
-
 .menu-item-parent {
   display: flex;
   flex-direction: row;
   height: auto;
 }
-
 .group-services-item {
   font-size: 20px;
   padding: 10px;
@@ -295,7 +268,6 @@
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.08), 0 4px 4px rgba(0, 0, 0, 0.08), 0 8px 8px rgba(0, 0, 0, 0.08), 0 16px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
 }
-
 .group-services-item-hovered {
   font-size: 20px;
   padding: 10px;
@@ -306,7 +278,6 @@
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.08), 0 4px 4px rgba(0, 0, 0, 0.08), 0 8px 8px rgba(0, 0, 0, 0.08), 0 16px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
 }
-
 .group-services-item-header {
   font-size: 20px;
   padding: 10px;
@@ -318,7 +289,6 @@
   border-radius: 20px;
   width: 150px
 }
-
 .btn-central {
   background-color: #004b8d;
   color: white !important;
@@ -326,14 +296,12 @@
   padding: 20px;
   max-width: 150px;
 }
-
 .btn-central:hover {
   background-color: #00658d;
   color: white !important;
   line-height: 18px;
   padding: 18px;
 }
-
 .popup-container {
   position: fixed;
   width: 100%;
@@ -344,7 +312,6 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
 }
-
 .popup-body {
   position: absolute;
   left: 30%;
@@ -358,7 +325,6 @@
   background: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-
 .selected-service-title {
   background-color: #87CEEB;
   color: #00008B;
@@ -370,7 +336,6 @@
   padding-bottom: 0px;
   height: 50px;
 }
-
 .div-services-frame {
   display: flex;
   flex: 0.8;
@@ -381,7 +346,6 @@
   overflow-y: hidden;
   padding-bottom: 30px;
 }
-
 .menu-item {
   display: flex;
   flex: 1;
@@ -403,7 +367,7 @@
   font-weight: 'bold';
 }
 
-@media only screen and (min-width: 2000px) {
+@media only screen and (max-width: 3000px) {
   body {
     background-color: lightblue;
   }
@@ -413,19 +377,21 @@
     min-width: 24px;
     max-width: 24px;
   }
+  .menu-body {    
+    min-width: 600px;
+    max-width: 600px;    
+  }
   .menu-item {
-    display: flex;
+    font-size: 1.7rem;
     padding-left: 5px;
-    padding-top: 6px;
-    padding-bottom: 16px;
-    line-height: 30px;
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
   .menu-item-hovered {
-    font-size: 1.3rem;
+    font-size: 1.7rem;
     padding-left: 5px;
-    padding-top: 6px;
-    padding-bottom: 16px;
-    line-height: 30px;
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
   .searchBar {
     width: 1000px;
@@ -458,6 +424,10 @@
   }
   .services-menu-announcement-container {
     transform: scale(1);
+  }
+  .menu-body {    
+    min-width: 500px;
+    max-width: 500px;
   }
   .menu-item {
     font-size: 1.3rem;
@@ -507,6 +477,10 @@
   .services-menu-announcement-container {
     transform: scale(0.8);
   }
+  .menu-body {    
+    min-width: 400px;
+    max-width: 400px;
+  }
   .menuItemImage {
     font-size: 1.2rem;
     font-weight: bolder;
@@ -545,6 +519,10 @@
     font-weight: bolder;
     min-width: 24px;
     max-width: 24px;
+  }
+  .menu-body {    
+    min-width: 250px;
+    max-width: 2500px;
   }
   .menu-item {
     font-size: 1rem;

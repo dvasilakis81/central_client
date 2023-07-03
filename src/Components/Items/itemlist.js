@@ -4,6 +4,7 @@ import MediaItem from '../Administration/Media/mediaitem';
 import PageItem from '../Administration/Page/pageitem';
 import AnnouncementItem from '../Administration/Announcements/announcementitem';
 import UserItem from '../Administration/Users/useritem';
+import CategoryItem from '../Administration/Categories/categoryitem';
 
 export default function ItemList(props) {
 	const itemToRender = props.item;
@@ -21,6 +22,8 @@ export default function ItemList(props) {
 		return <AnnouncementItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
 	else if (props.kindss === "useritems")
 		return <UserItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
+	else if (props.kindss === "categoryitems")
+		return <CategoryItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
 	else {
 		return <></>;
 	}

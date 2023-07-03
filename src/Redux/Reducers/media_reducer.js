@@ -100,13 +100,7 @@ export default function (state = {}, action, root) {
             mediaItemDetails: serverResponse
           };
         }
-        break;
-      case 'SET_ADDED_NEWITEM':
-        state = {
-          ...state,
-          newItemAdded: false,
-        };
-        break;
+        break;      
       case 'ADD_MEDIAITEM_REJECTED':
         state = {
           ...state,

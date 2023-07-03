@@ -32,7 +32,6 @@ function useOutsideAlerter(ref) {
     };
   }, [ref]);
 }
-
 export default function Categories(props) {
 
   const wrapperRef = useRef(null);
@@ -83,7 +82,7 @@ export default function Categories(props) {
               <input type="checkbox" style={{ width: '30px', height: '30px' }} checked={checkedIsSubCategory} onChange={(e) => {
                 setCheckedIsSubCategory(!checkedIsSubCategory);
               }} />
-              <label style={{ marginLeft: '10px' }}>  Είναι υποκατηγορία?</label>
+              <label style={{ marginLeft: '10px' }}>Είναι υποκατηγορία?</label>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'center', fontSize: '20px', marginLeft: '10px' }}>

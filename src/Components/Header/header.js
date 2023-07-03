@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { getHeaderHeight } from '../../Helper/helpermethods';
 import thyraios from '../Images/thyraios.png';
 import store from '../../Redux/Store/store';
-import Categories from '../Administration/Categories/categories';
+import Categories from '../Administration/CategoriesPopUp/categories';
 
 export default function Header(props) {
   const headerHeight = getHeaderHeight();

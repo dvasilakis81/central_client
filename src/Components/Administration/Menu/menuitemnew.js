@@ -51,7 +51,8 @@ export default function MenuItemNew(props) {
   let menuItemDetails;
   if (location.state && location.state.isNew === 2)
     menuItemDetails = menuItemDetails2;
-  let newItemAdded = useSelector((state) => state.menu_reducer.newItemAdded);
+    const newItemAdded = useSelector(state => ({ newItemAdded: state.central_reducer.newItemAdded }));
+    const itemChanged = useSelector(state => ({ itemChanged: state.central_reducer.itemChanged }));
 
   const [id, setId] = useState(menuItemDetails && menuItemDetails.Id || '');
   const [name, setName] = useState(menuItemDetails && menuItemDetails.Name || '');

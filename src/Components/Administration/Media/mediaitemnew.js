@@ -44,7 +44,8 @@ export default function MediaItemNew(props) {
   const dispatch = useDispatch();
   const [fileData, setFileData] = useState('');
   let navigate = useNavigate();  
-  let newItemAdded = useSelector((state) => state.media_reducer.newItemAdded);
+  const newItemAdded = useSelector(state => ({ newItemAdded: state.central_reducer.newItemAdded }));
+  const itemChanged = useSelector(state => ({ itemChanged: state.central_reducer.itemChanged }));
   
   const handleClick = () => {
 

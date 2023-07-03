@@ -7,6 +7,7 @@ import user_reducer from './user_reducer';
 import media_reducer from './media_reducer';
 import parametricdata_reducer from './parametricdata_reducer';
 import announcement_reducer from './announcement_reducer';
+import categories_reducer from './categories_reducer';
 
 const RootReducer = combineReducers({  
   central_reducer,
@@ -16,6 +17,7 @@ const RootReducer = combineReducers({
   user_reducer,
   media_reducer,
   parametricdata_reducer,
-  announcement_reducer
+  announcement_reducer,
+  categories_reducer
 })
 export default RootReducer;

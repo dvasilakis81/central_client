@@ -34,8 +34,8 @@ export default function PageItemNew(props) {
   const [commentNeedsApproval, setCommentNeedsApproval] = useState(false);
   const [pageId, setPageId] = useState('');
   const [tabs, setTabs] = useState([]);
-  let newItemAdded = useSelector((state) => state.page_reducer.newItemAdded);
-  let itemChanged = useSelector((state) => state.page_reducer.itemChanged);
+  const newItemAdded = useSelector(state => ({ newItemAdded: state.central_reducer.newItemAdded }));
+  const itemChanged = useSelector(state => ({ itemChanged: state.central_reducer.itemChanged }));
 
   useEffect(() => {
     var selectedTabs = [];

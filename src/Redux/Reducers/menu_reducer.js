@@ -264,14 +264,7 @@ export default function (state = {}, action, root) {
           };
         }
 
-        break;
-      case 'SET_ADDED_NEWITEM':
-        state = {
-          ...state,
-          newItemAdded: false,
-          itemChanged: false
-        };
-        break;
+        break;      
       case 'SEARCH_MENUITEMS':
         var searchValue = action.payload;
         const searchList = [];

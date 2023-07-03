@@ -12,7 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Button } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import store from '../../../Redux/Store/store';
-import Categories from '../Categories/categories';
+import Categories from '../CategoriesPopUp/categories';
 import { deleteItem } from '../../../Redux/Actions/index';
 
 export default function Actions(props) {
@@ -31,10 +31,6 @@ export default function Actions(props) {
   const [navigateToEdit, setNavigateToEdit] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openPopover, setOpenPopover] = useState(false);
-
-  const [canCreate, setCanCreate] = useState(false);
-  const [canUpdate, setCanUpdate] = useState(false);
-  const [canDelete, setCanDelete] = useState(false);
 
   function showDeleteMessage() {
 
@@ -90,6 +86,8 @@ export default function Actions(props) {
           else if (contenttype === 'mediaitem' && rights[i].Title === 'Αρχεία')
             return getActionValue(rights[i], action);
           else if (contenttype === 'user' && rights[i].Title === 'Χρήστες')
+            return getActionValue(rights[i], action);
+          else if (contenttype === 'category' && rights[i].Title === 'Κατηγορίες')
             return getActionValue(rights[i], action);
         }
       }

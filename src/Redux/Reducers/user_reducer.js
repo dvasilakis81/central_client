@@ -270,4 +270,4 @@ export default function (state = {}, action, root) {
   }
 
   return state;
-}
+} 
