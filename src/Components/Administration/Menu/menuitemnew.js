@@ -51,9 +51,9 @@ export default function MenuItemNew(props) {
   let menuItemDetails;
   if (location.state && location.state.isNew === 2)
     menuItemDetails = menuItemDetails2;
-    const newItemAdded = useSelector(state => ({ newItemAdded: state.central_reducer.newItemAdded }));
-    const itemChanged = useSelector(state => ({ itemChanged: state.central_reducer.itemChanged }));
 
+  const { newItemAdded } = useSelector(state => ({ newItemAdded: state.menu_reducer.newItemAdded }));
+  const { itemChanged } = useSelector(state => ({ itemChanged: state.menu_reducer.itemChanged }));
   const [id, setId] = useState(menuItemDetails && menuItemDetails.Id || '');
   const [name, setName] = useState(menuItemDetails && menuItemDetails.Name || '');
   const [url, setUrl] = useState(menuItemDetails && menuItemDetails.Url || '');
@@ -99,7 +99,7 @@ export default function MenuItemNew(props) {
   };
 
   if (newItemAdded === true) {
-    dispatch(dispatch({ type: 'SET_ADDED_NEWITEM', payload: false }));
+    dispatch({ type: 'SET_ADDED_NEWMENUITEM', payload: false });
     navigate(-1);
   } else {
     return <HomeWrapper>

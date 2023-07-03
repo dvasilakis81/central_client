@@ -254,6 +254,13 @@ export default function (state = {}, action, root) {
 					categoryItemDetails: action.payload
 				};
 				break;
+			case 'SET_ADDED_NEWCATEGORYITEM':
+				state = {
+					...state,
+					newItemAdded: action.payload,
+					itemChanged: action.payload
+				};
+				break;
 			default:
 				return state;
 		}

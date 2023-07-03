@@ -18,7 +18,7 @@ export default function CategoryItem(props) {
   var itemStyle = getAdminItemStyle(item, selecteditem, hoveredKey);
 
   var fields = [];
-  fields.push(item.Description);
+  fields.push(item.Name);
 
   if (filterValue(fields, props.searchValue || '') === true)
     return <div id={item.Id}

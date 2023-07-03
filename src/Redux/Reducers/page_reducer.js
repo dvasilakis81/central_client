@@ -1,7 +1,7 @@
 export default function (state = {}, action, root) {
 
   if (action) {
-    switch (action.type) {      
+    switch (action.type) {
       case 'GET_PAGEITEMS_PENDING':
         state = {
           ...state,
@@ -112,8 +112,8 @@ export default function (state = {}, action, root) {
       case 'SET_ADDED_NEWPAGE':
         state = {
           ...state,
-          newItemAdded: false,
-          itemChanged: false
+          newItemAdded: action.payload,
+          itemChanged: action.payload
         };
         break;
       case 'EDIT_PAGEITEM_PENDING':
@@ -342,6 +342,7 @@ export default function (state = {}, action, root) {
         }
 
         break;
+
       default: return state;
     }
   }

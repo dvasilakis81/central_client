@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import store from '../../../Redux/Store/store';
 import Categories from '../CategoriesPopUp/categories';
 import { deleteItem } from '../../../Redux/Actions/index';
+import { showSnackbarMessage, showFailedConnectWithServerMessage, renderComments } from '../../Common/methods';
 
 export default function Actions(props) {
 
@@ -23,8 +24,9 @@ export default function Actions(props) {
   const serviceItemDetails = useSelector((state) => state.menu_reducer.serviceItemDetails);
   const pageItemDetails = useSelector((state) => state.page_reducer.pageItemDetails);
   const userItemDetails = useSelector((state) => state.user_reducer.userItemDetails);
-  const { token } = useSelector(state => ({ token: state.token_reducer.token }));
+  const { categoryItemDetails } = useSelector((state) => ({ categoryItemDetails: state.categories_reducer.categoryItemDetails }));
 
+  const { token } = useSelector(state => ({ token: state.token_reducer.token }));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [navigateToNew, setNavigateToNew] = useState(false);
@@ -47,6 +49,8 @@ export default function Actions(props) {
       return "Θέλετε να διαγράψετε την ανακοίνωση «" + announcementItemDetails?.Description + "»;";
     else if (props.contenttype === "user")
       return "Θέλετε να διαγράψετε τον χρήστη «" + userItemDetails?.Firstname + " " + userItemDetails?.Lastname + " »;";
+    else if (props.contenttype === 'category')
+      return "Θέλετε να διαγράψετε την κατηγορία «" + (categoryItemDetails?.Name) + "»;";
   }
   const handleOpen = useCallback(
     () => {
@@ -160,25 +164,15 @@ export default function Actions(props) {
             } else if (props.contenttype === "user") {
               data.kind = 6;
               data.id = userItemDetails.Id;
+            } else if (props.contenttype === "category") {
+              data.kind = 7;
+              data.id = categoryItemDetails.Id;
             }
 
             dispatch(deleteItem(data)).then(response => {
-              var snackbarInfo = {};
-              snackbarInfo.openMessage = response.value.success;
-              if (response.value.success === true) {
-                snackbarInfo.message = 'H διαγραφή έγινε επιτυχώς!';
-                snackbarInfo.variant = 'success';
-              } else if (response.value.success === false) {
-                snackbarInfo.message = 'H διαγραφή απέτυχε! ' + response;
-                snackbarInfo.variant = 'error';
-              }
-              store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+              showSnackbarMessage(response, 'H διαγραφή έγινε επιτυχώς!');
             }).catch(error => {
-              var snackbarInfo = {};
-              snackbarInfo.openMessage = true;
-              snackbarInfo.message = 'Αποτυχία σύνδεσης στον διακομιστή!';
-              snackbarInfo.variant = 'error';
-              store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+              showFailedConnectWithServerMessage(error);
             });
             setOpenPopover(false);
             setOpenDeleteDialog(false);
@@ -193,15 +187,7 @@ export default function Actions(props) {
           </Button>
         </DialogActions>
       </Dialog>
-      <span style={{ textAlign: 'center' }}>
-        {/* <Button
-          variant='contained'
-          style={{ margin: '5px', background: '#F3FCFF', color: '#000' }}
-          onClick={() => {
-            store.dispatch({ type: 'OPEN_CATEGORIES', payload: true })
-          }}>
-          ΚΑΤΗΓΟΡΙΕΣ
-        </Button> */}
+      <span style={{ textAlign: 'center' }}>        
         <Categories />
       </span>
     </div>

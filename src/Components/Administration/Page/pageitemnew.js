@@ -23,19 +23,19 @@ export default function PageItemNew(props) {
   let location = useLocation();
   let pageItemsList = useSelector((state) => state.page_reducer.pageItemsList);
   let itemDetails2 = useSelector((state) => state.page_reducer.pageItemDetails);
-  
+
   let pageItemDetails;
 
   const [pageTitle, setPageTitle] = useState('');
   const [pageUrl, setPageUrl] = useState('');
   const [pageBodyInitial, setPageBodyInitial] = useState('');
-  const [pageBody, setPageBody] = useState('');  
+  const [pageBody, setPageBody] = useState('');
   const [canComment, setCanComment] = useState(false);
   const [commentNeedsApproval, setCommentNeedsApproval] = useState(false);
   const [pageId, setPageId] = useState('');
   const [tabs, setTabs] = useState([]);
-  const newItemAdded = useSelector(state => ({ newItemAdded: state.central_reducer.newItemAdded }));
-  const itemChanged = useSelector(state => ({ itemChanged: state.central_reducer.itemChanged }));
+  const { newItemAdded } = useSelector(state => ({ newItemAdded: state.page_reducer.newItemAdded }));
+  const { itemChanged } = useSelector(state => ({ itemChanged: state.page_reducer.itemChanged }));
 
   useEffect(() => {
     var selectedTabs = [];
@@ -47,10 +47,10 @@ export default function PageItemNew(props) {
       setPageTitle(pageItemDetails?.Title || '');
       setPageUrl(pageItemDetails?.Url || '');
       setPageBodyInitial(pageItemDetails?.Body || '');
-      setPageBody(pageItemDetails?.Body || '');      
+      setPageBody(pageItemDetails?.Body || '');
       setCanComment(pageItemDetails?.CanComment || 0);
       setCommentNeedsApproval(pageItemDetails?.CommentNeedsApproval || 0);
-      
+
       if (pageItemsList && pageItemDetails && pageItemDetails.tabsInfo) {
         var tabsInfoOrdered = [...pageItemDetails.tabsInfo].sort((a, b) => a.taborder < b.taborder ? -1 : 1);
         for (var t = 0; t < tabsInfoOrdered.length; t++) {
@@ -145,7 +145,7 @@ export default function PageItemNew(props) {
                         getOptionLabel={item => item.Title}
                         onChange={(event, value) => setTabs(value)}
                         filterSelectedOptions
-                        value={tabs}                        
+                        value={tabs}
                         ChipProps={{ color: "primary" }}
                         style={{ flex: '1', padding: '0px' }}
                         renderInput={params => (
@@ -161,7 +161,7 @@ export default function PageItemNew(props) {
                     </div>
                   </div>
                   <div style={{ padding: '10px' }}>
-                    <div style={{ display: 'flex', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden' }}>                      
+                    <div style={{ display: 'flex', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden' }}>
                       <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
                         <Checkbox
                           defaultChecked={false}

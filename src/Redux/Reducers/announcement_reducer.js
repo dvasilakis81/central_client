@@ -1,7 +1,7 @@
 export default function (state = {}, action, root) {
 
   if (action) {
-    switch (action.type) {      
+    switch (action.type) {
       case 'GET_ANNOUNCEMENTS_PENDING':
         state = {
           ...state,
@@ -235,6 +235,7 @@ export default function (state = {}, action, root) {
         }
 
         break;
+      
       default: return state;
     }
   }

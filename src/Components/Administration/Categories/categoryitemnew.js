@@ -36,8 +36,8 @@ export default function CategoryItemNew(props) {
 
   const { categoryItemDetails } = useSelector(state => ({ categoryItemDetails: state.categories_reducer.categoryItemDetails }));
   const { categoriesList } = useSelector(state => ({ categoriesList: state.categories_reducer.categoriesList }));
-  const newItemAdded = useSelector(state => ({ newItemAdded: state.central_reducer.newItemAdded }));
-  const itemChanged = useSelector(state => ({ itemChanged: state.central_reducer.itemChanged }));
+  const { newItemAdded } = useSelector(state => ({ newItemAdded: state.categories_reducer.newItemAdded }));
+  const { itemChanged } = useSelector(state => ({ itemChanged: state.categories_reducer.itemChanged }));
 
   const [id, setId] = useState(location.state.isNew === 2 && categoryItemDetails && categoryItemDetails.Id || '');
   const [name, setName] = useState(location.state.isNew === 2 && categoryItemDetails && categoryItemDetails.Name || '');
@@ -56,19 +56,18 @@ export default function CategoryItemNew(props) {
   function renderSelectCategories() {
     if (isSubCategory === true)
       return <div style={{ textAlign: 'left' }}>
-        {/* <label style={{ fontSize: '22px' }} for="categories"> Ανήκει στην κατηγορία:</label> */}
         <select
           onChange={(e) => { setParentId(e.target.value); }}
           style={{ width: '200px', height: '30px', fontSize: '20px', margin: '10px', marginLeft: '10px' }}
-          name="categories"
-          id="categories">
+          name='categories'
+          id='categories'>
           {renderSelectOptions()}
         </select>
       </div>
   }
 
   if (newItemAdded === true || itemChanged === true) {
-    dispatch({ type: 'SET_ADDED_NEWITEM', payload: false });
+    dispatch({ type: 'SET_ADDED_NEWCATEGORYITEM', payload: false });
     navigate(-1);
   } else {
     return <HomeWrapper>
@@ -92,7 +91,20 @@ export default function CategoryItemNew(props) {
           data.id = id;
           data.name = name;
           data.hassubcategories = hasSubCategories;
-          data.parentid = parentId;
+          data.parentid = 0;
+          if (isSubCategory === true) {
+            if (parentId > 0)
+              data.parentid = parentId;
+            else {
+              for (var i = 0; i < categoriesList.length; i++) {
+                var item = categoriesList[i]
+                if (item.HasSubCategories === 1) {
+                  data.parentid = item.Id;
+                  break;
+                }
+              }
+            }
+          }
 
           if (location.state.isNew === 2)
             dispatch(editCategory(data));

@@ -1,7 +1,7 @@
 export default function (state = {}, action, root) {
 
   if (action) {
-    switch (action.type) {      
+    switch (action.type) {
       case 'GET_MENUITEMS_PENDING':
         state = {
           ...state,
@@ -135,15 +135,15 @@ export default function (state = {}, action, root) {
       case 'SET_SELECTED_CATEGORY_WITH_SUBCATEGORIES':
         state = {
           ...state,
-          categoryWithSubCategoriesSelected: action.payload          
+          categoryWithSubCategoriesSelected: action.payload
         };
-        break;        
+        break;
       case 'CLOSE_CATEGORY_LIST':
         state = {
-          ...state,          
+          ...state,
           categoryWithSubCategoriesSelected: undefined
         };
-        break;                
+        break;
       case 'GET_SERVICEMENUITEMS_REJECTED':
 
         state = {
@@ -264,7 +264,7 @@ export default function (state = {}, action, root) {
           };
         }
 
-        break;      
+        break;
       case 'SEARCH_MENUITEMS':
         var searchValue = action.payload;
         const searchList = [];
@@ -321,6 +321,14 @@ export default function (state = {}, action, root) {
         }
 
         break;
+      case 'SET_ADDED_NEWMENUITEM':
+        state = {
+          ...state,
+          newItemAdded: action.payload,
+          itemChanged: action.payload
+        };
+        break;
+      default: return state;
     }
   }
   return state;

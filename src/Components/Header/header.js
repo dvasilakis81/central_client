@@ -57,8 +57,7 @@ export default function Header(props) {
   }
   function renderUserInfo() {
     if (userInfoVisible === true) {
-      return <div style={{ display: 'flex', flex: 1, justifyContent: 'right', alignItems: 'center', marginRight: '20px' }}>
-        {renderAdminOptions()}
+      return <div style={{ display: 'flex', flex: 1, justifyContent: 'right', alignItems: 'center', marginRight: '20px' }}>        
         <div
           ref={menuRef}
           onClick={(e) => {
@@ -129,16 +128,7 @@ export default function Header(props) {
       }
     }
 
-    return <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
-      <div
-        style={styles.optionStyle}>
-        LOGS
-      </div>
-      <div
-        style={styles.optionStyle}
-        onClick={() => { store.dispatch({ type: 'OPEN_CATEGORIES', payload: true }) }}>
-        ΚΑΤΗΓΟΡΙΕΣ
-      </div>
+    return <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center' }}>            
     </div>
   }
 

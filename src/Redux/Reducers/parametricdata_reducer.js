@@ -33,39 +33,35 @@ export default function (state = {}, action, root) {
           ...state,
           searchValue: action.payload
         }
-        break;   
-      case 'OPEN_POP_UP': {
+        break;
+      case 'OPEN_POP_UP':
         state = {
           ...state,
           openPopUp: action.payload
         }
         break;
-      }
-      case 'CLOSE_POP_UP': {
+      case 'CLOSE_POP_UP':
         state = {
           ...state,
           openPopUp: false
         }
         break;
-      }
-      case 'SET_DIV_POSITION': {
+      case 'SET_DIV_POSITION':
         state = {
           ...state,
           divPosition: action.payload
         };
         break;
-      }
-      case 'SET_SELECTED_CENTRAL_MENU': {
+      case 'SET_SELECTED_CENTRAL_MENU':
         state = {
           ...state,
           selectedCentralMenu: action.payload
         }
         break;
-      }
       case 'SET_HEADER_TITLE':
         state = {
           ...state,
-          headerTitleValue: action.payload          
+          headerTitleValue: action.payload
         };
         break;
       default:

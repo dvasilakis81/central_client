@@ -1,7 +1,7 @@
 export default function (state = {}, action, root) {
 
   if (action) {
-    switch (action.type) {      
+    switch (action.type) {
       case 'GET_MEDIAITEMS_PENDING':
         state = {
           ...state,
@@ -100,7 +100,7 @@ export default function (state = {}, action, root) {
             mediaItemDetails: serverResponse
           };
         }
-        break;      
+        break;
       case 'ADD_MEDIAITEM_REJECTED':
         state = {
           ...state,
@@ -147,6 +147,13 @@ export default function (state = {}, action, root) {
           };
         }
 
+        break;
+      case 'SET_ADDED_NEWITEM':
+        state = {
+          ...state,
+          newItemAdded: action.payload,
+          itemChanged: action.payload
+        };
         break;
       default: return state;
     }
