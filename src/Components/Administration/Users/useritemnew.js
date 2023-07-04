@@ -5,12 +5,9 @@ import Button from '@material-ui/core/Button';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import CancelAltIcon from '@material-ui/icons/Cancel';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Paper from "@material-ui/core/Paper";
-
 import { addUser, editUser } from '../../../Redux/Actions/index';
 import { useStyles } from '../../Styles/styles';
 import HomeWrapper from '../../Home/homewrapper';
-import store from '../../../Redux/Store/store';
 import { Checkbox } from '@material-ui/core';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { showSnackbarMessage, showFailedConnectWithServerMessage } from '../../Common/methods';
@@ -35,90 +32,6 @@ const styles = {
   }
 }
 
-const CustomPaper = (props) => {
-  return <Paper  {...props} style={{ width: 'auto', backgroundColor: 'lightgray', padding: '0px', margin: '0px' }} />;
-};
-
-function setRights(title, viewItem, setViewItem, createItem, setCreateItem, updateItem, setUpdateItem, deleteItem, setDeleteItem) {
-  return <>
-    <div style={{ margin: '5px', fontWeight: 'bold' }}>
-      {title}
-    </div>
-    <div style={{ display: 'flex', flexDirection: 'row', margin: '5px' }}>
-      <FormControlLabel
-        control={<Checkbox
-          color='primary'
-          checked={viewItem}
-          onChange={e => {
-            if (setViewItem)
-              setViewItem(e.target.checked);
-            // if (setCreateItem)
-            //   setCreateItem(e.target.checked)
-            // if (setUpdateItem)
-            //   setUpdateItem(e.target.checked)
-            // if (setDeleteItem)
-            //   setDeleteItem(e.target.checked)
-          }}
-          inputProps={{ 'aria-label': 'controlled' }} />}
-        label="Ανάγνωση" />
-      <FormControlLabel
-        control={<Checkbox
-          disabled={createItem ? false : true}
-          color='primary'
-          checked={createItem}
-          onChange={e => {
-            if (setCreateItem)
-              setCreateItem(e.target.checked);
-          }
-          }
-          inputProps={{ 'aria-label': 'controlled' }} />}
-        label="Δημιουργία" />
-      <FormControlLabel
-        control={<Checkbox
-          disabled={updateItem ? false : true}
-          color='primary'
-          checked={updateItem}
-          onChange={e => {
-            if (setUpdateItem)
-              setUpdateItem(e.target.checked);
-          }}
-          inputProps={{ 'aria-label': 'controlled' }} />}
-        label="Ανάνεωση" />
-      <FormControlLabel
-        control={<Checkbox
-          color='primary'
-          checked={deleteItem}
-          onChange={e => {
-            if (setDeleteItem)
-              setDeleteItem(e.target.checked);
-          }
-          }
-          inputProps={{ 'aria-label': 'controlled' }} />}
-        label="Διαγραφή" />
-    </div>
-  </>
-}
-
-function getUserRightValue(userdetails, title, action) {
-
-  if (userdetails && userdetails.rightsInfo && userdetails.rightsInfo.length === 1 && userdetails.rightsInfo[0].Rights) {
-    var length = userdetails.rightsInfo[0].Rights.length;
-    for (var i = 0; i < length; i++) {
-      if (userdetails.rightsInfo[0].Rights[i].Title === title) {
-        if (action === 'view')
-          return userdetails.rightsInfo[0].Rights[i].View;
-        else if (action === 'create')
-          return userdetails.rightsInfo[0].Rights[i].Create;
-        else if (action === 'update')
-          return userdetails.rightsInfo[0].Rights[i].Update;
-        else if (action === 'delete')
-          return userdetails.rightsInfo[0].Rights[i].Delete;
-      }
-    }
-  }
-
-  return false;
-}
 export default function UserItemNew(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -129,8 +42,8 @@ export default function UserItemNew(props) {
   if (location.state && location.state.isNew === 2)
     userItemDetails = userItemDetails2;
 
-  const newItemAdded = useSelector(state => ({ newItemAdded: state.central_reducer.newItemAdded }));
-  const itemChanged = useSelector(state => ({ itemChanged: state.central_reducer.itemChanged }));
+  const { newItemAdded } = useSelector(state => ({ newItemAdded: state.user_reducer.newItemAdded }));
+  const { itemChanged } = useSelector(state => ({ itemChanged: state.user_reducer.itemChanged }));
 
   const [id, setId] = useState(userItemDetails && userItemDetails.Id || '');
   const [username, setUsername] = useState(userItemDetails && userItemDetails.Username || '');
@@ -142,41 +55,149 @@ export default function UserItemNew(props) {
   const [createMenuItem, setCreateMenuItem] = useState(getUserRightValue(userItemDetails, 'Κεντρικό Μενού', 'create'));
   const [updateMenuItem, setUpdateMenuItem] = useState(getUserRightValue(userItemDetails, 'Κεντρικό Μενού', 'update'));
   const [deleteMenuItem, setDeleteMenuItem] = useState(getUserRightValue(userItemDetails, 'Κεντρικό Μενού', 'delete'));
+  const [allMenuItem, setAllMenuItem] = useState(false);
 
   const [viewServiceItem, setViewServiceItem] = useState(getUserRightValue(userItemDetails, 'Υπηρεσίες', 'view'));
   const [createServiceItem, setCreateServiceItem] = useState(getUserRightValue(userItemDetails, 'Υπηρεσίες', 'create'));
   const [updateServiceItem, setUpdateServiceItem] = useState(getUserRightValue(userItemDetails, 'Υπηρεσίες', 'update'));
   const [deleteServiceItem, setDeleteServiceItem] = useState(getUserRightValue(userItemDetails, 'Υπηρεσίες', 'delete'));
+  const [allServiceItem, setAllServiceItem] = useState(false);
 
   const [viewPageItem, setViewPageItem] = useState(getUserRightValue(userItemDetails, 'Σελίδες', 'view'));
   const [createPageItem, setCreatePageItem] = useState(getUserRightValue(userItemDetails, 'Σελίδες', 'create'));
   const [updatePageItem, setUpdatePageItem] = useState(getUserRightValue(userItemDetails, 'Σελίδες', 'update'));
   const [deletePageItem, setDeletePageItem] = useState(getUserRightValue(userItemDetails, 'Σελίδες', 'delete'));
+  const [allPageItem, setAllPageItem] = useState(false);
 
   const [viewMediaItem, setViewMediaItem] = useState(getUserRightValue(userItemDetails, 'Αρχεία', 'view'));
   const [createMediaItem, setCreateMediaItem] = useState(getUserRightValue(userItemDetails, 'Αρχεία', 'create'));
   const [updateMediaItem, setUpdateMediaItem] = useState(getUserRightValue(userItemDetails, 'Αρχεία', 'update'));
   const [deleteMediaItem, setDeleteMediaItem] = useState(getUserRightValue(userItemDetails, 'Αρχεία', 'delete'));
+  const [allMediaItem, setAllMediaItem] = useState(false);
 
   const [viewAnnouncementItem, setViewAnnouncementItem] = useState(getUserRightValue(userItemDetails, 'Ανακοινώσεις', 'view'));
   const [createAnnouncementItem, setCreateAnnouncementItem] = useState(getUserRightValue(userItemDetails, 'Ανακοινώσεις', 'create'));
   const [updateAnnouncementItem, setUpdateAnnouncementItem] = useState(getUserRightValue(userItemDetails, 'Ανακοινώσεις', 'update'));
   const [deleteAnnouncementItem, setDeleteAnnouncementItem] = useState(getUserRightValue(userItemDetails, 'Ανακοινώσεις', 'delete'));
+  const [allAnnouncementItem, setAllAnnouncementItem] = useState(false);
 
   const [viewCategoryItem, setViewCategoryItem] = useState(getUserRightValue(userItemDetails, 'Κατηγορίες', 'view'));
   const [createCategoryItem, setCreateCategoryItem] = useState(getUserRightValue(userItemDetails, 'Κατηγορίες', 'create'));
   const [updateCategoryItem, setUpdateCategoryItem] = useState(getUserRightValue(userItemDetails, 'Κατηγορίες', 'update'));
   const [deleteCategoryItem, setDeleteCategoryItem] = useState(getUserRightValue(userItemDetails, 'Κατηγορίες', 'delete'));
+  const [allCategoryItem, setAllCategoryItem] = useState(false);
 
   const [viewUserItem, setViewUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'view'));
   const [createUserItem, setCreateUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'create'));
   const [updateUserItem, setUpdateUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'update'));
   const [deleteUserItem, setDeleteUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'delete'));
+  const [allUserItem, setAllUserItem] = useState(false);
 
   const [viewLogItem, setViewLogItem] = useState(getUserRightValue(userItemDetails, 'Logs', 'view'));
   const [deleteLogItem, setDeleteLogItem] = useState(getUserRightValue(userItemDetails, 'Logs', 'delete'));
+  const [allLogItem, setAllLogItem] = useState(false);
 
   const [selectedTab, setSelectedTab] = useState(0);
+
+  function setRights(title, viewItem, setViewItem, createItem, setCreateItem, updateItem, setUpdateItem, deleteItem, setDeleteItem, allItem, setAllItems) {
+    return <>
+      <div style={{ margin: '5px', fontWeight: 'bold' }}>
+        {title}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'row', margin: '5px' }}>
+        <FormControlLabel
+          control={<Checkbox
+            color='primary'
+            checked={viewItem}
+            onChange={e => {
+              if (setViewItem)
+                setViewItem(e.target.checked);
+              // if (setCreateItem)
+              //   setCreateItem(e.target.checked)
+              // if (setUpdateItem)
+              //   setUpdateItem(e.target.checked)
+              // if (setDeleteItem)
+              //   setDeleteItem(e.target.checked)
+            }}
+            inputProps={{ 'aria-label': 'controlled' }} />}
+          label="Ανάγνωση" />
+        <FormControlLabel
+          control={<Checkbox
+            disabled={createItem === undefined ? true : false}
+            color='primary'
+            checked={createItem}
+            onChange={e => {
+              if (setCreateItem)
+                setCreateItem(e.target.checked);
+            }}
+            inputProps={{ 'aria-label': 'controlled' }} />}
+          label="Δημιουργία" />
+        <FormControlLabel
+          control={<Checkbox
+            disabled={updateItem === undefined ? true : false}
+            color='primary'
+            checked={updateItem}
+            onChange={e => {
+              if (setUpdateItem)
+                setUpdateItem(e.target.checked);
+            }}
+            inputProps={{ 'aria-label': 'controlled' }} />}
+          label="Ανάνεωση" />
+        <FormControlLabel
+          control={<Checkbox
+            color='primary'
+            checked={deleteItem}
+            onChange={e => {
+              if (setDeleteItem)
+                setDeleteItem(e.target.checked);
+            }}
+            inputProps={{ 'aria-label': 'controlled' }} />}
+          label="Διαγραφή" />
+
+        <FormControlLabel
+          control={<Checkbox
+            color='primary'
+            checked={allItem}
+            onChange={e => {
+              if (setAllItems) {
+                if (setViewItem)
+                  setViewItem(e.target.checked)
+                if (setCreateItem)
+                  setCreateItem(e.target.checked);
+                if (setUpdateItem)
+                  setUpdateItem(e.target.checked);
+                if (setDeleteItem)
+                  setDeleteItem(e.target.checked);
+                if (setAllItems)
+                  setAllItems(e.target.checked);
+              }
+            }
+            }
+            inputProps={{ 'aria-label': 'controlled' }} />}
+          label="Όλα" />
+      </div>
+    </>
+  }
+  function getUserRightValue(userdetails, title, action) {
+
+    if (userdetails && userdetails.rightsInfo && userdetails.rightsInfo.length === 1 && userdetails.rightsInfo[0].Rights) {
+      var length = userdetails.rightsInfo[0].Rights.length;
+      for (var i = 0; i < length; i++) {
+        if (userdetails.rightsInfo[0].Rights[i].Title === title) {
+          if (action === 'view')
+            return userdetails.rightsInfo[0].Rights[i].View;
+          else if (action === 'create')
+            return userdetails.rightsInfo[0].Rights[i].Create;
+          else if (action === 'update')
+            return userdetails.rightsInfo[0].Rights[i].Update;
+          else if (action === 'delete')
+            return userdetails.rightsInfo[0].Rights[i].Delete;
+        }
+      }
+    }
+
+    return false;
+  }
 
   const handleTabChange = (event, newValue) => { setSelectedTab(newValue) };
   const [hoveredKey, setHoveredKey] = useState(-1);
@@ -268,8 +289,8 @@ export default function UserItemNew(props) {
 
           var logs = {};
           logs.Title = 'Logs';
-          logs.View = viewUserItem;
-          logs.Delete = deleteUserItem;
+          logs.View = viewLogItem;
+          logs.Delete = deleteLogItem;
           data.rights.push(logs);
 
           if (location.state.isNew === 2)
@@ -383,14 +404,14 @@ export default function UserItemNew(props) {
             </div>
             : <></>}
           {selectedTab === 1 ? <div style={{ display: 'flex', flexDirection: 'column', margin: '20px', background: 'lightblue' }}>
-            {setRights('Κεντρικό Μενού', viewMenuItem, setViewMenuItem, createMenuItem, setCreateMenuItem, updateMenuItem, setUpdateMenuItem, deleteMenuItem, setDeleteMenuItem)}
-            {setRights('Υπηρεσίες', viewServiceItem, setViewServiceItem, createServiceItem, setCreateServiceItem, updateServiceItem, setUpdateServiceItem, deleteServiceItem, setDeleteServiceItem)}
-            {setRights('Σελίδες', viewPageItem, setViewPageItem, createPageItem, setCreatePageItem, updatePageItem, setUpdatePageItem, deletePageItem, setDeletePageItem)}
-            {setRights('Αρχεία', viewMediaItem, setViewMediaItem, createMediaItem, setCreateMediaItem, updateMediaItem, setUpdateMediaItem, deleteMediaItem, setDeleteMediaItem)}
-            {setRights('Ανακοινώσεις', viewAnnouncementItem, setViewAnnouncementItem, createAnnouncementItem, setCreateAnnouncementItem, updateAnnouncementItem, setUpdateAnnouncementItem, deleteAnnouncementItem, setDeleteAnnouncementItem)}
-            {setRights('Κατηγορίες', viewCategoryItem, setViewCategoryItem, createCategoryItem, setCreateCategoryItem, updateCategoryItem, setUpdateCategoryItem, deleteCategoryItem, setDeleteCategoryItem)}
-            {setRights('Χρήστες', viewUserItem, setViewUserItem, createUserItem, setCreateUserItem, updateUserItem, setUpdateUserItem, deleteUserItem, setDeleteUserItem)}
-            {setRights('Logs', viewLogItem, setViewLogItem, undefined, undefined, undefined, undefined, deleteLogItem, setDeleteLogItem)}
+            {setRights('Κεντρικό Μενού', viewMenuItem, setViewMenuItem, createMenuItem, setCreateMenuItem, updateMenuItem, setUpdateMenuItem, deleteMenuItem, setDeleteMenuItem, allMenuItem, setAllMenuItem)}
+            {setRights('Υπηρεσίες', viewServiceItem, setViewServiceItem, createServiceItem, setCreateServiceItem, updateServiceItem, setUpdateServiceItem, deleteServiceItem, setDeleteServiceItem, allServiceItem, setAllServiceItem)}
+            {setRights('Σελίδες', viewPageItem, setViewPageItem, createPageItem, setCreatePageItem, updatePageItem, setUpdatePageItem, deletePageItem, setDeletePageItem, allPageItem, setAllPageItem)}
+            {setRights('Αρχεία', viewMediaItem, setViewMediaItem, createMediaItem, setCreateMediaItem, updateMediaItem, setUpdateMediaItem, deleteMediaItem, setDeleteMediaItem, allMediaItem, setAllMediaItem)}
+            {setRights('Ανακοινώσεις', viewAnnouncementItem, setViewAnnouncementItem, createAnnouncementItem, setCreateAnnouncementItem, updateAnnouncementItem, setUpdateAnnouncementItem, deleteAnnouncementItem, setDeleteAnnouncementItem, allAnnouncementItem, setAllAnnouncementItem)}
+            {setRights('Κατηγορίες', viewCategoryItem, setViewCategoryItem, createCategoryItem, setCreateCategoryItem, updateCategoryItem, setUpdateCategoryItem, deleteCategoryItem, setDeleteCategoryItem, allCategoryItem, setAllCategoryItem)}
+            {setRights('Χρήστες', viewUserItem, setViewUserItem, createUserItem, setCreateUserItem, updateUserItem, setUpdateUserItem, deleteUserItem, setDeleteUserItem, allUserItem, setAllUserItem)}
+            {setRights('Logs', viewLogItem, setViewLogItem, undefined, undefined, undefined, undefined, deleteLogItem, setDeleteLogItem, allLogItem, setAllLogItem)}
           </div>
             : <></>}
           <div style={{ display: 'flex', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', marginTop: '20px' }}>

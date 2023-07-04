@@ -126,7 +126,7 @@ export default function (state = {}, action, root) {
           ...state,
           itemChanged: false,
           requestServerError: undefined,
-          requestPending: 'Add user items pending',
+          requestPending: 'Edit user items pending',
           requestRejected: undefined
         };
         break;

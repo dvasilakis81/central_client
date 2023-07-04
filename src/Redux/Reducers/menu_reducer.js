@@ -303,11 +303,25 @@ export default function (state = {}, action, root) {
         };
         break;
       case 'DELETE_MENU_FULFILLED':
-
+        var serverResponse = action.payload;
+        var itemDetail = undefined;
         if (action.payload) {
           let items = state.menuItemsList.filter((item) => {
-            if (item.Id !== action.payload.id)
+            if (itemDetail === undefined) {
+              if (serverResponse.itemtype === 1 && item.MenuItem === 1 && serverResponse.id !== item.Id)
+                itemDetail = item;
+              else if (serverResponse.itemtype === 2 && item.ServiceItem === 1 && serverResponse.id !== item.Id)
+                itemDetail = item;
+            }
+            if (item.Id !== serverResponse.id) {
+              if (itemDetail === undefined) {
+                if (serverResponse.itemtype === 1 && item.MenuItem === 1)
+                  itemDetail = item;
+                else if (serverResponse.itemtype === 2 && item.ServiceItem === 1)
+                  itemDetail = item;
+              }
               return item;
+            }
           });
 
           state = {
@@ -315,8 +329,8 @@ export default function (state = {}, action, root) {
             deleteMenuItemPending: undefined,
             deleteMenuItemRejected: undefined,
             menuItemsList: items,
-            menuItemsDetails: undefined,
-            serviceItemDetails: undefined
+            menuItemDetails: serverResponse.itemtype === 1 ? itemDetail : state.menuItemsDetails,
+            serviceItemDetails: serverResponse.itemtype === 2 ? itemDetail : state.serviceItemDetails
           };
         }
 

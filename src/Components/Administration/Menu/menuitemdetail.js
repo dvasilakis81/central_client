@@ -4,21 +4,23 @@ import { renderDetail, renderDetailImage, renderDetailDate, renderDetailCheckbox
 
 export default function MenuItemDetails(props) {
 
-  let menuItemDetails = useSelector((state) => { return props.itemtype === 1 ? state.menu_reducer.menuItemDetails : state.menu_reducer.serviceItemDetails; });
-  if (menuItemDetails) {
+  const { menuItemDetails } = useSelector((state) => ({ menuItemDetails: state.menu_reducer.menuItemDetails }));
+  const { serviceItemDetails } = useSelector((state) => ({ serviceItemDetails: state.menu_reducer.serviceItemDetails }));
+  var itemDetails = props.itemtype === 1 ? menuItemDetails : serviceItemDetails;
+  if (itemDetails) {
     return (<div>
-      {renderDetail('Όνομα', menuItemDetails.Name, { isText: true })}
-      {renderDetail('Εξωτερικός σύνδεσμος', menuItemDetails.Url, { isUrl: true })}
-      {renderDetail('Εσωτερικός σύνδεσμος', menuItemDetails.PageUrl, { isUrl: true })}
+      {renderDetail('Όνομα', itemDetails.Name, { isText: true })}
+      {renderDetail('Εξωτερικός σύνδεσμος', itemDetails.Url, { isUrl: true })}
+      {renderDetail('Εσωτερικός σύνδεσμος', itemDetails.PageUrl, { isUrl: true })}
       {/* {renderDetail('Εικονίδιο', menuItemDetails.ImageService || menuItemDetails.ImageMenu, { isImage: true })} */}
-      {renderDetail('Σειρά', menuItemDetails.OrderNo, { isText: true })}
-      {renderDetail('Κατηγορίες', menuItemDetails.categoriesInfo, { isList: true })}
-      {renderDetail('Μενού', menuItemDetails.MenuItem, { isCheckbox: true })}
-      {renderDetail('Υπηρεσία', menuItemDetails.ServiceItem, { isCheckbox: true })}      
+      {renderDetail('Σειρά', itemDetails.OrderNo, { isText: true })}
+      {renderDetail('Κατηγορίες', itemDetails.categoriesInfo, { isList: true })}
+      {renderDetail('Μενού', itemDetails.MenuItem, { isCheckbox: true })}
+      {renderDetail('Υπηρεσία', itemDetails.ServiceItem, { isCheckbox: true })}      
       {/* {renderDetail('Ανακοίνωση', menuItemDetails.Announce, { isCheckbox: true })} */}
-      {renderDetail('Κρυφό', menuItemDetails.Hidden, { isCheckbox: true })}
-      {renderDetail('Δημιουργήθηκε', menuItemDetails.Created, { isDate: true })}
-      {renderDetail('Ενημερώθηκε', menuItemDetails.Updated, { isDate: true })}
+      {renderDetail('Κρυφό', itemDetails.Hidden, { isCheckbox: true })}
+      {renderDetail('Δημιουργήθηκε', itemDetails.Created, { isDate: true })}
+      {renderDetail('Ενημερώθηκε', itemDetails.Updated, { isDate: true })}
     </div>
     )
   } else

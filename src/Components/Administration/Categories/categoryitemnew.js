@@ -6,8 +6,10 @@ import { Checkbox } from '@material-ui/core';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import CancelAltIcon from '@material-ui/icons/Cancel';
 import { useNavigate, useLocation } from 'react-router-dom';
+
 import { addCategory, editCategory } from '../../../Redux/Actions/index';
 import HomeWrapper from '../../Home/homewrapper';
+import { showSnackbarMessage, showFailedConnectWithServerMessage } from '../../Common/methods';
 
 const styles = {
   textfield: {
@@ -106,10 +108,20 @@ export default function CategoryItemNew(props) {
             }
           }
 
-          if (location.state.isNew === 2)
-            dispatch(editCategory(data));
-          else
-            dispatch(addCategory(data));
+          if (location.state.isNew === 2) {
+            dispatch(editCategory(data)).then(response => {
+              showSnackbarMessage(response, 'H ενημέρωση της κατηγορίας έγινε επιτυχώς!');
+            }).catch(error => {
+              showFailedConnectWithServerMessage(error);
+            });
+          }
+          else {
+            dispatch(addCategory(data)).then(response => {
+              showSnackbarMessage(response, 'Η κατηγορία δημιουργήθηκε επιτυχώς!');
+            }).catch(error => {
+              showFailedConnectWithServerMessage(error);
+            });
+          }
         }}>
         <div style={{
           overflowX: 'hidden',

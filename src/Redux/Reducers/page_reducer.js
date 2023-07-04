@@ -336,7 +336,7 @@ export default function (state = {}, action, root) {
               requestRejected: undefined,
               requestServerError: undefined,
               pageItemsList: items,
-              pageItemDetails: undefined
+              pageItemDetails: items && items[0]
             };
           }
         }

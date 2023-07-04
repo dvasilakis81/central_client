@@ -42,15 +42,15 @@ export default function (state = {}, action, root) {
 						newItemAdded: false
 					};
 				} else {
-
+					const responseData = serverResponse.data;
 					state = {
 						...state,
 						newItemAdded: true,
 						requestServerError: undefined,
 						requestPending: undefined,
 						requestRejected: undefined,
-						categoriesList: [serverResponse, ...state.categoriesList],
-						categoryItemDetails: serverResponse
+						categoriesList: [responseData, ...state.categoriesList],
+						categoryItemDetails: responseData
 					};
 				}
 				break;
@@ -85,17 +85,18 @@ export default function (state = {}, action, root) {
 						requestServerError: serverResponse.errormessage
 					};
 				} else {
+					const responseData = serverResponse.data;
 					const updatedList = [];
 					if (state.categoriesList) {
 						state.categoriesList.forEach((item, index) => {
-							if (item.Id === serverResponse.Id)
-								updatedList.push(serverResponse);
+							if (item.Id === responseData.Id)
+								updatedList.push(responseData);
 							else
 								updatedList.push(item);
 						});
 					}
 
-					var itemDetails = serverResponse || state.categoryItemDetails;
+					var itemDetails = responseData || state.categoryItemDetails;
 					state = {
 						...state,
 						itemChanged: true,
@@ -230,14 +231,14 @@ export default function (state = {}, action, root) {
 						if (item.Id !== serverResponse.id)
 							return item;
 					});
-
+										
 					state = {
 						...state,
 						requestPending: undefined,
 						requestRejected: undefined,
 						requestServerError: undefined,
 						categoriesList: items,
-						categoryItemDetails: undefined
+						categoryItemDetails: items && items[0]
 					};
 				}
 

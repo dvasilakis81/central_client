@@ -77,7 +77,7 @@ export default function Actions(props) {
   function showActionButton(contenttype, menuitemkind, action) {
     if (token && token.userLoginInfo) {
       var rights = token.userLoginInfo[0].rights;
-      if (rights) {        
+      if (rights) {
         for (var i = 0; i < rights.length; i++) {
           if (contenttype === 'menuitem' && menuitemkind === 1 && rights[i].Title === 'Κεντρικό Μενού')
             return getActionValue(rights[i], action);
@@ -151,10 +151,13 @@ export default function Actions(props) {
               data.id = announcementItemDetails.Id;
             } else if (props.contenttype === "menuitem") {
               data.kind = 1;
-              if (props.itemtype === 1)
+              if (props.itemtype === 1) {
                 data.id = menuItemDetails.Id;
-              else
+                data.itemtype = 1;
+              } else {
                 data.id = serviceItemDetails.Id;
+                data.itemtype = 2;
+              }
             } else if (props.contenttype === "pageitem") {
               data.kind = 2;
               data.id = pageItemDetails.Id;
@@ -187,7 +190,7 @@ export default function Actions(props) {
           </Button>
         </DialogActions>
       </Dialog>
-      <span style={{ textAlign: 'center' }}>        
+      <span style={{ textAlign: 'center' }}>
         <Categories />
       </span>
     </div>

@@ -190,7 +190,6 @@ export function getDateFormat(dateValue) {
 
 	return ret;
 }
-
 export function getDatePeriod(start, end) {
 	let ret = '';
 
@@ -213,7 +212,6 @@ export function getDatePeriod(start, end) {
 			return dtStart.getDate() + '/' + startMonthNumber + '/' + + dtStart.getFullYear() + ' - ' + dtEnd.getDate() + '/' + endMonthNumber + '/' + dtEnd.getFullYear();
 	}
 }
-
 export function getNullString(value) {
 	var ret;
 
@@ -222,7 +220,6 @@ export function getNullString(value) {
 
 	return ret;
 }
-
 export function getDateFormatForActivities(dateValue) {
 	let ret = '';
 
@@ -241,7 +238,6 @@ export function getDateFormatForActivities(dateValue) {
 
 	return ret;
 }
-
 export function getDateFormatForDocument(dateValue) {
 	let ret = '';
 
@@ -260,7 +256,6 @@ export function getDateFormatForDocument(dateValue) {
 
 	return ret;
 }
-
 export function extractYearFromDate(dateValue) {
 	let ret = '';
 
@@ -273,7 +268,6 @@ export function extractYearFromDate(dateValue) {
 
 	return ret;
 }
-
 export function getDateFormatWithDash(dateValue) {
 	let ret = '';
 
@@ -290,7 +284,6 @@ export function getDateFormatWithDash(dateValue) {
 
 	return ret;
 }
-
 export function getDateFormatForMaterialUIComponent(dateValue) {
 	let ret = '';
 
@@ -305,7 +298,6 @@ export function getDateFormatForMaterialUIComponent(dateValue) {
 
 	return ret;
 }
-
 export function getDateTimeFormat(dateValue) {
 	let ret = '';
 
@@ -319,7 +311,6 @@ export function getDateTimeFormat(dateValue) {
 
 	return ret;
 }
-
 export function getValidMaterialDateFormat(dateValue) {
 
 	var dt = new Date(dateValue);
@@ -341,8 +332,6 @@ export function getValidMaterialDateFormat(dateValue) {
 
 	return yyyy + '-' + mm + '-' + dd + 'T' + hours + ':' + min;
 }
-
-
 export function getAmountInWords(amount, capital) {
 	//Number(amount)
 	var ret = '';
@@ -396,7 +385,6 @@ export function getAmountInWords(amount, capital) {
 
 	return ret;
 }
-
 export function getThousandsLex(div) {
 	var ret = '';
 
@@ -441,7 +429,6 @@ export function getThousandsLex(div) {
 	}
 	return ret;
 }
-
 export function getHundrendsLex(div) {
 	var ret = '';
 	if (div === 1)
@@ -466,7 +453,6 @@ export function getHundrendsLex(div) {
 	ret += ' ';
 	return ret;
 }
-
 export function getDecadesLex(div) {
 	var ret = '';
 	if (div === 1)
@@ -491,7 +477,6 @@ export function getDecadesLex(div) {
 	ret += ' ';
 	return ret;
 }
-
 export function getUnitsLex(div) {
 	var ret = '';
 	if (div === 1)
@@ -516,15 +501,12 @@ export function getUnitsLex(div) {
 	ret += ' ';
 	return ret;
 }
-
 export function getHeaderHeight() {
 	return 80;
 }
-
 export function getFooterHeight() {
 	return 40;
 }
-
 /* ES6 */
 export function findLocalIp() {
 	return new Promise((resolve, reject) => {
