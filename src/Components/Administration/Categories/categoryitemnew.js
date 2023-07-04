@@ -149,7 +149,7 @@ export default function CategoryItemNew(props) {
                 onChange={e => setIsSubCategory(e.target.checked)}
                 inputProps={{ 'aria-label': 'controlled' }}
               />
-              <span>Ανήκει σε κάποια κατηγορία</span>
+              <span>Είναι υποκατηγορία</span>
               {renderSelectCategories()}
             </div>
             {/* <div style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'center', fontSize: '20px', marginLeft: '10px' }}>

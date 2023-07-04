@@ -5,6 +5,7 @@ import PageItem from '../Administration/Page/pageitem';
 import AnnouncementItem from '../Administration/Announcements/announcementitem';
 import UserItem from '../Administration/Users/useritem';
 import CategoryItem from '../Administration/Categories/categoryitem';
+import LogItem from '../Administration/Logs/logitem';
 
 export default function ItemList(props) {
 	const itemToRender = props.item;
@@ -24,6 +25,8 @@ export default function ItemList(props) {
 		return <UserItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
 	else if (props.kindss === "categoryitems")
 		return <CategoryItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
+	else if (props.kindss === "logitems")
+		return <LogItem item={itemToRender} selecteditem={selectedItem} searchValue={props.searchValue}/>
 	else {
 		return <></>;
 	}

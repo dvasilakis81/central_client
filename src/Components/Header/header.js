@@ -31,7 +31,7 @@ export default function Header(props) {
   const styles = {
     header: {
       width: '100%',
-      backgroundColor: '#ADD8E6',
+      backgroundColor: '#ADD8E6',      
       justifyContent: 'left',
       alignItems: 'center',
       display: "flex",
@@ -57,7 +57,7 @@ export default function Header(props) {
   }
   function renderUserInfo() {
     if (userInfoVisible === true) {
-      return <div style={{ display: 'flex', flex: 1, justifyContent: 'right', alignItems: 'center', marginRight: '20px' }}>        
+      return <div style={{ display: 'flex', flex: 1, justifyContent: 'right', alignItems: 'center', marginRight: '20px' }}>
         <div
           ref={menuRef}
           onClick={(e) => {
@@ -128,7 +128,7 @@ export default function Header(props) {
       }
     }
 
-    return <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center' }}>            
+    return <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
     </div>
   }
 

@@ -117,10 +117,10 @@
   display: flex;
   flex: 1;
   justify-content: center;
-  align-items: 'center';
+  align-items: center;
   color: #094fa3;
   font-weight: bolder;
-  padding: 10
+  padding: 10px
 }
 .centered {
   position: absolute;
@@ -346,13 +346,14 @@
   overflow-y: hidden;
   padding-bottom: 30px;
 }
+
 .menu-item {
   display: flex;
   flex: 1;
   font-weight: bolder;
   cursor: pointer;
-  color: #094fa3;
-  background: #ADD8E6;
+  color: #094fa3;  
+  background: 'linear-gradient(#2980b9, #6dd5fa)',
 }
 .menu-item-hovered {
   display: flex;

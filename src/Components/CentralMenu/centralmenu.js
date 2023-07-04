@@ -22,11 +22,11 @@ function CentralMenu() {
     if ((selectedCentralMenu && selectedCentralMenu.Name === d.Name) || hoveredKey === d)
       return 'menu-item-hovered';
     else
-    return 'menu-item';
-      //return (hoveredKey === d ? 'menu-item-hovered' : 'menu-item');
+      return 'menu-item';
+    //return (hoveredKey === d ? 'menu-item-hovered' : 'menu-item');
   }
-  function getImageClassName(ImageMenu){
-    return ImageMenu + ' menuItemImage' ;
+  function getImageClassName(ImageMenu) {
+    return ImageMenu + ' menuItemImage';
   }
   return (
     <div className='menu-body'>
@@ -40,7 +40,7 @@ function CentralMenu() {
               onMouseEnter={(e) => handleMouseEnter(e, d)}
               onMouseLeave={handleMouseLeave}
               onClick={() => {
-                
+
                 if (d.Url)
                   window.open(d.Url, '_blank', 'noreferrer');
                 else {

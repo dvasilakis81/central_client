@@ -151,18 +151,18 @@ export default function (state = {}, action, root) {
             requestServerError: serverResponse.errormessage
           };
         } else {
+          const responseData = serverResponse.data;
           const updatedList = [];
           if (state.usersList) {
             state.usersList.forEach((item, index) => {
-              if (item.Id === serverResponse.Id)
-                updatedList.push(serverResponse);
+              if (item.Id === responseData.Id)
+                updatedList.push(responseData);
               else
                 updatedList.push(item);
             });
           }
 
-
-          var itemDetails = serverResponse || state.userItemDetails;
+          var itemDetails = responseData || state.userItemDetails;
           state = {
             ...state,
             itemChanged: true,

@@ -5,6 +5,7 @@ import MediaItemDetails from '../Administration/Media/mediaitemdetail';
 import AnnouncementItemDetails from '../Administration/Announcements/announcementitemdetail';
 import UserItemDetails from '../Administration/Users/useritemdetail';
 import CategoryItemDetails from '../Administration/Categories/categoryitemdetail';
+import LogItemDetails from '../Administration/Logs/logitemdetail';
 
 export default function ItemDetail(props) {
 		
@@ -20,6 +21,8 @@ export default function ItemDetail(props) {
 		return <UserItemDetails />
 	else if (props.kind === "categoryitems")
 		return <CategoryItemDetails />
+	else if (props.kind === "logitems")
+		return <LogItemDetails />		
 	else
 		return <></>	
 }

@@ -128,7 +128,11 @@ export function checkPassword(data) {
   const request = axios.post(getHostUrl() + 'checkPassword', data).then(response => response.data);
   return { type: 'CHECK_PASSWORD_USER', payload: request };
 }
-
+//LOGS
+export function getLogs() {
+  const request = axios.get(getHostUrl() + 'getLogs').then(response => response.data);
+  return { type: 'GET_LOGS', payload: request };
+}
 export function deleteItem(data) {
   const request = axios.post(getHostUrl() + 'deleteItem', data).then(response => response.data);
   if (data.kind === 1)

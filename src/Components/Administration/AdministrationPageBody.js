@@ -6,11 +6,11 @@ import MediaItems from '../../Components/Administration/Media/mediaitems';
 import AnnouncementItems from '../../Components/Administration/Announcements/announcementitems';
 import UserItems from '../../Components/Administration/Users/useritems';
 import CategoryItems from '../../Components/Administration/Categories/categoryitems';
+import LogItems from '../../Components/Administration/Logs/logitems';
 import store from '../../Redux/Store/store';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { getMenuItems, getServiceItems, getPageItems, getMediaItems, getAnnouncements, getCategories, getUsers } from '../../Redux/Actions/index';
+import { getMenuItems, getServiceItems, getPageItems, getMediaItems, getAnnouncements, getCategories, getUsers, getLogs } from '../../Redux/Actions/index';
 import UserChangePassword from '../Administration/Users/userchangepassword';
-import Categories from './CategoriesPopUp/categories';
 
 export default function AdministrationPage(props) {
 
@@ -65,6 +65,11 @@ export default function AdministrationPage(props) {
         return <CategoryItems />
       } else
         return <></>
+    } else if (tab === 7) {
+      if (showTabButton('LOGS') === true) {
+        return <LogItems />
+      } else
+        return <></>
     }
 
     return <></>
@@ -89,6 +94,8 @@ export default function AdministrationPage(props) {
             return rights[i].View;
           else if (tabtitle === 'ΚΑΤΗΓΟΡΙΕΣ' && rights[i].Title === 'Κατηγορίες')
             return rights[i].View;
+          else if (tabtitle === 'LOGS' && rights[i].Title === 'Logs')
+            return rights[i].View;
         }
       } else
         return true;
@@ -104,7 +111,7 @@ export default function AdministrationPage(props) {
     dispatch(getCategories());
     dispatch(getMediaItems());
     dispatch(getUsers());
-    dispatch(getCategories());
+    dispatch(getCategories());    
 
     if (selectedTab === undefined || selectedTab === null || selectedTab === 0) {
       if (showTabButton('MENOY') === true)
@@ -119,8 +126,10 @@ export default function AdministrationPage(props) {
         store.dispatch({ type: 'SET_SELECTED_TAB_ADMIN', payload: 4 });
       else if (showTabButton('ΧΡΗΣΤΕΣ') === true)
         store.dispatch({ type: 'SET_SELECTED_TAB_ADMIN', payload: 5 });
-      else if (showTabButton('ΧΡΗΣΤΕΣ') === true)
+      else if (showTabButton('ΚΑΤΗΓΟΡΙΕΣ') === true)
         store.dispatch({ type: 'SET_SELECTED_TAB_ADMIN', payload: 6 });
+      else if (showTabButton('LOGS') === true)
+        store.dispatch({ type: 'SET_SELECTED_TAB_ADMIN', payload: 7 });
     }
   }, [])
 
@@ -137,6 +146,8 @@ export default function AdministrationPage(props) {
       dispatch(getAnnouncements());
     else if (newValue === 5)
       dispatch(getUsers());
+    else if (newValue === 7)
+      dispatch(getLogs());
 
     store.dispatch({ type: 'SET_SELECTED_TAB_ADMIN', payload: newValue })
   };
@@ -195,6 +206,13 @@ export default function AdministrationPage(props) {
             onMouseEnter={(e) => handleMouseEnter(e, 6)}
             onMouseLeave={handleMouseLeave}>
             ΚΑΤΗΓΟΡΙΕΣ
+          </div> : <></>}
+          {showTabButton('LOGS') ? <div
+            className={selectedTab === 7 ? 'selected-tab' : (hoveredKey === 6 ? 'selected-tab' : 'tab')}
+            onClick={(e) => { handleTabChange(e, 7) }}
+            onMouseEnter={(e) => handleMouseEnter(e, 7)}
+            onMouseLeave={handleMouseLeave}>
+            LOGS
           </div> : <></>}
         </div>
         {getTabMenu(selectedTab || 0)}

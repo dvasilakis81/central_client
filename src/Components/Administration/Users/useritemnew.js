@@ -11,9 +11,9 @@ import { addUser, editUser } from '../../../Redux/Actions/index';
 import { useStyles } from '../../Styles/styles';
 import HomeWrapper from '../../Home/homewrapper';
 import store from '../../../Redux/Store/store';
-import { getServerErrorResponseMessage } from '../../../Helper/helpermethods';
 import { Checkbox } from '@material-ui/core';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { showSnackbarMessage, showFailedConnectWithServerMessage } from '../../Common/methods';
 
 const styles = {
   textfield: {
@@ -50,32 +50,49 @@ function setRights(title, viewItem, setViewItem, createItem, setCreateItem, upda
           color='primary'
           checked={viewItem}
           onChange={e => {
-            setViewItem(e.target.checked)
-            setCreateItem(e.target.checked)
-            setUpdateItem(e.target.checked)
-            setDeleteItem(e.target.checked)
+            if (setViewItem)
+              setViewItem(e.target.checked);
+            // if (setCreateItem)
+            //   setCreateItem(e.target.checked)
+            // if (setUpdateItem)
+            //   setUpdateItem(e.target.checked)
+            // if (setDeleteItem)
+            //   setDeleteItem(e.target.checked)
           }}
           inputProps={{ 'aria-label': 'controlled' }} />}
         label="Ανάγνωση" />
       <FormControlLabel
         control={<Checkbox
+          disabled={createItem ? false : true}
           color='primary'
           checked={createItem}
-          onChange={e => setCreateItem(e.target.checked)}
+          onChange={e => {
+            if (setCreateItem)
+              setCreateItem(e.target.checked);
+          }
+          }
           inputProps={{ 'aria-label': 'controlled' }} />}
         label="Δημιουργία" />
       <FormControlLabel
         control={<Checkbox
+          disabled={updateItem ? false : true}
           color='primary'
           checked={updateItem}
-          onChange={e => setUpdateItem(e.target.checked)}
+          onChange={e => {
+            if (setUpdateItem)
+              setUpdateItem(e.target.checked);
+          }}
           inputProps={{ 'aria-label': 'controlled' }} />}
         label="Ανάνεωση" />
       <FormControlLabel
         control={<Checkbox
           color='primary'
           checked={deleteItem}
-          onChange={e => setDeleteItem(e.target.checked)}
+          onChange={e => {
+            if (setDeleteItem)
+              setDeleteItem(e.target.checked);
+          }
+          }
           inputProps={{ 'aria-label': 'controlled' }} />}
         label="Διαγραφή" />
     </div>
@@ -100,7 +117,7 @@ function getUserRightValue(userdetails, title, action) {
     }
   }
 
-  return true;
+  return false;
 }
 export default function UserItemNew(props) {
   const classes = useStyles();
@@ -156,11 +173,12 @@ export default function UserItemNew(props) {
   const [updateUserItem, setUpdateUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'update'));
   const [deleteUserItem, setDeleteUserItem] = useState(getUserRightValue(userItemDetails, 'Χρήστες', 'delete'));
 
+  const [viewLogItem, setViewLogItem] = useState(getUserRightValue(userItemDetails, 'Logs', 'view'));
+  const [deleteLogItem, setDeleteLogItem] = useState(getUserRightValue(userItemDetails, 'Logs', 'delete'));
+
   const [selectedTab, setSelectedTab] = useState(0);
 
-  const handleTabChange = (event, newValue) => {
-    setSelectedTab(newValue)
-  };
+  const handleTabChange = (event, newValue) => { setSelectedTab(newValue) };
   const [hoveredKey, setHoveredKey] = useState(-1);
   const handleMouseEnter = (e, d) => { setHoveredKey(d); };
   const handleMouseLeave = () => { setHoveredKey(-1); };
@@ -248,41 +266,23 @@ export default function UserItemNew(props) {
           users.Delete = deleteUserItem;
           data.rights.push(users);
 
+          var logs = {};
+          logs.Title = 'Logs';
+          logs.View = viewUserItem;
+          logs.Delete = deleteUserItem;
+          data.rights.push(logs);
+
           if (location.state.isNew === 2)
             dispatch(editUser(data)).then(response => {
-              var snackbarInfo = {};
-              if (response.value.success === false) {
-                snackbarInfo.openMessage = true;
-                snackbarInfo.message = response.value.message;
-                snackbarInfo.variant = 'error';
-                store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
-              }
+              showSnackbarMessage(response, 'H ενημέρωση χρήστη έγινε επιτυχώς!');
             }).catch(error => {
-              var snackbarInfo = {};
-              snackbarInfo.openMessage = true;
-              snackbarInfo.message = 'Αποτυχία σύνδεσης στον διακομιστή!';
-              snackbarInfo.variant = 'error';
-              store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+              showFailedConnectWithServerMessage(error);
             })
           else
             dispatch(addUser(data)).then(response => {
-
-              var snackbarInfo = {};
-              snackbarInfo.openMessage = response.value.success;
-              if (response.value.success === true) {
-                snackbarInfo.message = 'Ο χρήστης δημιουργήθηκε επιτυχώς!';
-                snackbarInfo.variant = 'success';
-              } else if (response.value.success === false) {
-                snackbarInfo.message = 'H προσπάθεια για την δημιουργία του χρήστη απέτυχε! ' + response;
-                snackbarInfo.variant = 'error';
-              }
-              store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+              showSnackbarMessage(response, 'Ο χρήστης δημιουργήθηκε επιτυχώς!');
             }).catch(error => {
-              var snackbarInfo = {};
-              snackbarInfo.openMessage = true;
-              snackbarInfo.message = 'Αποτυχία σύνδεσης στον διακομιστή!';
-              snackbarInfo.variant = 'error';
-              store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+              showFailedConnectWithServerMessage(error);
             })
         }}>
         <div style={{
@@ -390,6 +390,7 @@ export default function UserItemNew(props) {
             {setRights('Ανακοινώσεις', viewAnnouncementItem, setViewAnnouncementItem, createAnnouncementItem, setCreateAnnouncementItem, updateAnnouncementItem, setUpdateAnnouncementItem, deleteAnnouncementItem, setDeleteAnnouncementItem)}
             {setRights('Κατηγορίες', viewCategoryItem, setViewCategoryItem, createCategoryItem, setCreateCategoryItem, updateCategoryItem, setUpdateCategoryItem, deleteCategoryItem, setDeleteCategoryItem)}
             {setRights('Χρήστες', viewUserItem, setViewUserItem, createUserItem, setCreateUserItem, updateUserItem, setUpdateUserItem, deleteUserItem, setDeleteUserItem)}
+            {setRights('Logs', viewLogItem, setViewLogItem, undefined, undefined, undefined, undefined, deleteLogItem, setDeleteLogItem)}
           </div>
             : <></>}
           <div style={{ display: 'flex', flexFlow: 'column', overflowY: 'hidden', overflowX: 'hidden', marginTop: '20px' }}>

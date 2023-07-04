@@ -13,8 +13,7 @@ function ItemsList(props) {
 				itemDetails = state.menu_reducer.serviceItemDetails;
 
 			return itemDetails;
-		}
-		else if (props.kind === 'pageitems')
+		} else if (props.kind === 'pageitems')
 			return state.page_reducer.pageItemDetails;
 		else if (props.kind === 'mediaitems')
 			return state.media_reducer.mediaItemDetails;
@@ -26,23 +25,25 @@ function ItemsList(props) {
 			return state.user_reducer.userItemDetails;
 		else if (props.kind === 'categoryitems')
 			return state.categories_reducer.categoryItemDetails;
+		else if (props.kind === 'logitems')
+			return state.logs_reducer.logItemDetails;
 		else
 			return null;
 	});
 
-	
+
 	if (props.data) {
 		return props.data.map((item, i) => (
 			<ItemList
 				key={item.Id}
 				item={item}
-				itemtype={props.itemtype}				
+				itemtype={props.itemtype}
 				kindss={props.kind}
 				selectedItem={itemDetails}
 				searchValue={props.searchValue}
 			/>
-		));		
-	} else {		
+		));
+	} else {
 		<>Δεν βρέθηκαν.</>
 	}
 }
