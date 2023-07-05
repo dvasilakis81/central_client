@@ -97,12 +97,15 @@ function ServicesMenu() {
       </div>
     </div>
   }
+
   function getItems(items) {
 
-    return items && items.map((d, index) => {
-      return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ? renderServiceItem(d, index) : <></>
-    })
+    if (items && items.length)
+      return items.map((d, index) => {
+        return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ? renderServiceItem(d, index) : <></>
+      })
   }
+
   function getItemsFromSearch(serviceGroups) {
     itemIds = [];
     return serviceGroups && serviceGroups.map((servicegroup, index) => {
@@ -126,14 +129,30 @@ function ServicesMenu() {
       var ret = getItemsFromSearch(serviceItemsList);
       if (itemIds.length === 0)
         return <div style={{ fontSize: '30px', padding: '30px', fontWeight: 'bold' }}>Δεν βρέθηκαν υπηρεσίες</div>;
-      else
-        return ret;
+      else {
+        return <div className="services-menu-container">
+          <div className="services-menu-items">
+            {ret}
+          </div>
+        </div>
+      }
     } else {
       if (groupServicesSelected) {
         if (groupServicesSelected.HasSubCategories === 1)
-          return getSubCategories(groupServicesSelected);
-        else
-          return getItems(groupServicesSelected.servicesInfo);
+          return <div className="services-menu-container">
+            <div className="services-menu-items">
+              {getSubCategories(groupServicesSelected)}
+            </div>
+          </div>
+        else {
+          if (groupServicesSelected.servicesInfo && groupServicesSelected.servicesInfo.length > 0) {
+            return <div className="services-menu-container">
+              <div className="services-menu-items">
+                {getItems(groupServicesSelected.servicesInfo)}
+              </div>
+            </div>
+          }
+        }
       }
     }
   }
@@ -226,16 +245,12 @@ function ServicesMenu() {
               {getTitle()}
             </div>
           </div>
-          <div style={{ marginTop: '0px', overflowY: 'auto', padding: '40px' }}>
-            <div className="services-menu-container">
-              <div className="services-menu-items">
-                {getServicesFromSelectedGroup()}
-              </div>
-            </div>
+          <div style={{ marginTop: '0px', overflowY: 'auto' }}>
+            {getServicesFromSelectedGroup()}
             <div className='services-menu-announcement-container'>
               {
                 (searchValue === '' || searchValue === undefined || searchValue === null) && groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
-                  return <div key={index} style={{ margin: '20px' }}>
+                  return <div key={index} style={{ margin: '20px', backgroundColor: 'white', color: 'black' }}>
                     {renderHtml(d.Description)}
                   </div>
                 })

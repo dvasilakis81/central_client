@@ -2,7 +2,7 @@ export function getAdminItemStyle(item, selecteditem, hoveredKey) {
 
   let itemStyle = 'admin-item';
   if (selecteditem) {
-    itemStyle = (item.Id !== selecteditem.Id ? 'admin-item' : 'admin-selected-item');
+    itemStyle = (item.Id !== selecteditem.Id ? 'admin-item' : 'admin-hovered-item');
     if (hoveredKey && hoveredKey !== selecteditem.Id)
       itemStyle = 'admin-hovered-item';
   } else {

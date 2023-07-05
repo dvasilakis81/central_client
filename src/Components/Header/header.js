@@ -11,9 +11,7 @@ export default function Header(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef();
   const popupRef = useRef();
-  const [userInfoVisible, setUserInfoVisible] = useState('');
-  const [mouseOver, setMouseOver] = useState(true);
-  const [mouseLeave, setMouseLeave] = useState(true);
+  const [userInfoVisible, setUserInfoVisible] = useState('');  
 
   useEffect(() => {
 
@@ -38,14 +36,13 @@ export default function Header(props) {
       fontWeight: 'bold',
       flexDirection: 'row',
       padding: 0,
-      height: headerHeight,
-      borderBottom: '0px solid #094fa3'
+      height: headerHeight,      
     },
     headerTitle: {
       flexGrow: 1,
       padding: 10,
       fontSize: '36px',
-      color: '#094fa3',
+      color: '#00008b',
       textAlign: 'left',
       alignSelf: 'left',
       verticalAlign: 'middle'
@@ -120,16 +117,6 @@ export default function Header(props) {
         {headerTitleValue}
       </div>
     }
-  }
-  function renderAdminOptions() {
-    const divStyle = {
-      mouseOver: {
-        cursor: 'pointer'
-      }
-    }
-
-    return <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
-    </div>
   }
 
   return <header style={styles.header}>

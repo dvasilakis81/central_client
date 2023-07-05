@@ -23,19 +23,17 @@
   flex: 1;
   font-weight: bolder;
   cursor: pointer;
-  color: #094fa3;
+  color: #00008B;
   background: 'linear-gradient(#2980b9, #6dd5fa)'
 }
-
 .menu-item-hovered {
   display: flex;
   flex: 1;
   font-weight: bolder;
   cursor: pointer;
   color: white;
-  background: #094fa3;
+  background: #00008B;
 }
-
 @media only screen and (max-width: 3000px) {
   .menuItemImage {
     font-size: 1.3rem;

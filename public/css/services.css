@@ -6,23 +6,27 @@
   align-items: center;
 }
 .services-menu-container {
-  display: flex;
+  display: flex;  
   flex-direction: column;
   justify-content: center;
-  background: transparent;
+  align-items: center;
+  width: 100%;
+  background-color: transparent;
   overflow-x: hidden;
-  overflow-y: hidden;
-  padding-left: 0px;
+  overflow-y: hidden;    
 }
 .services-menu-items {
-  display: flex;
+  display: flex;  
   flex-direction: row;
   flex-wrap: wrap;
-  background: transparent;
+  flex: 1;    
+  width: auto;
   overflow-x: hidden;
   overflow-y: auto;
   align-content: flex-start;
-  justify-content: center;
+  justify-content: flex-start;  
+  background-color: transparent;
+  padding: 20px;
 }
 .service-menu-item-parent {
   display: flex;
