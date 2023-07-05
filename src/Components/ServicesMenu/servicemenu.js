@@ -85,7 +85,8 @@ function ServicesMenu() {
     return ret;
   }
   function renderServiceItem(d, index) {
-    return <div key={index}
+    return <div
+      key={index}
       className="service-menu-item-parent"
       onMouseEnter={(e) => handleMouseEnter(e, d)}
       onMouseLeave={handleMouseLeave}
@@ -225,14 +226,14 @@ function ServicesMenu() {
               {getTitle()}
             </div>
           </div>
-          <div style={{ marginTop: '0px', overflowY: 'auto' }}>
+          <div style={{ marginTop: '0px', overflowY: 'auto', padding: '40px' }}>
             <div className="services-menu-container">
               <div className="services-menu-items">
                 {getServicesFromSelectedGroup()}
               </div>
             </div>
             <div className='services-menu-announcement-container'>
-            {
+              {
                 (searchValue === '' || searchValue === undefined || searchValue === null) && groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
                   return <div key={index} style={{ margin: '20px' }}>
                     {renderHtml(d.Description)}

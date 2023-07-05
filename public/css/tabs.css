@@ -1,41 +1,60 @@
 /* Style the tab */
 .tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  max-width: 150px;
+  height: auto;
+  text-align: center;
+  cursor: unset;
+  font-weight: 600;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #00008B;
+  background-color: white;
+  border-bottom: 2px solid #00008B;
 }
-
-/* Style the buttons that are used to open the tab content */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
+.selected-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  max-width: 200px;
+  height: auto;
+  text-align: center;
+  cursor: unset;
+  font-weight: 600;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+  background-color: #00008B;
+  border-bottom: 4px solid #00008B;
 }
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
+@media only screen and (max-width: 3000px) { 
 }
+@media only screen and (max-width: 1920px) {
 
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #ccc;
+  .selected-tab, .tab {
+    font-size: 1rem;
+    min-width: 150px;
+    max-width: 250px;
+    min-height: 50px;
+    cursor: pointer;
+  }  
 }
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
+@media only screen and (max-width: 1366px) {
+  
+  .menuItemName,.selected-tab, .tab {
+    font-size: 0.8rem;
+    min-width: 140px;
+    max-width: 140px;
+    cursor: pointer;
+  }  
 }
-
-.tabcontent {
-  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+@media only screen and (max-width: 900px) {
+}
+@media only screen and (max-width: 200px) {
 }
 
 /* Go from zero to full opacity */

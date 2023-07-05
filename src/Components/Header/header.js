@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { getHeaderHeight } from '../../Helper/helpermethods';
 import thyraios from '../Images/thyraios.png';
 import store from '../../Redux/Store/store';
-import Categories from '../Administration/CategoriesPopUp/categories';
 
 export default function Header(props) {
   const headerHeight = getHeaderHeight();
@@ -31,7 +30,7 @@ export default function Header(props) {
   const styles = {
     header: {
       width: '100%',
-      backgroundColor: '#ADD8E6',      
+      backgroundColor: 'white',
       justifyContent: 'left',
       alignItems: 'center',
       display: "flex",
@@ -39,7 +38,8 @@ export default function Header(props) {
       fontWeight: 'bold',
       flexDirection: 'row',
       padding: 0,
-      height: headerHeight
+      height: headerHeight,
+      borderBottom: '0px solid #094fa3'
     },
     headerTitle: {
       flexGrow: 1,
