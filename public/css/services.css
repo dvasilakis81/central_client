@@ -67,7 +67,16 @@
   color: white;
   background-color: #00008B;
   border-color: white;
-  border: 3px solid white;
+  border: 3px solid white;  
+  /* -webkit-transition: background-color 0.5s ease-out;
+  -moz-transition: background-color 0.5s ease-out;
+  -o-transition: background-color 0.5s ease-out;
+  transition: background-color 0.5s ease-out; */
+  /* -webkit-transition: color 1s;
+  -moz-transition:    color 1s;
+  -ms-transition:     color 1s;
+  -o-transition:      color 1s;
+  transition:         color 1s; */
 }
 .group-services-item {
   font-size: 20px;

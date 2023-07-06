@@ -23,10 +23,22 @@ export default function PageInfo() {
       data.url = pageUrlParts[pageUrlParts.length - 1];
       dispatch(getPageInfo(data)).then(response => {
         setHeaderTitle(response?.value?.Title);
-        menuItemsList.map((item, index) => {
-          if (item.Name === response?.value?.Title)
-            setSelectedCentralMenuItem(item);
-        })
+
+        if (menuItemsList) {
+          var announcemnetsItem = {}
+          for (var i = 0; i < menuItemsList.length; i++) {
+            var menuItem = menuItemsList[i];            
+            if (menuItem.Name === 'Ανακοινώσεις')
+              announcemnetsItem = menuItem;
+
+            if (menuItem.Name === response?.value?.Title) {
+              setSelectedCentralMenuItem(menuItem);
+              break;
+            }
+            if (i === menuItemsList.length - 1)
+              setSelectedCentralMenuItem(announcemnetsItem);
+          }
+        }  
       });
     }
   }, [history]);

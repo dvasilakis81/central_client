@@ -55,7 +55,7 @@ export function SelectOption(props) {
       onClose={handleCloseSelectIcon}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       background='green'>
-      <div style={{ width: '350px', maxHeight: '500px', overflowY: 'hidden' }}>
+      <div style={{ width: '350px', maxHeight: '500px', overflowY: 'scroll' }}>
         {
           props.imagetype === 1 ? mediaItemsList && mediaItemsList.map((item) => {
             if (checkIfFileIsImage(item.Name) === true) {
