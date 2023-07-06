@@ -10,6 +10,7 @@ import { getServiceItems, getServiceItemsByGroup, getCategories } from '../../Re
 import { getHostUrl, renderHtml, includeStrings } from '../../Helper/helpermethods';
 import store from '../../Redux/Store/store';
 import ServicesSearchBar from '../Search/servicessearchbar';
+import ServiceMenuContainer from './servicemenucontainer';
 
 var itemIds = [];
 
@@ -97,7 +98,6 @@ function ServicesMenu() {
       </div>
     </div>
   }
-
   function getItems(items) {
 
     if (items && items.length)
@@ -105,7 +105,6 @@ function ServicesMenu() {
         return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ? renderServiceItem(d, index) : <></>
       })
   }
-
   function getItemsFromSearch(serviceGroups) {
     itemIds = [];
     return serviceGroups && serviceGroups.map((servicegroup, index) => {
@@ -128,29 +127,25 @@ function ServicesMenu() {
       itemIds = [];
       var ret = getItemsFromSearch(serviceItemsList);
       if (itemIds.length === 0)
-        return <div style={{ fontSize: '30px', padding: '30px', fontWeight: 'bold' }}>Δεν βρέθηκαν υπηρεσίες</div>;
+        return <div className='flex-row-center message-big-size'>
+          Δεν βρέθηκαν υπηρεσίες
+        </div >
       else {
-        return <div className="services-menu-container">
-          <div className="services-menu-items">
-            {ret}
-          </div>
-        </div>
+        return <ServiceMenuContainer>
+          {ret}
+        </ServiceMenuContainer>
       }
     } else {
       if (groupServicesSelected) {
         if (groupServicesSelected.HasSubCategories === 1)
-          return <div className="services-menu-container">
-            <div className="services-menu-items">
-              {getSubCategories(groupServicesSelected)}
-            </div>
-          </div>
+          return <ServiceMenuContainer>
+            {getSubCategories(groupServicesSelected)}
+          </ServiceMenuContainer>
         else {
           if (groupServicesSelected.servicesInfo && groupServicesSelected.servicesInfo.length > 0) {
-            return <div className="services-menu-container">
-              <div className="services-menu-items">
-                {getItems(groupServicesSelected.servicesInfo)}
-              </div>
-            </div>
+            return <ServiceMenuContainer>
+              {getItems(groupServicesSelected.servicesInfo)}
+            </ServiceMenuContainer>
           }
         }
       }

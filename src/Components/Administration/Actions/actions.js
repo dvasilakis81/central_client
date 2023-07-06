@@ -101,7 +101,7 @@ export default function Actions(props) {
   }
 
   if (navigateToNew === true) {
-    navigate(props.navigatepage, { state: { isNew: 1 } })
+    navigate(props.navigatepage, { state: { isNew: 1, itemtype: props.itemtype } })
     // return <Navigate push to={props.navigatepage} />
   } if (navigateToEdit === true) {
     navigate(props.navigatepage, { state: { isNew: 2, itemtype: props.itemtype } });

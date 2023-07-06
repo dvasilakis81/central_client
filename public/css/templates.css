@@ -5,11 +5,31 @@
   text-rendering: 'optimizeLegibility';
   text-size-adjust: '100%';
 }
-
 .flex-row {
   display: flex;
   flex-direction: row;
   margin-top: 15px;
+  justify-content: left;
+}
+.padding-10{
+  padding: 10px;
+}
+.flex-row-center {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;  
+}
+
+.message-big-size {
+  font-size: 30px;
+  font-weight: bolder;
 }
 .page-info-container {
   padding: 10px;
@@ -66,7 +86,6 @@
   padding-bottom: 3;
   cursor: pointer;
 }
-
 .colors {
   background: #87CEEB;
   background: #FCF9B5;
@@ -117,30 +136,44 @@
   background: 'none';
   font-weight: 'bold';
 }
-
-@media only screen and (max-width: 3000px) {  
+.checkbox {
+  transform: scale(2);  
+}
+.selected-fontawesome{
+  color: white;
+  background-color: blue;
+}
+.no-selected-fontawesome{
+  color: black;
+  background-color: transparent;
+}
+@media only screen and (max-width: 3000px) {
   .menuItemImage {
     font-size: 1.3rem;
     font-weight: bolder;
     min-width: 24px;
     max-width: 24px;
   }
-  .menu-body {    
+
+  .menu-body {
     min-width: 600px;
-    max-width: 600px;    
+    max-width: 600px;
   }
+
   .menu-item {
     font-size: 1.7rem;
     padding-left: 5px;
     padding-top: 12px;
     padding-bottom: 12px;
   }
+
   .menu-item-hovered {
     font-size: 1.7rem;
     padding-left: 5px;
     padding-top: 12px;
     padding-bottom: 12px;
   }
+
   .searchBar {
     width: 1000px;
     font-size: '48px';
@@ -156,45 +189,55 @@
     min-height: 50px;
     cursor: pointer;
   }
+
   .group-services-item-hovered,
   .group-services-item {
     font-size: 20px;
     padding: 10px;
   }
+
   .selected-service-title {
     font-size: 24px;
   }
+
   .menuItemImage {
     font-size: 26px;
     font-weight: bolder;
     min-width: 30px;
     max-width: 30px;
   }
+
   .services-menu-announcement-container {
     transform: scale(1);
   }
-  .menu-body {    
+
+  .menu-body {
     min-width: 500px;
     max-width: 500px;
   }
+
   .menu-item {
     font-size: 1.3rem;
     padding-left: 5px;
     padding-top: 12px;
     padding-bottom: 12px;
   }
+
   .menu-item-hovered {
     font-size: 1.3rem;
     padding-left: 5px;
     padding-top: 12px;
     padding-bottom: 12px;
   }
+
   .page-title {
     font-size: 36px;
   }
+
   .div-services-frame {
     max-height: 70%;
   }
+
   .searchBar {
     width: 800px;
     font-size: '43px';
@@ -210,49 +253,60 @@
     max-width: 140px;
     cursor: pointer;
   }
+
   .group-services-item-hovered,
   .group-services-item {
     font-size: 16px;
     padding: 8px;
   }
+
   .selected-service-title {
     font-size: 20px;
   }
+
   .service-menu-item-parent {
     max-height: 70px;
     transform: scale(0.8);
   }
+
   .services-menu-announcement-container {
     transform: scale(0.8);
   }
-  .menu-body {    
+
+  .menu-body {
     min-width: 400px;
     max-width: 400px;
   }
+
   .menuItemImage {
     font-size: 1.2rem;
     font-weight: bolder;
     min-width: 24px;
     max-width: 24px;
   }
+
   .menu-item {
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
   }
+
   .menu-item-hovered {
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
   }
+
   .page-title {
     font-size: 30px;
   }
+
   .div-services-frame {
     max-height: 60%;
   }
+
   .searchBar {
     width: 600px;
     font-size: '38px';
@@ -262,31 +316,37 @@
   body {
     background-color: lightblue;
   }
+
   .menuItemImage {
     font-size: 1.2rem;
     font-weight: bolder;
     min-width: 24px;
     max-width: 24px;
   }
-  .menu-body {    
+
+  .menu-body {
     min-width: 250px;
     max-width: 2500px;
   }
+
   .menu-item {
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
   }
+
   .menu-item-hovered {
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
   }
+
   .page-title {
     font-size: 26x;
   }
+
   .searchBar {
     width: 400px;
     font-size: '32px';
@@ -296,27 +356,32 @@
   body {
     background-color: lightblue;
   }
+
   .menuItemImage {
     font-size: 1.2rem;
     font-weight: bolder;
     min-width: 24px;
     max-width: 24px;
   }
+
   .menu-item {
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
   }
+
   .menu-item-hovered {
     font-size: 1rem;
     padding-left: 5px;
     padding-top: 6px;
     padding-bottom: 6px;
   }
+
   .page-title {
     font-size: 20x;
   }
+
   .searchBar {
     width: 150px;
     font-size: '18px';

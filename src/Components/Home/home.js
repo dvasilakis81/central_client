@@ -1,12 +1,15 @@
-import { Announcement } from '@material-ui/icons';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ServicesMenu from '../ServicesMenu/servicemenu';
 import HomewrapperWithCentralMenu from './homewrapperwithcentralmenu';
 import HomewrapperWithCentralMenu2 from './homewrapperwithcentralmenu2';
-import Announcements from '../Announcements/announcement';
+import { setHeaderTitle } from '../Common/methods';
 
 export default function Home() {
+
+  useEffect(() => {
+    setHeaderTitle('Αρχική');
+  }, []);
 
   return (
     <HomewrapperWithCentralMenu2>

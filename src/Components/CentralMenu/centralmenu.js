@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMenuItems } from '../../Redux/Actions/index';
-import store from '../../Redux/Store/store';
+import { setHeaderTitle, setSelectedCentralMenuItem } from '../Common/methods';
 
 function CentralMenu() {
 
@@ -23,7 +23,6 @@ function CentralMenu() {
       return 'menu-item-hovered';
     else
       return 'menu-item';
-    //return (hoveredKey === d ? 'menu-item-hovered' : 'menu-item');
   }
   function getImageClassName(ImageMenu) {
     return ImageMenu + ' menuItemImage';
@@ -43,9 +42,9 @@ function CentralMenu() {
 
                 if (d.Url)
                   window.open(d.Url, '_blank', 'noreferrer');
-                else {
-                  store.dispatch({ type: 'SET_SELECTED_CENTRAL_MENU', payload: d })
-                  store.dispatch({ type: 'SET_HEADER_TITLE', payload: d.Name })
+                else {                  
+                  setSelectedCentralMenuItem(d);
+                  setHeaderTitle(d.Name)
                   if (d.PageUrl)
                     navigate('/' + d.PageUrl);
                   else

@@ -22,6 +22,7 @@ const styles = {
     width: 800
   }
 }
+
 const CustomPaper = (props) => {
   return <Paper  {...props} style={{ width: 'auto', backgroundColor: 'lightgray', padding: '0px', margin: '0px' }} />;
 };
@@ -67,8 +68,8 @@ export default function MenuItemNew(props) {
   const [isdeleted, setIsdeleted] = useState(menuItemDetails?.isDeleted || false);
   const [hidden, setHidden] = useState((menuItemDetails?.Hidden === 1 ? true : false) || false);
   const [announce, setAnnounce] = useState(menuItemDetails?.Announce || 0);
-  const [menuItem, setMenuItem] = useState(menuItemDetails?.MenuItem === 1 ? true : false);
-  const [serviceItem, setServiceItem] = useState(menuItemDetails?.ServiceItem === 1 ? true : false);
+  const [menuItem, setMenuItem] = useState(menuItemDetails?.MenuItem === 1 || location.state && location.state.itemtype === 1 ? true : false);
+  const [serviceItem, setServiceItem] = useState(menuItemDetails?.ServiceItem === 1 || location.state && location.state.itemtype === 2 ? true : false);
   const [categories, setCategories] = useState(menuItemDetails?.categoriesInfo || '');
 
   const handleClick = () => {
@@ -127,7 +128,7 @@ export default function MenuItemNew(props) {
               style={styles.textfield}
               value={url}
               isRequired={false}
-              required={true}
+              required={false}
               onChange={(e) => { setUrl(e.target.value); }}
               inputProps={{ style: styles.textfield }}
             />
@@ -275,6 +276,7 @@ export default function MenuItemNew(props) {
                 label='Μενού'
                 defaultChecked={false}
                 color='primary'
+                className='checkbox'
                 checked={menuItem}
                 onChange={e => setMenuItem(e.target.checked)}
                 inputProps={{ 'aria-label': 'controlled' }} />
@@ -285,6 +287,7 @@ export default function MenuItemNew(props) {
                 label='Υπηρεσία'
                 defaultChecked={false}
                 color='primary'
+                className='checkbox'
                 checked={serviceItem}
                 onChange={e => setServiceItem(e.target.checked)}
                 inputProps={{ 'aria-label': 'controlled' }} />
@@ -304,9 +307,10 @@ export default function MenuItemNew(props) {
             <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
               <Checkbox
                 label='Κρυφό'
+                className='checkbox'
                 defaultChecked={false}
                 color='primary'
-                checked={hidden}
+                checked={hidden}                
                 onChange={e => setHidden(e.target.checked)}
                 inputProps={{ 'aria-label': 'controlled' }}
               />

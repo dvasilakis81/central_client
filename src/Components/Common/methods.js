@@ -1,8 +1,12 @@
-import Button from '@material-ui/core/Button';
-
 import store from '../../Redux/Store/store';
 import { getDateFormat, renderHtml } from '../../Helper/helpermethods';
 
+export function setSelectedCentralMenuItem(menuitem) {
+  store.dispatch({ type: 'SET_SELECTED_CENTRAL_MENU', payload: menuitem })
+}
+export function setHeaderTitle(headerTitle) {
+  store.dispatch({ type: 'SET_HEADER_TITLE', payload: headerTitle })
+}
 export function showSnackbarMessage(response, message) {
   var snackbarInfo = {};
   snackbarInfo.openMessage = true;
@@ -68,7 +72,6 @@ export function renderComments2(pageItemDetails, selectedTab, showActions, rende
       return <></>
   }
 }
-
 function divComments(pageItemDetails, commentsToRender, showActions, renderApprovedButton, renderRejectedButton) {
   return commentsToRender.map((item, index) => {
     return <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -90,7 +93,6 @@ function divComments(pageItemDetails, commentsToRender, showActions, renderAppro
     </div>
   })
 }
-
 export function renderComments(pageItemDetails, selectedTab, showActions, renderApprovedButton, renderRejectedButton) {
   if (pageItemDetails && pageItemDetails.comments) {
     var commentsToRender = [];
@@ -106,7 +108,7 @@ export function renderComments(pageItemDetails, selectedTab, showActions, render
       commentsToRender = pageItemDetails.comments.filter(comment => comment.isapproved === 0 && comment.isrejected === 0)
 
     if (commentsToRender && commentsToRender.length > 0) {
-      return <div style={{display: 'flex', flexDirection: 'column'}}>
+      return <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div class='comment-nav'>{commentsToRender.length} Σχόλια</div>
         {divComments(pageItemDetails, commentsToRender, showActions, renderApprovedButton, renderRejectedButton)}
       </div>

@@ -13,7 +13,7 @@ export default function MenuItemDetails(props) {
       {renderDetail('Εξωτερικός σύνδεσμος', itemDetails.Url, { isUrl: true })}
       {renderDetail('Εσωτερικός σύνδεσμος', itemDetails.PageUrl, { isUrl: true })}
       {/* {renderDetail('Εικονίδιο', menuItemDetails.ImageService || menuItemDetails.ImageMenu, { isImage: true })} */}
-      {renderDetail('Σειρά', itemDetails.OrderNo, { isText: true })}
+      {renderDetail('Σειρά', itemDetails.MenuOrderNo || itemDetails.ServiceOrderNo, { isText: true })}
       {renderDetail('Κατηγορίες', itemDetails.categoriesInfo, { isList: true })}
       {renderDetail('Μενού', itemDetails.MenuItem, { isCheckbox: true })}
       {renderDetail('Υπηρεσία', itemDetails.ServiceItem, { isCheckbox: true })}      
