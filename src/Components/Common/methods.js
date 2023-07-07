@@ -1,6 +1,9 @@
 import store from '../../Redux/Store/store';
 import { getDateFormat, renderHtml } from '../../Helper/helpermethods';
 
+export function setOpenChangePassword(payload) {
+  store.dispatch({ type: 'OPEN_CHANGE_PASSWORD', payload: payload });
+}
 export function setSelectedCentralMenuItem(menuitem) {
   store.dispatch({ type: 'SET_SELECTED_CENTRAL_MENU', payload: menuitem })
 }

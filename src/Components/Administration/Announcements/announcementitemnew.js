@@ -126,14 +126,15 @@ export default function AnnouncementItemNew(props) {
             init={{
               selector: 'textarea',
               resize: 'true',
-              plugins: "lists link image code table media links indent fontsize autoresize",
-              height: getBodyHeight() - 100,
-              height: 'auto',
-              min_height: 500,
-              max_height: 500,
-              width: 'auto',
+              plugins: "lists link image code table media links indent fontsize",
               toolbar: "undo redo | bold italic underline | fontsize fontfamily | outdent indent | alignleft aligncenter alignright | numlist bullist | link | image | media | table | code",
-              content_style: "body { font-size: 14pt; font-family: Arial; }",
+              font_family_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Tinos=tinos; Symbol=symbol;Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
+              font_size_formats: '8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 48pt',
+              //plugins: 'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen pageembed charmap mentions quickbars linkchecker emoticons advtable export',
+              min_height: 500,
+              max_height: 500,              
+              width: 'auto',
+              content_style: "@import url('https://fonts.googleapis.com/css2?family=Tinos&display=swap');body { font-size: 14pt; font-family: Arial; }",                        
               promotion: false
             }}
             initialValue={descriptionInitial}

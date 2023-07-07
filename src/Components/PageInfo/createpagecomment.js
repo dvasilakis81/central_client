@@ -44,16 +44,7 @@ export default function CreatePageComment(props) {
           data.url = pageInfo.Url;
 
           dispatch(addPageComment(data)).then(response => {
-            var snackbarInfo = {};
-            snackbarInfo.openMessage = true;
-            if (response.value.success === true) {
-              snackbarInfo.message = 'H υποβολή σχολίου έγινε επιτυχώς!' + (pageInfo.CommentNeedsApproval === 1 ? 'Αναμένεται έγκριση!' : '');
-              snackbarInfo.variant = (pageInfo.CommentNeedsApproval === 1 ? 'info' : 'success');
-            } else if (response.value.success === false) {
-              snackbarInfo.message = response.value.message;
-              snackbarInfo.variant = 'error';
-            }
-
+            showSnackbarMessage(response, 'H υποβολή σχολίου έγινε επιτυχώς!' + (pageInfo.CommentNeedsApproval === 1 ? 'Αναμένεται έγκριση!' : ''))            
             setLoading(false);
             setFirstname('');
             setLastname('');
@@ -63,8 +54,6 @@ export default function CreatePageComment(props) {
             var data = {};
             data.url = pageInfo.Url;
             dispatch(getPageInfo(data));
-            store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
-
           }).catch(error => {
 
             var msg = 'Αποτυχία σύνδεσης στον διακομιστή!';

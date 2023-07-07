@@ -9,6 +9,7 @@ import { changePassword, checkPassword } from '../../../Redux/Actions/index';
 import store from '../../../Redux/Store/store';
 import { getScreenWidth, getScreenHeight } from '../../../Helper/helpermethods';
 import { inputTextfieldStyle } from '../../Styles/styles'
+import {showSnackbarMessage, showFailedConnectWithServerMessage, setOpenChangePassword } from '../../Common/methods';
 
 // const styles = {
 //   textfieldStyle: {
@@ -106,13 +107,8 @@ export default function UserChangePassword() {
               setPassword('');
               setConfirmPassword('');
             }).catch(error => {
-              var snackbarInfo = {};
-              snackbarInfo.openMessage = true;
-              snackbarInfo.message = 'Αποτυχία σύνδεσης στον διακομιστή!';
-              snackbarInfo.variant = 'error';
-              store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
-              store.dispatch({ type: 'OPEN_CHANGE_PASSWORD', payload: false });
-
+              showFailedConnectWithServerMessage(error);
+              setOpenChangePassword(false);
               setOldPassword('');
               setPassword('');
               setConfirmPassword('');
@@ -183,7 +179,7 @@ export default function UserChangePassword() {
                   setOldPassword('');
                   setPassword('');
                   setConfirmPassword('');
-                  store.dispatch({ type: 'OPEN_CHANGE_PASSWORD', payload: false });
+                  setOpenChangePassword(false);                  
                 }}>
                 AKΥΡΩΣΗ
               </Button>

@@ -16,7 +16,6 @@ export default function PageInfo() {
   const { menuItemsList } = useSelector(state => ({ menuItemsList: state.menu_reducer.menuItemsList }));
 
   useEffect(() => {
-    var pageInfo2 = pageInfo;
     var pageUrlParts = window.location.href.split('/');
     if (pageUrlParts) {
       var data = {};
@@ -25,20 +24,22 @@ export default function PageInfo() {
         setHeaderTitle(response?.value?.Title);
 
         if (menuItemsList) {
-          var announcemnetsItem = {}
+          var announcementsItem = {}
           for (var i = 0; i < menuItemsList.length; i++) {
-            var menuItem = menuItemsList[i];            
+            var menuItem = menuItemsList[i];
+            if (response?.value?.Url.startsWith('oey-'))
+              break;
             if (menuItem.Name === 'Ανακοινώσεις')
-              announcemnetsItem = menuItem;
+              announcementsItem = menuItem;
 
             if (menuItem.Name === response?.value?.Title) {
               setSelectedCentralMenuItem(menuItem);
               break;
             }
             if (i === menuItemsList.length - 1)
-              setSelectedCentralMenuItem(announcemnetsItem);
+              setSelectedCentralMenuItem(announcementsItem);
           }
-        }  
+        }
       });
     }
   }, [history]);

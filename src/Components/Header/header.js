@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { getHeaderHeight } from '../../Helper/helpermethods';
 import thyraios from '../Images/thyraios.png';
 import store from '../../Redux/Store/store';
+import { setOpenChangePassword } from '../Common/methods'
 
 export default function Header(props) {
   const headerHeight = getHeaderHeight();
@@ -11,7 +12,7 @@ export default function Header(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef();
   const popupRef = useRef();
-  const [userInfoVisible, setUserInfoVisible] = useState('');  
+  const [userInfoVisible, setUserInfoVisible] = useState('');
 
   useEffect(() => {
 
@@ -36,7 +37,7 @@ export default function Header(props) {
       fontWeight: 'bold',
       flexDirection: 'row',
       padding: 0,
-      height: headerHeight,      
+      height: headerHeight,
     },
     headerTitle: {
       flexGrow: 1,
@@ -95,9 +96,7 @@ export default function Header(props) {
                 <div style={{ padding: '20px' }}
                   onMouseEnter={(e) => { e.target.style.backgroundColor = 'lightblue'; }}
                   onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
-                  onClick={(e) => {
-                    store.dispatch({ type: 'OPEN_CHANGE_PASSWORD', payload: true });
-                  }}>
+                  onClick={(e) => { setOpenChangePassword(true); }}>
                   Αλλαγή Kωδικού
                 </div>
                 <div style={{ padding: '20px' }}

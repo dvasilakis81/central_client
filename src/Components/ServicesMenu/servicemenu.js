@@ -1,4 +1,4 @@
-  import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -234,9 +234,9 @@ function ServicesMenu() {
         alignItems: 'flex-start',
         marginTop: '30px'
       }}>
-        <div className='div-services-frame'>
+        <div className={getTitle() === 'Ανακοινώσεις' ? 'div-services-frame-announcements' : 'div-services-frame'}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexBasis: 'fit-content' }}>
-            <div className='selected-service-title'>
+            <div className={getTitle() === 'Ανακοινώσεις' ? 'selected-service-title-announcements' : 'selected-service-title'}>
               {getTitle()}
             </div>
           </div>
@@ -245,7 +245,7 @@ function ServicesMenu() {
             <div className='services-menu-announcement-container'>
               {
                 (searchValue === '' || searchValue === undefined || searchValue === null) && groupServicesSelected && groupServicesSelected.announcementsInfo && groupServicesSelected.announcementsInfo.map((d, index) => {
-                  return <div key={index} style={{ margin: '20px', backgroundColor: 'white', color: 'black' }}>
+                  return <div key={index} style={{ margin: '5px', backgroundColor: 'transparent', color: 'black' }}>
                     {renderHtml(d.Description)}
                   </div>
                 })

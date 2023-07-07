@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { loginUser } from '../../Redux/Actions';
 import store from '../../Redux/Store/store'
-import { getTextField, getButton } from '../MaterialObjects/materialobjects'
-import Body from '../../HOC/Body/body';
+import { getButton } from '../MaterialObjects/materialobjects'
 import MySnackbar from '../Common/MySnackbar';
 import '../Common/templates';
-import { getServerErrorResponseMessage } from '../../Helper/helpermethods';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { showFailedConnectWithServerMessage } from '../Common/methods';
 
 const pageStyles = {
   container: {
@@ -76,14 +76,9 @@ export default function Login(props) {
           snackbarInfo.message = response.value.message;
           snackbarInfo.variant = 'error';
           store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
-        }        
+        }
       }).catch(error => {
-        var msg = 'Αποτυχία σύνδεσης στον διακομιστή!';
-        var snackbarInfo = {};
-        snackbarInfo.openMessage = true;
-        snackbarInfo.message = <div>{msg}</div>;
-        snackbarInfo.variant = 'error';
-        store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+        showFailedConnectWithServerMessage(error);
       })
     }
   }
