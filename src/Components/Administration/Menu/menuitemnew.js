@@ -134,6 +134,7 @@ export default function MenuItemNew(props) {
             />
           </div>
           <div style={{ padding: '10px' }}>
+            <Autocomplete kind='menu' items={pageItemsList} setValue={setCategories} value={categories}/>
             <Autocomplete
               options={pageItemsList || []}
               getOptionLabel={item => (item.Url || '')}

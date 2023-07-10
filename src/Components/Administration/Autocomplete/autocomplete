@@ -1,0 +1,48 @@
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useStyles } from '../../Styles/styles';
+
+const CustomPaper = (props) => {
+  return <Paper  {...props} style={{ width: 'auto', backgroundColor: 'lightgray', padding: '0px', margin: '0px' }} />;
+};
+
+export default function AutoComplete(props) {
+  const classes = useStyles();
+
+  return <Autocomplete
+    options={props.categoriesList || []}
+    filterSelectedOptions
+    multiple
+    getOptionLabel={item => {
+      if (props.optionLabel === 'name')
+        return item.Name || ''
+      else if (props.optionLabel === 'title')
+        return item.Title || ''
+    }}
+    onChange={(event, value) => props.setValue(value)}
+    defaultValue={value || []}
+    PaperComponent={CustomPaper}
+    ChipProps={{ color: 'red' }}
+    style={{ flex: '1', padding: '0px', flexWrap: 'wrap', maxWidth: '800px' }}
+    renderOption={(props, option) => {
+      var renderOption = '';
+      if (props.kind === 'page')
+        renderOption = props.Url;
+      else
+        renderOption = props.Name;
+
+      return (<span style={{ backgroundColor: 'transparent', color: 'blue', padding: '5px' }}>
+        <i class="fa fa-tag" />
+        <span style={{ marginLeft: '10px' }}>{renderOption}</span>
+      </span>);
+    }}
+    renderInput={params => (
+      <TextField
+        {...params}
+        className={classes.root}
+        variant="outlined"
+        placeholder="Κατηγορίες"
+        fullWidth
+      />
+    )}
+  />
+}

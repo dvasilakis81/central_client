@@ -57,7 +57,7 @@ export default function Body(props) {
 		// 	rootElement.setAttribute('style', 'transform:scale(.9);transform-origin:0 0');
 	});
 
-	return (<div style={{ width: '100%', height: bodyHeight, overflowX: 'hidden', overflowY: 'hidden', background: '#f4f6f7' }}>
+	return (<div style={{ width: '100%', height: bodyHeight, overflowX: 'hidden', overflowY: 'hidden'}}>
 		{props.children}
 		<MySnackbar vertical='bottom' horizontal='right' useScreenDimensions={true} />
 	</div >)

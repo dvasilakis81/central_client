@@ -1,58 +1,41 @@
-import Popover from '@material-ui/core/Popover';
-import { useCallback, useState } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
-import Header from '../../Header/header';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Checkbox } from '@material-ui/core';
-import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import { useNavigate } from 'react-router-dom';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import { addNewMediaItem } from '../../../Redux/Actions/index';
-
-function handleSubmit(e) {
-  e.preventDefault();
-
-  // this.setState({ submitButtonDisabled: true });
-  // if (this.state.AccountId) {
-  //   this.props.updateAccount(this.state, this.props.token.token).then(res => {
-  //     this.setState({ message: 'Ο λογαριασμός επεξεργάστηκε επιτυχώς!!!', openMessage: true, variant: 'success', submitButtonDisabled: false });
-  //     this.props.history.goBack();
-  //   }).catch(error => {
-  //     this.setState({ message: <><div>Αποτυχία επεξεργασίας λογαριασμών!</div><div>{getServerErrorResponseMessage(error)}</div></>, openMessage: true, variant: 'error', submitButtonDisabled: false });
-  //   });
-  // }
-  // else {
-  //   this.props.createAccount(this.state, this.props.token.token).then(res => {
-  //     this.setState({ AccountId: res.value.data[0].Id, message: 'Ο λογαριασμός δημιουργήθηκε επιτυχώς!!!', openMessage: true, variant: 'success', submitButtonDisabled: false });
-
-  //     var snackbarInfo = {}
-  //     snackbarInfo.openMessage = true;
-  //     snackbarInfo.message = 'Ο ' + res.value.data[0].Number + 'ος λογαριασμός δημιουργήθηκε επιτυχώς!!!';
-  //     snackbarInfo.variant = 'success';
-
-  //     store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
-  //     this.props.history.goBack();
-  //   }).catch(error => {
-  //     this.setState({ message: <><div>Αποτυχία δημιουργίας λογαριασμών!</div><div>{getServerErrorResponseMessage(error)}</div></>, openMessage: true, variant: 'error', submitButtonDisabled: false });
-  //   })
-  // }
-}
+import HomeWrapper from '../../Home/homewrapper';
+import { useStyles } from '../../Styles/styles';
+import { showSnackbarInfoMessage } from '../../Common/methods';
 
 export default function MediaItemNew(props) {
 
+  const classes = useStyles();
   const dispatch = useDispatch();
   const [fileData, setFileData] = useState('');
-  let navigate = useNavigate();  
+  let navigate = useNavigate();
   const newItemAdded = useSelector(state => ({ newItemAdded: state.central_reducer.newItemAdded }));
-  const itemChanged = useSelector(state => ({ itemChanged: state.central_reducer.itemChanged }));
-  
+  const { categoriesList } = useSelector(state => ({ categoriesList: state.parametricdata_reducer.categoriesList }));
+  const { mediaItemDetails } = useSelector(state => ({ mediaItemDetails: state.media_reducer.mediaItemDetails }));
+  const [categories, setCategories] = useState(mediaItemDetails?.categoriesInfo || '');
+
   const handleClick = () => {
 
     const formData = new FormData();
-    formData.append("file", fileData);
-    formData.append("fileName", "asdf");
-    dispatch(addNewMediaItem(formData));
+    formData.append('file', fileData);
+    if (categories)
+      categories.forEach(category => formData.append('categories[]', category.Id))
+    // formData.append('categories', categories);
+    dispatch(addNewMediaItem(formData)).then(res => {
+      if (res && res.value && res.value.info === true)
+        showSnackbarInfoMessage(res.value.message);
+        
+      // showSnackbarMessage(response, 'H υποβολή σχολίου έγινε επιτυχώς!' + (pageInfo.CommentNeedsApproval === 1 ? 'Αναμένεται έγκριση!' : ''))            
+      var x = 1;
+    });
   };
 
   if (newItemAdded === true) {
@@ -60,13 +43,36 @@ export default function MediaItemNew(props) {
     navigate(-1);
   }
   else
-    return <div style={{ height: '100%' }}>
-      <Header
-        title="Κεντρική Σελίδα Δήμου Αθηναίων"
-        showAdministrationOption={false}
-        showNewConsultationOption={false} />
-      <div style={{ fontSize: 46, color: 'black', textAlign: 'center', flexGrow: 1, alignSelf: 'center' }}>
-        <h5>Προσθήκη media</h5>
+    return <HomeWrapper>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', width: '100%' }}>
+        <span style={{ textAlign: 'center', fontSize: 46, margin: '50px' }}>Προσθήκη Αρχείου</span>
+        <Autocomplete
+          options={categoriesList || []}
+          filterSelectedOptions
+          multiple
+          getOptionLabel={item => ((item && item.Name ? item.Name : ''))}
+          onChange={(event, value) => setCategories(value)}
+          defaultValue={categories || []}
+          style={{ padding: '0px', flexWrap: 'wrap', width: '800px' }}
+          renderOption={(props, option) => {
+            const { Name } = props;
+            return (
+              <span style={{ backgroundColor: 'transparent', color: 'blue', padding: '5px' }}>
+                <i class="fa fa-tag" />
+                <span style={{ marginLeft: '10px' }}>{Name}</span>
+              </span>
+            );
+          }}
+          renderInput={params => (
+            <TextField
+              {...params}
+              className={classes.root}
+              variant="outlined"
+              placeholder="Κατηγορίες"
+              fullWidth
+            />
+          )}
+        />
         <div className="form-group">
           <input
             type="file"
@@ -75,7 +81,7 @@ export default function MediaItemNew(props) {
               setFileData(e.target.files[0]);
             }} />
         </div>
-        <Button style={{ fontSize: 20 }} variant="contained" color="primary" onClick={handleClick}>Upload</Button>  
+        <Button style={{ fontSize: 20 }} variant="contained" color="primary" onClick={handleClick}>Upload</Button>
       </div >
-    </div >
+    </HomeWrapper>
 }

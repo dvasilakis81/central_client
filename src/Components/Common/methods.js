@@ -28,6 +28,14 @@ export function showSnackbarMessage(response, message) {
 
   store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
 }
+export function showSnackbarInfoMessage(message) {
+  var snackbarInfo = {};
+  snackbarInfo.openMessage = true;
+  snackbarInfo.message = message;
+  snackbarInfo.variant = 'info';
+
+  store.dispatch({ type: 'SHOW_SNACKBAR', payload: snackbarInfo });
+}
 export function showFailedConnectWithServerMessage(error) {
   var snackbarInfo = {};
   snackbarInfo.openMessage = true;
