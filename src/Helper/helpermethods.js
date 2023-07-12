@@ -586,7 +586,7 @@ return ret;
 }
 export function ignoreTonousAndLowercase(searchValue) {
 	var ret = '';
-	for (var i = 0; i < searchValue.length; i++) {
+	for (var i = 0; i < searchValue?.length; i++) {
 		if (searchValue[i] === 'ά' || searchValue[i] === 'Ά')
 			ret += 'α';
 		else if (searchValue[i] === 'έ' || searchValue[i] === 'Έ')

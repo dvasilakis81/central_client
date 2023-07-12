@@ -2,10 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 
-import Card from '@material-ui/core/Button';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-
 import { getServiceItems, getServiceItemsByGroup, getCategories } from '../../Redux/Actions/index';
 import { getHostUrl, renderHtml, includeStrings } from '../../Helper/helpermethods';
 import store from '../../Redux/Store/store';
@@ -13,6 +9,7 @@ import ServicesSearchBar from '../Search/servicessearchbar';
 import ServiceMenuContainer from './servicemenucontainer';
 
 var itemIds = [];
+var mediaItemIds = [];
 
 function ServicesMenu() {
   const dispatch = useDispatch();
@@ -98,6 +95,24 @@ function ServicesMenu() {
       </div>
     </div>
   }
+  function renderMediaItem(d, index) {
+    return <div
+      key={index}
+      className="service-menu-item-parent"
+      onMouseEnter={(e) => handleMouseEnter(e, d)}
+      onMouseLeave={handleMouseLeave}
+      onClick={() => {
+        d.Url ?
+          window.open(getHostUrl() + d.Url, '_blank', 'noreferrer')
+          :
+          (d.Url ? navigate(getHostUrl() + d.Url) : console.log('asdf'))
+      }}>
+      <div className={getServiceClass(d)}>
+        <div style={{ flex: 0.7 }}>{d.Title}</div>
+      </div>
+    </div>
+  }
+
   function getItems(items) {
 
     if (items && items.length)
@@ -105,7 +120,14 @@ function ServicesMenu() {
         return d.Hidden === 0 && includeStrings(d.Name, searchValue || '') ? renderServiceItem(d, index) : <></>
       })
   }
-  function getItemsFromSearch(serviceGroups) {
+  function getMediaItems(items) {
+
+    if (items && items.length)
+      return items.map((d, index) => {
+        return includeStrings(d.Title, searchValue || '') ? renderMediaItem(d, index) : <></>
+      })
+  }
+  function getServiceItemsFromSearch(serviceGroups) {
     itemIds = [];
     return serviceGroups && serviceGroups.map((servicegroup, index) => {
       return servicegroup.servicesInfo && servicegroup.servicesInfo.map((d, index) => {
@@ -122,17 +144,37 @@ function ServicesMenu() {
       })
     })
   }
+  function getMediaItemsFromSearch(groups) {
+    mediaItemIds = [];
+    return groups && groups.map((group, index) => {
+      return group.mediaInfo && group.mediaInfo.map((d, index) => {
+        if (!mediaItemIds.includes(d.Id)) {
+
+          if (includeStrings(d.Title, searchValue || '')) {
+            mediaItemIds.push(d.Id);
+            return renderMediaItem(d, index);
+          }
+          else
+            return <></>
+        } else
+          return <></>
+      })
+    })
+  }
   function getServicesFromSelectedGroup() {
     if (searchValue) {
       itemIds = [];
-      var ret = getItemsFromSearch(serviceItemsList);
-      if (itemIds.length === 0)
+      mediaItemIds = [];
+      var ret = getServiceItemsFromSearch(serviceItemsList);
+      var mediaItems = getMediaItemsFromSearch(serviceItemsList)
+
+      if (itemIds?.length === 0 && mediaItemIds?.length === 0)
         return <div className='flex-row-center message-big-size'>
           Δεν βρέθηκαν υπηρεσίες
         </div >
       else {
         return <ServiceMenuContainer>
-          {ret}
+          {ret}{mediaItems}
         </ServiceMenuContainer>
       }
     } else {
@@ -145,6 +187,7 @@ function ServicesMenu() {
           if (groupServicesSelected.servicesInfo && groupServicesSelected.servicesInfo.length > 0) {
             return <ServiceMenuContainer>
               {getItems(groupServicesSelected.servicesInfo)}
+              {getMediaItems(groupServicesSelected.mediaInfo)}
             </ServiceMenuContainer>
           }
         }

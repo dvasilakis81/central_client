@@ -36,8 +36,8 @@ export default function MenuItemNew(props) {
 
   let pageItemsList = useSelector((state) => state.page_reducer.pageItemsList);
   let categoriesList = useSelector((state) => {
-    if (state.parametricdata_reducer.categoriesList) {
-      const filteredItems = state.parametricdata_reducer.categoriesList.filter(
+    if (state.categories_reducer.categoriesList) {
+      const filteredItems = state.categories_reducer.categoriesList.filter(
         (item) => item.HasSubCategories === 0
       );
       return filteredItems;
@@ -134,7 +134,6 @@ export default function MenuItemNew(props) {
             />
           </div>
           <div style={{ padding: '10px' }}>
-            <Autocomplete kind='menu' items={pageItemsList} setValue={setCategories} value={categories}/>
             <Autocomplete
               options={pageItemsList || []}
               getOptionLabel={item => (item.Url || '')}
@@ -145,8 +144,7 @@ export default function MenuItemNew(props) {
               renderOption={(props, option) => {
                 const { Url } = props;
                 return (
-                  <span style={{ backgroundColor: 'transparent', color: 'blue', padding: '5px' }}>
-                    {/* <span style={{ fontSize: '10px' }}>{'\u2B24'}</span>  */}
+                  <span style={{ backgroundColor: 'transparent', color: 'blue', padding: '5px' }}>                    
                     <i class="fa fa-file" />
                     <span style={{ marginLeft: '10px' }}>{Url}</span>
                   </span>
@@ -168,9 +166,7 @@ export default function MenuItemNew(props) {
               filterSelectedOptions
               multiple
               getOptionLabel={item => (item.Name || '')}
-              onChange={(event, value) =>
-                setCategories(value)
-              }
+              onChange={(event, value) => setCategories(value) }
               defaultValue={categories || []}
               PaperComponent={CustomPaper}
               ChipProps={{ color: 'red' }}

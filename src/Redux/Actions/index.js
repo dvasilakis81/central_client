@@ -32,13 +32,17 @@ export function getMediaItems() {
   const request = axios.get(getHostUrl() + 'getMediaItems').then(response => response.data);
   return { type: 'GET_MEDIAITEMS', payload: request };
 }
-export function addNewMediaItem(data) {
+export function addMediaItem(data) {
   const request = axios.post(getHostUrl() + 'addMediaItem', data, {
     headers: {
       "Content-Type": "multipart/form-data"
     }
   }).then(response => response.data)
   return { type: 'ADD_MEDIAITEM', payload: request };
+}
+export function editMediaItem(data) {
+  const request = axios.post(getHostUrl() + 'editMediaItem', data).then(response => response.data)
+  return { type: 'EDIT_MEDIAITEM', payload: request };
 }
 
 //Pages

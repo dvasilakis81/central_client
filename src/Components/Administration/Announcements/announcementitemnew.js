@@ -49,7 +49,8 @@ export default function AnnouncementItemNew(props) {
   let announcementItemDetails2 = useSelector((state) => { return state.announcement_reducer.announcementItemDetails });
   let announcementItemDetails;
   if (location.state && location.state.isNew === 2)
-    announcementItemDetails = announcementItemDetails2;
+    announcementItemDetails = announcementItemDetails2;    
+
   const { newItemAdded } = useSelector(state => ({ newItemAdded: state.announcement_reducer.newItemAdded }));
   const { itemChanged } = useSelector(state => ({ itemChanged: state.announcement_reducer.itemChanged }));
 

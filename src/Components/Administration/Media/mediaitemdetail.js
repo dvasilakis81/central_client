@@ -15,7 +15,10 @@ export default function MediaItemDetails(props) {
         {renderDetail('MimeType', itemDetails.MimeType, { isText: true })}
         {renderDetail('Encoding', itemDetails.Encoding, { isText: true })}
         {renderDetail('Size', itemDetails.Size, { isText: true })}
-        {renderDetail('Created', itemDetails.Created, { isDate: true })}
+        {renderDetail('Κατηγορίες', itemDetails.categoriesInfo, {isList: true})}
+        {renderDetail('Τίτλος', itemDetails.Title, {isText: true})}
+        {renderDetail('Δημιουργήθηκε', itemDetails.Created, { isDate: true })}
+        {renderDetail('Επεξεργάστηκε', itemDetails.Updated, { isDate: true })}
       </div>
     )
   } else

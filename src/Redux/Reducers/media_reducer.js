@@ -72,7 +72,7 @@ export default function (state = {}, action, root) {
       case 'ADD_MEDIAITEM_PENDING':
         state = {
           ...state,
-          newItemAdded: false,
+          processItem: false,
           requestPending: 'Add media items pending',
           requestServerError: undefined,
           requestRejected: undefined
@@ -86,13 +86,13 @@ export default function (state = {}, action, root) {
             requestPending: undefined,
             requestRejected: undefined,
             requestServerError: serverResponse,
-            newItemAdded: false
+            processItem: false
           };
         } else {
 
           state = {
             ...state,
-            newItemAdded: true,
+            processItem: true,
             requestServerError: undefined,
             requestPending: undefined,
             requestRejected: undefined,
@@ -104,7 +104,59 @@ export default function (state = {}, action, root) {
       case 'ADD_MEDIAITEM_REJECTED':
         state = {
           ...state,
-          newItemAdded: false,
+          processItem: false,
+          requestPending: undefined,
+          requestServerError: undefined,
+          requestRejected: action.payload
+        };
+        break;
+      case 'EDIT_MEDIAITEM_PENDING':
+        state = {
+          ...state,
+          processItem: false,
+          requestPending: 'Edit media item pending',
+          requestServerError: undefined,
+          requestRejected: undefined
+        };
+        break;
+      case 'EDIT_MEDIAITEM_FULFILLED':
+        var serverResponse = action.payload;
+        if (serverResponse && serverResponse.errormessage) {
+
+          state = {
+            ...state,
+            processItem: false,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: serverResponse.errormessage
+          };
+        } else {
+          const updatedList = [];
+          if (state.mediaItemsList) {
+            state.mediaItemsList.forEach((item, index) => {
+              if (item.Id === serverResponse.Id)
+                updatedList.push(serverResponse);
+              else
+                updatedList.push(item);
+            });
+          }
+
+          var itemDetails = serverResponse || state.mediaItemDetails;
+          state = {
+            ...state,
+            processItem: true,
+            requestPending: undefined,
+            requestRejected: undefined,
+            requestServerError: undefined,
+            mediaItemsList: updatedList,
+            mediaItemDetails: itemDetails
+          };
+        }
+        break;
+      case 'EDIT_MEDIAITEM_REJECTED':
+        state = {
+          ...state,
+          processItem: false,
           requestPending: undefined,
           requestServerError: undefined,
           requestRejected: action.payload
@@ -148,11 +200,10 @@ export default function (state = {}, action, root) {
         }
 
         break;
-      case 'SET_ADDED_NEWITEM':
+      case 'SET_MEDIAITEM_STATUS':
         state = {
-          ...state,
-          newItemAdded: action.payload,
-          itemChanged: action.payload
+          ...state,          
+          processItem: action.payload
         };
         break;
       default: return state;

@@ -179,65 +179,10 @@
     font-size: '48px';
   }
 }
-@media only screen and (max-width: 1920px) {
-
-  .selected-tab,
-  .tab {
-    font-size: 1rem;
-    min-width: 150px;
-    max-width: 250px;
-    min-height: 50px;
-    cursor: pointer;
-  }
-
-  .group-services-item-hovered,
-  .group-services-item {
-    font-size: 20px;
-    padding: 10px;
-  }
-
-  .selected-service-title {
-    font-size: 24px;
-  }
-
-  .menuItemImage {
-    font-size: 26px;
-    font-weight: bolder;
-    min-width: 30px;
-    max-width: 30px;
-  }
-
-  .services-menu-announcement-container {
-    transform: scale(1);
-  }
-
-  .menu-body {
-    min-width: 500px;
-    max-width: 500px;
-  }
-
-  .menu-item {
-    font-size: 1.3rem;
-    padding-left: 5px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
-
-  .menu-item-hovered {
-    font-size: 1.3rem;
-    padding-left: 5px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
-
+@media only screen and (max-width: 1920px) {  
   .page-title {
     font-size: 36px;
-  }
-
-  .div-services-frame {
-    max-height: 70%;
-  }
-
+  }  
   .searchBar {
     width: 800px;
     font-size: '43px';
@@ -245,143 +190,28 @@
 }
 @media only screen and (max-width: 1366px) {
 
-  .menuItemName,
-  .selected-tab,
-  .tab {
-    font-size: 0.8rem;
-    min-width: 140px;
-    max-width: 140px;
-    cursor: pointer;
-  }
-
-  .group-services-item-hovered,
-  .group-services-item {
-    font-size: 16px;
-    padding: 8px;
-  }
-
-  .selected-service-title {
-    font-size: 20px;
-  }
-
-  .service-menu-item-parent {
-    max-height: 70px;
-    transform: scale(0.8);
-  }
-
-  .services-menu-announcement-container {
-    transform: scale(0.8);
-  }
-
-  .menu-body {
-    min-width: 400px;
-    max-width: 400px;
-  }
-
-  .menuItemImage {
-    font-size: 1.2rem;
-    font-weight: bolder;
-    min-width: 24px;
-    max-width: 24px;
-  }
-
-  .menu-item {
-    font-size: 1rem;
-    padding-left: 5px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-  }
-
-  .menu-item-hovered {
-    font-size: 1rem;
-    padding-left: 5px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-  }
-
   .page-title {
     font-size: 30px;
   }
-
-  .div-services-frame {
-    max-height: 60%;
-  }
-
   .searchBar {
     width: 600px;
     font-size: '38px';
   }
 }
 @media only screen and (max-width: 900px) {
-  body {
-    background-color: lightblue;
-  }
-
-  .menuItemImage {
-    font-size: 1.2rem;
-    font-weight: bolder;
-    min-width: 24px;
-    max-width: 24px;
-  }
-
-  .menu-body {
-    min-width: 250px;
-    max-width: 2500px;
-  }
-
-  .menu-item {
-    font-size: 1rem;
-    padding-left: 5px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-  }
-
-  .menu-item-hovered {
-    font-size: 1rem;
-    padding-left: 5px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-  }
 
   .page-title {
     font-size: 26x;
   }
-
   .searchBar {
     width: 400px;
     font-size: '32px';
   }
 }
 @media only screen and (max-width: 200px) {
-  body {
-    background-color: lightblue;
-  }
-
-  .menuItemImage {
-    font-size: 1.2rem;
-    font-weight: bolder;
-    min-width: 24px;
-    max-width: 24px;
-  }
-
-  .menu-item {
-    font-size: 1rem;
-    padding-left: 5px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-  }
-
-  .menu-item-hovered {
-    font-size: 1rem;
-    padding-left: 5px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-  }
-
   .page-title {
     font-size: 20x;
   }
-
   .searchBar {
     width: 150px;
     font-size: '18px';
