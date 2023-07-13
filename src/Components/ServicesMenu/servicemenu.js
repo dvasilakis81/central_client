@@ -55,6 +55,25 @@ function ServicesMenu() {
 
     return ret;
   }
+
+  function getFileTypeImage(item) {
+    var ret = <></>;
+
+    var srcImage = '';
+    if (item?.Name?.endsWith('.pdf'))
+      srcImage = 'fa fa-thin fa-file-pdf fa-3x';
+    else if (item?.Name?.endsWith('.mp4'))
+      srcImage = 'fas fa-file-video fa-3x';
+    else
+      srcImage = 'fas fa-file fa-3x';
+
+    ret = <div style={{ flex: 0.3 }}>
+      <i className={srcImage}></i>
+    </div>
+
+    return ret;
+  }
+
   function getImage(item) {
     var ret = <></>;
     var srcImage = getHostUrl() + item.ImageService;
@@ -108,6 +127,7 @@ function ServicesMenu() {
           (d.Url ? navigate(getHostUrl() + d.Url) : console.log('asdf'))
       }}>
       <div className={getServiceClass(d)}>
+        {getFileTypeImage(d)}
         <div style={{ flex: 0.7 }}>{d.Title}</div>
       </div>
     </div>
@@ -169,8 +189,8 @@ function ServicesMenu() {
       var mediaItems = getMediaItemsFromSearch(serviceItemsList)
 
       if (itemIds?.length === 0 && mediaItemIds?.length === 0)
-        return <div className='flex-row-center message-big-size'>
-          Δεν βρέθηκαν υπηρεσίες
+        return <div className='flex-row-center message-big-size' style={{ color: '#0F6CBD' }}>
+          Δεν βρέθηκαν αποτελέσματα
         </div >
       else {
         return <ServiceMenuContainer>
@@ -251,7 +271,7 @@ function ServicesMenu() {
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
-      height: '100%',
+      height: '100%',      
       background: 'white',
       opacity: '1',
       overflowY: 'auto'

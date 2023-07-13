@@ -4,32 +4,25 @@
   -webkit-font-smoothing: 'antialiased';
   text-rendering: 'optimizeLegibility';
   text-size-adjust: '100%';
+  /* background-image: 'https://www.cityofathens.gr/wp-content/uploads/2019/04/general-search.jpg'; */
 }
-.flex-row {
-  display: flex;
-  flex-direction: row;
-  margin-top: 15px;
-  justify-content: left;
+
+.body {
+  background: 'transparent';
+  background-image: 'url(https://www.cityofathens.gr/wp-content/uploads/2019/04/general-search.jpg)';
+  background-size: '100% 100%';
+  background-repeat: 'none';
 }
-.padding-10{
+
+.padding-10 {
   padding: 10px;
 }
-.flex-row-center {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 15px;
-}
-.flex-column {
-  display: flex;
-  flex-direction: column;  
-}
+
 .message-big-size {
   font-size: 30px;
   font-weight: bolder;
 }
+
 .page-info-container {
   padding: 10px;
   display: flex;
@@ -39,15 +32,17 @@
   border-radius: 0px;
   opacity: 1;
 }
+
 .page-title {
   display: flex;
   flex: 1;
   justify-content: center;
   align-items: center;
-  color: #00008b;
+  color: white;
   font-weight: bolder;
   padding: 10px
 }
+
 .centered {
   position: absolute;
   top: 30%;
@@ -59,22 +54,26 @@
   border-radius: 0px;
   white-space: pre-wrap;
 }
+
 .page-body {
   padding: 15px;
   overflow-y: auto;
 }
+
 .page-body-content {
   margin-top: 30px;
   padding: 0px;
   overflow-y: auto;
   font-size: 16px;
 }
+
 .ql-editor {
   height: 250px !important;
   min-height: 250px !important;
   max-height: 250px !important;
   overflow: auto !important;
 }
+
 .announcement-item {
   display: 'flex';
   flex: 1;
@@ -85,6 +84,7 @@
   padding-bottom: 3;
   cursor: pointer;
 }
+
 .colors {
   background: #87CEEB;
   background: #FCF9B5;
@@ -95,6 +95,7 @@
   background-color: #F0FFFF;
   background-color: #ADD8E6;
 }
+
 .btn-central {
   background-color: #004b8d;
   color: white !important;
@@ -102,12 +103,14 @@
   padding: 20px;
   max-width: 150px;
 }
+
 .btn-central:hover {
   background-color: #00658d;
   color: white !important;
   line-height: 18px;
   padding: 18px;
 }
+
 .popup-container {
   position: fixed;
   width: 100%;
@@ -136,17 +139,17 @@
   font-weight: 'bold';
 }
 .checkbox {
-  transform: scale(2);  
+  transform: scale(2);
 }
-.selected-fontawesome{
+.selected-fontawesome {
   color: white;
   background-color: blue;
 }
-.no-selected-fontawesome{
+
+.no-selected-fontawesome {
   color: black;
   background-color: transparent;
 }
-
 @media only screen and (max-width: 3000px) {
   .menuItemImage {
     font-size: 1.3rem;
@@ -179,39 +182,46 @@
     font-size: '48px';
   }
 }
-@media only screen and (max-width: 1920px) {  
+
+@media only screen and (max-width: 1920px) {
   .page-title {
     font-size: 36px;
-  }  
+  }
   .searchBar {
     width: 800px;
     font-size: '43px';
   }
 }
+
 @media only screen and (max-width: 1366px) {
 
   .page-title {
     font-size: 30px;
   }
+
   .searchBar {
     width: 600px;
     font-size: '38px';
   }
 }
+
 @media only screen and (max-width: 900px) {
 
   .page-title {
     font-size: 26x;
   }
+
   .searchBar {
     width: 400px;
     font-size: '32px';
   }
 }
+
 @media only screen and (max-width: 200px) {
   .page-title {
     font-size: 20x;
   }
+
   .searchBar {
     width: 150px;
     font-size: '18px';

@@ -75,8 +75,7 @@ export default function CreatePageComment(props) {
         }
       }}>
       <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
-        <TextField
-          required
+        <TextField          
           type="text"
           label="Όνομα"
           variant='outlined'
@@ -86,8 +85,7 @@ export default function CreatePageComment(props) {
           className={classes.root}
           inputProps={{ className: classes.root }}
         />
-        <TextField
-          required
+        <TextField          
           type="text"
           label="Επώνυμο"
           variant='outlined'

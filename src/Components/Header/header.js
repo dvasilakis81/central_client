@@ -29,7 +29,8 @@ export default function Header(props) {
   const styles = {
     header: {
       width: '100%',
-      backgroundColor: 'white',
+      backgroundColor: '#0F6CBD',      
+      color: 'white',
       justifyContent: 'left',
       alignItems: 'center',
       display: "flex",
@@ -43,7 +44,7 @@ export default function Header(props) {
       flexGrow: 1,
       padding: 10,
       fontSize: '36px',
-      color: '#00008b',
+      color: 'white',
       textAlign: 'left',
       alignSelf: 'left',
       verticalAlign: 'middle'
@@ -78,15 +79,16 @@ export default function Header(props) {
                 marginLeft: '-300px',
                 top: menuRef.current ? menuRef.current.offsetTop + menuRef.current.offsetHeight + 10 : 0,
                 left: menuRef.current ? menuRef.current.offsetLeft : 0,
-                zIndex: 100000
+                zIndex: 100000              
               }}>
               <div style={{
                 position: 'relative',
                 width: '300px',
-                background: '#fff',
+                background: '#0F6CBD',
+                color: 'white',
                 padding: '0px',
                 border: '1px solid #999',
-                overflow: 'auto'
+                overflow: 'auto'                
               }}>
                 <div style={{ padding: '20px' }}>
                   {token && token.userLoginInfo[0].Firstname}
@@ -94,14 +96,14 @@ export default function Header(props) {
                   {token && token.userLoginInfo[0].Lastname}
                 </div>
                 <div style={{ padding: '20px' }}
-                  onMouseEnter={(e) => { e.target.style.backgroundColor = 'lightblue'; }}
-                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                  onMouseEnter={(e) => { e.target.style.backgroundColor = 'white'; e.target.style.color = '#0F6CBD' }}
+                  onMouseLeave={(e) => {e.target.style.backgroundColor = '#0F6CBD'; e.target.style.color = 'white'}}
                   onClick={(e) => { setOpenChangePassword(true); }}>
                   Αλλαγή Kωδικού
                 </div>
                 <div style={{ padding: '20px' }}
-                  onMouseEnter={(e) => { e.target.style.backgroundColor = 'lightblue'; }}
-                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                  onMouseEnter={(e) => { e.target.style.backgroundColor = 'white'; e.target.style.color = '#0F6CBD' }}
+                  onMouseLeave={(e) => {e.target.style.backgroundColor = '#0F6CBD'; e.target.style.color = 'white'}}
                   onClick={(e) => {
                     store.dispatch({ type: 'LOGOUT_RESET_STORE', payload: undefined });
                   }}>

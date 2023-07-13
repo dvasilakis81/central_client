@@ -83,13 +83,19 @@ export function renderComments2(pageItemDetails, selectedTab, showActions, rende
       return <></>
   }
 }
+function renderSignature(item) {
+  if (item.firstname || item.lastname || item.direction || item.department)
+    return <span style={{ marginLeft: '5px' }}>| {item.firstname} {item.lastname} {item.direction && item.department ? ',' : ''} {item.direction || ''} {item.direction ? '-' : ''} {item.department || ''}</span>
+  else
+    return <span style={{ marginLeft: '5px' }}>| Ανώνυμος</span>;
+}
 function divComments(pageItemDetails, commentsToRender, showActions, renderApprovedButton, renderRejectedButton) {
   return commentsToRender.map((item, index) => {
     return <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div className='comment-item'>
         <div className='comment-user'>
           <span>{getDateFormat(item.created)}</span>
-          <span style={{ marginLeft: '5px' }}>| {item.firstname} {item.lastname} {item.direction && item.department ? ',' : ''} {item.direction || ''} {item.direction ? '-' : ''} {item.department || ''}</span>
+          {renderSignature(item)}
         </div>
         <div style={{ marginTop: '5px' }}>
           {renderHtml(item.content)}

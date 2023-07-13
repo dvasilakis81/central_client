@@ -44,7 +44,7 @@ export default function HomewrapperWithCentralMenu2(props) {
               height: '100%',
               background: 'transparent'
             }}>
-              <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'transparent' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#e7edf5' }}>
                 <CentralMenu />
               </div>
               {props.children}

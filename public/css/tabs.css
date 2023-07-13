@@ -11,9 +11,9 @@
   font-weight: 600;
   padding-left: 10px;
   padding-right: 10px;
-  color: #00008B;
+  color: #0F6CBD;
   background-color: white;
-  border-bottom: 2px solid #00008B;
+  border-bottom: 2px solid #0F6CBD;
 }
 .selected-tab {
   display: flex;
@@ -28,8 +28,8 @@
   padding-left: 10px;
   padding-right: 10px;
   color: white;
-  background-color: #00008B;
-  border-bottom: 4px solid #00008B;
+  background-color: #0F6CBD;
+  border-bottom: 4px solid #0F6CBD;
 }
 @media only screen and (max-width: 3000px) { 
 }

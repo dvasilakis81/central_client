@@ -10,7 +10,7 @@
   opacity: 1;
   padding-top: 20px;
   color: #094fa3;
-  background: #fafafa;
+  background: transparent;
   overflow-y: auto;
 }
 .menu-item-parent {
@@ -23,8 +23,9 @@
   flex: 1;
   font-weight: bolder;
   cursor: pointer;
-  color: #00008B;
-  background: 'linear-gradient(#2980b9, #6dd5fa)'
+  color: #0F6CBD;
+  background: transparent;
+  /* background: 'linear-gradient(#2980b9, #6dd5fa)' */
 }
 .menu-item-hovered {
   display: flex;
@@ -32,7 +33,7 @@
   font-weight: bolder;
   cursor: pointer;
   color: white;
-  background: #00008B;
+  background: #0F6CBD;
 }
 @media only screen and (max-width: 3000px) {
   .menuItemImage {
