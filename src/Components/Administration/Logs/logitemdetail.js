@@ -11,7 +11,7 @@ export default function LogItemDetails(props) {
         {renderDetail('Code', logItemDetails.Code, { isText: true })}
         {renderDetail('Errno', logItemDetails.Errno, { isText: true })}
         {renderDetail('Message', logItemDetails.Message, { isText: true })}
-        {renderDetail('Sql', logItemDetails.Sql, { isText: true })}
+        {renderDetail('Sql', logItemDetails.SqlQuery, { isText: true })}
         {renderDetail('SqlMessage', logItemDetails.SqlMessage, { isText: true })}
         {renderDetail('SqlState', logItemDetails.SqlState, { isText: true })}
         {renderDetail('Created', logItemDetails.Created, { isDate: true })}

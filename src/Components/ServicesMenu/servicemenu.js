@@ -55,15 +55,27 @@ function ServicesMenu() {
 
     return ret;
   }
-
   function getFileTypeImage(item) {
     var ret = <></>;
 
     var srcImage = '';
-    if (item?.Name?.endsWith('.pdf'))
+    if (item?.Name?.endsWith('.pdf')) {
       srcImage = 'fa fa-thin fa-file-pdf fa-3x';
+      return <div style={{ flex: 0.3, color: 'orangered' }}>
+        <i className='fa fa-thin fa-file-pdf fa-3x'></i>
+      </div>
+    } else if (item?.Name?.endsWith('.xls') || item?.Name?.endsWith('.xlsx')) {
+      return <div style={{ flex: 0.3, color: 'green' }}>
+        <i className='fa fa-thin fa-file-excel fa-3x'></i>
+      </div>
+    } else if (item?.Name?.endsWith('.doc') || item?.Name?.endsWith('.docx'))
+      return <div style={{ flex: 0.3, color: 'blue' }}>
+        <i className='fa fa-thin fa-file-doc fa-3x'></i>
+      </div>
     else if (item?.Name?.endsWith('.mp4'))
-      srcImage = 'fas fa-file-video fa-3x';
+      return <div style={{ flex: 0.3, color: '#00008B' }}>
+        <i className='fas fa-file-video fa-3x'></i>
+      </div>
     else
       srcImage = 'fas fa-file fa-3x';
 
@@ -84,7 +96,9 @@ function ServicesMenu() {
           <i className={item.ImageService} style={{ fontSize: '40px', fontWeight: 'bolder' }}></i>
         </div>
       else
-        ret = <div style={{ flex: 0.3 }}><img src={srcImage} style={{ fontSize: '26px', fontWeight: 'bolder' }} /></div>
+        ret = <div style={{ flex: 0.3 }}>
+          <img src={srcImage} style={{ fontSize: '26px', fontWeight: 'bolder' }} />
+        </div>
     } else {
       if (item && item.ImageMenu) {
         var srcImage = getHostUrl() + item.ImageMenu;
@@ -107,7 +121,17 @@ function ServicesMenu() {
       className="service-menu-item-parent"
       onMouseEnter={(e) => handleMouseEnter(e, d)}
       onMouseLeave={handleMouseLeave}
-      onClick={() => { d.Url ? window.open(d.Url, '_blank', 'noreferrer') : (d.PageUrl ? navigate(d.PageUrl) : console.log('asdf')) }}>
+      onClick={() => {
+        if (d.Url) {
+          if (d.Url === 'phonecatalog')
+            navigate(d.Url)
+          else
+            window.open(d.Url, '_blank', 'noreferrer')
+        } else {
+          if (d.PageUrl)
+            navigate(d.PageUrl)
+        }
+      }}>
       <div className={getServiceClass(d)}>
         {getImage(d)}
         <div style={{ flex: 0.7 }}>{d.Name}</div>
@@ -117,7 +141,7 @@ function ServicesMenu() {
   function renderMediaItem(d, index) {
     return <div
       key={index}
-      className="service-menu-item-parent"
+      className='service-menu-item-parent'
       onMouseEnter={(e) => handleMouseEnter(e, d)}
       onMouseLeave={handleMouseLeave}
       onClick={() => {
@@ -132,7 +156,6 @@ function ServicesMenu() {
       </div>
     </div>
   }
-
   function getItems(items) {
 
     if (items && items.length)
@@ -271,7 +294,7 @@ function ServicesMenu() {
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
-      height: '100%',      
+      height: '100%',
       background: 'white',
       opacity: '1',
       overflowY: 'auto'

@@ -229,6 +229,7 @@ export default function UserItemNew(props) {
           data.username = username;
           data.firstname = firstname;
           data.lastname = lastname;
+          data.password = password;
           data.rights = [];
 
           var centralMenu = {};

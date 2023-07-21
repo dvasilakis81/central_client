@@ -342,7 +342,6 @@ export default function (state = {}, action, root) {
         }
 
         break;
-
       default: return state;
     }
   }

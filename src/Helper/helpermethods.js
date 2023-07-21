@@ -22,16 +22,16 @@ export function isTokenExpired(tokenjwt) {
 
 	var dtNow = new Date();
 	if (tokenjwt && tokenjwt.data && tokenjwt.data.expiresAt) {
-	  var tokenExpiresAt = new Date(tokenjwt.data.expiresAt);
-	  //console.log('isTokenExpired');
-	  //console.log('tokenExpiresAt:' + tokenExpiresAt);
-	  //console.log('dtNow:' + dtNow);
-	  if (tokenExpiresAt <= dtNow)
-	    ret = true;
-	  else
-	    ret = false;
+		var tokenExpiresAt = new Date(tokenjwt.data.expiresAt);
+		//console.log('isTokenExpired');
+		//console.log('tokenExpiresAt:' + tokenExpiresAt);
+		//console.log('dtNow:' + dtNow);
+		if (tokenExpiresAt <= dtNow)
+			ret = true;
+		else
+			ret = false;
 	} else
-	  ret = true;
+		ret = true;
 
 	return ret;
 }
@@ -552,7 +552,7 @@ export function findLocalIp() {
 				console.log("attributes: ");
 				for (let i = 0; i < attr.length; i += 2)
 					console.log("> " + attr[i] + ": " + attr[i + 1]);
-			}			
+			}
 		}
 	});
 }
@@ -582,7 +582,7 @@ export function includeStrings(str1, searchvalue) {
 	else
 		return true;
 
-return ret;
+	return ret;
 }
 export function ignoreTonousAndLowercase(searchValue) {
 	var ret = '';
@@ -705,8 +705,12 @@ function renderValueUrl(value) {
 
 	if (value && (value.startsWith('http://') || value.startsWith('https://')))
 		return <a href={value} target='_blank'><span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{value}</span></a>
-	else
-		return <a href={getHostUrl() + value} target='_blank'><span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{getHostUrl() + value}</span></a>
+	else {
+		if (value === 'phonecatalog')
+			return <a href={getHostUrl() + value}><span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{getHostUrl() + value}</span></a>
+		else
+			return <a href={getHostUrl() + value} target='_blank'><span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{getHostUrl() + value}</span></a>
+	}
 }
 function renderValue(value) {
 	return <span style={{ fontSize: '1.5rem', fontWeight: "normal", marginLeft: '20px' }}>{value}</span>
@@ -757,7 +761,7 @@ export function renderDetail(label, value, info) {
 	if (value !== undefined && value !== null)
 		return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', fontSize: '1.5rem', fontWeight: "normal", width: '100%', paddingBottom: '20px' }}>
 			<div style={{ fontSize: '1.5rem', fontWeight: "bold", minWidth: '250px', maxWidth: '250px', textAlign: 'right', flexWrap: 'wrap', alignSelf: 'center' }}>{label}: </div>
-			{info && info.isHtml === true ? renderHtml(value) : <></>}			
+			{info && info.isHtml === true ? renderHtml(value) : <></>}
 			{info && info.isDate === true ? renderDate(value) : <></>}
 			{info && info.isImage === true ? <span style={{ marginLeft: '5px' }}>{renderImage(value)}</span> : <></>}
 			{info && info.isCheckbox === true ? renderCheckbox(value) : <></>}

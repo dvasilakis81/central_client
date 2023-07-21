@@ -9,15 +9,24 @@ const fontAwesomeIcons = ['fas fa-0', 'fas fa-1', 'fas fa-2', 'fas fa-3', 'fas f
 
 export function SelectOption(props) {
   const { mediaItemsList } = useSelector(state => ({ mediaItemsList: state.media_reducer.mediaItemsList }));
-  const [anchorEl, setAnchorEl] = useState(null);
   const [fontAwesomeFilter, setFontAwesomeFilter] = useState('');
   const [hoveredKey, setHoveredKey] = useState(-1);
+
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const popoverid = open === true ? 'simple-popover' : undefined;
-  const selectIcon = (item) => { props.setImage(item.Url); };
-  const selectFontAwesomeIcon = (item) => { props.setImage(item); };
+  const popoverid = (open === true ? 'simple-popover' : undefined);
   const handleOpenSelectIcon = (event) => { setAnchorEl(event.currentTarget); };
   const handleCloseSelectIcon = () => { setAnchorEl(null); };
+
+  const [anchorElFa, setAnchorElFa] = useState(null);
+  const openFa = Boolean(anchorElFa);
+  const popoveridfa = (open === true ? 'simple-popover' : undefined);
+  const handleOpenSelectIconFa = (event) => { setAnchorElFa(event.currentTarget); };
+  const handleCloseSelectIconFa = () => { setAnchorElFa(null); };
+
+  const selectIcon = (item) => { props.setImage(item.Url); };
+  const selectFontAwesomeIcon = (item) => { props.setImage(item); };
+
 
   function renderFontAwesomeIcons() {
     return fontAwesomeIcons.map((item, index) => {
@@ -47,7 +56,9 @@ export function SelectOption(props) {
   }
 
   return <div style={{ background: 'white' }}>
-    <div onClick={handleOpenSelectIcon} style={{ backgroundColor: 'white', color: 'blue', paddingTop: '5px' }}>ΕΠΙΛΟΓΗ</div>
+    <div onClick={handleOpenSelectIcon} style={{ backgroundColor: 'white', color: 'blue', paddingTop: '5px' }}>
+      {props.imagetype === 1 ? 'Επιλογή Eικόνας' : 'Επιλογή font awesome'}
+    </div>
     <Popover
       id={popoverid}
       open={open}
@@ -59,7 +70,9 @@ export function SelectOption(props) {
         {
           props.imagetype === 1 ? mediaItemsList && mediaItemsList.map((item) => {
             if (checkIfFileIsImage(item.Name) === true) {
-              return (<div style={{ display: 'flex', flex: '1', flexDirection: 'row', alignItems: 'center', backgroundColor: '#f4f6f7' }} onClick={(e) => { selectIcon(item) }}>
+              return (<div
+                style={{ display: 'flex', flex: '1', flexDirection: 'row', alignItems: 'center', backgroundColor: '#f4f6f7' }}
+                onClick={(e) => { selectIcon(item) }}>
                 <img src={addHostUrl(item.Url)} style={{ padding: '10px' }} width={50} height={50} />
                 <div key={item.Id} style={{ width: 'auto', background: 'none', display: 'flex', justifyContent: 'center', padding: '10px' }}>
                   {item.Name}
@@ -77,6 +90,29 @@ export function SelectOption(props) {
         }
       </div>
     </Popover>
+    {props.canBeFontAwesome === true ?
+      <>
+        <div onClick={handleOpenSelectIconFa} style={{ backgroundColor: 'white', color: 'blue', paddingTop: '5px', fontWeight: 'bolder' }}>Επιλογή font awesome</div>
+        <Popover
+          id={popoveridfa}
+          open={openFa}
+          anchorEl={anchorElFa}
+          onClose={handleCloseSelectIconFa}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          background='green'>
+          <div style={{ width: '350px', maxHeight: '500px', overflowY: 'scroll' }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <input type='text' style={{ padding: '10px', margin: '10px' }} onChange={(e) => { setFontAwesomeFilter(e.target.value); }} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'left', backgroundColor: '#f4f6f7', overflowY: 'scroll', height: '300px' }}>
+                {renderFontAwesomeIcons()}
+              </div>
+            </div>
+          </div>
+        </Popover>
+      </>
+      :
+      <></>}
+
   </div>
 }
 
@@ -95,7 +131,7 @@ export default function SelectImage(props) {
       style={props.customstyle}
       InputLabelProps={{ shrink: true }}
       inputProps={{ style: { textAlign: 'Left' } }}
-      InputProps={{ endAdornment: <SelectOption setImage={props.setImage} imagetype={props.imagetype} /> }}
+      InputProps={{ endAdornment: <SelectOption setImage={props.setImage} imagetype={props.imagetype} canBeFontAwesome={props.canBeFontAwesome} /> }}
     />
     {/* <Button variant="contained" onClick={handleOpenSelectIcon}
         style={{

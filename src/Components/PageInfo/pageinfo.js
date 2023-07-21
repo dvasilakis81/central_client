@@ -20,6 +20,7 @@ export default function PageInfo() {
     if (pageUrlParts) {
       var data = {};
       data.url = pageUrlParts[pageUrlParts.length - 1];
+      console.log('pageinfo: ' + data.url);
       dispatch(getPageInfo(data)).then(response => {
         setHeaderTitle(response?.value?.Title);
 

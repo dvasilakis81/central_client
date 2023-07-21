@@ -12,6 +12,7 @@ import AnnouncementItemNew from '../Components/Administration/Announcements/anno
 import UserItemNew from '../Components/Administration/Users/useritemnew';
 import CategoryItemNew from '../Components/Administration/Categories/categoryitemnew';
 import PageInfo from '../Components/PageInfo/pageinfo';
+import PhoneCatalog from '../Components/PhoneCatalog/phonecatalog';
 
 //const Consultations = lazy(() => import('./Components/Consultations/ConsultationsPage'));  
 //import ConsultationsPage from './Components/Consultations/ConsultationsPage';
@@ -25,23 +26,24 @@ import PageInfo from '../Components/PageInfo/pageinfo';
 class AppRoutes extends React.Component {
 
 	render() {
-    
-		return (      
+
+		return (
 			//   <ErrorBoundary>
 			<Layout>
 				<Suspense fallback={showGenericMessage('Παρακαλώ περιμένετε...', false, true)}>
 					<Routes>
-					  {/* <Route path="/newconsultation" exact component={NewConsultation} /> */}
-						<Route path="/newmediaitem" element={<MediaItemNew/>} />
-						<Route path="/newmenuitem" element={<MenuItemNew/>} />
-						<Route path="/newpageitem" element={<PageItemNew/>} />
-						<Route path="/newuseritem" element={<UserItemNew/>} />
-						<Route path="/newannouncementitem" element={<AnnouncementItemNew/>} />
-						<Route path="/newcategoryitem" element={<CategoryItemNew/>} />
-						<Route path="/administration" element={<AdministrationPage/>} />
-						<Route path="/login" element={<LoginPage/>} />
+						{/* <Route path="/newconsultation" exact component={NewConsultation} /> */}
+						<Route path="/newmediaitem" element={<MediaItemNew />} />
+						<Route path="/newmenuitem" element={<MenuItemNew />} />
+						<Route path="/newpageitem" element={<PageItemNew />} />
+						<Route path="/newuseritem" element={<UserItemNew />} />
+						<Route path="/newannouncementitem" element={<AnnouncementItemNew />} />
+						<Route path="/newcategoryitem" element={<CategoryItemNew />} />
+						<Route path="/phonecatalog" element={<PhoneCatalog />} />
+						<Route path="/administration" element={<AdministrationPage />} />
+						<Route path="/login" element={<LoginPage />} />
 						<Route path="/:pageurl" element={<PageInfo />} />
-						<Route path="/" element={<Home/>} />
+						<Route path="/" element={<Home />} />
 					</Routes>
 				</Suspense>
 			</Layout>

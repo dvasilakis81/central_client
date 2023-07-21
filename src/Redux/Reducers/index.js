@@ -9,6 +9,7 @@ import parametricdata_reducer from './parametricdata_reducer';
 import announcement_reducer from './announcement_reducer';
 import categories_reducer from './categories_reducer';
 import logs_reducer from './logs_reducer';
+import phonecatalog_reducer from './phonecatalog_reducer';
 
 const RootReducer = combineReducers({  
   central_reducer,
@@ -20,6 +21,7 @@ const RootReducer = combineReducers({
   parametricdata_reducer,
   announcement_reducer,
   categories_reducer,
-  logs_reducer
+  logs_reducer,
+  phonecatalog_reducer
 })
 export default RootReducer;

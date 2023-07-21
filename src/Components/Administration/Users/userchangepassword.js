@@ -1,15 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import CancelAltIcon from '@material-ui/icons/Cancel';
 
-import { changePassword, checkPassword } from '../../../Redux/Actions/index';
+import { changePassword } from '../../../Redux/Actions/index';
 import store from '../../../Redux/Store/store';
 import { getScreenWidth, getScreenHeight } from '../../../Helper/helpermethods';
 import { inputTextfieldStyle } from '../../Styles/styles'
-import {showSnackbarMessage, showFailedConnectWithServerMessage, setOpenChangePassword } from '../../Common/methods';
+import { showSnackbarInfoMessage, showFailedConnectWithServerMessage, setOpenChangePassword } from '../../Common/methods';
 
 // const styles = {
 //   textfieldStyle: {
@@ -53,11 +51,11 @@ export default function UserChangePassword() {
   if (openchangepassword === true)
     return <div
       style={{
-        width: getScreenWidth() / 2,
-        height: getScreenHeight() / 2,
+        width: getScreenWidth() - 200,
+        height: getScreenHeight() - 200,
         position: 'absolute',
-        left: getScreenWidth() / 4,
-        right: getScreenHeight() / 2,
+        left: 100,
+        right: 100,
         margin: '0 auto',
         border: '5px solid green',
         display: 'flex',
@@ -84,12 +82,9 @@ export default function UserChangePassword() {
           data.password = password;
           data.confirmpassword = confirmPassword;
 
-          if (password !== confirmPassword) {
-            var snackbarInfo = {};
-            snackbarInfo.openMessage = true;
-            snackbarInfo.message = 'Οι κωδικοί δεν είναι ίδιοι!';
-            snackbarInfo.variant = 'info';
-          } else {
+          if (password !== confirmPassword)
+            showSnackbarInfoMessage('Οι κωδικοί δεν είναι ίδιοι!');
+          else {
             dispatch(changePassword(data)).then(response => {
 
               var snackbarInfo = {};
@@ -130,10 +125,10 @@ export default function UserChangePassword() {
                 required
                 type="password"
                 label="Παλιός Κωδικός"
-                variant='outlined'                
+                variant='outlined'
                 value={oldPassword}
                 onChange={(e) => { setOldPassword(e.target.value); }}
-                className={classes.root}    
+                className={classes.root}
                 inputProps={{ className: classes.root }}
               />
             </div>
@@ -142,10 +137,10 @@ export default function UserChangePassword() {
                 required
                 type="password"
                 label="Νέος Κωδικός"
-                variant='outlined'                
+                variant='outlined'
                 value={password}
                 onChange={(e) => { setPassword(e.target.value); }}
-                className={classes.root}    
+                className={classes.root}
                 inputProps={{ className: classes.root }}
               />
             </div>
@@ -154,10 +149,10 @@ export default function UserChangePassword() {
                 required
                 type="password"
                 label="Νέος Κωδικός Επιβαίωση"
-                variant='outlined'                
+                variant='outlined'
                 value={confirmPassword}
                 onChange={(e) => { setConfirmPassword(e.target.value); }}
-                className={classes.root}    
+                className={classes.root}
                 inputProps={{ className: classes.root }}
               />
             </div>
@@ -179,7 +174,7 @@ export default function UserChangePassword() {
                   setOldPassword('');
                   setPassword('');
                   setConfirmPassword('');
-                  setOpenChangePassword(false);                  
+                  setOpenChangePassword(false);
                 }}>
                 AKΥΡΩΣΗ
               </Button>

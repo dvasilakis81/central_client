@@ -17,7 +17,7 @@ export default function ServicesSearchBar() {
     if (width > 1000)
       setSearchBarWidth(width * 0.6);
     else 
-      setSearchBarWidth('200px');
+      setSearchBarWidth(width * 1 - 300);
   }
 
   useEffect(() => {

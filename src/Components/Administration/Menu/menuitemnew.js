@@ -52,6 +52,7 @@ export default function MenuItemNew(props) {
   let menuItemDetails;
   if (location.state && location.state.isNew === 2)
     menuItemDetails = menuItemDetails2;
+  const { token } = useSelector(state => ({ token: state.token_reducer.token }));
 
   const { newItemAdded } = useSelector(state => ({ newItemAdded: state.menu_reducer.newItemAdded }));
   const { itemChanged } = useSelector(state => ({ itemChanged: state.menu_reducer.itemChanged }));
@@ -75,6 +76,7 @@ export default function MenuItemNew(props) {
   const handleClick = () => {
 
     var data = {};
+    data.token = token;
     data.id = id;
     data.name = name;
     data.url = url;
@@ -90,6 +92,7 @@ export default function MenuItemNew(props) {
     data.serviceOrderNo = serviceOrderNo;
     data.oldMenuOrderNo = oldMenuOrderNo;
     data.menuOrderNo = menuOrderNo;
+
     data.categories = categories;
     if (location.state.isNew === 2)
       dispatch(editNewMenuItem(data));
@@ -144,7 +147,7 @@ export default function MenuItemNew(props) {
               renderOption={(props, option) => {
                 const { Url } = props;
                 return (
-                  <span style={{ backgroundColor: 'transparent', color: 'blue', padding: '5px' }}>                    
+                  <span style={{ backgroundColor: 'transparent', color: 'blue', padding: '5px' }}>
                     <i class="fa fa-file" />
                     <span style={{ marginLeft: '10px' }}>{Url}</span>
                   </span>
@@ -166,7 +169,7 @@ export default function MenuItemNew(props) {
               filterSelectedOptions
               multiple
               getOptionLabel={item => (item.Name || '')}
-              onChange={(event, value) => setCategories(value) }
+              onChange={(event, value) => setCategories(value)}
               defaultValue={categories || []}
               PaperComponent={CustomPaper}
               ChipProps={{ color: 'red' }}
@@ -209,7 +212,7 @@ export default function MenuItemNew(props) {
                   />
                   <div style={{ marginLeft: '15px', display: 'flex', flex: 1 }}>
                     <SelectImage
-                      label="Εικονίδιο Μενού-fontawesome icon"
+                      label='Εικονίδιο Μενού-fontawesome icon'
                       image={imageMenu}
                       customstyle={{ flex: 1 }}
                       setImage={(e) => {
@@ -240,7 +243,8 @@ export default function MenuItemNew(props) {
                     inputProps={{ style: { textAlign: 'Left' } }}
                   />
                   <div style={{ marginLeft: '15px', display: 'flex', flex: 1 }}>
-                    <SelectImage label="Εικονίδιο Υπηρεσίας"
+                    <SelectImage
+                      label='Εικονίδιο Υπηρεσίας'
                       image={imageService}
                       customstyle={{ flex: 1 }}
                       setImage={(e) => {
@@ -249,24 +253,12 @@ export default function MenuItemNew(props) {
                         else
                           setImageService(e);
                       }}
-                      imagetype={1} />
+                      imagetype={1}
+                      canBeFontAwesome={true} />
                   </div>
                 </div> : <></>}
             </div>
           </div>
-          {/* <div style={{ padding: '10px' }}>
-            <SelectImage
-              label="Εικονίδιο Μενού-fontawesome icon"
-              image={imageMenu}
-              setImage={(e) => {
-                if (typeof e === 'object')
-                  setImageMenu(e.target.value);
-                else
-                  setImageMenu(e);
-              }}
-              customstyle={styles.textfield}
-              imagetype={2} />
-          </div> */}
           <div style={{ display: 'flex', flexFlow: 'row', overflowY: 'hidden', overflowX: 'hidden' }}>
             <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
               <Checkbox
@@ -307,7 +299,7 @@ export default function MenuItemNew(props) {
                 className='checkbox'
                 defaultChecked={false}
                 color='primary'
-                checked={hidden}                
+                checked={hidden}
                 onChange={e => setHidden(e.target.checked)}
                 inputProps={{ 'aria-label': 'controlled' }}
               />

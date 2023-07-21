@@ -16,11 +16,15 @@ export default function MediaItemNew(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation();
+  let itemDetails2 = useSelector((state) => { return state.media_reducer.mediaItemDetails });
+  let mediaItemDetails;
+  if (location.state && location.state.isNew === 2)
+    mediaItemDetails = itemDetails2;
+
   const [fileData, setFileData] = useState('');
   let navigate = useNavigate();
   const { processItem } = useSelector(state => ({ processItem: state.media_reducer.processItem }));
-  const { categoriesList } = useSelector(state => ({ categoriesList: state.categories_reducer.categoriesList }));
-  const { mediaItemDetails } = useSelector(state => ({ mediaItemDetails: state.media_reducer.mediaItemDetails }));
+  const { categoriesList } = useSelector(state => ({ categoriesList: state.categories_reducer.categoriesList }));  
   const [categories, setCategories] = useState(mediaItemDetails?.categoriesInfo || '');
   const [title, setTitle] = useState(mediaItemDetails?.Title || '');
 

@@ -1,6 +1,20 @@
 import axios from 'axios';
 import { getHostUrl, getLoginUrl } from '../../Helper/helpermethods';
 
+//PHONE CATALOG
+export function getPhoneCatalogInfo() {
+  const request = axios.get(getHostUrl() + 'getPhoneCatalogInfo').then(response => response.data);
+  return { type: 'GET_PHONECATALOGINFO', payload: request };
+}
+export function addPhoneCatalogInfo(data) {
+  const request = axios.post(getHostUrl() + 'addPhoneCatalogItems', data).then(response => response.data)
+  return { type: 'ADD_PHONECATALOGITEM', payload: request };
+}
+export function searchPhoneCatalogInfo(data) {
+  var urlRequest = getHostUrl() + 'searchPhoneCatalogItems';
+  const request = axios.post(urlRequest, data).then(response => response.data)
+  return { type: 'SEARCH_PHONECATALOGINFO', payload: request };
+}
 //MENU
 export function getServiceItems() {
   const request = axios.get(getHostUrl() + 'getServiceItems').then(response => response.data);
@@ -146,7 +160,7 @@ export function deleteItem(data) {
   else if (data.kind === 3)
     return { type: 'DELETE_MEDIA', payload: request };
   else if (data.kind === 4)
-    return { type: 'DELETE_ANNOUNCEMENT', payload: request };  
+    return { type: 'DELETE_ANNOUNCEMENT', payload: request };
   else if (data.kind === 6)
     return { type: 'DELETE_USER', payload: request };
   else if (data.kind === 7)

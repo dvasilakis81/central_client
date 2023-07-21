@@ -40,9 +40,13 @@ function CentralMenu() {
               onMouseLeave={handleMouseLeave}
               onClick={() => {
 
-                if (d.Url)
-                  window.open(d.Url, '_blank', 'noreferrer');
-                else {                  
+                if (d.Url) {
+                  if (d.Url === 'phonecatalog')
+                    navigate('/' + d.Url)
+                  else
+                    window.open(d.Url, '_blank', 'noreferrer')
+                }
+                else {
                   setSelectedCentralMenuItem(d);
                   setHeaderTitle(d.Name)
                   if (d.PageUrl)

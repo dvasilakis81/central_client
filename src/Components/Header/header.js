@@ -26,6 +26,7 @@ export default function Header(props) {
         setUserInfoVisible(true);
     }
   }, []);
+  
   const styles = {
     header: {
       width: '100%',
