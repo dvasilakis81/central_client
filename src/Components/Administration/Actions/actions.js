@@ -11,7 +11,6 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Button } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import store from '../../../Redux/Store/store';
 import Categories from '../CategoriesPopUp/categories';
 import { deleteItem } from '../../../Redux/Actions/index';
 import { showSnackbarMessage, showFailedConnectWithServerMessage, renderComments } from '../../Common/methods';

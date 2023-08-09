@@ -11,6 +11,7 @@ import * as XLSX from 'xlsx';
 import { Button } from '@material-ui/core';
 import { showSnackbarMessage, showFailedConnectWithServerMessage, renderComments } from '../Common/methods';
 import { tr } from 'date-fns/locale';
+import store from '../../Redux/Store/store';
 
 export default function PhoneCatalog(props) {
   const { searchPhoneCatalogList } = useSelector(state => ({ searchPhoneCatalogList: state.phonecatalog_reducer.searchPhoneCatalogList }));
@@ -40,12 +41,15 @@ export default function PhoneCatalog(props) {
       paddingBottom: '10px',
       fontSize: '16px',
       minWidth: '200px',
-      width: '300px'      
+      width: '400px'
     }
   }
 
   const dispatch = useDispatch();
   const [excelData, setExcelData] = useState([]);
+  const [addContactsButtonDisabled, setAddContactsButtonDisabled] = useState(true);
+  const [searchFieldLength, setSearchFieldLength] = useState(0);
+
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
   const inputRef3 = useRef(null);
@@ -63,7 +67,10 @@ export default function PhoneCatalog(props) {
       }
     }
 
-    dispatch(getPhoneCatalogInfo());
+    return function cleanup() {
+      store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
+    }
+    //dispatch(getPhoneCatalogInfo());
   }, []);
 
   function renderRows() {
@@ -75,78 +82,103 @@ export default function PhoneCatalog(props) {
           <td style={styles.td}>{item.Internal}</td>
         </tr>;
       })
-    } else
+    } else {
+      var searchMessage = 'Κανένα αποτέλεσμα';
+      if (searchFieldLength <= 3)
+        searchMessage = 'Απαιτούνται τουλάχιστον 4 χαρακτήρες';
+
       return <tr>
         <td style={styles.td} colspan={2}>
           <span style={{ fontSize: '20px', fontWeight: 'bold', color: 'orangered' }}>
-            {inputRef1?.current?.value || inputRef2?.current?.value || inputRef3?.current?.value ? 'Κανένα αποτέλεσμα' : ''}
+            {inputRef1?.current?.value || inputRef2?.current?.value || inputRef3?.current?.value ? searchMessage : ''}
           </span>
         </td>
       </tr>
+    }
   }
 
   return <HomeWrapperWithCentralMenu2>
     <div className='page-info-container'>
       <div className='page-body'>
-        {(token && token.userLoginInfo) ? <div className='flex-row'>
+        {(token && token.userLoginInfo) ? <div className='flex-row-left-center' style={{border: '1px solid black', background: 'lightgrey'}}>
           <input
-            type="file"
+            type='file'
+            style={{ padding: '20px', width: '500px', fontSize: '16px', fontWeight: 'bold'}}
             onInput={async (e) => {
               const file = e.target.files[0];
-              const data = await file.arrayBuffer();
-              const workbook = XLSX.read(data);
-              const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-              const jsonData = XLSX.utils.sheet_to_json(worksheet, {
-                header: 1,
-                defval: "",
-              });
-              setExcelData(jsonData);
+              if (file) {
+                const data = await file.arrayBuffer();
+                const workbook = XLSX.read(data);
+                const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+                  header: 1,
+                  defval: "",
+                });
+                setAddContactsButtonDisabled(false);
+                setExcelData(jsonData);
+              } else
+                setAddContactsButtonDisabled(true);
             }}
           />
-          <Button onClick={() => {
-            var data = {};
-            data.excelData = excelData;
-            dispatch(addPhoneCatalogInfo(data)).then(response => {
-              showSnackbarMessage(response, 'Eγινε επιτυχώς!');
-            }).catch(error => {
-              showFailedConnectWithServerMessage(error);
-            });
-          }} color="primary">
+          <Button
+            disabled={addContactsButtonDisabled}
+            variant='contained'
+            color="primary"
+            style={{ height: 'fit-content', verticalAlign: 'middle' }}
+            onClick={() => {
+              var data = {};
+              data.excelData = excelData;
+              dispatch(addPhoneCatalogInfo(data)).then(response => {
+                showSnackbarMessage(response, 'Eγινε επιτυχώς!');
+              }).catch(error => {
+                showFailedConnectWithServerMessage(error);
+              });
+            }}>
             ΠΡΟΣΘΗΚΗ
           </Button>
         </div> : <></>}
-        <table style={{ textAlign: 'middle' }}>
+        <table style={{ textAlign: 'middle' }}>          
           <tr>
-            <th style={styles.td}>Ονοματεπώνυμο</th>
-            <th style={styles.td}>Αριθμός</th>
-            <th style={styles.td}>Εσωτερικό</th>
-          </tr>
-          <tr>
-            <td style={styles.tdsearch}>
-              <input
-                ref={inputRef1}
-                type='search'
-                style={{ fontSize: '20px', fontWeight: 'bold', border: '1px solid black', padding: '10px' }}
-                onChange={(e) => {
-                  inputRef2.current.value = '';
-                  inputRef3.current.value = '';
+            <td style={styles.tdsearch}>              
+              <div style={{ display: 'flex', flex: '1', flexDirection: 'row' }}>
+                <input
+                  ref={inputRef1}
+                  placeholder=" &#xF002; Ονοματεπώνυμο"
+                  type='search'
+                  style={{
+                    fontFamily: 'FontAwesome',
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    border: '1px solid black',
+                    padding: '10px',
+                    width: '-webkit-fill-available'
+                  }}
+                  onChange={(e) => {
+                    inputRef2.current.value = '';
+                    inputRef3.current.value = '';
 
-                  var data = {}
-                  data.searchfield = 1;
-                  data.searchtext = e.target.value;
-                  dispatch(searchPhoneCatalogInfo(data)).then(response => {
-                    //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
-                  }).catch(error => {
-                    showFailedConnectWithServerMessage(error);
-                  });
-                }}
-              />
+                    var data = {};
+                    data.searchfield = 1;
+                    data.searchtext = e.target.value;
+                    setSearchFieldLength(e.target.value && e.target.value.length || 0);
+                    if (e.target.value && e.target.value.length > 3) {
+                      dispatch(searchPhoneCatalogInfo(data)).then(response => {
+                        //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
+                      }).catch(error => {
+                        showFailedConnectWithServerMessage(error);
+                      });
+                    } else
+                      store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
+                  }}
+                />                
+              </div>
             </td>
             <td style={styles.tdsearch}>
               <input
+                placeholder=" &#xF002; Αριθμός Τηλ."
                 ref={inputRef2}
                 type='number'
-                style={{ fontSize: '20px', fontWeight: 'bold', border: '1px solid black', padding: '10px' }}
+                style={{ fontSize: '20px', fontWeight: 'bold', border: '1px solid black', padding: '10px', margin: '10px', width: '-webkit-fill-available', fontFamily: 'FontAwesome' }}
                 onChange={(e) => {
                   inputRef1.current.value = '';
                   inputRef3.current.value = '';
@@ -154,30 +186,39 @@ export default function PhoneCatalog(props) {
                   var data = {}
                   data.searchfield = 2;
                   data.searchtext = e.target.value;
-                  dispatch(searchPhoneCatalogInfo(data)).then(response => {
-                    //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
-                  }).catch(error => {
-                    //showFailedConnectWithServerMessage(error);
-                  });
+                  setSearchFieldLength(e.target.value && e.target.value.length || 0);
+                  if (e.target.value && e.target.value.length > 3) {
+                    dispatch(searchPhoneCatalogInfo(data)).then(response => {
+                      //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
+                    }).catch(error => {
+                      showFailedConnectWithServerMessage(error);
+                    });
+                  } else
+                    store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
                 }}
               />
             </td>
             <td style={styles.tdsearch}>
               <input
+                placeholder=" &#xF002; Εσωτερικό Τηλ."
                 ref={inputRef3}
                 type='number'
-                style={{ fontSize: '20px', fontWeight: 'bold', border: '1px solid black', padding: '10px' }}
+                style={{ fontSize: '20px', fontWeight: 'bold', border: '1px solid black', padding: '10px', width: '-webkit-fill-available', fontFamily: 'FontAwesome' }}
                 onChange={(e) => {
                   inputRef1.current.value = '';
                   inputRef2.current.value = '';
                   var data = {}
                   data.searchfield = 3;
-                  data.searchtext = e.target.value;
-                  dispatch(searchPhoneCatalogInfo(data)).then(response => {
-                    //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
-                  }).catch(error => {
-                    showFailedConnectWithServerMessage(error);
-                  });
+                  setSearchFieldLength(e.target.value && e.target.value.length || 0);
+                  if (e.target.value && e.target.value.length > 2) {
+                    data.searchtext = e.target.value;
+                    dispatch(searchPhoneCatalogInfo(data)).then(response => {
+                      //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
+                    }).catch(error => {
+                      showFailedConnectWithServerMessage(error);
+                    });
+                  } else
+                    store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
                 }}
               />
             </td>

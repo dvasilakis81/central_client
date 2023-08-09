@@ -18,9 +18,7 @@
 .selected-tab {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-width: 170px;
-  max-width: 170px;
+  justify-content: center;  
   height: auto;
   text-align: center;
   cursor: unset;
@@ -37,30 +35,38 @@
     font-size: 1.5rem;
     min-width: 150px;
     max-width: 250px;
-    min-height: 50px;
+    min-height: 70px;
     cursor: pointer;
   }  
 }
 @media only screen and (max-width: 1920px) {
 
   .selected-tab, .tab {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     min-width: 150px;
     max-width: 250px;
-    min-height: 50px;
+    height: auto;    
     cursor: pointer;
   }  
 }
 @media only screen and (max-width: 1366px) {
   
   .menuItemName,.selected-tab, .tab {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     min-width: 140px;
     max-width: 140px;
+    min-height: 70px;
     cursor: pointer;
   }  
 }
 @media only screen and (max-width: 900px) {
+  .menuItemName,.selected-tab, .tab {
+    font-size: 0.8rem;
+    min-width: 140px;
+    max-width: 140px;
+    min-height: 100px;
+    cursor: pointer;
+  }  
 }
 @media only screen and (max-width: 200px) {
 }

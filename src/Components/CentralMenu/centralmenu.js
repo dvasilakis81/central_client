@@ -40,8 +40,8 @@ function CentralMenu() {
               onMouseLeave={handleMouseLeave}
               onClick={() => {
 
-                if (d.Url) {
-                  if (d.Url === 'phonecatalog')
+                if (d.Url) {                  
+                  if (d.Url.includes('phonecatalog') === true)
                     navigate('/' + d.Url)
                   else
                     window.open(d.Url, '_blank', 'noreferrer')

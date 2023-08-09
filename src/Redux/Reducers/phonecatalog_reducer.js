@@ -40,7 +40,7 @@ export default function (state = {}, action, root) {
               requestPending: undefined,
               requestRejected: undefined,
               requestServerError: undefined,
-              searchPhoneCatalogList: itemsList              
+              searchPhoneCatalogList: itemsList
             };
           } else {
             state = {
@@ -59,6 +59,14 @@ export default function (state = {}, action, root) {
           requestPending: undefined,
           requestRejected: action.payload,
           searchPhoneCatalogList: undefined
+        };
+        break;
+      case 'SET_SEARCH_PHONECATALOGINFO_EMPTY':
+        state = {
+          ...state,
+          requestPending: undefined,
+          requestRejected: action.payload,
+          searchPhoneCatalogList: []
         };
         break;
       case 'GET_PHONECATALOGINFO_PENDING':
@@ -97,7 +105,7 @@ export default function (state = {}, action, root) {
               requestPending: undefined,
               requestRejected: undefined,
               requestServerError: undefined,
-              phoneCatalogList: itemsList              
+              phoneCatalogList: itemsList
             };
           } else {
             state = {
@@ -115,7 +123,7 @@ export default function (state = {}, action, root) {
           ...state,
           requestPending: undefined,
           requestRejected: action.payload,
-          phoneCatalogList: undefined,          
+          phoneCatalogList: undefined,
         };
         break;
       case 'ADD_PHONECATALOGITEMS_PENDING':

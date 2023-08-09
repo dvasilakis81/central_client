@@ -140,7 +140,9 @@ export default function MenuItemNew(props) {
             <Autocomplete
               options={pageItemsList || []}
               getOptionLabel={item => (item.Url || '')}
-              onChange={(event, value) => setPageUrl(value)}
+              onChange={(event, value) => { 
+                setPageUrl(value.Url);
+              }}
               filterSelectedOptions
               defaultValue={{ Url: pageUrl }}
               PaperComponent={CustomPaper}

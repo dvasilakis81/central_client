@@ -13,7 +13,8 @@ function PageItems(props) {
   const { pageItemsList } = useSelector(state => ({ pageItemsList: state.page_reducer.pageItemsList }));
   const { pageItemDetails } = useSelector(state => ({ pageItemDetails: state.page_reducer.pageItemDetails })); 
   const [searchValue, setSearchValue] = useState('');
-  const handleChangeSearchValue = (e) => { 
+  
+  const handleChangeSearchValue = (e) => {
     store.dispatch({ type: 'SET_PAGEITEM_DETAIL', payload: undefined })
     setSearchValue(e.target.value); 
   };

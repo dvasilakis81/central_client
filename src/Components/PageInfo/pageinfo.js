@@ -8,6 +8,26 @@ import PageTabs from './pagetabs';
 import CreatePageComment from './createpagecomment';
 import { getDateFormat, renderHtml } from '../../Helper/helpermethods';
 import { renderComments, setHeaderTitle, setSelectedCentralMenuItem } from '../Common/methods'
+import AnimationLayout from '../Animation/animation';
+import { motion } from "framer-motion";
+
+// const PageLayout = ({ children }) => children;
+// const pageVariants = {
+//   initial: {
+//     opacity: 0
+//   },
+//   in: {
+//     opacity: 1
+//   },
+//   out: {
+//     opacity: 0
+//   }
+// };
+// const pageTransition = {
+//   type: "tween",
+//   ease: "linear",
+//   duration: 1
+// };
 
 export default function PageInfo() {
   const dispatch = useDispatch();
@@ -20,7 +40,7 @@ export default function PageInfo() {
     if (pageUrlParts) {
       var data = {};
       data.url = pageUrlParts[pageUrlParts.length - 1];
-      console.log('pageinfo: ' + data.url);
+      //console.log('pageinfo: ' + data.url);
       dispatch(getPageInfo(data)).then(response => {
         setHeaderTitle(response?.value?.Title);
 
@@ -46,17 +66,25 @@ export default function PageInfo() {
   }, [history]);
 
   return <HomeWrapperWithCentralMenu2>
+
     <div className='page-info-container'>
       <div className='page-body'>
-        <PageTabs pageinfo={pageInfo} />
-        <div className='page-body-content'>
-          {pageInfo ? renderHtml(pageInfo?.Body || '') : 'Η Σελίδα δεν βρέθηκε'}
-        </div>
-        <CreatePageComment />
-        <div style={{ marginTop: '20px' }}>
-          {renderComments(pageInfo, 1, false, null, null)}
-        </div>
+        {/* <motion.div
+          initial="initial"
+          animate="in"
+          variants={pageVariants}
+          transition={pageTransition}> */}
+          <PageTabs pageinfo={pageInfo} />
+          <div className='page-body-content'>
+            {pageInfo ? renderHtml(pageInfo?.Body || '') : 'Η Σελίδα δεν βρέθηκε'}
+          </div>
+          <CreatePageComment />
+          <div style={{ marginTop: '20px' }}>
+            {renderComments(pageInfo, 1, false, null, null)}
+          </div>
+        {/* </motion.div > */}
       </div>
     </div>
+
   </HomeWrapperWithCentralMenu2>
 }

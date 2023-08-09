@@ -25,6 +25,7 @@ export function getServiceItemsByGroup() {
   return { type: 'GET_SERVICEMENUITEMS', payload: request };
 }
 export function getMenuItems() {
+  console.log(getHostUrl() + 'getMenuItems');
   const request = axios.get(getHostUrl() + 'getMenuItems').then(response => response.data);
   return { type: 'GET_MENUITEMS', payload: request };
 }

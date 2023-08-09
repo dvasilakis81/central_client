@@ -12,16 +12,11 @@ import AnnouncementItemNew from '../Components/Administration/Announcements/anno
 import UserItemNew from '../Components/Administration/Users/useritemnew';
 import CategoryItemNew from '../Components/Administration/Categories/categoryitemnew';
 import PageInfo from '../Components/PageInfo/pageinfo';
+//const PageInfo = React.lazy(() => import('../Components/PageInfo/pageinfo'));
 import PhoneCatalog from '../Components/PhoneCatalog/phonecatalog';
-
-//const Consultations = lazy(() => import('./Components/Consultations/ConsultationsPage'));  
-//import ConsultationsPage from './Components/Consultations/ConsultationsPage';
-//import NewConsultation from './Components/Consultations/NewConsultation';
-//const NewConsultation = lazy(() => import('./Components/Consultations/NewConsultation')); 
 
 //const Home = lazy(() => import('./Components/Home/home'));
 //const Login = lazy(() => import('./Components/Login/login'));
-//const Administration = lazy(() => import('./Components/Administration/administration'));
 
 class AppRoutes extends React.Component {
 
@@ -32,7 +27,7 @@ class AppRoutes extends React.Component {
 			<Layout>
 				<Suspense fallback={showGenericMessage('Παρακαλώ περιμένετε...', false, true)}>
 					<Routes>
-						{/* <Route path="/newconsultation" exact component={NewConsultation} /> */}
+						{/* <Route element={<AnimationLayout />}>							 */}
 						<Route path="/newmediaitem" element={<MediaItemNew />} />
 						<Route path="/newmenuitem" element={<MenuItemNew />} />
 						<Route path="/newpageitem" element={<PageItemNew />} />
@@ -44,6 +39,7 @@ class AppRoutes extends React.Component {
 						<Route path="/login" element={<LoginPage />} />
 						<Route path="/:pageurl" element={<PageInfo />} />
 						<Route path="/" element={<Home />} />
+						{/* </Route> */}
 					</Routes>
 				</Suspense>
 			</Layout>

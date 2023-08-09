@@ -24,7 +24,7 @@ export default function MediaItemNew(props) {
   const [fileData, setFileData] = useState('');
   let navigate = useNavigate();
   const { processItem } = useSelector(state => ({ processItem: state.media_reducer.processItem }));
-  const { categoriesList } = useSelector(state => ({ categoriesList: state.categories_reducer.categoriesList }));  
+  const { categoriesList } = useSelector(state => ({ categoriesList: state.categories_reducer.categoriesList }));
   const [categories, setCategories] = useState(mediaItemDetails?.categoriesInfo || '');
   const [title, setTitle] = useState(mediaItemDetails?.Title || '');
 
@@ -33,8 +33,13 @@ export default function MediaItemNew(props) {
       if (fileData) {
         const formData = new FormData();
         formData.append('file', fileData);
-        if (categories)
-          categories.forEach(category => formData.append('categories[]', category.Id))
+        if (categories) {
+
+          categories.forEach(category => {
+            console.log('categories[]', category.Id);
+            formData.append('categories[]', category.Id)
+          });
+        }
         dispatch(addMediaItem(formData)).then(res => {
           if (res && res.value && res.value.info === true)
             showSnackbarInfoMessage(res.value.message);
@@ -48,6 +53,7 @@ export default function MediaItemNew(props) {
       data.id = mediaItemDetails.Id;
       data.categories = categories;
       data.title = title;
+      data.mitsos = 'mitsos';
 
       dispatch(editMediaItem(data)).then(res => {
         if (res && res.value && res.value.info === true)
@@ -90,7 +96,7 @@ export default function MediaItemNew(props) {
           options={categoriesList || []}
           filterSelectedOptions
           multiple
-          getOptionLabel={item => ((item && item.Name ? item.Name : ''))}
+          getOptionLabel={item => (item?.Name || '')}
           onChange={(event, value) => setCategories(value)}
           defaultValue={categories || []}
           style={{ padding: '0px', flexWrap: 'wrap', width: '400px' }}

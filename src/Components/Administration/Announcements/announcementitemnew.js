@@ -55,8 +55,8 @@ export default function AnnouncementItemNew(props) {
   const { itemChanged } = useSelector(state => ({ itemChanged: state.announcement_reducer.itemChanged }));
 
   let categoriesList = useSelector((state) => {
-    if (state.parametricdata_reducer.categoriesList) {
-      const filteredItems = state.parametricdata_reducer.categoriesList.filter(
+    if (state.categories_reducer.categoriesList) {
+      const filteredItems = state.categories_reducer.categoriesList.filter(
         (item) => item.HasSubCategories === 0
       );
       return filteredItems;
@@ -154,7 +154,7 @@ export default function AnnouncementItemNew(props) {
               options={categoriesList || []}
               filterSelectedOptions
               multiple
-              getOptionLabel={item => (item.Name || '')}
+              getOptionLabel={item => (item?.Name || '')}
               onChange={(event, value) => setCategories(value)}
               defaultValue={categories || []}
               PaperComponent={CustomPaper}

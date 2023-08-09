@@ -209,7 +209,7 @@ function ServicesMenu() {
       itemIds = [];
       mediaItemIds = [];
       var ret = getServiceItemsFromSearch(serviceItemsList);
-      var mediaItems = getMediaItemsFromSearch(serviceItemsList)
+      var mediaItems = getMediaItemsFromSearch(serviceItemsList);
 
       if (itemIds?.length === 0 && mediaItemIds?.length === 0)
         return <div className='flex-row-center message-big-size' style={{ color: '#0F6CBD' }}>
