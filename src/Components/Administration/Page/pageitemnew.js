@@ -14,6 +14,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import * as React from "react";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useStyles } from '../../Styles/styles';
+import { showSnackbarMessage, showFailedConnectWithServerMessage, renderComments } from '../../Common/methods';
 
 export default function PageItemNew(props) {
   const classes = useStyles();
@@ -90,10 +91,19 @@ export default function PageItemNew(props) {
                 data.tabs = [];
                 tabs.map((item) => { data.tabs.push(item); })
 
-                if (location && location.state && location.state.isNew === 2)
-                  dispatch(editPageItem(data));
-                else
-                  dispatch(addPageItem(data));
+                if (location && location.state && location.state.isNew === 2) {
+                  dispatch(editPageItem(data)).then(response => {
+                    showSnackbarMessage(response, 'H επεξεργασία της σελίδας έγινε επιτυχώς!');
+                  }).catch(error => {
+                    showFailedConnectWithServerMessage(error);
+                  });
+                } else {
+                  dispatch(addPageItem(data)).then(response => {
+                    showSnackbarMessage(response, 'H δημιουργία της σελίδας έγινε επιτυχώς!');
+                  }).catch(error => {
+                    showFailedConnectWithServerMessage(error);
+                  });
+                }
               }}>
               <SaveAltIcon />
               Αποθήκευση
@@ -192,7 +202,7 @@ export default function PageItemNew(props) {
                         font_size_formats: '8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 48pt',
                         //plugins: 'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen pageembed charmap mentions quickbars linkchecker emoticons advtable export',
                         height: '700px',
-                        content_style: "@import url('https://fonts.googleapis.com/css2?family=Tinos&display=swap');body { font-size: 14pt; font-family: Arial; }",                        
+                        content_style: "@import url('https://fonts.googleapis.com/css2?family=Tinos&display=swap');body { font-size: 14pt; font-family: Arial; }",
                         promotion: false
                       }}
                       style={{ height: '100%' }}

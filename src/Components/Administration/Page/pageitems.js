@@ -26,14 +26,13 @@ function PageItems(props) {
         <SearchBar searchValue={searchValue} handleChangeSearchValue={handleChangeSearchValue} />
         <div style={{ display: 'flex', flexFlow: 'row', flex: '1', overflowY: 'auto', overflowX: 'hidden', margin: '0px', padding: '0px' }}>
           <div style={{ display: 'flex', flexFlow: 'column', flex: '1', backgroundColor: '#fff' }}>
-            {(pageItemsList && pageItemsList.length > 0) ?
-              <ItemsList data={pageItemsList} defaultSelectedItem={pageItemsList[0]} kind="pageitems" searchValue={searchValue} />
+            {(pageItemsList && pageItemsList.length > 0) ?              
+               <ItemsList data={pageItemsList} defaultSelectedItem={pageItemsList[0]} kind="pageitems" searchValue={searchValue} />
               :
               <EmptyItems title="Σελίδες" />}
           </div>
         </div>
       </div>
-
       {/* 2st column */}
       <div style={{ marginLeft: '10px', marginRight: '15px', display: 'flex', flexFlow: 'column', flexBasis: '100%', flex: '1', backgroundColor: 'white', overflowY: 'hidden' }}>
         <div style={{ display: 'flex', flexFlow: 'row', flex: '1', overflowY: 'hidden', overflowX: 'hidden' }}>

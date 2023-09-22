@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { TextField } from '@material-ui/core';
 import store from '../../Redux/Store/store';
 import { useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ export default function ServicesSearchBar() {
     const width = window.innerWidth;
     if (width > 1000)
       setSearchBarWidth(width * 0.6);
-    else 
+    else
       setSearchBarWidth(width * 1 - 300);
   }
 
@@ -27,10 +27,14 @@ export default function ServicesSearchBar() {
     return () =>
       window.removeEventListener("resize", updateSearchBarSize);
   }, []);
+  var searchBarSize = 'medium';
+  if (window.innerWidth <= 1366)
+    searchBarSize = 'small';
 
   return (<TextField
     label="Αναζήτηση"
     type="text"
+    size={searchBarSize}
     variant='outlined'
     style={{
       width: searchBarWidth,

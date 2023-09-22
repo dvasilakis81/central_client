@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 // import MaterialTable, { MTableToolbar } from 'material-table';
 // import { ThemeProvider, createTheme } from '@mui/material';
 // import PulseLoader from 'react-spinners/PulseLoader';
-import { getHostUrl, getHeaderHeight, getFooterHeight, getBodyHeight, getDateTimeFormat, getServerErrorResponseMessage } from '../../Helper/helpermethods';
+import { ignoreTonousAndLowercase, getHostUrl } from '../../Helper/helpermethods';
 import { getPhoneCatalogInfo, addPhoneCatalogInfo, searchPhoneCatalogInfo } from '../../Redux/Actions/index';
 import HomeWrapperWithCentralMenu2 from '../Home/homewrapperwithcentralmenu2';
 import { setHeaderTitle, setSelectedCentralMenuItem } from '../Common/methods'
 import * as XLSX from 'xlsx';
 import { Button } from '@material-ui/core';
 import { showSnackbarMessage, showFailedConnectWithServerMessage, renderComments } from '../Common/methods';
-import { tr } from 'date-fns/locale';
 import store from '../../Redux/Store/store';
+import axios from 'axios';
 
 export default function PhoneCatalog(props) {
   const { searchPhoneCatalogList } = useSelector(state => ({ searchPhoneCatalogList: state.phonecatalog_reducer.searchPhoneCatalogList }));
@@ -21,7 +21,7 @@ export default function PhoneCatalog(props) {
 
   const styles = {
     trfirst: {
-      backgroundColor: 'lightgreen'
+      backgroundColor: 'transparent'
     },
     treven: {
       background: '#32612d',
@@ -34,13 +34,27 @@ export default function PhoneCatalog(props) {
       fontSize: '18px',
       fontWeight: 'semibold|italic',
       fontStyle: 'italic',
-      padding: '10px'
+      padding: '10px',
+      width: '400px',
+      background: '#B2D3C2', //pistacio
+      color: 'black'
+    },
+    tdheader: {
+      paddingLeft: '20px',
+      paddingBottom: '20px',
+      fontSize: '18px',
+      fontWeight: 'semibold|italic',
+      fontStyle: 'italic',
+      padding: '10px',
+      width: '400px',
+      background: '#B2D3C2',
+      color: 'black',
+      fontWeight: 'bold'
     },
     tdsearch: {
       paddingLeft: '0px',
       paddingBottom: '10px',
       fontSize: '16px',
-      minWidth: '200px',
       width: '400px'
     }
   }
@@ -49,6 +63,8 @@ export default function PhoneCatalog(props) {
   const [excelData, setExcelData] = useState([]);
   const [addContactsButtonDisabled, setAddContactsButtonDisabled] = useState(true);
   const [searchFieldLength, setSearchFieldLength] = useState(0);
+  const [phoneRegions, setPhoneRegions] = useState(['Επιλέξτε Οδό']);
+  const [selectedRegion, setSelectedRegion] = useState([]);
 
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
@@ -56,6 +72,12 @@ export default function PhoneCatalog(props) {
 
   useEffect(() => {
     setHeaderTitle('Τηλεφωνικός Κατάλογος');
+    axios.get(getHostUrl() + 'getPhoneRegions').then(res => {
+      if (res.data) {
+        res.data.unshift({ 'region': 'Επιλέξτε Οδό' });
+        setPhoneRegions(res.data);
+      }
+    });
 
     if (menuItemsList) {
       for (var i = 0; i < menuItemsList.length; i++) {
@@ -73,47 +95,63 @@ export default function PhoneCatalog(props) {
     //dispatch(getPhoneCatalogInfo());
   }, []);
 
+  function renderHeaders() {
+    if (searchPhoneCatalogList && searchPhoneCatalogList.length > 0 && Array.isArray(searchPhoneCatalogList)) {
+      return <div style={{ display: 'flex', flexDirection: 'row', width: '700px' }}>
+        <span style={styles.tdheader}>Ονοματεπώνυμο</span>
+        <span style={styles.tdheader}>Αρ. Τηλ</span>
+      </div>
+    }
+    else
+      return <></>
+  }
   function renderRows() {
     if (searchPhoneCatalogList && searchPhoneCatalogList.length > 0 && Array.isArray(searchPhoneCatalogList)) {
       return searchPhoneCatalogList && searchPhoneCatalogList.map((item, index) => {
-        return <tr key={index} style={index % 2 === 0 ? styles.trfirst : styles.treven}>
-          <td style={styles.td}>{item.Fullname}</td>
-          <td style={styles.td}>{item.Phone}</td>
-          <td style={styles.td}>{item.Internal}</td>
-        </tr>;
+        //return <div key={index} style={{index % 2 === 0 ? styles.trfirst : styles.trfirst}}>
+        return <div key={index} style={{ display: 'flex', flexDirection: 'row', width: '700px' }}>
+          <span style={styles.td}>{item.Fullname}</span>
+          <span style={styles.td}>{item.Internal}</span>
+        </div>;
       })
     } else {
       var searchMessage = 'Κανένα αποτέλεσμα';
       if (searchFieldLength <= 3)
         searchMessage = 'Απαιτούνται τουλάχιστον 4 χαρακτήρες';
 
-      return <tr>
+      return inputRef1?.current?.value || inputRef2?.current?.value || inputRef3?.current?.value ? <tr>
         <td style={styles.td} colspan={2}>
           <span style={{ fontSize: '20px', fontWeight: 'bold', color: 'orangered' }}>
-            {inputRef1?.current?.value || inputRef2?.current?.value || inputRef3?.current?.value ? searchMessage : ''}
+            {searchMessage}
           </span>
         </td>
-      </tr>
+      </tr> : <></>
     }
   }
 
   return <HomeWrapperWithCentralMenu2>
     <div className='page-info-container'>
       <div className='page-body'>
-        {(token && token.userLoginInfo) ? <div className='flex-row-left-center' style={{border: '1px solid black', background: 'lightgrey'}}>
+        {(token && token.userLoginInfo) ? <div className='flex-row-left-center' style={{ border: '1px solid black', background: 'lightgrey' }}>
           <input
             type='file'
-            style={{ padding: '20px', width: '500px', fontSize: '16px', fontWeight: 'bold'}}
+            style={{ padding: '20px', width: '500px', fontSize: '16px', fontWeight: 'bold' }}
             onInput={async (e) => {
               const file = e.target.files[0];
               if (file) {
+                var jsonData = [];
                 const data = await file.arrayBuffer();
                 const workbook = XLSX.read(data);
-                const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, {
-                  header: 1,
-                  defval: "",
-                });
+                // const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                var worksheet = undefined;
+                for (var i = 0; i < workbook.SheetNames.length; i++) {
+                  worksheet = workbook.Sheets[workbook.SheetNames[i]];
+                  jsonData.push({
+                    'region': workbook.SheetNames[i],
+                    'data': XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" })
+                  });
+                }
+
                 setAddContactsButtonDisabled(false);
                 setExcelData(jsonData);
               } else
@@ -137,94 +175,112 @@ export default function PhoneCatalog(props) {
             ΠΡΟΣΘΗΚΗ
           </Button>
         </div> : <></>}
-        <table style={{ textAlign: 'middle' }}>          
-          <tr>
-            <td style={styles.tdsearch}>              
-              <div style={{ display: 'flex', flex: '1', flexDirection: 'row' }}>
-                <input
-                  ref={inputRef1}
-                  placeholder=" &#xF002; Ονοματεπώνυμο"
-                  type='search'
-                  style={{
-                    fontFamily: 'FontAwesome',
-                    fontSize: '20px',
-                    fontWeight: 'bold',
-                    border: '1px solid black',
-                    padding: '10px',
-                    width: '-webkit-fill-available'
-                  }}
-                  onChange={(e) => {
-                    inputRef2.current.value = '';
-                    inputRef3.current.value = '';
+        <div style={{ display: 'flex', flex: '1', flexDirection: 'row', flexWrap: 'wrap' }}>
+          <input
+            ref={inputRef1}
+            placeholder=" &#xF002; Ονοματεπώνυμο"
+            type='search'
+            style={{
+              fontFamily: 'FontAwesome',
+              fontSize: '20px',
+              fontWeight: 'bold',
+              border: '1px solid black',
+              margin: '10px',
+              padding: '10px',
+              width: '500px'
+            }}
+            onChange={(e) => {
+              inputRef2.current.value = '';
+              // inputRef3.current.value = '';
 
-                    var data = {};
-                    data.searchfield = 1;
-                    data.searchtext = e.target.value;
-                    setSearchFieldLength(e.target.value && e.target.value.length || 0);
-                    if (e.target.value && e.target.value.length > 3) {
-                      dispatch(searchPhoneCatalogInfo(data)).then(response => {
-                        //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
-                      }).catch(error => {
-                        showFailedConnectWithServerMessage(error);
-                      });
-                    } else
-                      store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
-                  }}
-                />                
-              </div>
-            </td>
-            <td style={styles.tdsearch}>
-              <input
-                placeholder=" &#xF002; Αριθμός Τηλ."
-                ref={inputRef2}
-                type='number'
-                style={{ fontSize: '20px', fontWeight: 'bold', border: '1px solid black', padding: '10px', margin: '10px', width: '-webkit-fill-available', fontFamily: 'FontAwesome' }}
-                onChange={(e) => {
-                  inputRef1.current.value = '';
-                  inputRef3.current.value = '';
+              var data = {};
+              data.searchfield = 1;
+              data.searchtext = ignoreTonousAndLowercase(e.target.value);
+              setSearchFieldLength(e.target.value && e.target.value.length || 0);
+              if (e.target.value && e.target.value.length > 3) {
+                dispatch(searchPhoneCatalogInfo(data)).then(response => {
+                  //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
+                }).catch(error => {
+                  showFailedConnectWithServerMessage(error);
+                });
+              } else
+                store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
+            }}
+          />
+          <input
+            placeholder=" &#xF002; Αριθμός Τηλ."
+            ref={inputRef2}
+            type='search'
+            style={{
+              fontFamily: 'FontAwesome',
+              fontSize: '20px',
+              fontWeight: 'bold',
+              border: '1px solid black',
+              margin: '10px',
+              padding: '10px',
+              width: '500px'
+            }}
+            onChange={(e) => {
+              inputRef1.current.value = '';
 
-                  var data = {}
-                  data.searchfield = 2;
-                  data.searchtext = e.target.value;
-                  setSearchFieldLength(e.target.value && e.target.value.length || 0);
-                  if (e.target.value && e.target.value.length > 3) {
-                    dispatch(searchPhoneCatalogInfo(data)).then(response => {
-                      //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
-                    }).catch(error => {
-                      showFailedConnectWithServerMessage(error);
-                    });
-                  } else
-                    store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
-                }}
-              />
-            </td>
-            <td style={styles.tdsearch}>
-              <input
-                placeholder=" &#xF002; Εσωτερικό Τηλ."
-                ref={inputRef3}
-                type='number'
-                style={{ fontSize: '20px', fontWeight: 'bold', border: '1px solid black', padding: '10px', width: '-webkit-fill-available', fontFamily: 'FontAwesome' }}
-                onChange={(e) => {
-                  inputRef1.current.value = '';
-                  inputRef2.current.value = '';
-                  var data = {}
-                  data.searchfield = 3;
-                  setSearchFieldLength(e.target.value && e.target.value.length || 0);
-                  if (e.target.value && e.target.value.length > 2) {
-                    data.searchtext = e.target.value;
-                    dispatch(searchPhoneCatalogInfo(data)).then(response => {
-                      //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
-                    }).catch(error => {
-                      showFailedConnectWithServerMessage(error);
-                    });
-                  } else
-                    store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
-                }}
-              />
-            </td>
-          </tr>
+              var data = {};
+              data.searchfield = 3;
+              data.searchtext = e.target.value;
+              setSearchFieldLength(e.target.value && e.target.value.length || 0);
+              if (e.target.value && e.target.value.length > 3) {
+                dispatch(searchPhoneCatalogInfo(data)).then(response => {
+                  //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
+                }).catch(error => {
+                  showFailedConnectWithServerMessage(error);
+                });
+              } else
+                store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
+            }}
+          />
+          <select
+            onChange={(e) => {
+              //setSelectedRegion(e.target.value);                  
+              var data = {};
+              data.searchfield = 'region';
+              data.searchtext = e.target.value;
+              setSearchFieldLength(e.target.value && e.target.value.length || 0);
+              if (e.target.value && e.target.value.length > 3) {
+                dispatch(searchPhoneCatalogInfo(data)).then(response => {
+                  var response2 = response;
+                  //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
+                }).catch(error => {
+                  showFailedConnectWithServerMessage(error);
+                });
+              } else
+                store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
+            }}
+
+            style={{
+              width: '500px',
+              height: '43px',
+              fontSize: '22px',
+              margin: '10px',
+              marginLeft: '10px'
+            }}
+            name="regions"
+            id="regions">
+            {
+              phoneRegions.map((item, index) => {
+                return <option style={{ fontSize: '16px', color: 'darkblue' }} value={item.region}>
+                  {item.region}
+                </option>;
+              })
+            }
+          </select>
+        </div>
+        <span>
+          {searchPhoneCatalogList && searchPhoneCatalogList.length > 0 ?
+            <span style={{ fontSize: '22px', color: 'black', fontWeight: 'bold' }}>{searchPhoneCatalogList.length} αποτελέσματα</span> : ''}
+        </span>
+        {renderHeaders()}
+        <div className='div-phone-users'>
           {renderRows()}
-        </table>
+        </div>
       </div>
     </div>
   </HomeWrapperWithCentralMenu2 >

@@ -27,15 +27,14 @@ export default function AdministrationPage(props) {
   function getTabMenu(tab) {
 
     if (tab === 0) {
-      if (showTabButton('MENOY') === true) {
+      if (showTabButton('MENOY') === true)
         return <MenuItems itemtype={1} />
-      }
       else
         return <></>
     } else if (tab === 1) {
-      if (showTabButton('ΥΠΗΡΕΣΙΕΣ') === true) {
+      if (showTabButton('ΥΠΗΡΕΣΙΕΣ') === true)
         return <MenuItems itemtype={2} />
-      } else
+      else
         return <></>
     }
     else if (tab === 2) {
@@ -105,13 +104,13 @@ export default function AdministrationPage(props) {
   useEffect(() => {
     dispatch(getMenuItems());
     dispatch(getServiceItems());
-    if (pageItemsList) {
-    } else
-      dispatch(getPageItems());
+    // if (pageItemsList) {
+    // } else
+    //   dispatch(getPageItems());
     dispatch(getCategories());
     dispatch(getMediaItems());
     dispatch(getUsers());
-    dispatch(getCategories());    
+    dispatch(getCategories());
 
     if (selectedTab === undefined || selectedTab === null || selectedTab === 0) {
       if (showTabButton('MENOY') === true)
@@ -208,7 +207,7 @@ export default function AdministrationPage(props) {
             ΚΑΤΗΓΟΡΙΕΣ
           </div> : <></>}
           {showTabButton('LOGS') ? <div
-            className={selectedTab === 7 ? 'selected-tab' : (hoveredKey === 6 ? 'selected-tab' : 'tab')}
+            className={selectedTab === 7 ? 'selected-tab' : (hoveredKey === 7 ? 'selected-tab' : 'tab')}
             onClick={(e) => { handleTabChange(e, 7) }}
             onMouseEnter={(e) => handleMouseEnter(e, 7)}
             onMouseLeave={handleMouseLeave}>

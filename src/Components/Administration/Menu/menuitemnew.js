@@ -73,7 +73,7 @@ export default function MenuItemNew(props) {
   const [serviceItem, setServiceItem] = useState(menuItemDetails?.ServiceItem === 1 || location.state && location.state.itemtype === 2 ? true : false);
   const [categories, setCategories] = useState(menuItemDetails?.categoriesInfo || '');
 
-  const handleClick = () => {
+  const postData = () => {
 
     var data = {};
     data.token = token;
@@ -92,8 +92,8 @@ export default function MenuItemNew(props) {
     data.serviceOrderNo = serviceOrderNo;
     data.oldMenuOrderNo = oldMenuOrderNo;
     data.menuOrderNo = menuOrderNo;
-
     data.categories = categories;
+    
     if (location.state.isNew === 2)
       dispatch(editNewMenuItem(data));
     else
@@ -140,7 +140,7 @@ export default function MenuItemNew(props) {
             <Autocomplete
               options={pageItemsList || []}
               getOptionLabel={item => (item.Url || '')}
-              onChange={(event, value) => { 
+              onChange={(event, value) => {
                 setPageUrl(value.Url);
               }}
               filterSelectedOptions
@@ -281,7 +281,8 @@ export default function MenuItemNew(props) {
                 className='checkbox'
                 checked={serviceItem}
                 onChange={e => setServiceItem(e.target.checked)}
-                inputProps={{ 'aria-label': 'controlled' }} />
+                inputProps={{ 'aria-label': 'controlled' }}
+              />
               <span>Υπηρεσία</span>
             </div>
             {/* <div style={{ fontSize: 24, padding: 20, textAlign: 'left' }}>
@@ -313,7 +314,7 @@ export default function MenuItemNew(props) {
               variant="contained"
               color="primary"
               style={{ margin: '5px', textTransform: 'none', fontSize: '16px' }}
-              onClick={handleClick}>
+              onClick={postData}>
               <SaveAltIcon />
               Αποθήκευση
             </Button>

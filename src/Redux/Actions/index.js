@@ -34,7 +34,7 @@ export function editNewMenuItem(data) {
   return { type: 'EDIT_MENUITEM', payload: request };
 }
 export function addNewMenuItem(data) {
-  const request = axios.post(getHostUrl() + 'addMenuItem', data).then(response => response.data)
+  const request = axios.post(getHostUrl() + 'addMenuItem', data).then(response => response.data);
   return { type: 'ADD_MENUITEM', payload: request };
 }
 export function searchMenuItems() {

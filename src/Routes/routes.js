@@ -14,7 +14,7 @@ import CategoryItemNew from '../Components/Administration/Categories/categoryite
 import PageInfo from '../Components/PageInfo/pageinfo';
 //const PageInfo = React.lazy(() => import('../Components/PageInfo/pageinfo'));
 import PhoneCatalog from '../Components/PhoneCatalog/phonecatalog';
-
+import ErrorBoundary from '../Components/ErrorBoundary/errorboundary'
 //const Home = lazy(() => import('./Components/Home/home'));
 //const Login = lazy(() => import('./Components/Login/login'));
 
@@ -23,27 +23,27 @@ class AppRoutes extends React.Component {
 	render() {
 
 		return (
-			//   <ErrorBoundary>
-			<Layout>
-				<Suspense fallback={showGenericMessage('Παρακαλώ περιμένετε...', false, true)}>
-					<Routes>
-						{/* <Route element={<AnimationLayout />}>							 */}
-						<Route path="/newmediaitem" element={<MediaItemNew />} />
-						<Route path="/newmenuitem" element={<MenuItemNew />} />
-						<Route path="/newpageitem" element={<PageItemNew />} />
-						<Route path="/newuseritem" element={<UserItemNew />} />
-						<Route path="/newannouncementitem" element={<AnnouncementItemNew />} />
-						<Route path="/newcategoryitem" element={<CategoryItemNew />} />
-						<Route path="/phonecatalog" element={<PhoneCatalog />} />
-						<Route path="/administration" element={<AdministrationPage />} />
-						<Route path="/login" element={<LoginPage />} />
-						<Route path="/:pageurl" element={<PageInfo />} />
-						<Route path="/" element={<Home />} />
-						{/* </Route> */}
-					</Routes>
-				</Suspense>
-			</Layout>
-			//   </ErrorBoundary>
+			<ErrorBoundary>
+				<Layout>
+					<Suspense fallback={showGenericMessage('Παρακαλώ περιμένετε...', false, true)}>
+						<Routes>
+							{/* <Route element={<AnimationLayout />}>							 */}
+							<Route path="/newmediaitem" element={<MediaItemNew />} />
+							<Route path="/newmenuitem" element={<MenuItemNew />} />
+							<Route path="/newpageitem" element={<PageItemNew />} />
+							<Route path="/newuseritem" element={<UserItemNew />} />
+							<Route path="/newannouncementitem" element={<AnnouncementItemNew />} />
+							<Route path="/newcategoryitem" element={<CategoryItemNew />} />
+							<Route path="/phonecatalog" element={<PhoneCatalog />} />
+							<Route path="/administration" element={<AdministrationPage />} />
+							<Route path="/login" element={<LoginPage />} />
+							<Route path="/:pageurl" element={<PageInfo />} />
+							<Route path="/" element={<Home />} />
+							{/* </Route> */}
+						</Routes>
+					</Suspense>
+				</Layout>
+			</ErrorBoundary>
 		)
 	}
 }

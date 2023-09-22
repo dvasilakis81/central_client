@@ -1,6 +1,4 @@
-import { el } from 'date-fns/locale';
-import format from 'string-format'
-//var dateFormat = require('dateformat');
+import format from 'string-format';
 import { Checkbox } from '@material-ui/core';
 import parse from 'html-react-parser';
 
@@ -65,8 +63,7 @@ export function setDimensions(store) {
 	store.dispatch({ type: 'SCREEN_DIMENSIONS', payload: dimensions })
 	return dimensions;
 }
-export function resetData(store) {
-	console.log('resetData just called')
+export function resetData(store) {	
 	store.dispatch({ type: 'RESET_ACTION', payload: null });
 	setDimensions(store);
 }
@@ -121,7 +118,7 @@ export function getLoginUrl(url, isLdap, username, password) {
 
 	return ret;
 }
-const capitalize = (s) => {
+export const capitalize = (s) => {
 	if (typeof s !== 'string') return ''
 	return s.charAt(0).toUpperCase() + s.slice(1)
 }
@@ -556,7 +553,6 @@ export function findLocalIp() {
 		}
 	});
 }
-
 export function filterValue(fields, searchValue) {
 
 	var ret = false;
@@ -740,22 +736,25 @@ export function renderColor(value) {
 	</div>
 }
 export function renderList(list) {
-	if (list && list.length > 0) {
-		var value = list.map((item) => {
-			return <div style={{
-				background: 'lightgrey',
-				padding: '7px',
-				borderRadius: '10px',
-				margin: '10px',
-			}}>
-				{item && item.Name}
-			</div>;
-		})
-		return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
-			{value}
-		</div>
+	if (Array.isArray(list) === true) {
+		if (list && list.length > 0) {
+			var value = list.map((item) => {
+				return <div style={{
+					background: 'lightgrey',
+					padding: '7px',
+					borderRadius: '10px',
+					margin: '10px',
+				}}>
+					{item && item.Name}
+				</div>;
+			})
+			return <div style={{ display: 'flex', flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
+				{value}
+			</div>
+		} else
+			return <></>
 	} else
-		return <></>
+		console.log(list);
 }
 export function renderDetail(label, value, info) {
 	if (value !== undefined && value !== null)

@@ -6,9 +6,17 @@
   margin-bottom: 10px;
 }
 
+.comment-item-event {
+  padding: 10px;
+  background-color: #EFFAFF;
+  border: 1px solid #CACACA;
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
 .comment-user {
   padding-bottom: 2px;
-  border-bottom: 2px dotted #CACACA;  
+  border-bottom: 2px dotted #CACACA;
   font-weight: bold;
   border-radius: 5px;
   margin-bottom: 2px;
@@ -16,9 +24,9 @@
 
 .comment-nav {
   padding: 4px;
-  background-color: #FFFFCC;  
+  background-color: transparent;
   font-weight: bold;
-  border-radius: 5px;  
+  border-radius: 5px;
   text-align: center;
   border: 1px solid black;
   margin-bottom: 10px;

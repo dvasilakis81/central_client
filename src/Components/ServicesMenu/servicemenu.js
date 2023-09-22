@@ -29,7 +29,6 @@ function ServicesMenu() {
     dispatch(getServiceItemsByGroup());
     dispatch(getCategories());
   }, []);
-
   function getSubCategories(groupServicesSelected) {
 
     return serviceItemsList && serviceItemsList.map((d, index) => {
@@ -85,7 +84,6 @@ function ServicesMenu() {
 
     return ret;
   }
-
   function getImage(item) {
     var ret = <></>;
     var srcImage = getHostUrl() + item.ImageService;
@@ -299,7 +297,7 @@ function ServicesMenu() {
       opacity: '1',
       overflowY: 'auto'
     }}>
-      <div style={{ textAlign: 'center', paddingTop: '50px' }}>
+      <div style={{ textAlign: 'center', paddingTop: '30px' }}>
         <ServicesSearchBar />
       </div>
       <div style={{
@@ -318,15 +316,15 @@ function ServicesMenu() {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'flex-start',
-        marginTop: '30px'
+        marginTop: '0px'
       }}>
-        <div className={getTitle() === 'Ανακοινώσεις' ? 'div-services-frame-announcements' : 'div-services-frame'}>
+        <div className={getTitle() === 'Ανακοινώσεις' ? 'div-services-frame' : 'div-services-frame'}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexBasis: 'fit-content' }}>
-            <div className={getTitle() === 'Ανακοινώσεις' ? 'selected-service-title-announcements' : 'selected-service-title'}>
+            <div className={getTitle() === 'Ανακοινώσεις' ? 'selected-service-title' : 'selected-service-title'}>
               {getTitle()}
             </div>
           </div>
-          <div style={{ marginTop: '0px', overflowY: 'auto' }}>
+          <div className='service-container'>
             {getServicesFromSelectedGroup()}
             <div className='services-menu-announcement-container'>
               {

@@ -304,34 +304,56 @@ export default function (state = {}, action, root) {
         break;
       case 'DELETE_MENU_FULFILLED':
         var serverResponse = action.payload;
-        var itemDetail = undefined;
-        if (action.payload) {
-          let items = state.menuItemsList.filter((item) => {
-            if (itemDetail === undefined) {
-              if (serverResponse.itemtype === 1 && item.MenuItem === 1 && serverResponse.id !== item.Id)
-                itemDetail = item;
-              else if (serverResponse.itemtype === 2 && item.ServiceItem === 1 && serverResponse.id !== item.Id)
-                itemDetail = item;
-            }
-            if (item.Id !== serverResponse.id) {
-              if (itemDetail === undefined) {
-                if (serverResponse.itemtype === 1 && item.MenuItem === 1)
-                  itemDetail = item;
-                else if (serverResponse.itemtype === 2 && item.ServiceItem === 1)
-                  itemDetail = item;
-              }
-              return item;
-            }
-          });
 
-          state = {
-            ...state,
-            deleteMenuItemPending: undefined,
-            deleteMenuItemRejected: undefined,
-            menuItemsList: items,
-            menuItemDetails: serverResponse.itemtype === 1 ? itemDetail : state.menuItemsDetails,
-            serviceItemDetails: serverResponse.itemtype === 2 ? itemDetail : state.serviceItemDetails
-          };
+        if (serverResponse) {
+          if (serverResponse.itemtype === 1) {
+            let items = state.menuItemsList.filter((item) => {
+              if (item.Id !== serverResponse.id) {
+                return item;
+              }
+            });
+            state = {
+              ...state,
+              deleteMenuItemPending: undefined,
+              deleteMenuItemRejected: undefined,
+              menuItemsList: items,
+              menuItemDetails: state.menuItemsList && state.menuItemsList.length > 0 ? state.menuItemsList[0] : undefined
+            };
+
+            var itemDetail = undefined;
+            if (state.serviceItemsList && state.menuItemsList.length <= 1)
+              itemDetail = undefined;
+            else {
+              if (serverResponse.id === state.menuItemsList[0].Id)
+                itemDetail = state.menuItemsList[1];
+              else
+                itemDetail = state.menuItemsList[0];
+            }
+
+          } else if (serverResponse.itemtype === 2) {
+            let items = state.serviceItemsList.filter((item) => {
+              if (item.Id !== serverResponse.id) {
+                return item;
+              }
+            })
+            var itemDetail = undefined;
+            if (state.serviceItemsList && state.serviceItemsList.length <= 1)
+              itemDetail = undefined;
+            else {
+              if (serverResponse.id === state.serviceItemsList[0].Id)
+                itemDetail = state.serviceItemsList[1];
+              else
+                itemDetail = state.serviceItemsList[0];
+            }
+
+            state = {
+              ...state,
+              deleteMenuItemPending: undefined,
+              deleteMenuItemRejected: undefined,
+              serviceItemsList: items,
+              serviceItemDetails: itemDetail
+            };
+          }
         }
 
         break;
@@ -342,6 +364,7 @@ export default function (state = {}, action, root) {
           itemChanged: action.payload
         };
         break;
+
       default: return state;
     }
   }

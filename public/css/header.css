@@ -1,0 +1,41 @@
+.header {
+  flex-grow: 1;
+  padding: 10;
+  font-size: 36px;
+  color: white;
+  text-align: left;
+  align-self: left;
+  vertical-align: middle;
+}
+
+@media only screen and (max-width: 3000px) {
+  .header{
+    font-size: 50px;
+  }
+}
+
+@media only screen and (max-width: 1920px) {
+  .header {
+    font-size: 36px;
+  }  
+}
+
+@media only screen and (max-width: 1366px) {
+
+  .header{
+    font-size: 26px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+
+  .header {
+    font-size: 20x;
+  }
+}
+
+@media only screen and (max-width: 200px) {
+  .header {
+    font-size: 14x;
+  } 
+}

@@ -92,7 +92,7 @@ function renderSignature(item) {
 function divComments(pageItemDetails, commentsToRender, showActions, renderApprovedButton, renderRejectedButton) {
   return commentsToRender.map((item, index) => {
     return <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div className='comment-item'>
+      <div className={index % 2 === 0 ? 'comment-item-event' : 'comment-item'}>
         <div className='comment-user'>
           <span>{getDateFormat(item.created)}</span>
           {renderSignature(item)}

@@ -1,6 +1,7 @@
 export default function (state = {}, action, root) {
 
   if (action) {
+    var serverResponse = undefined;
     switch (action.type) {
       case 'GET_PAGEITEMS_PENDING':
         state = {
@@ -12,7 +13,7 @@ export default function (state = {}, action, root) {
         };
         break;
       case 'GET_PAGEITEMS_FULFILLED':
-        var serverResponse = action.payload;
+        serverResponse = action.payload;
         if (serverResponse && serverResponse.servererrormessage) {
           state = {
             ...state,
@@ -78,7 +79,7 @@ export default function (state = {}, action, root) {
         };
         break;
       case 'ADD_PAGEITEM_REJECTED':
-        var serverResponse = action.payload;
+        serverResponse = action.payload;
         state = {
           ...state,
           newItemAdded: false,
@@ -88,7 +89,7 @@ export default function (state = {}, action, root) {
         };
         break;
       case 'ADD_PAGEITEM_FULFILLED':
-        var serverResponse = action.payload;
+        serverResponse = action.payload;
         if (serverResponse && serverResponse.servererrormessage) {
           state = {
             ...state,
@@ -105,7 +106,8 @@ export default function (state = {}, action, root) {
             requestServerError: undefined,
             requestPending: undefined,
             requestRejected: undefined,
-            pageItemsList: [...state.pageItemsList, serverResponse]
+            pageItemDetails: serverResponse.item,
+            pageItemsList: [serverResponse.item, ...state.pageItemsList]
           };
         }
         break;
@@ -136,7 +138,7 @@ export default function (state = {}, action, root) {
         break;
       case 'EDIT_PAGEITEM_FULFILLED':
 
-        var serverResponse = action.payload;
+        serverResponse = action.payload;
         if (serverResponse && serverResponse.errormessage) {
 
           state = {
@@ -179,7 +181,7 @@ export default function (state = {}, action, root) {
         };
         break;
       case 'GET_PAGEINFO_FULFILLED':
-        var serverResponse = action.payload;
+        serverResponse = action.payload;
         if (serverResponse && serverResponse.servererrormessage) {
           state = {
             ...state,
@@ -217,7 +219,7 @@ export default function (state = {}, action, root) {
         };
         break;
       case 'GET_PAGETABINFO_FULFILLED':
-        var serverResponse = action.payload;
+        serverResponse = action.payload;
         if (serverResponse && serverResponse.servererrormessage) {
           state = {
             ...state,
@@ -241,7 +243,7 @@ export default function (state = {}, action, root) {
       case 'APPROVE_REJECT_PAGE_COMMENT_REJECTED':
         break;
       case 'APPROVE_REJECT_PAGE_COMMENT_FULFILLED':
-        var serverResponse = action.payload;
+        serverResponse = action.payload;
         if (serverResponse && serverResponse.errormessage) {
 
           state = {
@@ -314,7 +316,7 @@ export default function (state = {}, action, root) {
         break;
       case 'DELETE_PAGE_FULFILLED':
 
-        var serverResponse = action.payload;
+        serverResponse = action.payload;
         if (serverResponse && serverResponse.servererrormessage) {
           state = {
             ...state,

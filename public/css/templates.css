@@ -151,6 +151,38 @@ input[type=file]::file-selector-button:hover {
   background: green;  
   color: white;
 }
+.div-phone-users{
+  display: flex;
+  flex-direction: column;
+  text-align: middle;
+  width: 700px;  
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+/* #table-wrapper {
+  position:relative;
+}
+#table-scroll {
+  height:550px;
+  overflow:auto;
+  width: auto;
+  margin-top:20px;
+}
+#table-wrapper table {
+  width:100%;
+}
+#table-wrapper table * {
+  background:transparent;
+  color:black;
+}
+#table-wrapper table thead th .text {
+  position:absolute;
+  top:-20px;
+  z-index:2;
+  height:20px;
+  width:35%;
+  border:1px solid red;
+} */
 
 /* input[type="search"] {
   border: none;
@@ -188,32 +220,27 @@ button[type="submit"]:hover {
     min-width: 24px;
     max-width: 24px;
   }
-
   .menu-body {
     min-width: 600px;
     max-width: 600px;
   }
-
   .menu-item {
     font-size: 1.7rem;
     padding-left: 5px;
     padding-top: 12px;
     padding-bottom: 12px;
   }
-
   .menu-item-hovered {
     font-size: 1.7rem;
     padding-left: 5px;
     padding-top: 12px;
     padding-bottom: 12px;
   }
-
   .searchBar {
     width: 1000px;
     font-size: '48px';
   }
 }
-
 @media only screen and (max-width: 1920px) {
   .page-title {
     font-size: 36px;
@@ -222,35 +249,42 @@ button[type="submit"]:hover {
     width: 800px;
     font-size: '43px';
   }
+  .div-phone-users{
+    height: 500px
+  }
 }
-
 @media only screen and (max-width: 1366px) {
 
   .page-title {
-    font-size: 30px;
+    font-size: 26px;
   }
 
   .searchBar {
     width: 600px;
     font-size: '38px';
   }
+  .div-phone-users{
+    height: 250px
+  }
 }
-
 @media only screen and (max-width: 900px) {
 
   .page-title {
-    font-size: 26x;
+    font-size: 20x;
   }
 
   .searchBar {
     width: 400px;
     font-size: '32px';
   }
-}
 
+  .div-phone-users{
+    height: 250px
+  }
+}
 @media only screen and (max-width: 200px) {
   .page-title {
-    font-size: 20x;
+    font-size: 14px;
   }
 
   .searchBar {

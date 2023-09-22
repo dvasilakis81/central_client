@@ -41,15 +41,15 @@ export default function Header(props) {
       padding: 0,
       height: headerHeight,
     },
-    headerTitle: {
-      flexGrow: 1,
-      padding: 10,
-      fontSize: '36px',
-      color: 'white',
-      textAlign: 'left',
-      alignSelf: 'left',
-      verticalAlign: 'middle'
-    },
+    // headerTitle: {
+    //   flexGrow: 1,
+    //   padding: 10,
+    //   fontSize: '36px',
+    //   color: 'white',
+    //   textAlign: 'left',
+    //   alignSelf: 'left',
+    //   verticalAlign: 'middle'
+    // },
     optionStyle: {
       marginRight: '20px',
       cursor: 'pointer'
@@ -124,7 +124,7 @@ export default function Header(props) {
   return <header style={styles.header}>
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <img src={thyraios} alt="Δήμος Αθηναίων" width='50px' height='50px' />
-      <span style={styles.headerTitle}>
+      <span className='header' style={styles.headerTitle}>
         Κεντρική Σελίδα Δήμου Αθηναίων
       </span>
     </div>
