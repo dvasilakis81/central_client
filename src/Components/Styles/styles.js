@@ -25,6 +25,7 @@ export const useStyles = makeStyles({
 });
 
 const searchBarColor = '#0F6CBD';
+//makeStyles-root-1 .MuiInputLabel-outlined.MuiInputLabel-shrink
 export const searchBarStyles = makeStyles({
   root: {
     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -40,16 +41,16 @@ export const searchBarStyles = makeStyles({
       border: "1px solid " + searchBarColor,
     },
     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      border: '4px solid ' + searchBarColor
+      border: '1px solid ' + searchBarColor
     },
     "& .MuiInputBase-input": {
       color: searchBarColor,
       fontSize: '24px'
-    },
+    },    
     "& .MuiInputLabel-outlined.MuiInputLabel-shrink": {
-      color: searchBarColor,
-      fontSize: '18px',
-      fontWeight: 'normal'
+      color: 'darkblue',
+      fontSize: '16px',
+      fontWeight: 'bold',      
     },
     "& .MuiSvgIcon-root": {
       width: '2rem',

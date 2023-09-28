@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getServiceItems, getServiceItemsByGroup, getCategories } from '../../Redux/Actions/index';
+import { getServiceItemsByGroup, getCategories } from '../../Redux/Actions/index';
 import { getHostUrl, renderHtml, includeStrings } from '../../Helper/helpermethods';
 import store from '../../Redux/Store/store';
 import ServicesSearchBar from '../Search/servicessearchbar';
@@ -10,6 +10,7 @@ import ServiceMenuContainer from './servicemenucontainer';
 
 var itemIds = [];
 var mediaItemIds = [];
+var contactItemIds = [];
 
 function ServicesMenu() {
   const dispatch = useDispatch();
@@ -24,11 +25,17 @@ function ServicesMenu() {
   const { groupServicesSelected } = useSelector(state => ({ groupServicesSelected: state.menu_reducer.groupServicesSelected }));
   const { categoryWithSubCategoriesSelected } = useSelector(state => ({ categoryWithSubCategoriesSelected: state.menu_reducer.categoryWithSubCategoriesSelected }));
   const { openPopUp } = useSelector(state => ({ openPopUp: state.parametricdata_reducer.openPopUp }));
+  const { searchPhoneCatalogList } = useSelector(state => ({ searchPhoneCatalogList: state.phonecatalog_reducer.searchPhoneCatalogList }));
 
   useEffect(() => {
     dispatch(getServiceItemsByGroup());
     dispatch(getCategories());
   }, []);
+
+  // useEffect(() => { 
+  //   dispatch(getPhoneCatalogInfo()); 
+  // }, []);
+
   function getSubCategories(groupServicesSelected) {
 
     return serviceItemsList && serviceItemsList.map((d, index) => {
@@ -44,7 +51,7 @@ function ServicesMenu() {
         </div>
     })
   }
-  function getServiceClass(item) {
+  function getServiceClass(item, phone) {
     var ret = '';
 
     if (hoveredKey === item)
@@ -154,6 +161,22 @@ function ServicesMenu() {
       </div>
     </div>
   }
+  function renderContactItem(d, index) {
+    return <div
+      key={index}
+      className='service-menu-item-parent'>
+      <div className={getServiceClass(d)} style={{ alignItems: 'initial', fontSize: '20px' }}>
+        <div style={{ flex: 0.1, color: 'darkblue', verticalAlign: 'top' }}>
+          <i className='fas fa-contact-card fa-2x'></i>
+        </div>
+        <div style={{ flex: 0.9, display: 'flex', flexDirection: 'column', textAlign: 'left', marginLeft: '10px', color: 'darkblue' }}>
+          <div style={{ paddingTop: '2px' }}>{d.Fullname}</div>
+          <div style={{ paddingTop: '0px' }}>{d.Internal}</div>
+          <div style={{ paddingTop: '0px' }}>{d.Region}</div>
+        </div>
+      </div>
+    </div>
+  }
   function getItems(items) {
 
     if (items && items.length)
@@ -202,20 +225,32 @@ function ServicesMenu() {
       })
     })
   }
+  function getContactItemsFromSearch() {
+    if (searchValue && searchValue.length > 2) {
+      if (searchPhoneCatalogList && searchPhoneCatalogList.length)
+        return searchPhoneCatalogList.map((d, index) => {
+          contactItemIds.push(d.Id);
+          return renderContactItem(d, index);
+        })
+    }
+  }
   function getServicesFromSelectedGroup() {
     if (searchValue) {
       itemIds = [];
       mediaItemIds = [];
+      contactItemIds = [];
+
       var ret = getServiceItemsFromSearch(serviceItemsList);
       var mediaItems = getMediaItemsFromSearch(serviceItemsList);
+      var contactItems = getContactItemsFromSearch();
 
-      if (itemIds?.length === 0 && mediaItemIds?.length === 0)
+      if (itemIds?.length === 0 && mediaItemIds?.length === 0 && contactItemIds?.length === 0)
         return <div className='flex-row-center message-big-size' style={{ color: '#0F6CBD' }}>
           Δεν βρέθηκαν αποτελέσματα
         </div >
       else {
         return <ServiceMenuContainer>
-          {ret}{mediaItems}
+          {ret}{mediaItems}{contactItems}
         </ServiceMenuContainer>
       }
     } else {
@@ -247,7 +282,7 @@ function ServicesMenu() {
       if (conditionToShow)
         return <>
           <div
-            style={{ margin: '10px', flexDirection: 'column' }}
+            style={{ margin: '10px', flexDirection: 'column', cursor: 'pointer' }}
             ref={menuRef}
             onMouseEnter={(e, d) => { setGroupHoveredKey(index); }}
             onMouseLeave={(e, d) => { setGroupHoveredKey(''); }}
@@ -277,11 +312,40 @@ function ServicesMenu() {
   function getTitle() {
     var ret = '';
 
-    if (searchValue)
-      ret = 'Αναζήτηση';
-    else if (groupServicesSelected)
-      ret = groupServicesSelected.Name;
-    else
+    if (searchValue) {
+
+      itemIds = [];
+      mediaItemIds = [];
+      contactItemIds = [];
+
+      getServiceItemsFromSearch(serviceItemsList);
+      getMediaItemsFromSearch(serviceItemsList);
+      getContactItemsFromSearch();
+
+      if (itemIds?.length === 0 && mediaItemIds?.length === 0 && contactItemIds?.length === 0) {
+        ret = 'Αναζήτηση';
+      } else {
+        ret = 'Αναζήτηση - Βρέθηκαν ';
+        ret += itemIds?.length + (itemIds?.length === 1 ? ' υπηρεσία, ' : ' υπηρεσίες, ');
+        ret += mediaItemIds?.length + (mediaItemIds?.length === 1 ? ' αρχείο, ' : ' αρχεία, ');
+        ret += contactItemIds?.length + (contactItemIds?.length === 1 ? ' επαφή ' : ' επαφές');
+      }
+
+      itemIds = [];
+      mediaItemIds = [];
+      contactItemIds = [];
+    } else if (groupServicesSelected) {
+      if (groupServicesSelected && groupServicesSelected.servicesInfo) {
+        ret = groupServicesSelected.Name;
+        var numberOfItems = 0;
+        if (groupServicesSelected.servicesInfo && groupServicesSelected.servicesInfo.length > 0)
+          numberOfItems = groupServicesSelected.servicesInfo.length;
+        if (groupServicesSelected.mediaInfo && groupServicesSelected.mediaInfo.length > 0)
+          numberOfItems += groupServicesSelected.mediaInfo.length;
+        if (numberOfItems > 0)
+          ret += ' (' + numberOfItems + ')';
+      }
+    } else
       ret = 'Παρακαλώ επιλέξτε κάποια κατηγορία';
 
     return ret;
@@ -318,9 +382,9 @@ function ServicesMenu() {
         alignItems: 'flex-start',
         marginTop: '0px'
       }}>
-        <div className={getTitle() === 'Ανακοινώσεις' ? 'div-services-frame' : 'div-services-frame'}>
+        <div className='div-services-frame'>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexBasis: 'fit-content' }}>
-            <div className={getTitle() === 'Ανακοινώσεις' ? 'selected-service-title' : 'selected-service-title'}>
+            <div className='selected-service-title'>
               {getTitle()}
             </div>
           </div>

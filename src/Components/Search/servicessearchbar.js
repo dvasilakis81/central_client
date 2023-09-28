@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { TextField } from '@material-ui/core';
-import store from '../../Redux/Store/store';
-import { useSelector } from 'react-redux';
 import CancelIcon from '@material-ui/icons/Cancel';
 import SearchIcon from '@mui/icons-material/Search';
 import { InputAdornment, IconButton } from '@material-ui/core';
+import store from '../../Redux/Store/store';
 import { searchBarStyles } from '../Styles/styles';
+import { searchPhoneCatalogInfo } from '../../Redux/Actions/index';
+import { showFailedConnectWithServerMessage } from '../Common/methods';
+import { ignoreTonousAndLowercase } from '../../Helper/helpermethods';
 
 export default function ServicesSearchBar() {
+  const dispatch = useDispatch();
   const classes = searchBarStyles();
   const { searchValue } = useSelector(state => ({ searchValue: state.parametricdata_reducer.searchValue }));
   const [searchBarWidth, setSearchBarWidth] = useState('800px');
@@ -32,18 +36,32 @@ export default function ServicesSearchBar() {
     searchBarSize = 'small';
 
   return (<TextField
-    label="Αναζήτηση"
-    type="text"
+    label='Αναζήτηση Υπηρεσιών, Αρχείων, Επαφών'
+    type='text'
     size={searchBarSize}
     variant='outlined'
     style={{
       width: searchBarWidth,
       background: 'none',
       fontWeight: 'bold',
-      fontSize: '43px'
+      fontSize: '32px'
     }}
     value={searchValue}
-    onChange={(e) => { store.dispatch({ type: 'SET_SEARCH_VALUE', payload: e.target.value }) }}
+    onChange={(e) => {
+      var localSearchValue = e.target.value;
+      store.dispatch({ type: 'SET_SEARCH_VALUE', payload: e.target.value })
+      if (localSearchValue && localSearchValue.length > 2) {
+        var data = {};
+        data.searchfield = -1;
+        data.searchtext = ignoreTonousAndLowercase(localSearchValue);
+        dispatch(searchPhoneCatalogInfo(data)).then(response => {
+          //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
+        }).catch(error => {
+          showFailedConnectWithServerMessage(error);
+        });
+      } else
+        store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO', payload: [] })
+    }}
     className={classes.root}
     inputProps={{ className: classes.root }}
     InputProps={{

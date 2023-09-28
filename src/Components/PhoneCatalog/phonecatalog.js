@@ -12,6 +12,8 @@ import { Button } from '@material-ui/core';
 import { showSnackbarMessage, showFailedConnectWithServerMessage, renderComments } from '../Common/methods';
 import store from '../../Redux/Store/store';
 import axios from 'axios';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 
 export default function PhoneCatalog(props) {
   const { searchPhoneCatalogList } = useSelector(state => ({ searchPhoneCatalogList: state.phonecatalog_reducer.searchPhoneCatalogList }));
@@ -64,14 +66,15 @@ export default function PhoneCatalog(props) {
   const [addContactsButtonDisabled, setAddContactsButtonDisabled] = useState(true);
   const [searchFieldLength, setSearchFieldLength] = useState(0);
   const [phoneRegions, setPhoneRegions] = useState(['Επιλέξτε Οδό']);
-  const [selectedRegion, setSelectedRegion] = useState([]);
-
+  const [selectedRegion, setSelectedRegion] = useState('Επιλέξτε Οδό');
+  const MAX_NUMBER_TO_SEARCH = 3;
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
   const inputRef3 = useRef(null);
 
   useEffect(() => {
-    setHeaderTitle('Τηλεφωνικός Κατάλογος');
+    setHeaderTitle('Ευρετήριο Τηλεφώνων');
+    //fill drop down list with regions
     axios.get(getHostUrl() + 'getPhoneRegions').then(res => {
       if (res.data) {
         res.data.unshift({ 'region': 'Επιλέξτε Οδό' });
@@ -88,9 +91,10 @@ export default function PhoneCatalog(props) {
         }
       }
     }
-
+    store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO', payload: [] });
     return function cleanup() {
-      store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
+      //store.dispatch({ type: 'SEARCH_PHONECATALOGINFO', payload: [] });
+      store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO', payload: [] });
     }
     //dispatch(getPhoneCatalogInfo());
   }, []);
@@ -98,8 +102,9 @@ export default function PhoneCatalog(props) {
   function renderHeaders() {
     if (searchPhoneCatalogList && searchPhoneCatalogList.length > 0 && Array.isArray(searchPhoneCatalogList)) {
       return <div style={{ display: 'flex', flexDirection: 'row', width: '700px' }}>
-        <span style={styles.tdheader}>Ονοματεπώνυμο</span>
+        <span style={styles.tdheader}>Eπώνυμο Όνομα</span>
         <span style={styles.tdheader}>Αρ. Τηλ</span>
+        <span style={styles.tdheader}>Οδός</span>
       </div>
     }
     else
@@ -112,12 +117,13 @@ export default function PhoneCatalog(props) {
         return <div key={index} style={{ display: 'flex', flexDirection: 'row', width: '700px' }}>
           <span style={styles.td}>{item.Fullname}</span>
           <span style={styles.td}>{item.Internal}</span>
+          <span style={styles.td}>{item.Region}</span>
         </div>;
       })
     } else {
       var searchMessage = 'Κανένα αποτέλεσμα';
-      if (searchFieldLength <= 3)
-        searchMessage = 'Απαιτούνται τουλάχιστον 4 χαρακτήρες';
+      if (searchFieldLength < MAX_NUMBER_TO_SEARCH)
+        searchMessage = 'Απαιτούνται τουλάχιστον ' + MAX_NUMBER_TO_SEARCH + ' χαρακτήρες';
 
       return inputRef1?.current?.value || inputRef2?.current?.value || inputRef3?.current?.value ? <tr>
         <td style={styles.td} colspan={2}>
@@ -178,7 +184,7 @@ export default function PhoneCatalog(props) {
         <div style={{ display: 'flex', flex: '1', flexDirection: 'row', flexWrap: 'wrap' }}>
           <input
             ref={inputRef1}
-            placeholder=" &#xF002; Ονοματεπώνυμο"
+            placeholder=" &#xF002; Επώνυμο Όνομα"
             type='search'
             style={{
               fontFamily: 'FontAwesome',
@@ -191,13 +197,13 @@ export default function PhoneCatalog(props) {
             }}
             onChange={(e) => {
               inputRef2.current.value = '';
-              // inputRef3.current.value = '';
+              setSelectedRegion('Επιλέξτε Οδό');
 
               var data = {};
               data.searchfield = 1;
               data.searchtext = ignoreTonousAndLowercase(e.target.value);
               setSearchFieldLength(e.target.value && e.target.value.length || 0);
-              if (e.target.value && e.target.value.length > 3) {
+              if (e.target.value && e.target.value.length >= MAX_NUMBER_TO_SEARCH) {
                 dispatch(searchPhoneCatalogInfo(data)).then(response => {
                   //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
                 }).catch(error => {
@@ -222,12 +228,12 @@ export default function PhoneCatalog(props) {
             }}
             onChange={(e) => {
               inputRef1.current.value = '';
-
+              setSelectedRegion('Επιλέξτε Οδό');
               var data = {};
               data.searchfield = 3;
               data.searchtext = e.target.value;
               setSearchFieldLength(e.target.value && e.target.value.length || 0);
-              if (e.target.value && e.target.value.length > 3) {
+              if (e.target.value && e.target.value.length >= MAX_NUMBER_TO_SEARCH) {
                 dispatch(searchPhoneCatalogInfo(data)).then(response => {
                   //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
                 }).catch(error => {
@@ -237,14 +243,43 @@ export default function PhoneCatalog(props) {
                 store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
             }}
           />
-          <select
+          <TextField
+            id="filled-select-currency"
+            select
+            label="Περιοχή"
+            defaultValue="Επιλέξτε Οδό"
+            variant="outlined"
+            style={{ fontSize: 26, width: '500px', margin: '10px' }}
             onChange={(e) => {
-              //setSelectedRegion(e.target.value);                  
+              setSelectedRegion(e.target.value);
               var data = {};
               data.searchfield = 'region';
               data.searchtext = e.target.value;
               setSearchFieldLength(e.target.value && e.target.value.length || 0);
-              if (e.target.value && e.target.value.length > 3) {
+              if (e.target.value && e.target.value.length > MAX_NUMBER_TO_SEARCH) {
+                dispatch(searchPhoneCatalogInfo(data)).then(response => {
+                  var response2 = response;
+                  //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
+                }).catch(error => {
+                  showFailedConnectWithServerMessage(error);
+                });
+              } else
+                store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
+            }}>
+            {phoneRegions.map((option) => (
+              <MenuItem key={option.region} value={option.region}>
+                {option.region}
+              </MenuItem>
+            ))}
+          </TextField>
+          {/* <select
+            onChange={(e) => {
+              setSelectedRegion(e.target.value);
+              var data = {};
+              data.searchfield = 'region';
+              data.searchtext = e.target.value;
+              setSearchFieldLength(e.target.value && e.target.value.length || 0);
+              if (e.target.value && e.target.value.length > MAX_NUMBER_TO_SEARCH) {
                 dispatch(searchPhoneCatalogInfo(data)).then(response => {
                   var response2 = response;
                   //showSnackbarMessage(response, 'Eγινε επιτυχώς!');
@@ -254,7 +289,7 @@ export default function PhoneCatalog(props) {
               } else
                 store.dispatch({ type: 'SET_SEARCH_PHONECATALOGINFO_EMPTY', payload: [] });
             }}
-
+            value={selectedRegion}
             style={{
               width: '500px',
               height: '43px',
@@ -271,12 +306,13 @@ export default function PhoneCatalog(props) {
                 </option>;
               })
             }
-          </select>
+          </select> */}
         </div>
-        <span>
+        <div style={{ fontSize: '29px', color: 'black', fontWeight: 'bold', marginTop: '20px', marginBottom: '20px' }}>
           {searchPhoneCatalogList && searchPhoneCatalogList.length > 0 ?
-            <span style={{ fontSize: '22px', color: 'black', fontWeight: 'bold' }}>{searchPhoneCatalogList.length} αποτελέσματα</span> : ''}
-        </span>
+            <>{searchPhoneCatalogList.length === 1 ? 'Βρέθηκε ' + searchPhoneCatalogList.length  + ' επαφή' : 'Βρέθηκαν ' + searchPhoneCatalogList.length + ' επαφές'}</>
+             : ''}
+        </div>
         {renderHeaders()}
         <div className='div-phone-users'>
           {renderRows()}

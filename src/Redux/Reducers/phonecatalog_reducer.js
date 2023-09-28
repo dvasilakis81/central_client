@@ -61,12 +61,12 @@ export default function (state = {}, action, root) {
           searchPhoneCatalogList: undefined
         };
         break;
-      case 'SET_SEARCH_PHONECATALOGINFO_EMPTY':
+      case 'SET_SEARCH_PHONECATALOGINFO':
         state = {
           ...state,
           requestPending: undefined,
-          requestRejected: action.payload,
-          searchPhoneCatalogList: []
+          requestRejected: undefined,
+          searchPhoneCatalogList: action.payload
         };
         break;
       case 'GET_PHONECATALOGINFO_PENDING':
